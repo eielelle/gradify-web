@@ -7,6 +7,7 @@ gem 'rubocop', '~> 1.63', require: false
 gem 'rubocop-rails'
 gem 'solargraph', require: false, group: :development
 gem 'solargraph-rails', require: false, group: :development
+gem 'htmlbeautifier', require: false, group: :development
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.3", ">= 7.1.3.4"
