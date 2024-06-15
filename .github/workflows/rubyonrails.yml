@@ -26,11 +26,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - name: Checkout nodejs
+        uses: actions/setup-node@v4
       # Add or replace dependency steps here
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
+      # npm install
+      - name: Install npm dependencies
+        run: npm install
       # Add or replace database setup steps here
       - name: Create Database
         run: bin/rails db:create
