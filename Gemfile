@@ -10,6 +10,8 @@ gem 'rubocop', '~> 1.63', require: false
 gem 'rubocop-rails'
 gem 'solargraph', require: false, group: :development
 gem 'solargraph-rails', require: false, group: :development
+gem 'email_validator', require: 'email_validator/strict'
+gem 'devise'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 7.1.3', '>= 7.1.3.4'
@@ -42,7 +44,7 @@ gem 'jbuilder'
 # gem "kredis"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
-# gem "bcrypt", "~> 3.1.7"
+gem "bcrypt", "~> 3.1.7"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[windows jruby]
