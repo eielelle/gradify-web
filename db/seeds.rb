@@ -10,5 +10,10 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
+require 'faker'
+
 # Admin.create(email: 'admin@example.com', password: 'password', password_confirmation: 'password')
-AdminAccount.create(email: 'admin@example.com', password: 'password')
+admin = AdminAccount.create(name: Faker::JapaneseMedia::StudioGhibli.character, email: Faker::Internet.email, password: 'password')
+permission = Permission.create(name: "SuperAdmin", description: "Super Admin")
+
+AdminPermission.create(admin_account: admin, permission: permission)
