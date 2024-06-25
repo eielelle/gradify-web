@@ -1,0 +1,6 @@
+<div role="tablist" class="tabs tabs-lifted tabs-lg">
+  <% tabs.each_with_index do |(tab_name, tab_path), index| %>
+    <%= link_to tab_name, tab_path, role: :tab, class: "tab #{'tab-active' if active_path == tab_path}" %>
+  <% end %>
+  <span class=""></span>
+</div>

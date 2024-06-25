@@ -1,4 +1,3 @@
 class Permission < ApplicationRecord
-    has_many :admin_permissions
-    has_many :admin_accounts, through: :admin_permissions
+    has_and_belongs_to_many :admins
 end

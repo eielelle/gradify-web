@@ -8,6 +8,5 @@ class AdminAccount < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :validatable, :trackable
 
-  has_many :admin_permissions
-  has_many :permissions, through: :admin_permissions
+  has_and_belongs_to_many :permissions
 end

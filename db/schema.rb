@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_22_062426) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_25_031552) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -31,13 +31,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_22_062426) do
     t.index ["reset_password_token"], name: "index_admin_accounts_on_reset_password_token", unique: true
   end
 
-  create_table "admin_permissions", force: :cascade do |t|
+  create_table "admin_accounts_permissions", id: false, force: :cascade do |t|
     t.bigint "admin_account_id", null: false
     t.bigint "permission_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["admin_account_id"], name: "index_admin_permissions_on_admin_account_id"
-    t.index ["permission_id"], name: "index_admin_permissions_on_permission_id"
   end
 
   create_table "permissions", force: :cascade do |t|
@@ -59,6 +55,4 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_22_062426) do
     t.index ["reset_password_token"], name: "index_student_accounts_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "admin_permissions", "admin_accounts"
-  add_foreign_key "admin_permissions", "permissions"
 end
