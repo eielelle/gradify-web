@@ -1,4 +1,4 @@
-<header class="flex justify-between items-center">
+<header class="flex justify-between items-center mb-6">
   <div class="join">
     <input type="text" placeholder="Type here" class="input input-bordered w-96 join-item" />
     <button class="btn btn-primary join-item">Search</button>
@@ -26,7 +26,7 @@
 </header>
 <section>
   <div class="overflow-x-auto">
-    <table class="table table-sm">
+    <table class="table table-sm mb-6">
       <!-- head -->
       <thead>
         <tr>
@@ -43,8 +43,8 @@
       </thead>
       <tbody>
         <!-- row 1 -->
-        <% if data.present? %>
-          <% data.each do | admin | %>
+        <% if @admins.present? %>
+          <% @admins.each do | admin | %>
             <tr class="hover">
               <th>
                 <label>
@@ -78,14 +78,8 @@
       </tbody>
     </table>
     <div class="flex justify-between items-center">
-      <span>7 Admins</span>
-      <div class="join">
-        <button class="join-item btn">1</button>
-        <button class="join-item btn">2</button>
-        <button class="join-item btn btn-disabled">...</button>
-        <button class="join-item btn">99</button>
-        <button class="join-item btn">100</button>
-      </div>
+      <span><%= @count %> Admins</span>
+      <%= paginate @admins, views_prefix: 'shared' %>
     </div>
   </div>
 </section>

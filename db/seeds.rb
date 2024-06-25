@@ -12,7 +12,8 @@
 
 require 'faker'
 
-# Admin.create(email: 'admin@example.com', password: 'password', password_confirmation: 'password')
-admin = AdminAccount.create(name: Faker::JapaneseMedia::StudioGhibli.character, email: Faker::Internet.email, password: 'password')
-permission = Permission.create(name: "SuperAdmin", description: "Super Admin")
-admin.permissions << permission
+for a in 1..40 do
+    admin = AdminAccount.create(name: Faker::JapaneseMedia::StudioGhibli.character, email: Faker::Internet.email, password: 'password')
+    permission = Permission.create(name: "SuperAdmin", description: "Super Admin")
+    admin.permissions << permission
+end

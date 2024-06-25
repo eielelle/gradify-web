@@ -1,11 +1,6 @@
 <section class="p-6">
   <h1 class="text-3xl font-bold"><%= title %></h1>
-  <div class="text-sm breadcrumbs">
-    <ul>
-      <li><a>Home</a></li>
-      <li>Example Breadcrumb</li>
-    </ul>
-  </div>
+  <p class="mb-6"><%= subtitle %></p>
   <%= yield %>
-  <div class="border-b border-x bg-base-100 border-base-300 rounded-b-lg p-6"><%= render "#{content}", data: data %></div>
+  <div class="border-b border-x bg-base-100 border-base-300 rounded-b-lg p-6"><%= render "#{content}" %></div>
 </section>

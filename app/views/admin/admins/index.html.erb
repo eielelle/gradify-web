@@ -1,6 +1,7 @@
-<%= render "shared/common_panel", title: "List Admins", content: "list_admins", data: @admins do %>
+<%= render "shared/common_panel", title: "List Admins", subtitle: "List of all admins.", content: "list_admins", data: @admins, count: @count do %>
   <%= render "shared/common_tabs", tabs: {
     "List": admin_admins_path,
     "Add": new_admin_admin_path
   }, active_path: admin_admins_path %>
 <% end %>
+
