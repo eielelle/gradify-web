@@ -12,8 +12,13 @@
 
 require 'faker'
 
+s_permission = Permission.create(name: "SuperAdmin", description: "Super Admin")
+n_permission = Permission.create(name: "Admin", description: "Admin")
+
+sudo_admin = AdminAccount.create(name: Faker::JapaneseMedia::StudioGhibli.character, email: Faker::Internet.email, password: 'password')
+sudo_admin.permissions << s_permission
+
 for a in 1..40 do
     admin = AdminAccount.create(name: Faker::JapaneseMedia::StudioGhibli.character, email: Faker::Internet.email, password: 'password')
-    permission = Permission.create(name: "SuperAdmin", description: "Super Admin")
-    admin.permissions << permission
+    admin.permissions << n_permission
 end

@@ -1,0 +1,50 @@
+<%= form_with(local: true, url: admin_admins_path) do |form| %>
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
+      <%= form.label :name, class: "label-text" %>
+    </div>
+    <%= form.text_field :name, class: "input input-bordered w-full max-w-xs" %>
+    <div class="label">
+      <span class="label-text-alt text-error"><%= flash[:name] %></span>
+    </div>
+  </label>
+  
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
+        <%= form.label :permission, class: "label-text" %>
+    </div>
+    <div class="join">
+        <%= form.collection_select :permission, @permissions, :id, :name, {}, { class: "select select-bordered join-item" } %>
+        <button class="btn btn-primary join-item">Add new permission</button>
+        <button class="btn btn-disabled join-item">Edit this permission</button>
+    </div>
+    <div class="label">
+      <span class="label-text-alt text-error"><%= flash[:permission] %></span>
+    </div>
+  </label>
+
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
+      <%= form.label :email, class: "label-text" %>
+    </div>
+    <%= form.email_field :email, class: "input input-bordered w-full max-w-xs" %>
+    <div class="label">
+      <span class="label-text-alt text-error"><%= flash[:email] %></span>
+    </div>
+  </label>
+
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
+      <%= form.label :password, class: "label-text" %>
+    </div>
+    <%= form.password_field :password, class: "input input-bordered w-full max-w-xs" %>
+    <div class="label">
+      <span class="label-text-alt text-error"><%= flash[:password] %></span>
+    </div>
+  </label>
+
+  <div>
+    <%= form.submit "Add Admin", class: "btn btn-primary mt-4" %>
+  </div>
+
+<% end %>
