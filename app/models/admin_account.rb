@@ -7,4 +7,6 @@ class AdminAccount < ApplicationRecord
   #        :recoverable, :rememberable, :validatable
   devise :database_authenticatable, :registerable,
          :recoverable, :validatable, :trackable
+
+  has_and_belongs_to_many :permissions
 end

@@ -7,6 +7,9 @@ Rails:
 Style/Documentation:
   Enabled: false
 
+HasAndBelongsToMany:
+  Enabled: false
+
 AllCops:
   Include:
     - 'app/**/*.rb'

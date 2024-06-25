@@ -3,6 +3,8 @@
 class DeviseCreateAdminAccounts < ActiveRecord::Migration[7.1]
   def change
     create_table :admin_accounts do |t|
+      t.string :name, null: false
+
       ## Database authenticatable
       t.string :email,              null: false, default: ""
       t.string :encrypted_password, null: false, default: ""
