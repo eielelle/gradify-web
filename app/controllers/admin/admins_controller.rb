@@ -12,25 +12,35 @@ module Admin
     end
 
     def create
-      permission = Permission.find(100)
+      permission = Permission.find(admin_params[:permission])
 
-      if !permission.nil?
-        admin = AdminAccount.new admin_params.except(:permission)
-        admin.permission << permission
+      return if permission.nil?
 
-        if admin.save
-          redirect_to admin_admins_path
-        else
-          admin.errors.each do |error|
-            flash[error.attribute] = "#{error.attribute.capitalize} #{admin.errors[error.attribute].first}"
-          end
+      admin = build_admin(permission)
 
-          redirect_to new_admin_admin_path
-        end
+      if admin.save
+        redirect_to admin_admins_path
+      else
+        handle_errors(admin)
+        redirect_to new_admin_admin_path
       end
     end
 
     private
+
+    def handle_errors(model)
+      model.errors.each do |error|
+        flash[error.attribute] = "#{error.attribute.capitalize} #{model.errors[error.attribute].first}"
+      end
+    end
+
+    def build_admin(permission)
+      admin = AdminAccount.new admin_params.except(:permission)
+      admin.permissions << permission
+
+      admin
+    end
+
     def admin_params
       params.permit(:name, :email, :permission, :password)
     end
