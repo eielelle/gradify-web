@@ -13,11 +13,7 @@
     <div class="label">
         <%= form.label :permission, class: "label-text" %>
     </div>
-    <div class="join">
-        <%= form.collection_select :permission, @permissions, :id, :name, {}, { class: "select select-bordered join-item" } %>
-        <button class="btn btn-primary join-item">Add new permission</button>
-        <button class="btn btn-disabled join-item">Edit this permission</button>
-    </div>
+        <%= form.collection_select :permission, @permissions, :id, :name, {}, { class: "select select-bordered" } %>
     <div class="label">
       <span class="label-text-alt text-error"><%= flash[:permission] %></span>
     </div>
