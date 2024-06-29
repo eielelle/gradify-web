@@ -1,0 +1,53 @@
+
+
+
+<%= form_with(url: send_exports_admin_admins_path, method: :get, local: true, data: {turbo: false}) do |f| %>
+  <div class="collapse collapse-arrow bg-base-200 mb-6">
+    <input type="radio" name="my-accordion-2" checked="checked" />
+    <div class="collapse-title text-xl font-medium">
+      <h1>Select field to export</h1>
+    </div>
+
+    <div class="collapse-content">
+      <div class="mb-4">
+        <%= check_box_tag 'select_all', "select_all_fields", checked: true, class: "checkbox checkbox-primary checkbox-sm" %>
+        <%= label_tag 'select_all_fields', "Select all", class: "label-text" %>
+      </div>
+      <h1>Admin Fields</h1>
+      <div class="flex flex-wrap mb-4">
+        <% @admin_fields.each do |option| %>
+          <div class="me-6">
+            <%= check_box_tag 'selected_admins[]', option, id: "admin_#{option}", checked: true, class: "checkbox checkbox-primary checkbox-md" %>
+            <%= label_tag "admin", option, class: "label-text" %>
+          </div>
+        <% end %>
+      </div>
+      <h1>Permission Fields</h1>
+      <div class="flex flex-wrap mb-4">
+        <% @permission_fields.each do |option| %>
+          <div class="me-6">
+            <%= check_box_tag 'selected_permissions[]', option, id: "permission_#{option}", checked: true, class: "checkbox checkbox-primary checkbox-md" %>
+            <%= label_tag 'permission', option, class: "label-text" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="collapse collapse-arrow bg-base-200 mb-6">
+    <input type="radio" name="my-accordion-2" />
+    <div class="collapse-title text-xl font-medium">
+      <h1>Options for csv</h1>
+    </div>
+    <div class="collapse-content">
+      <p>hello</p>
+    </div>
+  </div>
+
+  <button class="btn btn-primary" type="submit" name="csv" value="true">Export to CSV</button>
+  <button class="btn btn-primary" value="true">Export to JSON</button>
+  <button class="btn btn-primary" value="true">Export to XML</button>
+
+
+
+<% end %>

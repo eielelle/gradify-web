@@ -359,6 +359,7 @@ PLATFORMS
 DEPENDENCIES
   bcrypt (~> 3.1.7)
   bootsnap
+  builder
   capybara
   debug
   devise

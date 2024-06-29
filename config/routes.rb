@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     resources :overview, only: [:index]
     resources :admins do
       get 'export', on: :collection
+      get 'send_exports', on: :collection
       get 'history', on: :collection
     end
   end
