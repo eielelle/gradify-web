@@ -18,7 +18,7 @@ class AdminAccount < ApplicationRecord
   # TODO: Refactor this to a modular approach
   def self.to_csv(fields, headers: true)
     CSV.generate(headers:) do |csv|
-      csv << fields[:admins] + fields[:permissions]
+      csv << fields[:admins] + fields[:permissions].map { |permission| "permission_#{permission}" }
 
       all.find_each do |record|
         csv << csv_row(fields, record)
@@ -55,5 +55,14 @@ class AdminAccount < ApplicationRecord
 
       admin_data.merge(permissions: permissions_data)
     end
+  end
+
+  def self.ransackable_attributes(_auth_object = nil)
+    get_export_fields(%i[encrypted_password reset_password_token id reset_password_sent_at])
+  end
+
+  # Allowlist associations for Ransack
+  def self.ransackable_associations(_auth_object = nil)
+    %w[permissions]
   end
 end
