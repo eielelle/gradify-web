@@ -5,10 +5,13 @@ require 'csv'
 module Admin
   class AdminsController < Admin::LayoutController
     include ExportableFormatHelper
+    include SortHelper
 
     def index
-      @admins = AdminAccount.select(:id, :name, :email).page(params[:page]).per(10)
+      @q = AdminAccount.ransack(params[:q])
+      @admins = @q.result(distinct: true).page(params[:page]).per(10)
       @count = AdminAccount.count
+      @sort_fields = get_sort_fields(AdminAccount)
     end
 
     def new

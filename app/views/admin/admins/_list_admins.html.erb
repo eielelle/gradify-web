@@ -1,26 +1,12 @@
 <header class="flex justify-between items-center mb-6">
+    <%= search_form_for @q, url: admin_admins_path, method: :get, html: { class: "join" } do |f| %>
+        <input type="text" placeholder="Type here" class="input input-bordered w-96 join-item" />
+        <%= f.select :s, options_for_select(@sort_fields, selected: params.dig(:q, :s)), {}, { class: "select select-bordered join-item", onchange: 'this.form.submit();' } %>
+        <button class="btn btn-primary join-item">Search</button>
+        <button class="btn btn-secondary join-item">Reset</button>
+    <% end %>
   <div class="join">
-    <input type="text" placeholder="Type here" class="input input-bordered w-96 join-item" />
-    <button class="btn btn-primary join-item">Search</button>
-    <button class="btn btn-secondary join-item">Reset</button>
-  </div>
-  <div class="join">
-    <select class="select select-bordered join-item">
-      <option disabled selected>Add Filter</option>
-      <option>Homer</option>
-      <option>Marge</option>
-      <option>Bart</option>
-      <option>Lisa</option>
-      <option>Maggie</option>
-    </select>
-    <select class="select select-bordered join-item">
-      <option disabled selected>Selected Items</option>
-      <option>Homer</option>
-      <option>Marge</option>
-      <option>Bart</option>
-      <option>Lisa</option>
-      <option>Maggie</option>
-    </select>
+    <button class="btn btn-secondary join-item">Remove Selected</button>    
     <button class="btn btn-primary join-item">Export</button>
   </div>
 </header>
@@ -69,7 +55,6 @@
               <td>
                 <button class="btn btn-ghost btn-sm"><%= fa_icon "pencil lg" %></button>
                 <button class="btn btn-ghost btn-sm"><%= fa_icon "trash lg" %></button>
-                <button class="btn btn-ghost btn-sm"><%= fa_icon "history lg" %></button>
               </td>
             </tr>
           <% end %>
