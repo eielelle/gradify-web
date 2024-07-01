@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
+require 'csv'
+
 module Admin
   class AdminsController < Admin::LayoutController
+    include ExportableFormatHelper
+
     def index
       @admins = AdminAccount.select(:id, :name, :email).page(params[:page]).per(10)
       @count = AdminAccount.count
@@ -26,8 +30,29 @@ module Admin
       end
     end
 
+    def export
+      @admin_fields = AdminAccount.get_export_fields(%i[encrypted_password reset_password_token])
+      @permission_fields = Permission.get_export_fields
+    end
+
+    def send_exports
+      send_format params
+    end
+
     private
 
+    def send_format(params)
+      admins = params[:selected_admins].to_a || []
+      permissions = params[:selected_permissions].to_a || []
+      date = formatted_date
+      format, method = detect_format_and_method(params)
+
+      return unless format && method
+
+      send_data AdminAccount.send(method, { admins:, permissions: }), filename: "#{date}.#{format}"
+    end
+
+    # TODO: refactor to module
     def handle_errors(model)
       model.errors.each do |error|
         flash[error.attribute] = "#{error.attribute.capitalize} #{model.errors[error.attribute].first}"
