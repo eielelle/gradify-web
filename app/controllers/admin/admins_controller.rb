@@ -10,7 +10,7 @@ module Admin
     def index
       @q = AdminAccount.ransack(params[:q])
       @admins = @q.result(distinct: true).page(params[:page]).per(10)
-      @count = AdminAccount.count
+      @count = params[:q].present? ? @admins.count : AdminAccount.count
       @sort_fields = get_sort_fields(AdminAccount)
     end
 
