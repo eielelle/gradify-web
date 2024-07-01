@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
+require 'csv'
+
 module Admin
   class AdminsController < Admin::LayoutController
-    require 'csv'
+    include ExportableFormatHelper
 
     def index
       @admins = AdminAccount.select(:id, :name, :email).page(params[:page]).per(10)
@@ -29,27 +31,28 @@ module Admin
     end
 
     def export
-      @admin_fields = AdminAccount.get_export_fields([:encrypted_password, :reset_password_token])
+      @admin_fields = AdminAccount.get_export_fields(%i[encrypted_password reset_password_token])
       @permission_fields = Permission.get_export_fields
     end
 
     def send_exports
-      @admins = AdminAccount.includes(:permissions);
-      admins = params[:selected_admins].to_a || []
-      permissions = params[:selected_permissions].to_a || []
-      date = Date.today.strftime("%Y-%m-%d")
-
-      if (params[:csv].present?)
-        send_data AdminAccount.to_csv({admins: admins, permissions: permissions}), filename: "#{date}.csv"
-      elsif (params[:json].present?)
-        send_data AdminAccount.to_json({admins: admins, permissions: permissions}), filename: "#{date}.json"
-      elsif (params[:xml].present?)
-        send_data AdminAccount.to_xml({admins: admins, permissions: permissions}), filename: "#{date}.xml"
-      end
+      send_format params
     end
 
     private
 
+    def send_format(params)
+      admins = params[:selected_admins].to_a || []
+      permissions = params[:selected_permissions].to_a || []
+      date = formatted_date
+      format, method = detect_format_and_method(params)
+
+      return unless format && method
+
+      send_data AdminAccount.send(method, { admins:, permissions: }), filename: "#{date}.#{format}"
+    end
+
+    # TODO: refactor to module
     def handle_errors(model)
       model.errors.each do |error|
         flash[error.attribute] = "#{error.attribute.capitalize} #{model.errors[error.attribute].first}"
