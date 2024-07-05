@@ -51,12 +51,13 @@ module Admin
     def send_format(params)
       admins = params[:selected_admins].to_a || []
       permissions = params[:selected_permissions].to_a || []
+      no_header = params[:no_header]
       date = formatted_date
       format, method = detect_format_and_method(params)
 
       return unless format && method
 
-      send_data AdminAccount.send(method, { admins:, permissions: }), filename: "#{date}.#{format}"
+      send_data AdminAccount.send(method, { admins:, permissions:, no_header: }), filename: "#{date}.#{format}"
     end
 
     # TODO: refactor to module

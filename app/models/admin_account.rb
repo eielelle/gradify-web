@@ -16,9 +16,11 @@ class AdminAccount < ApplicationRecord
   has_and_belongs_to_many :permissions
 
   # TODO: Refactor this to a modular approach
-  def self.to_csv(fields, headers: true)
+  def self.to_csv(fields)
+    headers = fields[:no_header].present?
+
     CSV.generate(headers:) do |csv|
-      csv << fields[:admins] + fields[:permissions].map { |permission| "permission_#{permission}" }
+      csv << fields[:admins] + fields[:permissions].map { |permission| "permission_#{permission}" } unless headers
 
       all.find_each do |record|
         csv << csv_row(fields, record)
