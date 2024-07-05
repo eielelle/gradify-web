@@ -44,6 +44,10 @@ module Admin
 
     private
 
+    def default_sort_column
+      'name asc'
+    end
+
     def send_format(params)
       admins = params[:selected_admins].to_a || []
       permissions = params[:selected_permissions].to_a || []
