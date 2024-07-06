@@ -1,0 +1,58 @@
+<%= render "shared/modal", title: "Edit Admin" do %>
+  <%= form_with(model: admin, url: admin_admin_path(admin), method: :patch, local: true) do |form| %>
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
+      <%= form.label :name, class: "label-text" %>
+    </div>
+    <%= form.text_field :name, class: "input input-bordered w-full max-w-xs" %>
+    <div class="label">
+      <span class="label-text-alt text-error"><%= flash[:name] %></span>
+    </div>
+  </label>
+  
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
+        <%= form.label :permission, class: "label-text" %>
+    </div>
+        <%= form.collection_select :permission, @permissions, :id, :name, { selected: admin.permissions.first.id }, { class: "select select-bordered" } %>
+    <div class="label">
+      <span class="label-text-alt text-error"><%= flash[:permission] %></span>
+    </div>
+  </label>
+
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
+      <%= form.label :email, class: "label-text" %>
+    </div>
+    <%= form.email_field :email, class: "input input-bordered w-full max-w-xs" %>
+    <div class="label">
+      <span class="label-text-alt text-error"><%= flash[:email] %></span>
+    </div>
+  </label>
+
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
+      <%= form.label :old_password, class: "label-text" %>
+    </div>
+    <%= form.password_field :old_password, class: "input input-bordered w-full max-w-xs" %>
+    <div class="label">
+      <span class="label-text-alt text-error"><%= flash[:password] %></span>
+    </div>
+  </label>
+
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
+      <%= form.label :new_password, class: "label-text" %>
+    </div>
+    <%= form.password_field :new_password, class: "input input-bordered w-full max-w-xs" %>
+    <div class="label">
+      <span class="label-text-alt text-error"><%= flash[:password] %></span>
+    </div>
+  </label>
+
+  <div>
+    <%= form.submit "Update Admin", class: "btn btn-primary mt-4" %>
+  </div>
+
+  <% end %>
+<% end %>

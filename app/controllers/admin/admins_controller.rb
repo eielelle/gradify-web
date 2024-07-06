@@ -33,6 +33,14 @@ module Admin
       end
     end
 
+    def edit
+      @admin = AdminAccount.includes(:permissions).find(params[:id])
+      @permissions = Permission.all
+    end
+
+    def update
+    end
+
     def export
       @admin_fields = AdminAccount.get_export_fields(%i[encrypted_password reset_password_token])
       @permission_fields = Permission.get_export_fields
@@ -76,6 +84,10 @@ module Admin
 
     def admin_params
       params.permit(:name, :email, :permission, :password)
+    end
+
+    def update_admin_params
+      params.permit(:name, :email, :permission, :new_password, :old_password)
     end
   end
 end
