@@ -20,7 +20,7 @@ class AdminAccount < ApplicationRecord
     headers = fields[:no_header].present?
 
     CSV.generate(headers:) do |csv|
-      csv << fields[:admins] + fields[:permissions].map { |permission| "permission_#{permission}" } unless headers
+      csv << fields[:admins].map { |admin| "admin_#{admin}" } + fields[:permissions].map { |permission| "permission_#{permission}" } unless headers
 
       all.find_each do |record|
         csv << csv_row(fields, record)
@@ -38,9 +38,7 @@ class AdminAccount < ApplicationRecord
 
   def self.csv_row(fields, record)
     admin_data = fields[:admins].map { |field| record.send(field) }
-    permission_data = record.permissions.flat_map do |permission|
-      fields[:permissions].map { |field| permission.send(field) }
-    end
+    permission_data = fields[:permissions].map { |field| record.permission&.send(field) }
 
     admin_data + permission_data
   end

@@ -12,8 +12,6 @@ module Admin
       @admins = @q.result(distinct: true).page(params[:page]).per(10)
       @count = params[:q].present? ? @admins.count : AdminAccount.count
       @sort_fields = get_sort_fields(AdminAccount)
-
-      puts @admins.first.attribute_names
     end
 
     def new
@@ -21,11 +19,11 @@ module Admin
     end
 
     def create
-      permission = Permission.find(admin_params[:permission])
+      permission = Permission.find(admin_params[:permission_id])
 
       return if permission.nil?
 
-      admin = build_admin(permission)
+      admin = AdminAccount.new admin_params
 
       if admin.save
         redirect_to admin_admins_path
@@ -36,7 +34,7 @@ module Admin
     end
 
     def edit
-      @admin = AdminAccount.includes(:permissions).find(params[:id])
+      @admin = AdminAccount.includes(:permission).find(params[:id])
       @permissions = Permission.all
     end
 
@@ -44,7 +42,7 @@ module Admin
     end
 
     def export
-      @admin_fields = AdminAccount.get_export_fields(%i[encrypted_password reset_password_token])
+      @admin_fields = AdminAccount.get_export_fields(%i[encrypted_password reset_password_token permission_id])
       @permission_fields = Permission.get_export_fields
     end
 
@@ -77,15 +75,8 @@ module Admin
       end
     end
 
-    def build_admin(permission)
-      admin = AdminAccount.new admin_params.except(:permission)
-      admin.permissions << permission
-
-      admin
-    end
-
     def admin_params
-      params.permit(:name, :email, :permission, :password)
+      params.permit(:name, :email, :permission_id, :password)
     end
 
     def update_admin_params

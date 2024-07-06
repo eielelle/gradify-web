@@ -14,7 +14,7 @@
     <div class="label">
         <%= form.label :permission, class: "label-text" %>
     </div>
-        <%= form.collection_select :permission, @permissions, :id, :name, { selected: admin.permissions.first.id }, { class: "select select-bordered" } %>
+        <%= form.collection_select :permission_id, @permissions, :id, :name, { selected: admin.permission.id }, { class: "select select-bordered" } %>
     <div class="label">
       <span class="label-text-alt text-error"><%= flash[:permission] %></span>
     </div>
