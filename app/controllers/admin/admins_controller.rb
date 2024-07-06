@@ -12,6 +12,8 @@ module Admin
       @admins = @q.result(distinct: true).page(params[:page]).per(10)
       @count = params[:q].present? ? @admins.count : AdminAccount.count
       @sort_fields = get_sort_fields(AdminAccount)
+
+      puts @admins.first.attribute_names
     end
 
     def new

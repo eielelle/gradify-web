@@ -6,14 +6,14 @@ require 'builder'
 class AdminAccount < ApplicationRecord
   include Exportable
 
+  belongs_to :permission
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   # devise :database_authenticatable, :registerable,
   #        :recoverable, :rememberable, :validatable
   devise :database_authenticatable, :registerable,
          :recoverable, :validatable, :trackable
-
-  has_and_belongs_to_many :permissions
 
   # TODO: Refactor this to a modular approach
   def self.to_csv(fields)
