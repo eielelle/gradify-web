@@ -34,26 +34,23 @@ module Admin
     end
 
     def edit
-      @admin = AdminAccount.includes(:permission).find(params[:id])
-      @permissions = Permission.all
+      set_admin
     end
 
     def update
-      @admin = AdminAccount.includes(:permission).find(params[:id])
-      @permissions = Permission.all
+      set_admin
 
-      if @admin.nil?
-        flash[:notice] = "Account not found."
-        render :edit, status: :unprocessable_entity
-      end
-  
+      flash[:notice] = 'Account not found.' if @admin.nil?
+
       if @admin.update(update_admin_params[:admin_account])
-        flash[:toast] = "Updated Successfully."
+        flash[:toast] = 'Updated Successfully.'
         redirect_to admin_admins_path
+        return
       else
         handle_errors(@admin)
-        render :edit, status: :unprocessable_entity
       end
+
+      render :edit, status: :unprocessable_entity
     end
 
     def export
@@ -66,6 +63,11 @@ module Admin
     end
 
     private
+
+    def set_admin
+      @admin = AdminAccount.includes(:permission).find(params[:id])
+      @permissions = Permission.all
+    end
 
     def default_sort_column
       'name asc'
@@ -95,7 +97,7 @@ module Admin
     end
 
     def update_admin_params
-      params.permit(:id, admin_account: [:name, :email, :permission_id])
+      params.permit(:id, admin_account: %i[name email permission_id])
     end
   end
 end

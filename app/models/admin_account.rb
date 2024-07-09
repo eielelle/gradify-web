@@ -22,11 +22,8 @@ class AdminAccount < ApplicationRecord
     headers = fields[:no_header].present?
 
     CSV.generate(headers:) do |csv|
-      csv << fields[:admins].map { |admin| "admin_#{admin}" } + fields[:permissions].map { |permission| "permission_#{permission}" } unless headers
-
-      all.find_each do |record|
-        csv << csv_row(fields, record)
-      end
+      add_headers(csv, fields) unless headers
+      add_records(csv, fields)
     end
   end
 
@@ -66,5 +63,16 @@ class AdminAccount < ApplicationRecord
   # Allowlist associations for Ransack
   def self.ransackable_associations(_auth_object = nil)
     %w[permissions]
+  end
+
+  def self.add_headers(csv, fields)
+    csv << fields[:admins].map { |admin| "admin_#{admin}" } +
+           fields[:permissions].map { |permission| "permission_#{permission}" }
+  end
+
+  def self.add_records(csv, fields)
+    all.find_each do |record|
+      csv << csv_row(fields, record)
+    end
   end
 end
