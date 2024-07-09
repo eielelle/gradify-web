@@ -1,3 +1,2 @@
-<%= turbo_frame_tag "modal" do %>
-  <%= render "edit_admin", admin: @admin %>
-<% end %>
+<%= render "shared/common_panel", title: "Edit Admin", subtitle: "Update existing admin.", content: "edit_admin", show_border: false %>
+

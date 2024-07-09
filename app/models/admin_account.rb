@@ -15,6 +15,8 @@ class AdminAccount < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :validatable, :trackable
 
+  validates :name, presence: true
+
   # TODO: Refactor this to a modular approach
   def self.to_csv(fields)
     headers = fields[:no_header].present?

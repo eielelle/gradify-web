@@ -39,6 +39,21 @@ module Admin
     end
 
     def update
+      @admin = AdminAccount.includes(:permission).find(params[:id])
+      @permissions = Permission.all
+
+      if @admin.nil?
+        flash[:notice] = "Account not found."
+        render :edit, status: :unprocessable_entity
+      end
+  
+      if @admin.update(update_admin_params[:admin_account])
+        flash[:toast] = "Updated Successfully."
+        redirect_to admin_admins_path
+      else
+        handle_errors(@admin)
+        render :edit, status: :unprocessable_entity
+      end
     end
 
     def export
@@ -71,7 +86,7 @@ module Admin
     # TODO: refactor to module
     def handle_errors(model)
       model.errors.each do |error|
-        flash[error.attribute] = "#{error.attribute.capitalize} #{model.errors[error.attribute].first}"
+        flash["#{error.attribute}_error"] = "#{error.attribute.capitalize} #{model.errors[error.attribute].first}"
       end
     end
 
@@ -80,7 +95,7 @@ module Admin
     end
 
     def update_admin_params
-      params.permit(:name, :email, :permission, :new_password, :old_password)
+      params.permit(:id, admin_account: [:name, :email, :permission_id])
     end
   end
 end

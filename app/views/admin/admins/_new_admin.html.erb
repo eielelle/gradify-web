@@ -5,7 +5,7 @@
     </div>
     <%= form.text_field :name, class: "input input-bordered w-full max-w-xs" %>
     <div class="label">
-      <span class="label-text-alt text-error"><%= flash[:name] %></span>
+      <span class="label-text-alt text-error"><%= flash[:name_error] %></span>
     </div>
   </label>
   
@@ -15,7 +15,7 @@
     </div>
         <%= form.collection_select :permission_id, @permissions, :id, :name, {}, { class: "select select-bordered" } %>
     <div class="label">
-      <span class="label-text-alt text-error"><%= flash[:permission] %></span>
+      <span class="label-text-alt text-error"><%= flash[:permission_error] %></span>
     </div>
   </label>
 
@@ -25,7 +25,7 @@
     </div>
     <%= form.email_field :email, class: "input input-bordered w-full max-w-xs" %>
     <div class="label">
-      <span class="label-text-alt text-error"><%= flash[:email] %></span>
+      <span class="label-text-alt text-error"><%= flash[:email_error] %></span>
     </div>
   </label>
 
@@ -35,7 +35,7 @@
     </div>
     <%= form.password_field :password, class: "input input-bordered w-full max-w-xs" %>
     <div class="label">
-      <span class="label-text-alt text-error"><%= flash[:password] %></span>
+      <span class="label-text-alt text-error"><%= flash[:password_error] %></span>
     </div>
   </label>
 
