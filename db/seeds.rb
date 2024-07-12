@@ -33,3 +33,12 @@ sudo_admin = AdminAccount.create(
     permission_id: n_permission.id
   )
 end
+
+# Create 40 Students
+40.times do
+  StudentAccount.create(
+    name: Faker::JapaneseMedia::StudioGhibli.character,
+    email: Faker::Internet.email,
+    password: 'password'
+  )
+end
