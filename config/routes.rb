@@ -3,7 +3,7 @@
 Rails.application.routes.draw do
   # TODO: fix route scope later
   devise_for :student_accounts
-  devise_for :admin_accounts, path: :admin #, only: [:sessions]
+  devise_for :admin_accounts, path: :admin, only: [:sessions]
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
