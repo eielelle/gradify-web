@@ -4,8 +4,8 @@ require 'csv'
 
 module Admin
   class AdminsController < Admin::LayoutController
-    include ExportableFormatHelper
-    include SortHelper
+    include ExportableFormatConcern
+    include SortConcern
 
     def index
       @q = AdminAccount.ransack(params[:q])
