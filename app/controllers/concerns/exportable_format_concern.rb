@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module ExportableFormatHelper
+module ExportableFormatConcern
   extend ActiveSupport::Concern
 
   def formatted_date
