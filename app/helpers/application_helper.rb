@@ -5,7 +5,11 @@ module ApplicationHelper
     condition ? 'border-b border-x' : ''
   end
 
-  def current_drawer?(path)
-    'bg-primary text-white rounded-lg' if current_page?(path)
+  def current_drawer?(path, included: false)
+    if request.path.include?(path) && included
+      'bg-primary text-white rounded-lg'
+    elsif current_page?(path)
+      'bg-primary text-white rounded-lg'
+    end
   end
 end
