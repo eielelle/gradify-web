@@ -6,6 +6,7 @@ module Admin
   class AdminsController < Admin::LayoutController
     include ExportableFormatConcern
     include SortConcern
+    include PaperTrailConcern
 
     def index
       @q = AdminAccount.ransack(params[:q])
@@ -31,6 +32,34 @@ module Admin
         handle_errors(admin)
         redirect_to new_admin_admin_path
       end
+    end
+
+    def show
+      set_admin
+    end
+
+    def versions
+
+    end
+
+    def history
+      latest_versions = PaperTrail::Version.where(item_type: 'AdminAccount').select('DISTINCT ON (item_id) *').order('item_id, created_at DESC')
+      @versions = Kaminari.paginate_array(latest_versions).page(params[:page]).per(10)
+      # @versions = PaperTrail::Version.where(item_type: 'AdminAccount').order(created_at: :desc).page(params[:page]).per(10)
+      # # puts current_admin_account
+
+      # @versions.map do |version|
+      #   puts "HERE"
+      #   puts version.item.versions.last.id
+      #   puts version.id
+      #   # puts version.item_id
+      #   # puts version.item_type
+      #   # puts version.event
+      #   # puts version.object
+      #   puts version.whodunnit
+      #   # puts version.created_at
+      #   puts "---"
+      # end
     end
 
     def edit

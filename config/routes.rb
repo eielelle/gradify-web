@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   # get "/admin/dashboard", to: "admin_panel#index"
   namespace :admin do
     resources :admins do
+      get 'versions', on: :collection
       get 'export', on: :collection
       get 'send_exports', on: :collection
       get 'history', on: :collection

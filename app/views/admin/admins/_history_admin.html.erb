@@ -1,0 +1,55 @@
+<div role="alert" class="alert alert-info">
+    <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    class="h-6 w-6 shrink-0 stroke-current">
+    <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+    </svg>
+    <span>Since each version represents a specific snapshot, rolling back to a version only affects the state of the object at that specific snapshot. Rolling back to an earlier version will not automatically affect other versions.</span>
+</div>
+
+<section>
+
+    <table class="table table-sm mb-6 text-center">
+        <thead>
+            <tr>
+                <th>Date/Time</th>
+                <th>User</th>
+                <th>Item</th>
+                <th>Message</th>
+                <th>Rollback</th>
+                <th>Tag</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @versions.each do |version| %>
+            <tr class="hover">
+                
+                <td><%= version.created_at %></td>
+                <td>
+                <%= version.whodunnit %>
+                </td>
+                <td><%= link_to "#{version.item_type} ID: #{version.item_id}", admin_admin_path(version.item_id), class: "link link-primary" %></td>
+                <td><%= version.event %></td>
+                <td>
+                <%= link_to 'View Previous Version', versions_admin_admins_path, class: "link link-primary" %>
+                </td>
+                <td>
+                    <% if version.item && version.item.versions.last.id == version.id %>
+                        <span class="badge badge-success badge-outline">latest</span>
+                    <% else %>
+                        <span class="badge badge-warning badge-outline">snapshot</span>
+                    <% end %>
+                </td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+
+    <%= paginate @versions, views_prefix: 'shared' %>
+</section>
