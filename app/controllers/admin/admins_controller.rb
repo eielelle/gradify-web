@@ -38,6 +38,14 @@ module Admin
       set_admin
     end
 
+    def destroy
+      set_admin
+      if @admin.destroy
+        flash[:toast] = 'Account deleted successfully.'
+        redirect_to admin_admins_path
+      end
+    end
+
     def versions
 
     end
