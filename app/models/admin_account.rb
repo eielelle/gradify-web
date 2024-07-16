@@ -5,7 +5,7 @@ require 'builder'
 
 class AdminAccount < ApplicationRecord
   include Exportable
-
+  
   belongs_to :permission
   has_paper_trail
 

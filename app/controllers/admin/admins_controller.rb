@@ -10,6 +10,7 @@ module Admin
     include SearchableConcern
 
     def index
+      set_default_sort(default_sort_column: "name asc")
       @q = AdminAccount.ransack(params[:q])
       @admins = @q.result(distinct: true).page(params[:page]).per(10)
       @count = params[:q].present? ? @admins.count : AdminAccount.count
@@ -48,21 +49,31 @@ module Admin
     end
 
     def versions
+      set_default_sort(default_sort_column: "created_at desc")
+      @q = PaperTrail::Version.ransack(params[:q])
+      @items = @q.result(distinct: true).where(item_id: params[:id] || params.dig(:q, :id)).page(params[:page]).per(10)
+      @count = @items.count
+      @sort_fields = get_sort_fields(PaperTrail::Version)
 
+      # @admin = AdminAccount.find(params[:id])
+      # @q = @admin.versions.ransack(params[:q])
+      # @items = @q.result(distinct: true).page(params[:page]).per(10)
+      # @count = @items.count
+      # @sort_fields = get_sort_fields(PaperTrail::Version)
     end
 
     def snapshot
       @version = PaperTrail::Version.find(params[:id])
-      @admin = @version.reify
+      @admin = @version.event != :destroy ? @version.item : @version.reify
 
-      if @admin.nil?
-        flash[:toast] = "No previous snapshots found."
-        redirect_to admin_admin_path(@version.item_id)
+      if @admin == @version.item
+        flash[:toast] = "Viewing latest snapshot."
       end
     end
 
     def history
-      query_items(PaperTrail::Version, params, model_name: "AdminAccount")
+      set_default_sort(default_sort_column: "created_at desc")
+      query_items_history(PaperTrail::Version, params, model_name: "AdminAccount")
     end
 
     def edit
@@ -99,10 +110,6 @@ module Admin
     def set_admin
       @admin = AdminAccount.includes(:permission).find(params[:id])
       @permissions = Permission.all
-    end
-
-    def default_sort_column
-      'name asc'
     end
 
     def send_format(params)

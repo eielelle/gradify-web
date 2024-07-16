@@ -19,7 +19,7 @@
           <%= f.search_field :item_type_or_event_or_whodunnit_cont, placeholder: "Search", class: "input input-bordered w-96 join-item", id: "search_input" %>
           <%= f.select :s, options_for_select(@sort_fields, selected: params.dig(:q, :s)), {}, { class: "select select-bordered join-item", onchange: 'this.form.submit();' } %>
           <button type="submit" class="btn btn-primary join-item">Search</button>
-          <%= link_to "Reset", admin_admins_path, class: "btn btn-secondary join-item" %>
+          <%= link_to "Reset", history_admin_admins_path, class: "btn btn-secondary join-item" %>
       <% end %>
     </header>
 
@@ -29,9 +29,9 @@
                 <thead>
                     <tr>
                         <th>Date/Time</th>
-                        <th>User</th>
+                        <th>Whodunnit</th>
                         <th>Last Snapshot</th>
-                        <th>Message</th>
+                        <th>Event</th>
                         <th>Rollback</th>
                     </tr>
                 </thead>
@@ -49,7 +49,7 @@
                             <% if version.reify.nil? %>
                                 <p>Latest version</p>
                             <% else %>
-                                <%= link_to 'View Previous Version', versions_admin_admins_path, class: "link link-primary" %>
+                                <%= link_to 'View Previous Version', versions_admin_admins_path(id: version.item_id), class: "link link-primary" %>
                             <% end %>
                         </td>
                     </tr>
