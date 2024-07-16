@@ -13,43 +13,54 @@
     <span>Since each version represents a specific snapshot, rolling back to a version only affects the state of the object at that specific snapshot. Rolling back to an earlier version will not automatically affect other versions.</span>
 </div>
 
-<section>
+<div id="history">
+    <header class="flex justify-between items-center mb-6">
+      <%= search_form_for @q, url: history_admin_admins_path, method: :get, html: { class: "join" } do |f| %>
+          <%= f.search_field :item_type_or_event_or_whodunnit_cont, placeholder: "Search", class: "input input-bordered w-96 join-item", id: "search_input" %>
+          <%= f.select :s, options_for_select(@sort_fields, selected: params.dig(:q, :s)), {}, { class: "select select-bordered join-item", onchange: 'this.form.submit();' } %>
+          <button type="submit" class="btn btn-primary join-item">Search</button>
+          <%= link_to "Reset", admin_admins_path, class: "btn btn-secondary join-item" %>
+      <% end %>
+    </header>
 
-    <table class="table table-sm mb-6 text-center">
-        <thead>
-            <tr>
-                <th>Date/Time</th>
-                <th>User</th>
-                <th>Item</th>
-                <th>Message</th>
-                <th>Rollback</th>
-                <th>Tag</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% @versions.each do |version| %>
-            <tr class="hover">
-                
-                <td><%= version.created_at %></td>
-                <td>
-                <%= version.whodunnit %>
-                </td>
-                <td><%= link_to "#{version.item_type} ID: #{version.item_id}", admin_admin_path(version.item_id), class: "link link-primary" %></td>
-                <td><%= version.event %></td>
-                <td>
-                <%= link_to 'View Previous Version', versions_admin_admins_path, class: "link link-primary" %>
-                </td>
-                <td>
-                    <% if version.item && version.item.versions.last.id == version.id %>
-                        <span class="badge badge-success badge-outline">latest</span>
-                    <% else %>
-                        <span class="badge badge-warning badge-outline">snapshot</span>
+    <section>
+        <div class="overflow-x-auto">
+            <table class="table table-sm mb-6 text-center">
+                <thead>
+                    <tr>
+                        <th>Date/Time</th>
+                        <th>User</th>
+                        <th>Last Snapshot</th>
+                        <th>Message</th>
+                        <th>Rollback</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @items.each do |version| %>
+                    <tr class="hover">
+                        
+                        <td><%= version.created_at %></td>
+                        <td>
+                        <%= version.whodunnit %>
+                        </td>
+                        <td><%= link_to "#{version.item_type} ID: #{version.id}", admin_admin_version_snapshot_path(version.id), class: "link link-primary" %></td>
+                        <td><%= version.event %></td>
+                        <td>
+                            <% if version.reify.nil? %>
+                                <p>Latest version</p>
+                            <% else %>
+                                <%= link_to 'View Previous Version', versions_admin_admins_path, class: "link link-primary" %>
+                            <% end %>
+                        </td>
+                    </tr>
                     <% end %>
-                </td>
-            </tr>
-            <% end %>
-        </tbody>
-    </table>
+                </tbody>
+            </table>
 
-    <%= paginate @versions, views_prefix: 'shared' %>
-</section>
+            <div class="flex justify-between items-center">
+                <span><%= @count %> Versions</span>
+                <%= paginate @items, views_prefix: 'shared' %>
+            </div>
+        </div>
+    </section>
+</div>

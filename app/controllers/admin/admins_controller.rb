@@ -7,6 +7,7 @@ module Admin
     include ExportableFormatConcern
     include SortConcern
     include PaperTrailConcern
+    include SearchableConcern
 
     def index
       @q = AdminAccount.ransack(params[:q])
@@ -50,24 +51,18 @@ module Admin
 
     end
 
-    def history
-      latest_versions = PaperTrail::Version.where(item_type: 'AdminAccount').select('DISTINCT ON (item_id) *').order('item_id, created_at DESC')
-      @versions = Kaminari.paginate_array(latest_versions).page(params[:page]).per(10)
-      # @versions = PaperTrail::Version.where(item_type: 'AdminAccount').order(created_at: :desc).page(params[:page]).per(10)
-      # # puts current_admin_account
+    def snapshot
+      @version = PaperTrail::Version.find(params[:id])
+      @admin = @version.reify
 
-      # @versions.map do |version|
-      #   puts "HERE"
-      #   puts version.item.versions.last.id
-      #   puts version.id
-      #   # puts version.item_id
-      #   # puts version.item_type
-      #   # puts version.event
-      #   # puts version.object
-      #   puts version.whodunnit
-      #   # puts version.created_at
-      #   puts "---"
-      # end
+      if @admin.nil?
+        flash[:toast] = "No previous snapshots found."
+        redirect_to admin_admin_path(@version.item_id)
+      end
+    end
+
+    def history
+      query_items(PaperTrail::Version, params, model_name: "AdminAccount")
     end
 
     def edit

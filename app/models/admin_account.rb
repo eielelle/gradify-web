@@ -46,13 +46,12 @@ class AdminAccount < ApplicationRecord
   def self.serial_data(fields)
     all.map do |record|
       admin_data = fields[:admins].index_with { |field| record.send(field) }
-
-      permissions_data = record.permissions.map do |permission|
-        fields[:permissions].index_with do |field|
-          permission.send(field)
-        end
-      end
-
+  
+      permission = record.permission
+      permissions_data = fields[:permissions].index_with do |field|
+        permission.send(field)
+      end if permission
+  
       admin_data.merge(permissions: permissions_data)
     end
   end
@@ -75,5 +74,16 @@ class AdminAccount < ApplicationRecord
     all.find_each do |record|
       csv << csv_row(fields, record)
     end
+  end
+end
+
+class PaperTrail::Version < ActiveRecord::Base
+  # Allow only these attributes to be searchable
+  def self.ransackable_attributes(auth_object = nil)
+    %w[id item_type item_id event whodunnit created_at]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    []
   end
 end
