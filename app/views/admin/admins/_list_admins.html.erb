@@ -53,7 +53,9 @@
                 <td>
                   <span><%= admin.email %></span>
                   <br/>
-                  <span class="badge badge-ghost badge-sm">Current</span>
+                  <% if current_admin_account.id == admin.id %>
+                    <span class="badge badge-ghost badge-sm">Current</span>
+                  <% end %>
                 </td>
                 <td>
                   <span><%= admin.permission.name %></span>
