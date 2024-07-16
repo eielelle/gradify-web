@@ -19,7 +19,7 @@ n_permission = Permission.create(name: "Admin", description: "Admin")
 # Create a SuperAdmin
 sudo_admin = AdminAccount.create(
   name: Faker::JapaneseMedia::StudioGhibli.character,
-  email: Faker::Internet.email,
+  email: "admin@example.com",
   password: 'password',
   permission_id: s_permission.id
 )
