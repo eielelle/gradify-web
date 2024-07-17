@@ -16,7 +16,7 @@ module SortConcern
     end
   end
 
-  def set_default_sort(default_sort_column: "id asc")
+  def set_default_sort(default_sort_column: 'id asc')
     params[:q] ||= {}
     params[:q][:s] ||= default_sort_column
   end
