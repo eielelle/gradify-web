@@ -1,93 +1,99 @@
-<header class="flex justify-between items-center mb-6">
-    <%= search_form_for @q, url: admin_admins_path, method: :get, html: { class: "join" } do |f| %>
-        <%= f.search_field :name_or_email_cont, placeholder: "Search", class: "input input-bordered w-96 join-item", id: "search_input" %>
-        <%= f.select :s, options_for_select(@sort_fields, selected: params.dig(:q, :s)), {}, { class: "select select-bordered join-item", onchange: 'this.form.submit();' } %>
-        <button type="submit" class="btn btn-primary join-item">Search</button>
-        <%= link_to "Reset", admin_admins_path, class: "btn btn-secondary join-item" %>
-    <% end %>
-  <div class="join">
-    <button class="btn btn-secondary join-item">Remove Selected</button>    
-    <%= link_to "Export", export_admin_admins_path, class: "btn btn-primary join-item" %>
-  </div>
-</header>
-<section>
-  <div class="overflow-x-auto">
-    <table class="table table-sm mb-6">
-      <!-- head -->
-      <thead>
-        <tr>
-          <th>
-            <label>
-              <input type="checkbox" class="checkbox" />
-            </label>
-          </th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Permission</th>
-          <th>Sign In Count</th>
-          <th>Current Sign In At</th>
-          <th>Last Sign In At</th>
-          <th>Current IP</th>
-          <th>Created At</th>
-          <th>Updated At</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- row 1 -->
-        <% if @admins.present? %>
-          <% @admins.each do | admin | %>
-            <tr class="hover">
-              <th>
-                <label>
-                  <input type="checkbox" class="checkbox" />
-                </label>
-              </th>
-              <td>
-                <div class="flex items-center gap-3">
-                  <span><%= admin.name %></span>
-                </div>
-              </td>
-              <td>
-                <span><%= admin.email %></span>
-                <br/>
-                <span class="badge badge-ghost badge-sm">Current</span>
-              </td>
-              <td>
-                <% admin.permissions.each do |permission| %>
-                  <span><%= permission.name %></span>
-                <% end %>
-              </td>
-              <td class="text-center">
-                <span><%= admin.sign_in_count %></span>
-              </td>
-              <td>
-                <span><%= admin.current_sign_in_at %></span>
-              </td>
-              <td>
-                <span><%= admin.last_sign_in_at %></span>
-              </td>
-              <td>
-                <span><%= admin.current_sign_in_ip %></span>
-              </td>
-              <td>
-                <span><%= admin.created_at %></span>
-              </td>
-              <td>
-                <span><%= admin.updated_at %></span>
-              </td>
-              <td>
-                <button class="btn btn-ghost btn-sm"><%= fa_icon "pencil lg" %></button>
-                <button class="btn btn-ghost btn-sm"><%= fa_icon "trash lg" %></button>
-              </td>
-            </tr>
-          <% end %>
-        <% end %>
-      </tbody>
-    </table>
-    <div class="flex justify-between items-center">
-      <span><%= @count %> Admins</span>
-      <%= paginate @admins, views_prefix: 'shared' %>
+<div id="list_admins">
+  <header class="flex justify-between items-center mb-6">
+      <%= search_form_for @q, url: admin_admins_path, method: :get, html: { class: "join" } do |f| %>
+          <%= f.search_field :name_or_email_cont, placeholder: "Search", class: "input input-bordered w-96 join-item", id: "search_input" %>
+          <%= f.select :s, options_for_select(@sort_fields, selected: params.dig(:q, :s)), {}, { class: "select select-bordered join-item", onchange: 'this.form.submit();' } %>
+          <button type="submit" class="btn btn-primary join-item">Search</button>
+          <%= link_to "Reset", admin_admins_path, class: "btn btn-secondary join-item" %>
+      <% end %>
+    <div class="join">
+      <button class="btn btn-secondary join-item">Remove Selected</button>    
+      <%= link_to "Export", export_admin_admins_path, class: "btn btn-primary join-item" %>
     </div>
-  </div>
-</section>
+  </header>
+
+  <section>
+    <div class="overflow-x-auto">
+      <table class="table table-sm mb-6">
+        <!-- head -->
+        <thead>
+          <tr>
+            <th>
+              <label>
+                <input type="checkbox" class="checkbox" />
+              </label>
+            </th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Permission</th>
+            <th>Sign In Count</th>
+            <th>Current Sign In At</th>
+            <th>Last Sign In At</th>
+            <th>Current IP</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- row 1 -->
+          <% if @admins.present? %>
+            <% @admins.each do | admin | %>
+              <tr class="hover">
+                <th>
+                  <label>
+                    <input type="checkbox" class="checkbox" />
+                  </label>
+                </th>
+                <td>
+                  <div class="flex items-center gap-3">
+                    <span><%= admin.name %></span>
+                  </div>
+                </td>
+                <td>
+                  <span><%= admin.email %></span>
+                  <br/>
+                  <span class="badge badge-ghost badge-sm">Current</span>
+                </td>
+                <td>
+                  <span><%= admin.permission.name %></span>
+                </td>
+                <td class="text-center">
+                  <span><%= admin.sign_in_count %></span>
+                </td>
+                <td>
+                  <span><%= admin.current_sign_in_at %></span>
+                </td>
+                <td>
+                  <span><%= admin.last_sign_in_at %></span>
+                </td>
+                <td>
+                  <span><%= admin.current_sign_in_ip %></span>
+                </td>
+                <td>
+                  <span><%= admin.created_at %></span>
+                </td>
+                <td>
+                  <span><%= admin.updated_at %></span>
+                </td>
+                <td class="flex">
+                  <%= link_to edit_admin_admin_path(admin), class: "btn btn-ghost btn-sm", data: { 'turbo-frame': 'modal' } do %>
+                    <%= fa_icon "pencil lg" %>
+                  <% end %>
+                  <button class="btn btn-ghost btn-sm"><%= fa_icon "trash lg" %></button>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="flex justify-between items-center">
+        <span><%= @count %> Admins</span>
+        <%= paginate @admins, views_prefix: 'shared' %>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+<%= render "shared/toast", toast: flash[:toast] %>

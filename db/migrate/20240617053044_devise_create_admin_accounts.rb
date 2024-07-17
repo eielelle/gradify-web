@@ -3,6 +3,7 @@
 class DeviseCreateAdminAccounts < ActiveRecord::Migration[7.1]
   def change
     create_table :admin_accounts do |t|
+      t.references :permission, null: false, foreign_key: true
       t.string :name, null: false
 
       ## Database authenticatable

@@ -15,6 +15,14 @@
         <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
         <div class="drawer-content">
           <!-- Page content here -->
+            <%= render "shared/common_panel", title: "Students", subtitle: "Manage your students.", content: "list_students", data: @students, count: @count do %>
+            <%= render "shared/common_tabs", tabs: {
+                "List": admin_students_path,
+                "Add": new_admin_student_path,
+                "Export": export_admin_students_path,
+                "History": history_admin_students_path
+            }, active_path: admin_students_path %>
+            <% end %>
           <%= yield %>
           <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">Open drawer</label>
         </div>
@@ -23,23 +31,17 @@
           <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
             <!-- Sidebar content here -->
             <div class="px-4 mb-4 mr-4 flex items-center">
-              <%= image_tag 'GF.png', class: 'w-16 h-16 rounded-lg mr-4' %>
-              <span class="ml-4 text-4xl font-bold">Gradify</span>
+              <%= image_tag 'GF.png', alt: 'Logo', class: 'w-16 h-16 rounded-lg mr-4' %>
+              <span class="text-4xl font-bold">Gradify</span>
             </div>
-            <li class="text-lg <%= current_drawer?(admin_account_root_path) %>">
-              <%= link_to admin_account_root_path do %>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart me-4">
-                  <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
-                  <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
-                </svg>
-                Overview
-              <% end %>
+            <li class="text-lg">
+              <a><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart me-4"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>Overview</a>
             </li>
-            <li class="text-lg <%= current_drawer?(admin_admins_path, included: true) %>">
-              <%= link_to admin_admins_path do %>
+            <li class="text-lg">
+              <a>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shield me-4"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                 Manage Admins
-              <% end %>
+              </a>
             </li>
             <li class="text-lg">
               <a>
@@ -83,7 +85,7 @@
                         <%= fa_icon "moon-o 2x", class: "swap-on h-10 w-10 fill-current" %>
                       </label>
                     </div>
-                    <%= link_to 'Sign Out', destroy_admin_account_session_path, method: :delete, data: { turbo_method: :delete }, class: "btn btn-primary" %>
+                    <button class="btn btn-primary">Sign Out</button>
                   </div>
                 </div>
               </div>

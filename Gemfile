@@ -16,6 +16,7 @@ gem 'faker'
 gem "font-awesome-rails"
 gem 'kaminari'
 gem 'ransack'
+gem 'paper_trail'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 7.1.3', '>= 7.1.3.4'

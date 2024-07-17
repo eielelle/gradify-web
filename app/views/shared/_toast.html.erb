@@ -1,0 +1,10 @@
+<% if toast.present? %>
+    <div class="toast animate-slideIn" data-controller="toast" data-toast-target="toast">
+        <div class="alert alert-success">
+            <span><%= toast %></span>
+            <div>
+            <button class="btn btn-bg-primary btn-sm" data-action="click->toast#close">X</button>
+            </div>
+        </div>
+    </div>
+<% end %>
