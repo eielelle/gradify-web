@@ -20,5 +20,12 @@ module SearchableConcern
             @count = @items.total_count
             @sort_fields = get_sort_fields(model_class)
         end
+
+        def query_items_default(model_class, params)
+            @q = model_class.ransack(params[:q])
+            @items = @q.result(distinct: true).page(params[:page]).per(10)
+            @count = model_class.count
+            @sort_fields = get_sort_fields(model_class)
+        end
     end
   end

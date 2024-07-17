@@ -11,10 +11,7 @@ module Admin
 
     def index
       set_default_sort(default_sort_column: "name asc")
-      @q = AdminAccount.ransack(params[:q])
-      @admins = @q.result(distinct: true).page(params[:page]).per(10)
-      @count = params[:q].present? ? @admins.count : AdminAccount.count
-      @sort_fields = get_sort_fields(AdminAccount)
+      query_items_default(AdminAccount, params)
     end
 
     def new
@@ -54,12 +51,6 @@ module Admin
       @items = @q.result(distinct: true).where(item_id: params[:id] || params.dig(:q, :id)).page(params[:page]).per(10)
       @count = @items.count
       @sort_fields = get_sort_fields(PaperTrail::Version)
-
-      # @admin = AdminAccount.find(params[:id])
-      # @q = @admin.versions.ransack(params[:q])
-      # @items = @q.result(distinct: true).page(params[:page]).per(10)
-      # @count = @items.count
-      # @sort_fields = get_sort_fields(PaperTrail::Version)
     end
 
     def snapshot

@@ -37,8 +37,8 @@
         </thead>
         <tbody>
           <!-- row 1 -->
-          <% if @admins.present? %>
-            <% @admins.each do | admin | %>
+          <% if @items.present? %>
+            <% @items.each do | admin | %>
               <tr class="hover">
                 <th>
                   <label>
@@ -93,7 +93,7 @@
       </table>
       <div class="flex justify-between items-center">
         <span><%= @count %> Admins</span>
-        <%= paginate @admins, views_prefix: 'shared' %>
+        <%= paginate @items, views_prefix: 'shared' %>
       </div>
     </div>
 
