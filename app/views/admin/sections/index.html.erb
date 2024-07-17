@@ -15,6 +15,14 @@
         <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
         <div class="drawer-content">
           <!-- Page content here -->
+          <%= render "shared/common_panel", title: "Sections", subtitle: "Manage your sections.", content: "list_section", data: @sections, count: @count do %>
+            <%= render "shared/common_tabs", tabs: {
+                "List": admin_sections_path,
+                "Add": new_admin_section_path,
+                "Export": export_admin_sections_path,
+                "History": history_admin_sections_path
+            }, active_path: admin_sections_path %>
+            <% end %>
           <%= yield %>
           <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">Open drawer</label>
         </div>

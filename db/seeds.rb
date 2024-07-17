@@ -22,3 +22,12 @@ for a in 1..40 do
     admin = AdminAccount.create(name: Faker::JapaneseMedia::StudioGhibli.character, email: Faker::Internet.email, password: 'password')
     admin.permissions << n_permission
 end
+
+# Create 10 sections
+10.times do
+    Section.create!(
+      name: Faker::JapaneseMedia::StudioGhibli.character,
+      description: Faker::JapaneseMedia::StudioGhibli.quote,
+      archived: false
+    )
+  end
