@@ -1,0 +1,35 @@
+<%= form_with(model: @student, url: admin_student_path(@student), method: :patch, local: true) do |form| %>
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
+      <%= form.label :name, class: "label-text" %>
+    </div>
+    <%= form.text_field :name, class: "input input-bordered w-full max-w-xs" %>
+    <div class="label">
+      <span class="label-text-alt text-error"><%= flash[:name_error] %></span>
+    </div>
+  </label>
+
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
+      <%= form.label :permission, class: "label-text" %>
+    </div>
+    <%= form.collection_select :permission_id, @permissions, :id, :name, { selected: @student.permission_id }, { class: "select select-bordered" } %>
+    <div class="label">
+      <span class="label-text-alt text-error"><%= flash[:permission_error] %></span>
+    </div>
+  </label>
+
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
+      <%= form.label :email, class: "label-text" %>
+    </div>
+    <%= form.email_field :email, class: "input input-bordered w-full max-w-xs" %>
+    <div class="label">
+      <span class="label-text-alt text-error"><%= flash[:email_error] %></span>
+    </div>
+  </label>
+
+  <div>
+    <%= form.submit "Update Student", class: "btn btn-primary mt-4" %>
+  </div>
+<% end %>
