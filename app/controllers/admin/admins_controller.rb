@@ -55,11 +55,44 @@ module Admin
 
     def snapshot
       @version = PaperTrail::Version.find(params[:id])
-      @admin = @version.event != :destroy ? @version.item : @version.reify
 
-      if @admin == @version.item
-        flash[:toast] = "Viewing latest snapshot."
+      @admin = if @version.item.nil?
+        if @version.next.nil?
+          @version.reify
+        else
+          @version.next.reify
+        end
+      else
+        @version.item.paper_trail.version_at(@version.created_at)
       end
+
+      # if widget.paper_trail.live? @admin = @versions.last.item
+      
+      # @versions.each do |version|
+      #   if version
+      # end
+
+      puts "LOOK HERE"
+      puts @version.next.inspect
+
+      # puts params[:id]
+      # puts params[:item_id]
+      # puts widget.paper_trail.originator
+      # puts widget.paper_trail.version_at(@version.created_at).inspect
+      # puts @version.reify.inspect
+      # puts PaperTrail.serializer.load(@version.next.object).inspect
+      # puts @version.inspect
+      # puts @version.next.inspect
+      # puts @version.reify.inspect
+      # puts @version.
+      # @x = PaperTrail.serializer.load(@version.object)
+      # puts @x.inspect
+
+      # puts @version.reify.inspect
+
+      # if @admin == @version.item
+      #   flash[:toast] = "Viewing latest snapshot."
+      # end
     end
 
     def history

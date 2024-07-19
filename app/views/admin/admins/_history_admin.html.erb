@@ -1,4 +1,4 @@
-<div role="alert" class="alert alert-info">
+<div role="alert" class="alert alert-info mb-4">
     <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -38,7 +38,6 @@
                 <tbody>
                     <% @items.each do |version| %>
                     <tr class="hover">
-                        
                         <td><%= version.created_at %></td>
                         <td>
                             <%= version.whodunnit %>
@@ -47,7 +46,7 @@
                                 <span class="badge badge-ghost badge-sm">Current</span>
                             <% end %>
                         </td>
-                        <td><%= link_to "#{version.item_type} ID: #{version.id}", admin_admin_version_snapshot_path(version.id), class: "link link-primary" %></td>
+                        <td><%= link_to "#{version.item_type} ID: #{version.id}", admin_admin_version_snapshot_path(id: version.id, item_id: version.item_id), class: "link link-primary" %></td>
                         <td><%= version.event %></td>
                         <td>
                             <% if version.reify.nil? %>
