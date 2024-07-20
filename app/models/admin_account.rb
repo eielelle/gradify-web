@@ -5,7 +5,7 @@ require 'builder'
 
 class AdminAccount < ApplicationRecord
   include Exportable
-  
+
   belongs_to :permission
   has_paper_trail
 
@@ -46,12 +46,14 @@ class AdminAccount < ApplicationRecord
   def self.serial_data(fields)
     all.map do |record|
       admin_data = fields[:admins].index_with { |field| record.send(field) }
-  
+
       permission = record.permission
-      permissions_data = fields[:permissions].index_with do |field|
-        permission.send(field)
-      end if permission
-  
+      if permission
+        permissions_data = fields[:permissions].index_with do |field|
+          permission.send(field)
+        end
+      end
+
       admin_data.merge(permissions: permissions_data)
     end
   end

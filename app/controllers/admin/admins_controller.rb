@@ -11,7 +11,7 @@ module Admin
     include SnapshotConcern
 
     def index
-      set_default_sort(default_sort_column: "name asc")
+      set_default_sort(default_sort_column: 'name asc')
       query_items_default(AdminAccount, params)
     end
 
@@ -40,14 +40,14 @@ module Admin
 
     def destroy
       set_admin
-      if @admin.destroy
-        flash[:toast] = 'Account deleted successfully.'
-        redirect_to admin_admins_path
-      end
+      return unless @admin.destroy
+
+      flash[:toast] = 'Account deleted successfully.'
+      redirect_to admin_admins_path
     end
 
     def versions
-      set_default_sort(default_sort_column: "created_at desc")
+      set_default_sort(default_sort_column: 'created_at desc')
       @q = PaperTrail::Version.ransack(params[:q])
       @items = @q.result(distinct: true).where(item_id: params[:id] || params.dig(:q, :id)).page(params[:page]).per(10)
       @count = @items.count
@@ -68,13 +68,13 @@ module Admin
       if @admin.save(validate: false)
         redirect_to versions_admin_admins_path(id: @version.item_id)
       else
-        flash[:toast] = "Rollback Unsuccessful"
+        flash[:toast] = 'Rollback Unsuccessful'
       end
     end
 
     def history
-      set_default_sort(default_sort_column: "created_at desc")
-      query_items_history(PaperTrail::Version, params, model_name: "AdminAccount")
+      set_default_sort(default_sort_column: 'created_at desc')
+      query_items_history(PaperTrail::Version, params, model_name: 'AdminAccount')
     end
 
     def edit
