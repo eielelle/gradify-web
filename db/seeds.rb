@@ -12,15 +12,29 @@
 
 require 'faker'
 
+# Create Permissions
 s_permission = Permission.create(name: "SuperAdmin", description: "Super Admin")
 n_permission = Permission.create(name: "Admin", description: "Admin")
 
-sudo_admin = AdminAccount.create(name: Faker::JapaneseMedia::StudioGhibli.character, email: Faker::Internet.email, password: 'password')
-sudo_admin.permissions << s_permission
 
-for a in 1..40 do
-    admin = AdminAccount.create(name: Faker::JapaneseMedia::StudioGhibli.character, email: Faker::Internet.email, password: 'password')
-    admin.permissions << n_permission
+PaperTrail.request(whodunnit: '[System Generated]') do
+  # Create a SuperAdmin
+  AdminAccount.create(
+    name: Faker::Name.name,
+    email: "admin@example.com",
+    password: 'password',
+    permission_id: s_permission.id
+  )
+  
+  # Create 40 Admins
+  40.times do
+    admin = AdminAccount.create(
+      name: Faker::Name.name,
+      email: Faker::Internet.email,
+      password: 'password',
+      permission_id: n_permission.id
+    )
+  end
 end
 
 # Create 10 sections
@@ -31,3 +45,12 @@ end
       archived: false
     )
   end
+
+# Create 40 Students
+40.times do
+  StudentAccount.create(
+    name: Faker::Name.name,
+    email: Faker::Internet.email,
+    password: 'password'
+  )
+end

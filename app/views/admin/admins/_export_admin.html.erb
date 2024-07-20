@@ -1,7 +1,7 @@
 <%= form_with(url: send_exports_admin_admins_path, method: :get, local: true, data: {turbo: false}) do |f| %>
   <div class="collapse collapse-arrow bg-base-200 mb-6">
     <input type="radio" name="my-accordion-2" checked="checked" />
-    <div class="collapse-title text-xl font-medium">
+    <div class="collapse-title text-xl font-semibold">
       <h1>Select field to export</h1>
     </div>
 
@@ -10,7 +10,7 @@
         <%= check_box_tag 'select_all', "select_all_fields", checked: true, class: "checkbox checkbox-primary checkbox-sm" %>
         <%= label_tag 'select_all_fields', "Select all", class: "label-text" %>
       </div>
-      <h1>Admin Fields</h1>
+      <h1 class="text-lg mb-4">Admin Fields</h1>
       <div class="flex flex-wrap mb-4">
         <% @admin_fields.each do |option| %>
           <div class="me-6">
@@ -19,7 +19,7 @@
           </div>
         <% end %>
       </div>
-      <h1>Permission Fields</h1>
+      <h1 class="text-lg mb-4">Permission Fields</h1>
       <div class="flex flex-wrap mb-4">
         <% @permission_fields.each do |option| %>
           <div class="me-6">
@@ -33,11 +33,12 @@
 
   <div class="collapse collapse-arrow bg-base-200 mb-6">
     <input type="radio" name="my-accordion-2" />
-    <div class="collapse-title text-xl font-medium">
+    <div class="collapse-title text-xl font-semibold">
       <h1>Options for csv</h1>
     </div>
     <div class="collapse-content">
-      <p>hello</p>
+      <%= check_box_tag "no_header", id: "no_header", checked: true, class: "checkbox checkbox-primary checkbox-md" %>
+      <%= label_tag 'no_header', "No headers", class: "label-text" %>
     </div>
   </div>
 

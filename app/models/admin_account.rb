@@ -6,6 +6,9 @@ require 'builder'
 class AdminAccount < ApplicationRecord
   include Exportable
 
+  belongs_to :permission
+  has_paper_trail
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   # devise :database_authenticatable, :registerable,
@@ -13,16 +16,15 @@ class AdminAccount < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :validatable, :trackable
 
-  has_and_belongs_to_many :permissions
+  validates :name, presence: true
 
   # TODO: Refactor this to a modular approach
-  def self.to_csv(fields, headers: true)
-    CSV.generate(headers:) do |csv|
-      csv << fields[:admins] + fields[:permissions].map { |permission| "permission_#{permission}" }
+  def self.to_csv(fields)
+    headers = fields[:no_header].present?
 
-      all.find_each do |record|
-        csv << csv_row(fields, record)
-      end
+    CSV.generate(headers:) do |csv|
+      add_headers(csv, fields) unless headers
+      add_records(csv, fields)
     end
   end
 
@@ -36,9 +38,7 @@ class AdminAccount < ApplicationRecord
 
   def self.csv_row(fields, record)
     admin_data = fields[:admins].map { |field| record.send(field) }
-    permission_data = record.permissions.flat_map do |permission|
-      fields[:permissions].map { |field| permission.send(field) }
-    end
+    permission_data = fields[:permissions].map { |field| record.permission&.send(field) }
 
     admin_data + permission_data
   end
@@ -47,8 +47,9 @@ class AdminAccount < ApplicationRecord
     all.map do |record|
       admin_data = fields[:admins].index_with { |field| record.send(field) }
 
-      permissions_data = record.permissions.map do |permission|
-        fields[:permissions].index_with do |field|
+      permission = record.permission
+      if permission
+        permissions_data = fields[:permissions].index_with do |field|
           permission.send(field)
         end
       end
@@ -64,5 +65,16 @@ class AdminAccount < ApplicationRecord
   # Allowlist associations for Ransack
   def self.ransackable_associations(_auth_object = nil)
     %w[permissions]
+  end
+
+  def self.add_headers(csv, fields)
+    csv << fields[:admins].map { |admin| "admin_#{admin}" } +
+           fields[:permissions].map { |permission| "permission_#{permission}" }
+  end
+
+  def self.add_records(csv, fields)
+    all.find_each do |record|
+      csv << csv_row(fields, record)
+    end
   end
 end
