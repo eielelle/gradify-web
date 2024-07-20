@@ -31,5 +31,11 @@ Rails.application.routes.draw do
       get 'send_exports', on: :collection
       get 'history', on: :collection
     end
+  
+  resources :sections do
+    get 'export', on: :collection
+    get 'send_exports', on: :collection
+    get 'history', on: :collection
+    end
   end
 end

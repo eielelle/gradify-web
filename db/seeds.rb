@@ -37,6 +37,14 @@ PaperTrail.request(whodunnit: '[System Generated]') do
   end
 end
 
+# Create 10 sections
+10.times do
+    Section.create!(
+      name: Faker::JapaneseMedia::StudioGhibli.character,
+      description: Faker::JapaneseMedia::StudioGhibli.quote,
+      archived: false
+    )
+  end
 
 # Create 40 Students
 40.times do
