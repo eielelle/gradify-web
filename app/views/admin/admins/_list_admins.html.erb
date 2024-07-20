@@ -37,8 +37,8 @@
         </thead>
         <tbody>
           <!-- row 1 -->
-          <% if @admins.present? %>
-            <% @admins.each do | admin | %>
+          <% if @items.present? %>
+            <% @items.each do | admin | %>
               <tr class="hover">
                 <th>
                   <label>
@@ -53,7 +53,9 @@
                 <td>
                   <span><%= admin.email %></span>
                   <br/>
-                  <span class="badge badge-ghost badge-sm">Current</span>
+                  <% if current_admin_account.id == admin.id %>
+                    <span class="badge badge-ghost badge-sm">Current</span>
+                  <% end %>
                 </td>
                 <td>
                   <span><%= admin.permission.name %></span>
@@ -77,10 +79,12 @@
                   <span><%= admin.updated_at %></span>
                 </td>
                 <td class="flex">
-                  <%= link_to edit_admin_admin_path(admin), class: "btn btn-ghost btn-sm", data: { 'turbo-frame': 'modal' } do %>
+                  <%= link_to edit_admin_admin_path(admin), class: "btn btn-ghost btn-sm" do %>
                     <%= fa_icon "pencil lg" %>
                   <% end %>
-                  <button class="btn btn-ghost btn-sm"><%= fa_icon "trash lg" %></button>
+                  <%= button_to admin_admin_path(admin), method: :delete, form: { data: { 'turbo-confirm': 'Are you sure?' } }, class: "btn btn-ghost btn-sm" do %>
+                    <%= fa_icon "trash lg" %>
+                  <% end %>
                 </td>
               </tr>
             <% end %>
@@ -89,7 +93,7 @@
       </table>
       <div class="flex justify-between items-center">
         <span><%= @count %> Admins</span>
-        <%= paginate @admins, views_prefix: 'shared' %>
+        <%= paginate @items, views_prefix: 'shared' %>
       </div>
     </div>
 
