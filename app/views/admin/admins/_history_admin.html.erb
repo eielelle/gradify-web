@@ -49,11 +49,7 @@
                         <td><%= link_to "#{version.item_type} ID: #{version.id}", admin_admin_version_snapshot_path(id: version.id, item_id: version.item_id), class: "link link-primary" %></td>
                         <td><%= version.event %></td>
                         <td>
-                            <% if version.reify.nil? %>
-                                <p>Latest version</p>
-                            <% else %>
-                                <%= link_to 'View Previous Version', versions_admin_admins_path(id: version.item_id), class: "link link-primary" %>
-                            <% end %>
+                            <%= link_to 'View Previous Version', versions_admin_admins_path(id: version.item_id), class: "link link-primary" %>
                         </td>
                     </tr>
                     <% end %>

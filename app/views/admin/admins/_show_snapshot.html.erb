@@ -51,3 +51,7 @@
     <strong>Updated At: </strong>
     <span><%= @admin.updated_at %></span>
 </div>
+
+<footer>
+    <%= link_to "Rollback", admin_admin_rollback_path(@version.id), class: "btn btn-primary" %>
+</footer>
