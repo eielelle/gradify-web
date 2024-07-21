@@ -10,13 +10,19 @@
     <%= javascript_importmap_tags %>
   </head>
   <body>
-    <%= render "shared/confirm" %>
-
     <main>
       <div class="drawer lg:drawer-open">
         <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
         <div class="drawer-content">
           <!-- Page content here -->
+          <%= render "shared/common_panel", title: "Sections", subtitle: "Manage your sections.", content: "list_section", data: @sections, count: @count do %>
+            <%= render "shared/common_tabs", tabs: {
+                "List": admin_sections_path,
+                "Add": new_admin_section_path,
+                "Export": export_admin_sections_path,
+                "History": history_admin_sections_path
+            }, active_path: admin_sections_path %>
+            <% end %>
           <%= yield %>
           <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">Open drawer</label>
         </div>
@@ -28,20 +34,14 @@
               <%= image_tag 'GF.png', class: 'w-16 h-16 rounded-lg mr-4' %>
               <span class="ml-4 text-4xl font-bold">Gradify</span>
             </div>
-            <li class="text-lg <%= current_drawer?(admin_account_root_path) %>">
-              <%= link_to admin_account_root_path do %>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart me-4">
-                  <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
-                  <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
-                </svg>
-                Overview
-              <% end %>
+            <li class="text-lg">
+              <a><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart me-4"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>Overview</a>
             </li>
-            <li class="text-lg <%= current_drawer?(admin_admins_path, included: true) %>">
-              <%= link_to admin_admins_path do %>
+            <li class="text-lg">
+              <a>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shield me-4"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                 Manage Admins
-              <% end %>
+              </a>
             </li>
             <li class="text-lg">
               <a>
@@ -67,25 +67,16 @@
                 Activity Log
               </a>
             </li>
-            <div class="flex-1 flex flex-col justify-end">
+            <div class="flex-1 flex flex-col justify-end px-4 pt-4">
               <div class="card bg-base-100 shadow-xl">
                 <div class="card-body p-4">
-                  <h2 class="card-title mb-2">Lucy Lane</h2>
+                  <h2 class="card-title">Lucy Lane</h2>
                   <div class="card-actions justify-between items-center">
-                    <div class="flex justify-between items-center">
-                      <%= fa_icon "cog 2x", class: "h-10 w-10" %>
-                      <label class="swap swap-rotate">
-                        <!-- this hidden checkbox controls the state -->
-                        <input type="checkbox" class="theme-controller" value="light" />
-
-                        <!-- sun icon -->
-                        <%= fa_icon "sun-o 2x", class: "swap-off h-10 w-10 fill-current" %>
-
-                        <!-- moon icon -->
-                        <%= fa_icon "moon-o 2x", class: "swap-on h-10 w-10 fill-current" %>
-                      </label>
+                    <div class="flex">
+                      <span class="me-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></span>
+                      <span class="me-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
                     </div>
-                    <%= link_to 'Sign Out', destroy_admin_account_session_path, method: :delete, data: { turbo_method: :delete }, class: "btn btn-primary" %>
+                    <button class="btn btn-sm btn-primary">Sign Out</button>
                   </div>
                 </div>
               </div>
