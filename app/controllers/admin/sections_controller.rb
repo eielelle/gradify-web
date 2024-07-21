@@ -3,17 +3,12 @@
 module Admin
   class SectionsController < Admin::LayoutController
     before_action :set_section, only: %i[show edit update destroy archive]
+    before_action :set_search, only: %i[index new create edit update]  
+    include ExportableFormatConcern
     def index
       # Your index method code here
-      @q = Section.ransack(params[:q])
       @sections = @q.result(distinct: true).page(params[:page]).per(10)
       @count = params[:q].present? ? @sections.count : Section.count
-      @sort_fields = {
-        'Name': 'name asc',
-        'Description': 'description asc',
-        'Created At': 'created_at asc',
-        'Updated At': 'updated_at asc'
-      }
     end
 
     def show
@@ -23,10 +18,11 @@ module Admin
     def new
       # Your new method code here
       @section = Section.new
+      @q = Section.ransack(params[:q])
     end
 
     def edit
-      # Your edit method code here
+      set_section
     end
 
     def create
@@ -41,9 +37,14 @@ module Admin
     end
 
     def update
-      # Your export method code here
-      if @section.update(section_params)
-        redirect_to admin_sections_path, notice: 'Section was successfully updated.'
+      set_section
+
+      flash[:notice] = 'Section not found.' if @section.nil?
+
+      if @section.update(update_section_params[:section])
+        flash[:toast] = 'Updated Successfully.'
+        redirect_to admin_sections_path
+        return
       else
         render :edit
       end
@@ -61,6 +62,14 @@ module Admin
       redirect_to admin_sections_path, notice: 'Section was successfully archived.'
     end
 
+    def export
+       @section_fields = Section.get_export_fields
+    end
+
+    def send_exports
+      send_format params
+    end
+
     private
 
     def set_section
@@ -69,6 +78,31 @@ module Admin
 
     def section_params
       params.permit(:name, :description, :archived)
+    end
+
+    def update_section_params
+      params.permit(:name, :description, :archived)
+    end
+
+    def set_search
+      @q = Section.ransack(params[:q])
+      @sort_fields = {
+        'Name': 'name asc',
+        'Description': 'description asc',
+        'Created At': 'created_at asc',
+        'Updated At': 'updated_at asc'
+      }
+    end
+
+    def send_format(params)
+      sections = params[:selected_sections].to_a || []
+      no_header = params[:no_header]
+      date = formatted_date
+      format, method = detect_format_and_method(params)
+
+      return unless format && method
+
+      send_data Section.send(method, { sections:, no_header: }), filename: "#{date}.#{format}"
     end
   end
 end

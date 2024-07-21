@@ -25,13 +25,14 @@
             </th>
             <th>Section</th>
             <th>Description</th>
+            <th>Archived</th>
             <th>Created At</th>
             <th>Updated At</th>
 
           </tr>
         </thead>
         <tbody>
-          <!-- row 1 -->git 
+          <!-- row 1 -->
           <% if @sections.present? %>
             <% @sections.each do | section | %>
               <tr class="hover">
@@ -47,6 +48,9 @@
                 </td>
                 <td>
                   <span><%= section.description %></span>
+                </td>
+                <td>
+                  <span><%= section.archived %></span>
                 </td>
                 <td>
                   <span><%= section.created_at %></span>
