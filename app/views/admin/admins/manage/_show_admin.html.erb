@@ -25,11 +25,11 @@
 </div>
 <div>
     <strong>Current Sign In At: </strong>
-    <span><%= @admin.current_sign_in_at %></span>
+    <span><%= format_date @admin.current_sign_in_at %></span>
 </div>
 <div>
     <strong>Last Sign In At: </strong>
-    <span><%= @admin.last_sign_in_at %></span>
+    <span><%= format_date @admin.last_sign_in_at %></span>
 </div>
 <div>
     <strong>Current IP: </strong>
@@ -41,9 +41,9 @@
 
 <div>
     <strong>Created At: </strong>
-    <span><%= @admin.created_at %></span>
+    <span><%= format_date @admin.created_at %></span>
 </div>
 <div>
     <strong>Updated At: </strong>
-    <span><%= @admin.updated_at %></span>
+    <span><%= format_date @admin.updated_at %></span>
 </div>
