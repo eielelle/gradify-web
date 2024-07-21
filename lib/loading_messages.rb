@@ -1,0 +1,40 @@
+module LoadingMessages
+    def self.get
+      [
+        "Grinding beans and dreams...",
+        "Adding extra caffeine for speed...",
+        "This is your life now, huh.",
+        "Goddamn... how much data do you want?",
+        "Avoiding decaf disasters...",
+        "There goes your lifespan...",
+        "Debugging the 'feature' your teammate proudly created...",
+        "Frothing milk and ego...",
+        "Stirring up some code and coffee...",
+        "So... are you single?",
+        "Counting coffee beans and bugs...",
+        "Brewing code and coffee...",
+        "Get your s— together!",
+        "Tampering with the tamper...",
+        "Finding the perfect blend of code...",
+        "H-Help me! I'm aliiiveee....",
+        "Grinding out bugs like coffee beans...",
+        "Finding Nemo...",
+        "Please wait.... Downloading 'mb3-915-malware-setup.exe'...",
+        "Please wait.... Removing 'system32'...",
+        "Unable to seed. Please check your internet connection.",
+        "You are number 2843684714 in the queue",
+        "Fixing the code your teammate said was perfect...",
+        "Roasting bugs like beans...",
+        "Just kill me already...",
+        "Pouring another cup of code...",
+        "Bean there, done that...",
+        "Sipping and scripting...",
+        "Stirring in some semicolons...",
+        "Frothing up some functions...",
+        "Tamping down the errors...",
+        "Brewing up some logic...",
+        "Steaming through the loops...",
+        "Sipping success, one line at a time..."
+    ].sample
+    end
+  end

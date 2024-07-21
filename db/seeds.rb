@@ -11,11 +11,16 @@
 #   end
 
 require 'faker'
+require_relative '../lib/loading_messages'
+
+Whirly.start
+Whirly.status = "Warming up...."
 
 # Create Permissions
 s_permission = Permission.create(name: "SuperAdmin", description: "Super Admin")
 n_permission = Permission.create(name: "Admin", description: "Admin")
 
+Whirly.status = LoadingMessages.get
 
 PaperTrail.request(whodunnit: '[System Generated]') do
   # Create a SuperAdmin
@@ -25,6 +30,8 @@ PaperTrail.request(whodunnit: '[System Generated]') do
     password: 'password',
     permission_id: s_permission.id
   )
+
+  Whirly.status = LoadingMessages.get
   
   # Create 40 Admins
   40.times do
@@ -35,6 +42,7 @@ PaperTrail.request(whodunnit: '[System Generated]') do
       permission_id: n_permission.id
     )
   end
+  Whirly.status = LoadingMessages.get
 end
 
 # Create 10 sections
@@ -45,6 +53,7 @@ end
       archived: false
     )
   end
+  Whirly.status = LoadingMessages.get
 
 # Create 40 Students
 40.times do
@@ -54,3 +63,7 @@ end
     password: 'password'
   )
 end
+
+Whirly.stop
+
+puts "Done. Now code."
