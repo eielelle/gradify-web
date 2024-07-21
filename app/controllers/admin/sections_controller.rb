@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 module Admin
-  class SectionsController < ApplicationController
+  class SectionsController < Admin::LayoutController
     before_action :set_section, only: %i[show edit update destroy archive]
     def index
       # Your index method code here
       @q = Section.ransack(params[:q])
-      @sections = @q.result(distinct: true).page(params[:page])
-      @count = @sections.total_count
+      @sections = @q.result(distinct: true).page(params[:page]).per(10)
+      @count = params[:q].present? ? @sections.count : Section.count
       @sort_fields = {
         'Name': 'name asc',
         'Description': 'description asc',
@@ -36,7 +36,7 @@ module Admin
       if @section.save
         redirect_to admin_sections_path, notice: 'Section was successfully created.'
       else
-        render :new
+        redirect_to new_section_admin_path, notice: 'Failed to create section.'
       end
     end
 
@@ -68,7 +68,7 @@ module Admin
     end
 
     def section_params
-      params.require(:section).permit(:name, :description)
+      params.permit(:name, :description, :archived)
     end
   end
 end
