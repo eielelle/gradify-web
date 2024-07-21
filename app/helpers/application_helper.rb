@@ -14,8 +14,8 @@ module ApplicationHelper
   end
 
   def format_date(date)
-    return nil unless date.present?
-    
-    date.strftime("%B %d, %Y at %I:%M %p")
+    return nil if date.blank?
+
+    date.strftime('%B %d, %Y at %I:%M %p')
   end
 end
