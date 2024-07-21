@@ -12,4 +12,10 @@ module ApplicationHelper
       'bg-primary text-white rounded-lg'
     end
   end
+
+  def format_date(date)
+    return nil unless date.present?
+    
+    date.strftime("%B %d, %Y at %I:%M %p")
+  end
 end

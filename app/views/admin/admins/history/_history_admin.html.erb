@@ -38,7 +38,7 @@
                 <tbody>
                     <% @items.each do |version| %>
                     <tr class="hover">
-                        <td><%= version.created_at %></td>
+                        <td><%= format_date version.created_at %></td>
                         <td>
                             <%= version.whodunnit %>
                             <br>
