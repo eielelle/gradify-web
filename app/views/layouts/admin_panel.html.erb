@@ -37,8 +37,8 @@
                 Overview
               <% end %>
             </li>
-            <li class="text-lg <%= current_drawer?(admin_admins_path, included: true) %>">
-              <%= link_to admin_admins_path do %>
+            <li class="text-lg <%= current_drawer?("/admin/admins", included: true) %>">
+              <%= link_to admin_admins_manage_index_path do %>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shield me-4"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                 Manage Admins
               <% end %>

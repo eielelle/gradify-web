@@ -17,25 +17,26 @@ Rails.application.routes.draw do
 
   # get "/admin/dashboard", to: "admin_panel#index"
   namespace :admin do
-    get 'admins/snapshot/:id', to: 'admins#snapshot', as: 'admin_version_snapshot'
-    get 'admins/rollback/:id', to: 'admins#rollback', as: 'admin_rollback'
-
-    resources :admins do
-      get 'versions', on: :collection
-      get 'export', on: :collection
-      get 'send_exports', on: :collection
-      get 'history', on: :collection
+    namespace :admins do
+      resources :manage, as: 'manage'
+      get 'export', to: 'export#index', as: 'export'
+      get 'send_exports', to: 'export#download', as: 'download'
+      get 'history', to: 'history#index', as: 'history'
+      get 'versions', to: 'history#versions', as: 'versions'
+      get 'snapshot/:id', to: 'history#snapshot', as: 'snapshot'
+      get 'rollback/:id', to: 'history#rollback', as: 'rollback'
     end
+
     resources :students do
       get 'export', on: :collection
       get 'send_exports', on: :collection
       get 'history', on: :collection
     end
   
-  resources :sections do
-    get 'export', on: :collection
-    get 'send_exports', on: :collection
-    get 'history', on: :collection
+    resources :sections do
+      get 'export', on: :collection
+      get 'send_exports', on: :collection
+      get 'history', on: :collection
     end
   end
 end
