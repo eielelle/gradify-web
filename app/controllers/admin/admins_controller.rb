@@ -6,12 +6,13 @@ module Admin
   class AdminsController < Admin::LayoutController
     include ExportableFormatConcern
     include SortConcern
+    include PaperTrailConcern
+    include SearchableConcern
+    include SnapshotConcern
 
     def index
-      @q = AdminAccount.ransack(params[:q])
-      @admins = @q.result(distinct: true).page(params[:page]).per(10)
-      @count = params[:q].present? ? @admins.count : AdminAccount.count
-      @sort_fields = get_sort_fields(AdminAccount)
+      set_default_sort(default_sort_column: 'name asc')
+      query_items_default(AdminAccount, params)
     end
 
     def new
@@ -31,6 +32,49 @@ module Admin
         handle_errors(admin)
         redirect_to new_admin_admin_path
       end
+    end
+
+    def show
+      set_admin
+    end
+
+    def destroy
+      set_admin
+      return unless @admin.destroy
+
+      flash[:toast] = 'Account deleted successfully.'
+      redirect_to admin_admins_path
+    end
+
+    def versions
+      set_default_sort(default_sort_column: 'created_at desc')
+      @q = PaperTrail::Version.ransack(params[:q])
+      @items = @q.result(distinct: true).where(item_id: params[:id] || params.dig(:q, :id)).page(params[:page]).per(10)
+      @count = @items.count
+      @sort_fields = get_sort_fields(PaperTrail::Version)
+    end
+
+    def snapshot
+      @version = PaperTrail::Version.find(params[:id])
+
+      @admin = get_snapshot(@version)
+    end
+
+    def rollback
+      @version = PaperTrail::Version.find(params[:id])
+
+      @admin = get_snapshot(@version)
+
+      if @admin.save(validate: false)
+        redirect_to versions_admin_admins_path(id: @version.item_id)
+      else
+        flash[:toast] = 'Rollback Unsuccessful'
+      end
+    end
+
+    def history
+      set_default_sort(default_sort_column: 'created_at desc')
+      query_items_history(PaperTrail::Version, params, model_name: 'AdminAccount')
     end
 
     def edit
@@ -67,10 +111,6 @@ module Admin
     def set_admin
       @admin = AdminAccount.includes(:permission).find(params[:id])
       @permissions = Permission.all
-    end
-
-    def default_sort_column
-      'name asc'
     end
 
     def send_format(params)

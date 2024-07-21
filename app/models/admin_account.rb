@@ -7,6 +7,7 @@ class AdminAccount < ApplicationRecord
   include Exportable
 
   belongs_to :permission
+  has_paper_trail
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -46,8 +47,9 @@ class AdminAccount < ApplicationRecord
     all.map do |record|
       admin_data = fields[:admins].index_with { |field| record.send(field) }
 
-      permissions_data = record.permissions.map do |permission|
-        fields[:permissions].index_with do |field|
+      permission = record.permission
+      if permission
+        permissions_data = fields[:permissions].index_with do |field|
           permission.send(field)
         end
       end
