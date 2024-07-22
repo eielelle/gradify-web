@@ -8,7 +8,7 @@
       <% end %>
     <div class="join">
       <button class="btn btn-secondary join-item">Remove Selected</button>    
-      <%= link_to "Export", "", class: "btn btn-primary join-item" %>
+      <%= link_to "Export", admin_admins_export_path, class: "btn btn-primary join-item" %>
     </div>
   </header>
 
@@ -79,6 +79,9 @@
                   <span><%= format_date admin.updated_at %></span>
                 </td>
                 <td class="flex">
+                  <%= link_to admin_admins_manage_path(admin), class: "btn btn-ghost btn-sm" do %>
+                    <%= fa_icon "eye lg" %>
+                  <% end %>
                   <%= link_to edit_admin_admins_manage_path(admin), class: "btn btn-ghost btn-sm" do %>
                     <%= fa_icon "pencil lg" %>
                   <% end %>
