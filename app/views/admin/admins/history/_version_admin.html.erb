@@ -1,11 +1,11 @@
 <div id="versions">
     <header class="flex justify-between items-center mb-6">
-      <%= search_form_for @q, url: versions_admin_admins_path, method: :get, html: { class: "join" } do |f| %>
+      <%= search_form_for @q, url: admin_admins_versions_path, method: :get, html: { class: "join" } do |f| %>
         <%= f.hidden_field :id, value: params[:id] || params.dig(:q, :id) %>
           <%= f.search_field :event_or_whodunnit_cont, placeholder: "Search", class: "input input-bordered w-96 join-item", id: "search_input" %>
           <%= f.select :s, options_for_select(@sort_fields, selected: params.dig(:q, :s)), {}, { class: "select select-bordered join-item", onchange: 'this.form.submit();' } %>
           <button type="submit" class="btn btn-primary join-item">Search</button>
-          <%= link_to "Reset", versions_admin_admins_path(id: params[:id] || params.dig(:q, :id)), class: "btn btn-secondary join-item" %>
+          <%= link_to "Reset", admin_admins_versions_path(id: params[:id] || params.dig(:q, :id)), class: "btn btn-secondary join-item" %>
       <% end %>
     </header>
 
@@ -25,7 +25,7 @@
                     <% @items.each_with_index do |version, index| %>
                     <tr class="hover">
                         
-                        <td><%= version.created_at %></td>
+                        <td><%= format_date version.created_at %></td>
                         <td>
                             <%= version.whodunnit %>
                             <br>
@@ -33,7 +33,7 @@
                                 <span class="badge badge-ghost badge-sm">Current</span>
                             <% end %>
                         </td>
-                        <td><%= link_to "#{version.item_type} ID: #{version.id}", admin_admin_version_snapshot_path(id: version.id, item_id: version.item_id), class: "link link-primary" %></td>
+                        <td><%= link_to "#{version.item_type} ID: #{version.id}", admin_admins_snapshot_path(id: version.id), class: "link link-primary" %></td>
                         <td><%= version.event %></td>
                         <td>
                             <% if version.next && !version.previous.nil? %>
