@@ -15,6 +15,7 @@ class Admin::Admins::PasswordController < Admin::LayoutController
                 redirect_to admin_admins_manage_index_path
             else
                 handle_errors(admin)
+                redirect_to edit_admin_admins_password_path
             end
         else
             flash[:current_password_error] = "Password is incorrect"

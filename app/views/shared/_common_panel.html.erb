@@ -1,8 +1,9 @@
 <% show_border = true if show_border.nil? %>
+<% url_path = nil if url_path.nil? %>
 
 <section class="p-6">
   <h1 class="text-3xl font-bold"><%= title %></h1>
   <p class="mb-6"><%= subtitle %></p>
   <%= yield %>
-  <div class="<%= border_class(show_border) %> bg-base-100 border-base-300 rounded-b-lg p-6"><%= render "#{content}" %></div>
+  <div class="<%= border_class(show_border) %> bg-base-100 border-base-300 rounded-b-lg p-6"><%= render "#{content}", url_path: url_path %></div>
 </section>
