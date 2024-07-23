@@ -1,14 +1,13 @@
 <div id="list_admins">
   <header class="flex justify-between items-center mb-6">
-      <%= search_form_for @q, url: admin_admins_path, method: :get, html: { class: "join" } do |f| %>
+      <%= search_form_for @q, url: admin_admins_manage_index_path, method: :get, html: { class: "join" } do |f| %>
           <%= f.search_field :name_or_email_cont, placeholder: "Search", class: "input input-bordered w-96 join-item", id: "search_input" %>
           <%= f.select :s, options_for_select(@sort_fields, selected: params.dig(:q, :s)), {}, { class: "select select-bordered join-item", onchange: 'this.form.submit();' } %>
           <button type="submit" class="btn btn-primary join-item">Search</button>
-          <%= link_to "Reset", admin_admins_path, class: "btn btn-secondary join-item" %>
+          <%= link_to "Reset", admin_admins_manage_index_path, class: "btn btn-secondary join-item" %>
       <% end %>
     <div class="join">
-      <button class="btn btn-secondary join-item">Remove Selected</button>    
-      <%= link_to "Export", export_admin_admins_path, class: "btn btn-primary join-item" %>
+      <%= link_to "Export", admin_admins_export_path, class: "btn btn-primary join-item" %>
     </div>
   </header>
 
@@ -18,11 +17,6 @@
         <!-- head -->
         <thead>
           <tr>
-            <th>
-              <label>
-                <input type="checkbox" class="checkbox" />
-              </label>
-            </th>
             <th>Name</th>
             <th>Email</th>
             <th>Permission</th>
@@ -40,11 +34,6 @@
           <% if @items.present? %>
             <% @items.each do | admin | %>
               <tr class="hover">
-                <th>
-                  <label>
-                    <input type="checkbox" class="checkbox" />
-                  </label>
-                </th>
                 <td>
                   <div class="flex items-center gap-3">
                     <span><%= admin.name %></span>
@@ -64,25 +53,31 @@
                   <span><%= admin.sign_in_count %></span>
                 </td>
                 <td>
-                  <span><%= admin.current_sign_in_at %></span>
+                  <span><%= format_date admin.current_sign_in_at %></span>
                 </td>
                 <td>
-                  <span><%= admin.last_sign_in_at %></span>
+                  <span><%= format_date admin.last_sign_in_at %></span>
                 </td>
                 <td>
                   <span><%= admin.current_sign_in_ip %></span>
                 </td>
                 <td>
-                  <span><%= admin.created_at %></span>
+                  <span><%= format_date admin.created_at %></span>
                 </td>
                 <td>
-                  <span><%= admin.updated_at %></span>
+                  <span><%= format_date admin.updated_at %></span>
                 </td>
                 <td class="flex">
-                  <%= link_to edit_admin_admin_path(admin), class: "btn btn-ghost btn-sm" do %>
+                  <%= link_to admin_admins_manage_path(admin), class: "btn btn-ghost btn-sm" do %>
+                    <%= fa_icon "eye lg" %>
+                  <% end %>
+                  <%= link_to edit_admin_admins_manage_path(admin), class: "btn btn-ghost btn-sm" do %>
                     <%= fa_icon "pencil lg" %>
                   <% end %>
-                  <%= button_to admin_admin_path(admin), method: :delete, form: { data: { 'turbo-confirm': 'Are you sure?' } }, class: "btn btn-ghost btn-sm" do %>
+                  <%= link_to edit_admin_admins_password_path(admin), class: "btn btn-ghost btn-sm" do %>
+                    <%= fa_icon "key lg" %>
+                  <% end %>
+                  <%= button_to admin_admins_manage_path(admin), method: :delete, form: { data: { 'turbo-confirm': 'Are you sure?' } }, class: "btn btn-ghost btn-sm" do %>
                     <%= fa_icon "trash lg" %>
                   <% end %>
                 </td>

@@ -15,11 +15,11 @@
 
 <div id="history">
     <header class="flex justify-between items-center mb-6">
-      <%= search_form_for @q, url: history_admin_admins_path, method: :get, html: { class: "join" } do |f| %>
+      <%= search_form_for @q, url: admin_admins_history_path, method: :get, html: { class: "join" } do |f| %>
           <%= f.search_field :item_type_or_event_or_whodunnit_cont, placeholder: "Search", class: "input input-bordered w-96 join-item", id: "search_input" %>
           <%= f.select :s, options_for_select(@sort_fields, selected: params.dig(:q, :s)), {}, { class: "select select-bordered join-item", onchange: 'this.form.submit();' } %>
           <button type="submit" class="btn btn-primary join-item">Search</button>
-          <%= link_to "Reset", history_admin_admins_path, class: "btn btn-secondary join-item" %>
+          <%= link_to "Reset", admin_admins_history_path, class: "btn btn-secondary join-item" %>
       <% end %>
     </header>
 
@@ -38,7 +38,7 @@
                 <tbody>
                     <% @items.each do |version| %>
                     <tr class="hover">
-                        <td><%= version.created_at %></td>
+                        <td><%= format_date version.created_at %></td>
                         <td>
                             <%= version.whodunnit %>
                             <br>
@@ -46,10 +46,10 @@
                                 <span class="badge badge-ghost badge-sm">Current</span>
                             <% end %>
                         </td>
-                        <td><%= link_to "#{version.item_type} ID: #{version.id}", admin_admin_version_snapshot_path(id: version.id, item_id: version.item_id), class: "link link-primary" %></td>
+                        <td><%= link_to "#{version.item_type} ID: #{version.id}", admin_admins_snapshot_path(id: version.id), class: "link link-primary" %></td>
                         <td><%= version.event %></td>
                         <td>
-                            <%= link_to 'View Previous Version', versions_admin_admins_path(id: version.item_id), class: "link link-primary" %>
+                            <%= link_to 'View Previous Version', admin_admins_versions_path(id: version.item_id), class: "link link-primary" %>
                         </td>
                     </tr>
                     <% end %>
