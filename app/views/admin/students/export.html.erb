@@ -1,0 +1,8 @@
+<%= render "shared/common_panel", title: "Export Students", subtitle: "Export student data.", content: "export_student" do %>
+  <%= render "shared/common_tabs", tabs: {
+    "List": admin_students_path,
+    "Add": new_admin_student_path,
+    "Export": export_admin_students_path,
+    "History": history_admin_students_path
+  }, active_path: export_admin_students_path %>
+<% end %>

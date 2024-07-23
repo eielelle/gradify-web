@@ -1,0 +1,35 @@
+<%= form_with(local: true, url: admin_students_path) do |form| %>
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
+      <%= form.label :name, class: "label-text" %>
+    </div>
+    <%= form.text_field :name, class: "input input-bordered w-full max-w-xs", name: "student_account[name]" %>
+    <div class="label">
+      <span class="label-text-alt text-error"><%= flash[:name_error] %></span>
+    </div>
+  </label>
+  
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
+      <%= form.label :email, class: "label-text" %>
+    </div>
+    <%= form.email_field :email, class: "input input-bordered w-full max-w-xs", name: "student_account[email]" %>
+    <div class="label">
+      <span class="label-text-alt text-error"><%= flash[:email_error] %></span>
+    </div>
+  </label>
+
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
+      <%= form.label :password, class: "label-text" %>
+    </div>
+    <%= form.password_field :password, class: "input input-bordered w-full max-w-xs", name: "student_account[password]" %>
+    <div class="label">
+      <span class="label-text-alt text-error"><%= flash[:password_error] %></span>
+    </div>
+  </label>
+
+  <div>
+    <%= form.submit "Add Student", class: "btn btn-primary mt-4" %>
+  </div>
+<% end %>

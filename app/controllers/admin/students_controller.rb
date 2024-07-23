@@ -1,44 +1,49 @@
 # frozen_string_literal: true
 
 module Admin
-  class StudentsController < ApplicationController
+  class StudentsController < Admin::LayoutController
     before_action :set_student, only: %i[show edit update destroy]
+    before_action :set_search, only: %i[index new create edit update]
+    include ExportableFormatConcern
 
     def index
-      @q = StudentAccount.ransack(params[:q])
       @students = @q.result(distinct: true).page(params[:page])
       @count = @students.total_count
-      @sort_fields = {
-        'Name': 'name asc',
-        'Email': 'email asc',
-        'Created At': 'created_at asc',
-        'Updated At': 'updated_at asc'
-      }
     end
 
     def show; end
 
     def new
-      @student = StudentAccount.new
+      @student_account = StudentAccount.new
+      @q = StudentAccount.ransack(params[:q])
     end
 
-    def edit; end
+    def edit
+      set_student
+    end
 
     def create
-      @student = StudentAccount.new(student_params)
-
-      if @student.save
-        redirect_to admin_students_path, notice: 'Student was successfully created.'
+      @student_account = StudentAccount.new(student_params)
+      if @student_account.save
+        redirect_to admin_students_path, notice: 'Student account created successfully.'
       else
+        errors_student_name(@student_account)
+        errors_student_email(@student_account)
+        errors_student_password(@student_account)
         render :new
       end
     end
 
     def update
-      if @student.update(student_params)
-        redirect_to admin_students_path, notice: 'Student was successfully updated.'
+      set_student
+
+      return student_not_found if @student.nil?
+
+      if @student.update(update_student_params[:student_account])
+        flash[:toast] = 'Updated Successfully.'
+        redirect_to admin_students_path
       else
-        render :edit
+        handle_update_errors
       end
     end
 
@@ -47,14 +52,59 @@ module Admin
       redirect_to admin_students_path, notice: 'Student was successfully destroyed.'
     end
 
+    def export
+      @student_fields = StudentAccount.get_export_fields(%i[encrypted_password reset_password_token])
+    end
+
+    def send_exports
+      send_format params
+    end
+
     private
 
     def set_student
-      @student = StudentAccount.find(params[:id])
+      @student = StudentAccount.includes(:permission).find(params[:id])
     end
 
     def student_params
       params.require(:student_account).permit(:name, :email, :password, :password_confirmation)
+    end
+
+    def update_student_params
+      params.permit(:id, student_account: %i[name email])
+    end
+
+    def set_search
+      @q = StudentAccount.ransack(params[:q])
+      @sort_fields = {
+        'Name': 'name asc',
+        'Email': 'email asc',
+        'Created At': 'created_at asc',
+        'Updated At': 'updated_at asc'
+      }
+    end
+
+    def student_not_found
+      flash[:notice] = 'Account not found.'
+      redirect_to admin_students_path
+    end
+
+    def handle_update_errors
+      errors_student_name(@student_account)
+      errors_student_email(@student_account)
+      errors_student_password(@student_account)
+      render :edit, status: :unprocessable_entity
+    end
+
+    def send_format(params)
+      students = params[:selected_students].to_a || []
+      no_header = params[:no_header]
+      date = formatted_date
+      format, method = detect_format_and_method(params)
+
+      return unless format && method
+
+      send_data StudentAccount.send(method, { students:, no_header: }), filename: "#{date}.#{format}"
     end
   end
 end
