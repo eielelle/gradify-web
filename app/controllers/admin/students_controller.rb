@@ -5,6 +5,8 @@ module Admin
     before_action :set_student, only: %i[show edit update destroy]
     before_action :set_search, only: %i[index new create edit update]
     include ExportableFormatConcern
+    include SearchableConcern
+    include SnapshotConcern
 
     def index
       @students = @q.result(distinct: true).page(params[:page])
@@ -52,6 +54,7 @@ module Admin
       redirect_to admin_students_path, notice: 'Student was successfully destroyed.'
     end
 
+    #Export
     def export
       @student_fields = StudentAccount.get_export_fields(%i[encrypted_password reset_password_token])
     end
@@ -60,10 +63,41 @@ module Admin
       send_format params
     end
 
+    #History
+    def history
+      @q = PaperTrail::Version.ransack(params[:q])
+      @items = @q.result(distinct: true).where(item_type: 'StudentAccount').page(params[:page]).per(10)
+      @count = @items.count
+      @sort_fields = get_sort_fields(PaperTrail::Version)
+    end
+
+    def versions
+      @q = PaperTrail::Version.ransack(params[:q])
+      @items = @q.result(distinct: true).where(item_id: params[:id] || params.dig(:q, :id)).page(params[:page]).per(10)
+      @count = @items.count
+      @sort_fields = get_sort_fields(PaperTrail::Version)
+    end
+
+    def snapshot
+      @version = PaperTrail::Version.find(params[:id])
+      @student = get_snapshot(@version)
+    end
+
+    def rollback
+      @version = PaperTrail::Version.find(params[:id])
+      @student = get_snapshot(@version)
+
+      if @student.save(validate: false)
+        redirect_to admin_students_versions_path(id: @version.item_id)
+      else
+        flash[:toast] = 'Rollback Unsuccessful'
+      end
+    end
+
     private
 
     def set_student
-      @student = StudentAccount.includes(:permission).find(params[:id])
+      @student = StudentAccount.find(params[:id])
     end
 
     def student_params
