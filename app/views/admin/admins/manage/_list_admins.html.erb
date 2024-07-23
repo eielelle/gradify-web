@@ -7,7 +7,6 @@
           <%= link_to "Reset", admin_admins_manage_index_path, class: "btn btn-secondary join-item" %>
       <% end %>
     <div class="join">
-      <button class="btn btn-secondary join-item">Remove Selected</button>    
       <%= link_to "Export", admin_admins_export_path, class: "btn btn-primary join-item" %>
     </div>
   </header>
@@ -18,11 +17,6 @@
         <!-- head -->
         <thead>
           <tr>
-            <th>
-              <label>
-                <input type="checkbox" class="checkbox" />
-              </label>
-            </th>
             <th>Name</th>
             <th>Email</th>
             <th>Permission</th>
@@ -40,11 +34,6 @@
           <% if @items.present? %>
             <% @items.each do | admin | %>
               <tr class="hover">
-                <th>
-                  <label>
-                    <input type="checkbox" class="checkbox" />
-                  </label>
-                </th>
                 <td>
                   <div class="flex items-center gap-3">
                     <span><%= admin.name %></span>
@@ -84,6 +73,9 @@
                   <% end %>
                   <%= link_to edit_admin_admins_manage_path(admin), class: "btn btn-ghost btn-sm" do %>
                     <%= fa_icon "pencil lg" %>
+                  <% end %>
+                  <%= link_to edit_admin_admins_password_path(admin), class: "btn btn-ghost btn-sm" do %>
+                    <%= fa_icon "key lg" %>
                   <% end %>
                   <%= button_to admin_admins_manage_path(admin), method: :delete, form: { data: { 'turbo-confirm': 'Are you sure?' } }, class: "btn btn-ghost btn-sm" do %>
                     <%= fa_icon "trash lg" %>
