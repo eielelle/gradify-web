@@ -7,7 +7,7 @@ class AdminAccount < ApplicationRecord
   include Exportable
 
   belongs_to :permission
-  has_paper_trail skip: [:encrypted_password, :reset_password_token, :reset_password_sent_at]
+  has_paper_trail skip: %i[encrypted_password reset_password_token reset_password_sent_at]
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
