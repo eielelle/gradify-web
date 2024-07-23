@@ -4,13 +4,10 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    if user.permission.name == "SuperAdmin"
-      can :manage, :all
-    end
+    can :manage, :all if user.permission.name == 'SuperAdmin'
 
-    if user.permission.name == "Admin"
-      # can :manage
-    end
+    nil unless user.permission.name == 'Admin'
+    # can :manage
 
     # Define abilities for the user here. For example:
     #

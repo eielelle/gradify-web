@@ -10,11 +10,11 @@ module Admin
 
     # in ApplicationController
     def current_ability
-      if current_admin_account.present?
-        @current_ability ||= Ability.new(current_admin_account)
-      else
-        @current_ability ||= Ability.new(current_user)
-      end
+      @current_ability ||= if current_admin_account.present?
+                             Ability.new(current_admin_account)
+                           else
+                             Ability.new(current_user)
+                           end
     end
   end
 end
