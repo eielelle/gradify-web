@@ -37,18 +37,14 @@ module Admin
     def update
       set_student
 
-      flash[:notice] = 'Account not found.' if @student.nil?
+      return student_not_found if @student.nil?
 
       if @student.update(update_student_params[:student_account])
         flash[:toast] = 'Updated Successfully.'
         redirect_to admin_students_path
-        return
       else
-        errors_student_name(@student_account)
-        errors_student_email(@student_account)
-        errors_student_password(@student_account)
+        handle_update_errors
       end
-      render :edit, status: :unprocessable_entity
     end
 
     def destroy
@@ -68,7 +64,6 @@ module Admin
 
     def set_student
       @student = StudentAccount.includes(:permission).find(params[:id])
-      @permissions = Permission.all
     end
 
     def student_params
@@ -76,7 +71,7 @@ module Admin
     end
 
     def update_student_params
-      params.permit(:id, student_account: %i[name email permission_id])
+      params.permit(:id, student_account: %i[name email])
     end
 
     def set_search
@@ -89,22 +84,16 @@ module Admin
       }
     end
 
-    def errors_student_name(record)
-      flash.now[:name_error] = record.errors[:name].first if record.errors[:name].present?
+    def student_not_found
+      flash[:notice] = 'Account not found.'
+      redirect_to admin_students_path
     end
 
-    def errors_student_email(record)
-      flash.now[:email_error] = record.errors[:email].first if record.errors[:email].present?
-    end
-
-    def errors_student_password(record)
-      flash.now[:password_error] = record.errors[:password].first if record.errors[:password].present?
-    end
-
-    def handle_errors(model)
-      model.errors.each do |error|
-        flash["#{error.attribute}_error"] = "#{error.attribute.capitalize} #{model.errors[error.attribute].first}"
-      end
+    def handle_update_errors
+      errors_student_name(@student_account)
+      errors_student_email(@student_account)
+      errors_student_password(@student_account)
+      render :edit, status: :unprocessable_entity
     end
 
     def send_format(params)
