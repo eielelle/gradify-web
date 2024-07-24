@@ -39,7 +39,7 @@ module Admin
     def update
       set_section
 
-     return section_not_found if @section.nil?
+      return section_not_found if @section.nil?
 
       if @section.update(update_section_params[:section])
         flash[:toast] = 'Updated Successfully.'
