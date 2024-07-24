@@ -62,7 +62,9 @@
                   <%= link_to edit_admin_section_path(section), class: "btn btn-ghost btn-sm", data: { 'turbo-frame': 'modal' } do %>
                     <%= fa_icon "pencil lg" %>
                   <% end %>
-                  <button class="btn btn-ghost btn-sm"><%= fa_icon "trash lg" %></button>
+                  <%= button_to admin_section_path(section), method: :delete, form: { data: { 'turbo-confirm': 'Are you sure?' } }, class: "btn btn-ghost btn-sm" do %>
+                    <%= fa_icon "trash lg" %>
+                  <% end %>
                 </td>
               </tr>
             <% end %>

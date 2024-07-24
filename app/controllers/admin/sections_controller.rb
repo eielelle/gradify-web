@@ -3,7 +3,7 @@
 module Admin
   class SectionsController < Admin::LayoutController
     before_action :set_section, only: %i[show edit update destroy archive]
-    before_action :set_search, only: %i[index new create edit update]  
+    before_action :set_search, only: %i[index new create edit update]
     include ExportableFormatConcern
     def index
       # Your index method code here
@@ -39,12 +39,11 @@ module Admin
     def update
       set_section
 
-      flash[:notice] = 'Section not found.' if @section.nil?
+     return section_not_found if @section.nil?
 
       if @section.update(update_section_params[:section])
         flash[:toast] = 'Updated Successfully.'
         redirect_to admin_sections_path
-        return
       else
         render :edit
       end
@@ -63,7 +62,7 @@ module Admin
     end
 
     def export
-       @section_fields = Section.get_export_fields
+      @section_fields = Section.get_export_fields
     end
 
     def send_exports
@@ -81,7 +80,7 @@ module Admin
     end
 
     def update_section_params
-      params.permit(:name, :description, :archived)
+      params.permit(:id, section: %i[name description archived])
     end
 
     def set_search
@@ -92,6 +91,11 @@ module Admin
         'Created At': 'created_at asc',
         'Updated At': 'updated_at asc'
       }
+    end
+
+    def section_not_found
+      flash[:notice] = 'Section not found.'
+      redirect_to admin_sections_path
     end
 
     def send_format(params)

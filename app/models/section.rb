@@ -9,7 +9,7 @@ class Section < ApplicationRecord
 
   def self.to_csv(fields)
     headers = fields[:no_header].present?
-    
+
     CSV.generate(headers:) do |csv|
       add_headers(csv, fields) unless headers
       add_records(csv, fields)
@@ -33,7 +33,7 @@ class Section < ApplicationRecord
       fields[:sections].index_with { |field| record.send(field) }
     end
   end
-  
+
   def self.ransackable_attributes(_auth_object = nil)
     %w[created_at name description updated_at]
   end
