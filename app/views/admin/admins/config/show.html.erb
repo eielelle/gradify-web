@@ -1,0 +1,77 @@
+<%= render 'shared/toast', toast: flash[:toast] %>
+
+<section class="container mx-auto px-4 pt-4 pb-20">
+    <header class="mb-6">
+        <h1 class="text-2xl font-bold">Account Configuration</h1>
+        <p>Manage your account settings and preferences.</p>
+    </header>
+
+    <h2 class="text-xl mb-2 mt-16 font-semibold">Profile Information</h2>
+    <%= form_with(model: @admin, url: admin_config_path, local: true, method: :patch) do |form| %>
+        <label class="form-control w-full max-w-xs">
+            <div class="label">
+            <%= form.label :name, class: "label-text" %>
+            </div>
+            <%= form.text_field :name, class: "input input-bordered w-full max-w-xs" %>
+            <div class="label">
+            <span class="label-text-alt text-error"><%= flash[:name_error] %></span>
+            </div>
+        </label>
+
+        <label class="form-control w-full max-w-xs">
+            <div class="label">
+            <%= form.label :email, class: "label-text" %>
+            </div>
+            <%= form.email_field :email, class: "input input-bordered w-full max-w-xs" %>
+            <div class="label">
+            <span class="label-text-alt text-error"><%= flash[:email_error] %></span>
+            </div>
+        </label>
+
+        <%= form.submit "Update Profile", class: "btn btn-primary mt-4" %>
+
+    <% end %>
+
+    <h2 class="text-xl mb-2 mt-16 font-semibold">Security</h2>
+
+    <%= form_with url: "", method: :patch do |form| %>
+        <label class="form-control w-full max-w-xs">
+            <div class="label">
+            <%= form.label :old_password, class: "label-text" %>
+            </div>
+            <%= form.password_field :old_password, class: "input input-bordered w-full max-w-xs" %>
+            <div class="label">
+            <span class="label-text-alt text-error"><%= flash[:old_password_error] %></span>
+            </div>
+        </label>
+
+        <label class="form-control w-full max-w-xs">
+            <div class="label">
+            <%= form.label :password, class: "label-text" %>
+            </div>
+            <%= form.password_field :password, class: "input input-bordered w-full max-w-xs" %>
+            <div class="label">
+            <span class="label-text-alt text-error"><%= flash[:password_error] %></span>
+            </div>
+        </label>
+
+        <label class="form-control w-full max-w-xs">
+            <div class="label">
+            <%= form.label :confirm_password, class: "label-text" %>
+            </div>
+            <%= form.password_field :password_confirmation, class: "input input-bordered w-full max-w-xs" %>
+            <div class="label">
+            <span class="label-text-alt text-error"><%= flash[:password_confirmation_error] %></span>
+            </div>
+        </label>
+
+        <%= form.submit "Update Password", class: "btn btn-primary mt-4" %>
+
+    <% end %>
+
+    <h2 class="text-xl mb-2 mt-16 font-semibold">Legacy</h2>
+
+    <%= link_to "Remove Account", "", class: "btn btn-error mt-4" %>
+
+
+</section>

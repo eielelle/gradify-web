@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
   # get "/admin/dashboard", to: "admin_panel#index"
   namespace :admin do
+    resource :config, only: [:show, :update, :destroy], controller: 'admins/config', as: 'config'
     namespace :admins do
       resources :manage, as: 'manage'
       resources :password, as: 'password', only: [:edit, :update]
@@ -26,6 +27,7 @@ Rails.application.routes.draw do
       get 'versions', to: 'history#versions', as: 'versions'
       get 'snapshot/:id', to: 'history#snapshot', as: 'snapshot'
       get 'rollback/:id', to: 'history#rollback', as: 'rollback' 
+      
     end
 
     resources :students do
