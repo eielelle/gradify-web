@@ -1,8 +1,0 @@
-<%= render "shared/common_panel", title: "History", subtitle: "Version history", content: "history_admin" do %>
-  <%= render "shared/common_tabs", tabs: {
-    "List": admin_students_path,
-    "Add": new_admin_student_path,
-    "Export": export_admin_students_path,
-    "History": history_admin_students_path
-  }, active_path: history_admin_students_path %>
-<% end %>

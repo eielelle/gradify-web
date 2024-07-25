@@ -1,9 +1,0 @@
-<%= render "shared/common_panel", title: "Students", subtitle: "Manage your students.", content: "list_students", data: @students, count: @count do %>
-    <%= render "shared/common_tabs", tabs: {
-    "List": admin_students_path,
-    "Add": new_admin_student_path,
-    "Export": export_admin_students_path,
-    "History": history_admin_students_path
-    }, active_path: admin_students_path %>
-  <% end %>
-<%= yield %>

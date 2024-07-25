@@ -1,4 +1,4 @@
-<%= form_with(url: send_exports_admin_students_path, method: :get, local: true, data: {turbo: false}) do |f| %>
+<%= form_with(url: export_admin_students_manage_index_path, method: :get, local: true, data: { turbo: false }) do |f| %>
   <div class="collapse collapse-arrow bg-base-200 mb-6">
     <input type="radio" name="my-accordion-2" checked="checked" />
     <div class="collapse-title text-xl font-semibold">
@@ -12,11 +12,28 @@
       </div>
       <h1 class="text-lg mb-4">Student Fields</h1>
       <div class="flex flex-wrap mb-4">
-        <% @student_fields.each do |option| %>
-          <div class="me-6">
-            <%= check_box_tag 'selected_students[]', option, id: "student_#{option}", checked: true, class: "checkbox checkbox-primary checkbox-md" %>
-            <%= label_tag "student", option, class: "label-text" %>
-          </div>
+        <% if @student_fields.present? %>
+          <% @student_fields.each do |option| %>
+            <div class="me-6">
+              <%= check_box_tag 'selected_students[]', option, id: "student_#{option}", checked: true, class: "checkbox checkbox-primary checkbox-md" %>
+              <%= label_tag "student_#{option}", option, class: "label-text" %>
+            </div>
+          <% end %>
+        <% else %>
+          <p>No fields available for export.</p>
+        <% end %>
+      </div>
+      <h1 class="text-lg mb-4">Permission Fields</h1>
+      <div class="flex flex-wrap mb-4">
+        <% if @permission_fields.present? %>
+          <% @permission_fields.each do |option| %>
+            <div class="me-6">
+              <%= check_box_tag 'selected_permissions[]', option, id: "permission_#{option}", checked: true, class: "checkbox checkbox-primary checkbox-md" %>
+              <%= label_tag "permission_#{option}", option, class: "label-text" %>
+            </div>
+          <% end %>
+        <% else %>
+          <p>No permission fields available for export.</p>
         <% end %>
       </div>
     </div>
@@ -25,7 +42,7 @@
   <div class="collapse collapse-arrow bg-base-200 mb-6">
     <input type="radio" name="my-accordion-2" />
     <div class="collapse-title text-xl font-semibold">
-      <h1>Options for csv</h1>
+      <h1>Options for CSV</h1>
     </div>
     <div class="collapse-content">
       <%= check_box_tag "no_header", id: "no_header", checked: true, class: "checkbox checkbox-primary checkbox-md" %>

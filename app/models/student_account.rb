@@ -9,12 +9,15 @@ class StudentAccount < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   # TODO: Refactor this to a modular approach
-  def self.to_csv(fields)
-    headers = fields[:no_header].present?
+  def self.to_csv
+    attributes = %w{id name email sign_in_count current_sign_in_at last_sign_in_at current_sign_in_ip created_at updated_at}
 
-    CSV.generate(headers:) do |csv|
-      add_headers(csv, fields) unless headers
-      add_records(csv, fields)
+    CSV.generate(headers: true) do |csv|
+      csv << attributes
+
+      all.find_each do |student|
+        csv << attributes.map{ |attr| student.send(attr) }
+      end
     end
   end
 
