@@ -6,7 +6,9 @@ class StudentAccount < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable, :trackable
+  
+  has_paper_trail
 
   # TODO: Refactor this to a modular approach
   def self.to_csv(fields)

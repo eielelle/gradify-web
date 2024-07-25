@@ -29,9 +29,17 @@ Rails.application.routes.draw do
     end
 
     resources :students do
-      get 'export', on: :collection
-      get 'send_exports', on: :collection
-      get 'history', on: :collection
+      collection do
+        get 'export'
+        get 'send_exports'
+        get 'history'
+        get 'versions'
+      end
+  
+      member do
+        get 'snapshot/:id', to: 'students#snapshot', as: 'snapshot'
+        get 'rollback/:id', to: 'students#rollback', as: 'rollback' 
+      end
     end
   
     resources :sections do

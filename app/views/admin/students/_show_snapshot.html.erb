@@ -14,22 +14,18 @@
     <strong>Email: </strong>
     <span><%= @student.email %></span>
 </div>
-<div>
-    <strong>Permission: </strong>
-    <span><%= @student.permission.name %></span>
-</div>
 
 <br>
 
 <h2 class="text-2xl font-semibold mb-4">Authentication Information</h2>
 
 <div>
-    <strong>Sign In Count: </strong>
-    <span><%= @student.sign_in_count %></span>
+  <strong>Sign In Count: </strong>
+  <span><%= @student.sign_in_count %></span>
 </div>
 <div>
-    <strong>Current Sign In At: </strong>
-    <span><%= format_date @student.current_sign_in_at %></span>
+  <strong>Current Sign In At: </strong>
+  <span><%= @student.current_sign_in_at %></span>
 </div>
 <div>
     <strong>Last Sign In At: </strong>
@@ -53,5 +49,5 @@
 </div>
 
 <footer>
-    <%= link_to "Rollback", admin_students_rollback_path(@version.id), class: "btn btn-primary" %>
+  <%= link_to "Rollback", admin_students_rollback_path(@student.id), class: "btn btn-primary" %>
 </footer>
