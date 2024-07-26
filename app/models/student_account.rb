@@ -38,6 +38,34 @@ class StudentAccount < ApplicationRecord
     end
   end
 
+  # TODO: Refactor this to a modular approach
+  def self.to_csv(fields)
+    headers = fields[:no_header].present?
+
+    CSV.generate(headers:) do |csv|
+      add_headers(csv, fields) unless headers
+      add_records(csv, fields)
+    end
+  end
+
+  def self.to_xml(fields)
+    serial_data(fields).to_xml
+  end
+
+  def self.to_json(fields)
+    serial_data(fields).to_json
+  end
+
+  def self.csv_row(fields, record)
+    fields[:students].map { |field| record.send(field) }
+  end
+
+  def self.serial_data(fields)
+    all.map do |record|
+      fields[:students].index_with { |field| record.send(field) }
+    end
+  end
+
   def self.ransackable_attributes(_auth_object = nil)
     %w[created_at email id name updated_at]
   end

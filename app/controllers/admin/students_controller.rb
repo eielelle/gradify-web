@@ -96,11 +96,11 @@ module Admin
         render :snapshot
       end
     end
-
+    
     private
 
     def set_student
-      @student = StudentAccount.find(params[:id])
+      @student = StudentAccount.includes(:permission).find(params[:id])
     end
 
     def student_params
