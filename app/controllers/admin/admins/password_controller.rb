@@ -20,7 +20,7 @@ module Admin
       def edit_password_path
         edit_admin_admins_password_path
       end
-    
+
       def after_update_path
         admin_admins_manage_index_path
       end
