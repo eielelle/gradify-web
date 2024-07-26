@@ -33,15 +33,16 @@
     <% end %>
 
     <h2 class="text-xl mb-2 mt-16 font-semibold">Security</h2>
+    <p class="alert alert-warning">You'll be signed out after you reset your password.</p>
 
-    <%= form_with url: "", method: :patch do |form| %>
+    <%= form_with url: admin_admins_change_password_path, method: :patch do |form| %>
         <label class="form-control w-full max-w-xs">
             <div class="label">
             <%= form.label :old_password, class: "label-text" %>
             </div>
-            <%= form.password_field :old_password, class: "input input-bordered w-full max-w-xs" %>
+            <%= form.password_field :current_password, class: "input input-bordered w-full max-w-xs" %>
             <div class="label">
-            <span class="label-text-alt text-error"><%= flash[:old_password_error] %></span>
+            <span class="label-text-alt text-error"><%= flash[:current_password_error] %></span>
             </div>
         </label>
 
