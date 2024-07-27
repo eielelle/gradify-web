@@ -70,10 +70,12 @@
             <div class="flex-1 flex flex-col justify-end">
               <div class="card bg-base-100 shadow-xl">
                 <div class="card-body p-4">
-                  <h2 class="card-title mb-2">Lucy Lane</h2>
+                  <h2 class="card-title mb-2"><%= current_admin_account.name %></h2>
                   <div class="card-actions justify-between items-center">
                     <div class="flex justify-between items-center">
-                      <%= fa_icon "cog 2x", class: "h-10 w-10" %>
+                      <%= link_to admin_config_path do %>
+                        <%= fa_icon "cog 2x", class: "h-10 w-10" %>
+                      <% end %>
                       <label class="swap swap-rotate">
                         <!-- this hidden checkbox controls the state -->
                         <input type="checkbox" class="theme-controller" value="light" />

@@ -17,6 +17,7 @@ gem "font-awesome-rails"
 gem 'kaminari'
 gem 'ransack'
 gem 'paper_trail'
+gem 'cancancan'
 
 # For spinner display only
 gem 'whirly'
