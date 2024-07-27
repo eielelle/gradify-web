@@ -1,4 +1,4 @@
-<%= render "shared/toast", toast: alert %>
+<%= render "shared/toast", toast: alert || flash[:alert] %>
 
 <section class="h-screen w-screen p-6 flex justify-center items-center">
   <div class="card w-3/12 p-6 bg-base-300">

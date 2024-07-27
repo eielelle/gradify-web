@@ -3,6 +3,8 @@
 module Admin
   module Admins
     class ConfigController < Admin::LayoutController
+      layout 'application'
+
       include ErrorConcern
       include PaperTrailConcern
       include PasswordConcern
@@ -23,7 +25,16 @@ module Admin
         redirect_to admin_config_path
       end
 
-      def destroy; end
+      def destroy
+        if current_admin_account.valid_password? params[:password]
+          current_admin_account.destroy
+          flash[:alert] = 'Account deleted successfully'
+          redirect_to new_admin_account_session_path
+        else
+          flash[:password_error] = 'Invalid password'
+          redirect_to admin_admins_confirm_destroy_path
+        end
+      end
 
       def change_password
         update_model_password user: current_admin_account
