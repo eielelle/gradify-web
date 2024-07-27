@@ -40,7 +40,7 @@ module Admin
         return unless @admin.destroy
 
         flash[:toast] = 'Account deleted successfully.'
-        redirect_to admin_admins_path
+        redirect_to admin_admins_manage_index_path
       end
 
       def edit
