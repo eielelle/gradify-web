@@ -23,8 +23,10 @@ module Admin
 
       def rollback
         @version = PaperTrail::Version.find(params[:id])
-
         @admin = get_snapshot(@version)
+
+        PaperTrail.request.whodunnit = current_admin_account.name
+        @admin.paper_trail_event = "rollback"
 
         if @admin.save(validate: false)
           redirect_to admin_admins_versions_path(id: @version.item_id)
