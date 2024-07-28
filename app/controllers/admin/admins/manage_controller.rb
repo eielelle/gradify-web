@@ -37,6 +37,13 @@ module Admin
 
       def destroy
         set_admin
+        
+        if @admin.permission.name == 'SuperAdmin'
+          flash[:toast] = 'Cannot update SuperAdmin'
+          redirect_to admin_admins_manage_index_path
+          return
+        end
+
         return unless @admin.destroy
 
         flash[:toast] = 'Account deleted successfully.'
@@ -51,6 +58,12 @@ module Admin
         set_admin
 
         flash[:notice] = 'Account not found.' if @admin.nil?
+        
+        if @admin.permission.name == 'SuperAdmin'
+          flash[:notice] = 'Cannot update SuperAdmin'
+          render :edit, status: :unprocessable_entity
+          return
+        end
 
         if @admin.update(update_admin_params[:admin_account])
           flash[:toast] = 'Updated Successfully.'

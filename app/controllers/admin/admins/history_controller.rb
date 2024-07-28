@@ -28,6 +28,12 @@ module Admin
         PaperTrail.request.whodunnit = current_admin_account.name
         @admin.paper_trail_event = "rollback"
 
+        if @admin.permission.name == 'SuperAdmin'
+          flash[:toast] = 'Cannot rollback SuperAdmin'
+          redirect_to admin_admins_manage_index_path
+          return
+        end
+
         if @admin.save(validate: false)
           redirect_to admin_admins_versions_path(id: @version.item_id)
         else

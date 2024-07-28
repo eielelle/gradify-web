@@ -1,3 +1,7 @@
+<% if flash[:notice] %>
+  <p class="alert"><%= flash[:notice] %></p>
+<% end %>
+
 <%= form_with(model: @admin, url: admin_admins_manage_path(@admin), method: :patch, local: true) do |form| %>
   <label class="form-control w-full max-w-xs">
     <div class="label">
