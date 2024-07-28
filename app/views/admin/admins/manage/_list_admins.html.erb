@@ -71,14 +71,16 @@
                   <%= link_to admin_admins_manage_path(admin), class: "btn btn-ghost btn-sm" do %>
                     <%= fa_icon "eye lg" %>
                   <% end %>
-                  <%= link_to edit_admin_admins_manage_path(admin), class: "btn btn-ghost btn-sm" do %>
-                    <%= fa_icon "pencil lg" %>
-                  <% end %>
-                  <%= link_to edit_admin_admins_password_path(admin), class: "btn btn-ghost btn-sm" do %>
-                    <%= fa_icon "key lg" %>
-                  <% end %>
-                  <%= button_to admin_admins_manage_path(admin), method: :delete, form: { data: { 'turbo-confirm': 'Are you sure?' } }, class: "btn btn-ghost btn-sm" do %>
-                    <%= fa_icon "trash lg" %>
+                  <% if admin.permission.name != "SuperAdmin" %>
+                    <%= link_to edit_admin_admins_manage_path(admin), class: "btn btn-ghost btn-sm" do %>
+                      <%= fa_icon "pencil lg" %>
+                    <% end %>
+                    <%= link_to edit_admin_admins_password_path(admin), class: "btn btn-ghost btn-sm" do %>
+                      <%= fa_icon "key lg" %>
+                    <% end %>
+                    <%= button_to admin_admins_manage_path(admin), method: :delete, form: { data: { 'turbo-confirm': 'Are you sure?' } }, class: "btn btn-ghost btn-sm" do %>
+                      <%= fa_icon "trash lg" %>
+                    <% end %>
                   <% end %>
                 </td>
               </tr>
