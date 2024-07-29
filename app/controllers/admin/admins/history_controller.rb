@@ -5,6 +5,7 @@ module Admin
     class HistoryController < Admin::LayoutController
       include SearchableConcern
       include SnapshotConcern
+      include SuperAdminConcern
 
       def versions
         set_default_sort(default_sort_column: 'created_at desc')
@@ -26,13 +27,9 @@ module Admin
         @admin = get_snapshot(@version)
 
         PaperTrail.request.whodunnit = current_admin_account.name
-        @admin.paper_trail_event = "rollback"
+        @admin.paper_trail_event = 'rollback'
 
-        if @admin.permission.name == 'SuperAdmin'
-          flash[:toast] = 'Cannot rollback SuperAdmin'
-          redirect_to admin_admins_manage_index_path
-          return
-        end
+        return if superadmin_redirect(@admin, admin_admins_manage_index_path, "Cannot rollback Superadmin")
 
         if @admin.save(validate: false)
           redirect_to admin_admins_versions_path(id: @version.item_id)

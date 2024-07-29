@@ -6,6 +6,7 @@ module Admin
       include SearchableConcern
       include ErrorConcern
       include PaperTrailConcern
+      include SuperAdminConcern
 
       def index
         set_default_sort(default_sort_column: 'name asc')
@@ -37,12 +38,8 @@ module Admin
 
       def destroy
         set_admin
-        
-        if @admin.permission.name == 'SuperAdmin'
-          flash[:toast] = 'Cannot update SuperAdmin'
-          redirect_to admin_admins_manage_index_path
-          return
-        end
+
+        return if superadmin_redirect(@admin, admin_admins_manage_index_path, 'Cannot destroy Superadmin')
 
         return unless @admin.destroy
 
@@ -58,12 +55,8 @@ module Admin
         set_admin
 
         flash[:notice] = 'Account not found.' if @admin.nil?
-        
-        if @admin.permission.name == 'SuperAdmin'
-          flash[:notice] = 'Cannot update SuperAdmin'
-          render :edit, status: :unprocessable_entity
-          return
-        end
+
+        return if superadmin_redirect(@admin, edit_admin_admins_manage_path, "Cannot edit Superadmin")
 
         if @admin.update(update_admin_params[:admin_account])
           flash[:toast] = 'Updated Successfully.'

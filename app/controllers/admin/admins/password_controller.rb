@@ -6,17 +6,14 @@ module Admin
       include PaperTrailConcern
       include ErrorConcern
       include PasswordConcern
+      include SuperAdminConcern
 
       def edit
         redirect_to admin_admins_manage_index_path if AdminAccount.find_by(id: params[:id]).nil?
       end
 
       def update
-        if AdminAccount.find(params[:id]).permission.name == "SuperAdmin"
-          flash[:notice] = 'Cannot change password of SuperAdmin'
-          render :edit, status: :unprocessable_entity
-          return
-        end
+        return if superadmin_redirect(AdminAccount.find(params[:id]), edit_admin_admins_password_path, 'Cannot change password of SuperAdmin')
 
         update_model_password resource_class: AdminAccount
       end
