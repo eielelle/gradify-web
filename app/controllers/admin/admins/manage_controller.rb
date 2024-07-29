@@ -54,13 +54,12 @@ module Admin
       def update
         set_admin
 
-        flash[:notice] = 'Account not found.' if @admin.nil?
+        account_not_found and return if @admin.nil?
 
-        return if superadmin_redirect(@admin, edit_admin_admins_manage_path, "Cannot edit Superadmin")
+        return if superadmin_redirect(@admin, edit_admin_admins_manage_path, 'Cannot edit Superadmin')
 
         if @admin.update(update_admin_params[:admin_account])
-          flash[:toast] = 'Updated Successfully.'
-          redirect_to admin_admins_manage_index_path
+          update_success
           return
         else
           handle_errors(@admin)
@@ -82,6 +81,16 @@ module Admin
 
       def update_admin_params
         params.permit(:id, admin_account: %i[name email permission_id])
+      end
+
+      def account_not_found
+        flash[:notice] = 'Account not found.'
+        render :edit, status: :unprocessable_entity
+      end
+
+      def update_success
+        flash[:toast] = 'Updated Successfully.'
+        redirect_to admin_admins_manage_index_path
       end
     end
   end

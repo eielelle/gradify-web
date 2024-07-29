@@ -13,7 +13,8 @@ module Admin
       end
 
       def update
-        return if superadmin_redirect(AdminAccount.find(params[:id]), edit_admin_admins_password_path, 'Cannot change password of SuperAdmin')
+        return if superadmin_redirect(AdminAccount.find(params[:id]), edit_admin_admins_password_path,
+                                      'Cannot change password of SuperAdmin')
 
         update_model_password resource_class: AdminAccount
       end

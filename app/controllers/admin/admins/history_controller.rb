@@ -17,19 +17,16 @@ module Admin
       end
 
       def snapshot
-        @version = PaperTrail::Version.find(params[:id])
-
-        @admin = get_snapshot(@version)
+        find_version_and_snapshot
       end
 
       def rollback
-        @version = PaperTrail::Version.find(params[:id])
-        @admin = get_snapshot(@version)
+        find_version_and_snapshot
 
         PaperTrail.request.whodunnit = current_admin_account.name
         @admin.paper_trail_event = 'rollback'
 
-        return if superadmin_redirect(@admin, admin_admins_manage_index_path, "Cannot rollback Superadmin")
+        return if superadmin_redirect(@admin, admin_admins_manage_index_path, 'Cannot rollback Superadmin')
 
         if @admin.save(validate: false)
           redirect_to admin_admins_versions_path(id: @version.item_id)
@@ -41,6 +38,13 @@ module Admin
       def index
         set_default_sort(default_sort_column: 'created_at desc')
         query_items_history(PaperTrail::Version, params, model_name: 'AdminAccount')
+      end
+
+      private
+
+      def find_version_and_snapshot
+        @version = PaperTrail::Version.find(params[:id])
+        @admin = get_snapshot(@version)
       end
     end
   end
