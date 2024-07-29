@@ -1,4 +1,8 @@
-<%= form_with(model: @admin, url: admin_admins_manage_path(@admin), method: :patch, local: true) do |form| %>
+<% if flash[:notice] %>
+  <p class="alert"><%= flash[:notice] %></p>
+<% end %>
+
+<%= form_with(model: @admin, url: admin_admins_manage_path(@admin), method: :patch, local: true, data: { btn_class: "btn-primary" }) do |form| %>
   <label class="form-control w-full max-w-xs">
     <div class="label">
       <%= form.label :name, class: "label-text" %>
@@ -30,7 +34,7 @@
   </label>
 
   <div>
-    <%= form.submit "Update Admin", class: "btn btn-primary mt-4" %>
+    <%= form.submit "Update Admin", class: "btn btn-primary mt-4", data: { 'turbo-confirm': 'Are you sure you want to save the changes to this account?' } %>
   </div>
 
 <% end %>
