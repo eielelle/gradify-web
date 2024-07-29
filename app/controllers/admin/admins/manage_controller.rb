@@ -49,6 +49,8 @@ module Admin
 
       def edit
         set_admin
+
+        redirect_to admin_admins_manage_index_path if @admin.nil? || @admin.permission.name == 'SuperAdmin'
       end
 
       def update

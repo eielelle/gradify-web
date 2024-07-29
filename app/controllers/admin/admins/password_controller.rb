@@ -9,7 +9,8 @@ module Admin
       include SuperAdminConcern
 
       def edit
-        redirect_to admin_admins_manage_index_path if AdminAccount.find_by(id: params[:id]).nil?
+        @admin = AdminAccount.find_by(id: params[:id])
+        redirect_to admin_admins_manage_index_path if @admin.nil? || @admin.permission.name == 'SuperAdmin'
       end
 
       def update
