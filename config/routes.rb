@@ -31,17 +31,20 @@ Rails.application.routes.draw do
       get 'rollback/:id', to: 'history#rollback', as: 'rollback' 
     end
 
-    resources :students do
-      collection do
-        get 'export'
-        get 'send_exports'
-        get 'history'
-        get 'versions'
-      end
-  
-      member do
-        get 'snapshot/:id', to: 'students#snapshot', as: 'snapshot'
-        get 'rollback/:id', to: 'students#rollback', as: 'rollback' 
+    namespace :students do
+      resources :manage, only: %i[index new create edit update destroy show] do
+        collection do
+          get 'export'
+          post 'send_exports', to: 'export#send_exports'
+        end
+        collection do
+          get 'export', to: 'export#index', as: :export_students
+          get 'send_exports', to: 'export#send_exports'
+          get 'history', to: 'history#index'
+          get 'versions/:id', to: 'history#versions', as: :versions
+          get 'snapshot/:id', to: 'history#snapshot', as: :snapshot
+          post 'rollback/:id', to: 'history#rollback', as: :rollback
+        end
       end
     end
   

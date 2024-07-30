@@ -1,14 +1,14 @@
 <div id="list_students">
   <header class="flex justify-between items-center mb-6">
-    <%= search_form_for @q, url: admin_students_path, method: :get, html: { class: "join" } do |f| %>
+    <%= search_form_for @q, url: admin_students_manage_index_path, method: :get, html: { class: "join" } do |f| %>
       <%= f.search_field :name_or_email_cont, placeholder: "Search", class: "input input-bordered w-96 join-item", id: "search_input" %>
       <%= f.select :s, options_for_select(@sort_fields, selected: params.dig(:q, :s)), {}, { class: "select select-bordered join-item", onchange: 'this.form.submit();' } %>
       <button type="submit" class="btn btn-primary join-item">Search</button>
-      <%= link_to "Reset", admin_students_path, class: "btn btn-secondary join-item" %>
+      <%= link_to "Reset", admin_students_manage_index_path, class: "btn btn-secondary join-item" %>
     <% end %>
     <div class="join">
       <button class="btn btn-secondary join-item">Remove Selected</button>    
-      <%= link_to "Export", export_admin_students_path, class: "btn btn-primary join-item" %>
+      <%= link_to "Export", export_admin_students_manage_index_path, class: "btn btn-primary join-item" %>
     </div>
   </header>
 
@@ -55,7 +55,7 @@
                   <span><%= student.updated_at %></span>
                 </td>
                 <td class="flex">
-                  <%= link_to edit_admin_student_path(student), class: "btn btn-ghost btn-sm", data: { 'turbo-frame': 'modal' } do %>
+                  <%= link_to edit_admin_students_manage_path(student), class: "btn btn-ghost btn-sm", data: { 'turbo-frame': 'modal' } do %>
                     <%= fa_icon "pencil lg" %>
                   <% end %>
                   <button class="btn btn-ghost btn-sm"><%= fa_icon "trash lg" %></button>
