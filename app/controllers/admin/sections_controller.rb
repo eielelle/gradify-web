@@ -5,7 +5,6 @@ module Admin
     include ExportableFormatConcern
     include SearchableConcern
     include SnapshotConcern
-    include SectionSearchable
     include SectionManageable
 
     before_action :set_section, only: %i[show edit update destroy archive]
@@ -70,7 +69,6 @@ module Admin
       @items = @q.result(distinct: true).where(item_type: 'Section').page(params[:page]).per(10)
       @count = @items.count
       @sort_fields = get_sort_fields(PaperTrail::Version)
-      query_items_history(PaperTrail::Version, params, model_name: 'Section')
     end
 
     def version
@@ -83,21 +81,32 @@ module Admin
 
     def snapshot
       @version = PaperTrail::Version.find(params[:id])
-      @section = get_snapshot(@version)
+      @section = Section.find(@version.item_id)
     end
 
     def rollback
       @version = PaperTrail::Version.find(params[:id])
-      @section = get_snapshot(@version)
+      @section = Section.find(@version.item_id)
 
       if @section.save(validate: false)
         redirect_to admin_sections_versions_path(id: @version.item_id)
       else
         flash[:toast] = 'Rollback Unsuccessful'
+        render :snapshot
       end
     end
 
     private
+
+    def set_search
+      @q = Section.ransack(params[:q])
+      @sort_fields = {
+        'Name': 'name asc',
+        'Description': 'description asc',
+        'Created At': 'created_at asc',
+        'Updated At': 'updated_at asc'
+      }
+    end
 
     def send_format(params)
       sections = params[:selected_sections].to_a || []

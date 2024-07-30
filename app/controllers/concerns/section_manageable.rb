@@ -13,10 +13,10 @@ module SectionManageable
   end
 
   def section_params
-    params.require(:section).permit(:name, :description, :archived)
+    params.permit(:name, :description, :archived)
   end
 
   def update_section_params
-    params.require(:section).permit(:name, :description, :archived)
+    params.permit(:name, :description, :archived)
   end
 end
