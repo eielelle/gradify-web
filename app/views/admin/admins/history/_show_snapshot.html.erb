@@ -53,6 +53,8 @@
     <span><%= format_date @admin.updated_at %></span>
 </div>
 
-<footer>
-    <%= link_to "Rollback", admin_admins_rollback_path(@version.id), class: "btn btn-primary" %>
-</footer>
+<% if @admin.permission.name != 'SuperAdmin' %>
+    <footer class="mt-4">
+        <%= button_to "Rollback", admin_admins_rollback_path(@version.id), class: "btn btn-primary", form: { data: { 'turbo-confirm': 'Are you sure you want to rollback to this version? This will overwrite the current state.', btn_class: "btn-primary" } } %>
+    </footer>
+<% end %>

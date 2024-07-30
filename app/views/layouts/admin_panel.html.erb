@@ -10,7 +10,7 @@
     <%= javascript_importmap_tags %>
   </head>
   <body>
-    <%= render "shared/confirm" %>
+    <%= render "shared/confirm", btn_class: "btn-success" %>
 
     <main>
       <div class="drawer lg:drawer-open">
@@ -87,7 +87,7 @@
                         <%= fa_icon "moon-o 2x", class: "swap-on h-10 w-10 fill-current" %>
                       </label>
                     </div>
-                    <%= link_to 'Sign Out', destroy_admin_account_session_path, method: :delete, data: { turbo_method: :delete }, class: "btn btn-primary" %>
+                    <%= button_to 'Sign Out', destroy_admin_account_session_path, method: :delete, data: { turbo_method: :delete, 'turbo-confirm': "Are you sure to sign out?" }, class: "btn btn-primary" %>
                   </div>
                 </div>
               </div>

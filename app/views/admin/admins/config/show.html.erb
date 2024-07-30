@@ -7,7 +7,7 @@
     </header>
 
     <h2 class="text-xl mb-2 mt-16 font-semibold">Profile Information</h2>
-    <%= form_with(model: @admin, url: admin_config_path, local: true, method: :patch) do |form| %>
+    <%= form_with(model: @admin, url: admin_config_path, local: true, method: :patch, data: { btn_class: "btn-primary" }) do |form| %>
         <label class="form-control w-full max-w-xs">
             <div class="label">
             <%= form.label :name, class: "label-text" %>
@@ -28,14 +28,14 @@
             </div>
         </label>
 
-        <%= form.submit "Update Profile", class: "btn btn-primary mt-4" %>
+        <%= form.submit "Update Profile", class: "btn btn-primary mt-4", data: { 'turbo-confirm': 'Are you sure you want to update your profile?' } %>
 
     <% end %>
 
     <h2 class="text-xl mb-2 mt-16 font-semibold">Security</h2>
     <p class="alert alert-warning">You'll be signed out after you reset your password.</p>
 
-    <%= form_with url: admin_admins_change_password_path, method: :patch do |form| %>
+    <%= form_with url: admin_admins_change_password_path, method: :patch, data: { btn_class: "btn-primary" } do |form| %>
         <label class="form-control w-full max-w-xs">
             <div class="label">
             <%= form.label :old_password, class: "label-text" %>
@@ -66,13 +66,13 @@
             </div>
         </label>
 
-        <%= form.submit "Update Password", class: "btn btn-primary mt-4" %>
+        <%= form.submit "Update Password", class: "btn btn-primary mt-4", data: { 'turbo-confirm': 'Are you sure you want to update your password?' } %>
 
     <% end %>
 
     <h2 class="text-xl mb-2 mt-16 font-semibold">Legacy</h2>
 
-    <%= link_to "Remove Account", "", class: "btn btn-error mt-4" %>
+    <%= link_to "Remove Account", admin_admins_confirm_destroy_path, class: "btn btn-error mt-4" %>
 
 
 </section>

@@ -6,9 +6,11 @@ import "controllers";
 //import "/node_modules/flowbite/dist/datepicker.turbo.js";
 
 Turbo.setConfirmMethod((message, element) => {
-  console.log(message, element);
+  console.log(element.dataset)
+  console.log(element)
   let dialog = document.getElementById("turbo-confirm");
-  console.log(dialog)
+  let btn = dialog.querySelector(".btn-confirm");
+  btn.classList.add(element.dataset.btnClass);
   dialog.querySelector(".text").textContent = message;
   dialog.showModal();
 
