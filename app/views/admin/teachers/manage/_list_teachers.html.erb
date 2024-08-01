@@ -66,7 +66,7 @@
                     <%= link_to edit_admin_teachers_manage_path(teacher), class: "btn btn-ghost btn-sm" do %>
                         <%= fa_icon "pencil lg" %>
                     <% end %>
-                    <%= link_to edit_admin_admins_password_path(teacher), class: "btn btn-ghost btn-sm" do %>
+                    <%= link_to edit_admin_teachers_password_path(teacher), class: "btn btn-ghost btn-sm" do %>
                         <%= fa_icon "key lg" %>
                     <% end %>
                     <%= button_to admin_admins_manage_path(teacher), method: :delete, form: { data: { 'turbo-confirm': 'Are you sure you want to delete this account?', btn_class: "btn-error" } }, class: "btn btn-ghost btn-sm" do %>

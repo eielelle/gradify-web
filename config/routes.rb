@@ -38,7 +38,7 @@ Rails.application.routes.draw do
     # /admin/teachers
     namespace :teachers do
       resources :manage, as: 'manage'
-      # resources :password, as: 'password', only: [:edit, :update]
+      resources :password, as: 'password', only: [:edit, :update]
       # patch 'change_password', to: 'config#change_password'
       # get 'confirm_destroy', to: 'config#confirm_destroy' 
       # get 'export', to: 'export#index', as: 'export'
