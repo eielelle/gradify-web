@@ -43,6 +43,16 @@ PaperTrail.request(whodunnit: '[System Generated]') do
     )
   end
   Whirly.status = LoadingMessages.get
+
+  # Create 40 Admins
+  15.times do
+    TeacherAccount.create(
+      name: Faker::Name.name,
+      email: Faker::Internet.email,
+      password: 'password',
+    )
+  end
+  Whirly.status = LoadingMessages.get
 end
 
 # Create 10 sections
