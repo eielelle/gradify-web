@@ -1,8 +1,8 @@
-<%= form_with(url: send_exports_admin_students_path, method: :get, local: true, data: {turbo: false}) do |f| %>
+<%= form_with(url: admin_students_download_path, method: :get, local: true, data: {turbo: false}) do |f| %>
   <div class="collapse collapse-arrow bg-base-200 mb-6">
     <input type="radio" name="my-accordion-2" checked="checked" />
     <div class="collapse-title text-xl font-semibold">
-      <h1>Select field to export</h1>
+      <h1>Select fields to export</h1>
     </div>
 
     <div class="collapse-content">
@@ -16,6 +16,15 @@
           <div class="me-6">
             <%= check_box_tag 'selected_students[]', option, id: "student_#{option}", checked: true, class: "checkbox checkbox-primary checkbox-md" %>
             <%= label_tag "student", option, class: "label-text" %>
+          </div>
+        <% end %>
+      </div>
+      <h1 class="text-lg mb-4">Permission Fields</h1>
+      <div class="flex flex-wrap mb-4">
+        <% @permission_fields.each do |option| %>
+          <div class="me-6">
+            <%= check_box_tag 'selected_permissions[]', option, id: "permission_#{option}", checked: true, class: "checkbox checkbox-primary checkbox-md" %>
+            <%= label_tag 'permission', option, class: "label-text" %>
           </div>
         <% end %>
       </div>
@@ -34,6 +43,6 @@
   </div>
 
   <button class="btn btn-primary" type="submit" name="csv" value="true">Export to CSV</button>
-  <button class="btn btn-primary" name="json" value="true">Export to JSON</button>
-  <button class="btn btn-primary" name="xml" value="true">Export to XML</button>
+  <button class="btn btn-primary"  name="json" value="true">Export to JSON</button>
+  <button class="btn btn-primary"  name="xml" value="true">Export to XML</button>
 <% end %>

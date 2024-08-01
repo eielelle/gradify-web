@@ -32,20 +32,13 @@ Rails.application.routes.draw do
     end
 
     namespace :students do
-      resources :manage, only: %i[index new create edit update destroy show] do
-        collection do
-          get 'export'
-          post 'send_exports', to: 'export#send_exports'
-        end
-        collection do
-          get 'export', to: 'export#index', as: :export_students
-          get 'send_exports', to: 'export#send_exports'
-          get 'history', to: 'history#index'
-          get 'versions/:id', to: 'history#versions', as: :versions
-          get 'snapshot/:id', to: 'history#snapshot', as: :snapshot
-          post 'rollback/:id', to: 'history#rollback', as: :rollback
-        end
-      end
+      resources :manage, only: %i[index new create edit update destroy show]
+      get 'export', to: 'export#index', as: 'export'
+      get 'download', to: 'export#download', as: 'download'
+      get 'history', to: 'history#index', as: 'history'
+      get 'versions/:id', to: 'history#versions', as: 'versions'
+      get 'snapshot/:id', to: 'history#snapshot', as: 'snapshot'
+      post 'rollback/:id', to: 'history#rollback', as: 'rollback'
     end
   
     resources :sections do

@@ -1,4 +1,4 @@
-<%= form_with(model: @student, url: admin_student_path(@student), method: :patch, local: true) do |form| %>
+<%= form_with(model: @student, url: admin_students_manage_path(@student), method: :patch, local: true) do |form| %>
   <label class="form-control w-full max-w-xs">
     <div class="label">
       <%= form.label :name, class: "label-text" %>
