@@ -11,7 +11,7 @@ module Admin
         set_default_sort(default_sort_column: 'created_at desc')
         @q = PaperTrail::Version.ransack(params[:q])
         @items = @q.result(distinct: true).where(item_id: params[:id] || params.dig(:q,
-                                                                                    :id)).page(params[:page]).per(10)
+                                                                                    :id), item_type: "AdminAccount").page(params[:page]).per(10)
         @count = @items.count
         @sort_fields = get_sort_fields(PaperTrail::Version)
       end

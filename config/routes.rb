@@ -41,10 +41,10 @@ Rails.application.routes.draw do
       resources :password, as: 'password', only: [:edit, :update]
       get 'export', to: 'export#index', as: 'export'
       get 'send_exports', to: 'export#download', as: 'download'
-      # get 'history', to: 'history#index', as: 'history'
-      # get 'versions', to: 'history#versions', as: 'versions'
-      # get 'snapshot/:id', to: 'history#snapshot', as: 'snapshot'
-      # get 'rollback/:id', to: 'history#rollback', as: 'rollback' 
+      get 'history', to: 'history#index', as: 'history'
+      get 'versions', to: 'history#versions', as: 'versions'
+      get 'snapshot/:id', to: 'history#snapshot', as: 'snapshot'
+      get 'rollback/:id', to: 'history#rollback', as: 'rollback' 
     end
 
     resources :students do
