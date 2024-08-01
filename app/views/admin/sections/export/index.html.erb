@@ -1,0 +1,8 @@
+<%= render "shared/common_panel", title: "Export Sections", subtitle: "Export Sections data.", content: "export_section" do %>
+    <%= render "shared/common_tabs", tabs: {
+        "List": admin_sections_manage_index_path,
+        "Add": new_admin_sections_manage_path,
+        "Export": admin_sections_export_path,
+        "History": admin_sections_history_path
+    }, active_path: admin_sections_export_path %>
+    <% end %>
