@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TeacherAccount < ApplicationRecord
   include Exportable
 
@@ -13,8 +15,8 @@ class TeacherAccount < ApplicationRecord
 
   validates :name, presence: true
 
-   # TODO: Refactor this to a modular approach
-   def self.to_csv(fields)
+  # TODO: Refactor this to a modular approach
+  def self.to_csv(fields)
     headers = fields[:no_header].present?
 
     CSV.generate(headers:) do |csv|
@@ -32,9 +34,7 @@ class TeacherAccount < ApplicationRecord
   end
 
   def self.csv_row(fields, record)
-    teacher_data = fields[:teachers].map { |field| record.send(field) }
-
-    teacher_data
+    fields[:teachers].map { |field| record.send(field) }
   end
 
   def self.serial_data(fields)
@@ -44,7 +44,6 @@ class TeacherAccount < ApplicationRecord
       teacher_data
     end
   end
-
 
   def self.ransackable_attributes(_auth_object = nil)
     get_export_fields(%i[encrypted_password reset_password_token id reset_password_sent_at remember_created_at])
@@ -56,7 +55,7 @@ class TeacherAccount < ApplicationRecord
   end
 
   def self.add_headers(csv, fields)
-    csv << fields[:teachers].map { |teacher| "#{teacher}" }
+    csv << fields[:teachers].map(&:to_s)
   end
 
   def self.add_records(csv, fields)
@@ -64,5 +63,4 @@ class TeacherAccount < ApplicationRecord
       csv << csv_row(fields, record)
     end
   end
-
 end
