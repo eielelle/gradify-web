@@ -27,6 +27,15 @@ class Admin::Teachers::ManageController < Admin::LayoutController
       set_teacher
     end
 
+    def destroy
+      set_teacher
+
+      return unless @teacher.destroy
+
+      flash[:toast] = 'Account deleted successfully.'
+      redirect_to admin_teachers_manage_index_path
+    end
+
 
     def edit
       set_teacher
