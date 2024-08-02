@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html data-controller="theme">
   <head>
     <title>GradifyWeb</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -71,18 +71,18 @@
                       <%= link_to admin_config_path do %>
                         <%= fa_icon "cog 2x", class: "h-10 w-10" %>
                       <% end %>
-                      <label class="swap swap-rotate">
+                      <label class="swap swap-rotate" data-theme-target="switch">
                         <!-- this hidden checkbox controls the state -->
-                        <input type="checkbox" data-toggle-theme="emerald,luxury" class="theme-controller" value="luxury" />
+                        <input type="checkbox" data-action="click->theme#changeTheme" class="theme-controller" />
 
                         <!-- sun icon -->
-                        <%= fa_icon "sun-o 2x", class: "swap-off h-10 w-10 fill-current" %>
+                        <%= fa_icon "sun-o 2x", class: "swap-on h-10 w-10 fill-current" %>
 
                         <!-- moon icon -->
-                        <%= fa_icon "moon-o 2x", class: "swap-on h-10 w-10 fill-current" %>
+                        <%= fa_icon "moon-o 2x", class: "swap-off h-10 w-10 fill-current" %>
                       </label>
                     </div>
-                    <%= button_to 'Sign Out', destroy_admin_account_session_path, method: :delete, data: { turbo_method: :delete, 'turbo-confirm': "Are you sure to sign out?" }, class: "btn btn-primary" %>
+                    <%= button_to 'Sign Out', destroy_admin_account_session_path, method: :delete, data: { turbo_method: :delete, 'turbo-confirm': "Are you sure to sign out?" }, class: "btn btn-sm btn-primary" %>
                   </div>
                 </div>
               </div>

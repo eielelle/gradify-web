@@ -1,7 +1,8 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 import "@hotwired/turbo-rails";
 import "controllers";
-import { themeChange } from 'theme-change'
+// import { themeChange } from 'theme-change'
+// themeChange()
 
 // import "flowbite";
 // import "flowbite-datepicker";
@@ -25,6 +26,7 @@ Turbo.setConfirmMethod((message, element) => {
   });
 });
 
-document.addEventListener('turbo:load', () => {
-  themeChange()
-});
+// document.addEventListener('turbo:load', () => {
+//   themeChange()
+//   console.log("START")
+// });
