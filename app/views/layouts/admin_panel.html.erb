@@ -8,7 +8,6 @@
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
-    <script src="https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js"></script>
   </head>
   <body>
     <%= render "shared/confirm", btn_class: "btn-success" %>
@@ -63,12 +62,6 @@
                 Manage Classes
               </a>
             </li>
-            <li class="text-lg">
-              <a>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-activity me-4"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-                Activity Log
-              </a>
-            </li>
             <div class="flex-1 flex flex-col justify-end">
               <div class="card bg-base-100 shadow-xl">
                 <div class="card-body p-4">
@@ -80,7 +73,7 @@
                       <% end %>
                       <label class="swap swap-rotate">
                         <!-- this hidden checkbox controls the state -->
-                        <input type="checkbox" data-toggle-theme="emerald,luxury" />
+                        <input type="checkbox" data-toggle-theme="emerald,luxury" class="theme-controller" value="luxury" />
 
                         <!-- sun icon -->
                         <%= fa_icon "sun-o 2x", class: "swap-off h-10 w-10 fill-current" %>
