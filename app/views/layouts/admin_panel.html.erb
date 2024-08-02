@@ -8,6 +8,7 @@
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <script src="https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js"></script>
   </head>
   <body>
     <%= render "shared/confirm", btn_class: "btn-success" %>
@@ -18,10 +19,6 @@
         <div class="drawer-content">
           <!-- Page content here -->
           <%= yield %>
-          <footer class="flex justify-between px-6 py-4">
-            <span>© 2024 All Rights Reserved</span>
-            <a href="#">License</a>
-          </footer>
           <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">Open drawer</label>
         </div>
         <div class="drawer-side">
@@ -83,7 +80,7 @@
                       <% end %>
                       <label class="swap swap-rotate">
                         <!-- this hidden checkbox controls the state -->
-                        <input type="checkbox" class="theme-controller" value="light" />
+                        <input type="checkbox" data-toggle-theme="emerald,luxury" />
 
                         <!-- sun icon -->
                         <%= fa_icon "sun-o 2x", class: "swap-off h-10 w-10 fill-current" %>
