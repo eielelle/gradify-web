@@ -28,10 +28,11 @@
           <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
           <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
             <!-- Sidebar content here -->
-            <div class="px-4 mb-4 mr-4 flex items-center">
-              <%= image_tag 'GF.png', class: 'w-16 h-16 rounded-lg mr-4' %>
-              <span class="ml-4 text-4xl font-bold">Gradify</span>
+            <div class="px-4 mr-4 flex items-center">
+              <%= image_tag 'GF.png', class: 'w-8 h-8 rounded-lg' %>
+              <span class="ml-4 text-2xl font-bold uppercase" style="font-family: Poppins">Gradify</span>
             </div>
+            <div class="divider"></div>
             <li class="text-lg <%= current_drawer?(admin_account_root_path) %>">
               <%= link_to admin_account_root_path do %>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart me-4">
