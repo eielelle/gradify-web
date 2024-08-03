@@ -6,7 +6,9 @@ class Ability
   def initialize(user)
     can :manage, :all if user.permission.name == 'SuperAdmin'
 
-    nil unless user.permission.name == 'Admin'
+    if user.permission.name == 'Admin'
+      cannot :manage, :admin
+    end
     # can :manage
 
     # Define abilities for the user here. For example:

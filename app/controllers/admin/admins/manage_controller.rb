@@ -7,6 +7,7 @@ module Admin
       include ErrorConcern
       include PaperTrailConcern
       include SuperAdminConcern
+      before_action :authorize_admin
 
       def index
         set_default_sort(default_sort_column: 'name asc')
@@ -71,6 +72,10 @@ module Admin
       end
 
       private
+
+      def authorize_admin
+        authorize! :manage, :admin
+      end
 
       def set_admin
         @admin = AdminAccount.includes(:permission).find(params[:id])
