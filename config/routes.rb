@@ -47,10 +47,14 @@ Rails.application.routes.draw do
       get 'rollback/:id', to: 'history#rollback', as: 'rollback' 
     end
 
-    resources :students do
-      get 'export', on: :collection
-      get 'send_exports', on: :collection
-      get 'history', on: :collection
+    namespace :students do
+      resources :manage, only: %i[index new create edit update destroy show]
+      get 'export', to: 'export#index', as: 'export'
+      get 'download', to: 'export#download', as: 'download'
+      get 'history', to: 'history#index', as: 'history'
+      get 'versions/:id', to: 'history#versions', as: 'versions'
+      get 'snapshot/:id', to: 'history#snapshot', as: 'snapshot'
+      post 'rollback/:id', to: 'history#rollback', as: 'rollback'
     end
   
     resources :sections do
