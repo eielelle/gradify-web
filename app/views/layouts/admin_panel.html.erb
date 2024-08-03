@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html data-controller="theme">
   <head>
     <title>GradifyWeb</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -24,10 +24,11 @@
           <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
           <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
             <!-- Sidebar content here -->
-            <div class="px-4 mb-4 mr-4 flex items-center">
-              <%= image_tag 'GF.png', class: 'w-16 h-16 rounded-lg mr-4' %>
-              <span class="ml-4 text-4xl font-bold">Gradify</span>
+            <div class="px-4 mr-4 flex items-center">
+              <%= image_tag 'GF.png', class: 'w-8 h-8 rounded-lg' %>
+              <span class="ml-4 text-2xl font-bold uppercase" style="font-family: Poppins">Gradify</span>
             </div>
+            <div class="divider"></div>
             <li class="text-lg <%= current_drawer?(admin_account_root_path) %>">
               <%= link_to admin_account_root_path do %>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart me-4">
@@ -37,12 +38,14 @@
                 Overview
               <% end %>
             </li>
-            <li class="text-lg <%= current_drawer?("/admin/admins", included: true) %>">
-              <%= link_to admin_admins_manage_index_path do %>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shield me-4"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                Manage Admins
-              <% end %>
-            </li>
+            <% if current_admin_account.permission.name == "SuperAdmin" %>
+              <li class="text-lg <%= current_drawer?("/admin/admins", included: true) %>">
+                <%= link_to admin_admins_manage_index_path do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shield me-4"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                  Manage Admins
+                <% end %>
+              </li>
+            <% end %>
             <li class="text-lg">
               <a>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users me-4"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
@@ -61,12 +64,6 @@
                 Manage Classes
               </a>
             </li>
-            <li class="text-lg">
-              <a>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-activity me-4"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-                Activity Log
-              </a>
-            </li>
             <div class="flex-1 flex flex-col justify-end">
               <div class="card bg-base-100 shadow-xl">
                 <div class="card-body p-4">
@@ -76,18 +73,18 @@
                       <%= link_to admin_config_path do %>
                         <%= fa_icon "cog 2x", class: "h-10 w-10" %>
                       <% end %>
-                      <label class="swap swap-rotate">
+                      <label class="swap swap-rotate" data-theme-target="switch">
                         <!-- this hidden checkbox controls the state -->
-                        <input type="checkbox" class="theme-controller" value="light" />
+                        <input type="checkbox" data-action="click->theme#changeTheme" class="theme-controller" />
 
                         <!-- sun icon -->
-                        <%= fa_icon "sun-o 2x", class: "swap-off h-10 w-10 fill-current" %>
+                        <%= fa_icon "sun-o 2x", class: "swap-on h-10 w-10 fill-current" %>
 
                         <!-- moon icon -->
-                        <%= fa_icon "moon-o 2x", class: "swap-on h-10 w-10 fill-current" %>
+                        <%= fa_icon "moon-o 2x", class: "swap-off h-10 w-10 fill-current" %>
                       </label>
                     </div>
-                    <%= button_to 'Sign Out', destroy_admin_account_session_path, method: :delete, data: { turbo_method: :delete, 'turbo-confirm': "Are you sure to sign out?" }, class: "btn btn-primary" %>
+                    <%= button_to 'Sign Out', destroy_admin_account_session_path, method: :delete, data: { turbo_method: :delete, 'turbo-confirm': "Are you sure to sign out?" }, class: "btn btn-sm btn-primary" %>
                   </div>
                 </div>
               </div>

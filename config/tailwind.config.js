@@ -1,6 +1,9 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
+  daisyui: {
+    themes: ["emerald", "luxury"],
+  },
   content: [
     "./public/*.html",
     "./app/helpers/**/*.rb",
@@ -19,7 +22,7 @@ module.exports = {
         pop: 'pop 0.3s ease-in-out',
       },
       fontFamily: {
-        sans: ["Inter var", ...defaultTheme.fontFamily.sans],
+        sans: ["DM Sans", "Inter var", ...defaultTheme.fontFamily.sans],
       },
     },
   },

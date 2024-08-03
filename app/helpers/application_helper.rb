@@ -7,9 +7,9 @@ module ApplicationHelper
 
   def current_drawer?(path, included: false)
     if request.path.include?(path) && included
-      'bg-primary text-white rounded-lg'
+      'border-r-8 border-primary'
     elsif current_page?(path)
-      'bg-primary text-white rounded-lg'
+      'border-r-8 border-primary'
     end
   end
 
