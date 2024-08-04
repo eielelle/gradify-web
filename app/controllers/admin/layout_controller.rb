@@ -6,7 +6,7 @@ module Admin
 
     layout 'admin_panel'
     before_action :authenticate_admin_account!
-    authorize_resource class: false
+    # load_and_authorize_resource
 
     # in ApplicationController
     def current_ability

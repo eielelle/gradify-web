@@ -1,3 +1,171 @@
-<section class="flex justify-center items-center h-screen w-full">
-  <h1>Overview Page</h1>
+<section class="h-screen w-full p-6 overflow-y-scroll">
+  <header>
+    <h1 class="font-bold text-3xl mb-6">Main Overview</h1>
+  </header>
+
+  <section class="grid grid-cols-4 gap-4 pb-8">
+    <div class="flex gap-4 col-span-4">
+      <%= render 'shared/stat', title: "Total Students", desc: "↗︎ 400 (22%)", value: "79" %>
+      <%= render 'shared/stat', title: "Total Teachers", desc: "↗︎ 29 (22%)", value: "504" %>
+      <%= render 'shared/stat', title: "Total Admins", desc: "↗︎ 43 (22%)", value: "80" %>
+      <%= render 'shared/stat', title: "Total Classes", desc: "↗︎ 10 (22%)", value: "238" %>
+      <%= render 'shared/stat', title: "Database Status", desc: "As of August 03, 2024 at 02:00 PM", value: "Online" %>
+    </div>
+
+    <div class="col-span-2">
+      <div class="card bg-base-200 shadow-xl">
+        <div class="card-body p-6">
+          <div class="flex justify-between items-center">
+            <select class="select select-sm">
+              <option selected>This Year</option>
+              <option>This Month</option>
+              <option>This Week</option>
+            </select>
+
+            <%= fa_icon "group lg" %>
+          </div>
+
+          <div class="grid grid-cols-3 gap-4">
+            <div class="stats cols-span-1">
+              <div class="stat">
+                <div class="stat-title">Total Students</div>
+                <div class="stat-value">89,400</div>
+                <div class="stat-desc">↗︎ 10 (22%)</div>
+              </div>
+            </div>
+
+            <div class="graph">
+              <h2>Graph</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card bg-base-200 shadow-xl">
+      <figure>
+        <%= image_tag 'promotion.jpg', class: "brightness-50" %>
+      </figure>
+        <div class="card-body p-6">
+          <h2 class="font-bold text-xl">Not Enough? Upgrade your current plan</h2>
+          <p>Choose the best plan for your needs</p>
+          <div class="card-actions justify-stretch">
+            <button class="btn btn-primary btn-sm w-full">See More</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card bg-base-200 shadow-xl">
+        <div class="card-body p-6">
+          <div class="card-title flex justify-between items-center">
+            <h2>Server Health</h2>
+            <%= fa_icon "heart lg" %>          
+          </div>
+
+          <p>CPU Usage: <span class="badge badge-error">90%</span></p>
+          <p>Memory Usage: <span class="badge badge-success">20%</span></p>
+          <p>Disk Usage: <span class="badge badge-warning">Available: 370GB / 500GB</span></p>
+          <p>Uptime: <span class="badge">72 days 5 hours</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card bg-base-200 shadow-xl">
+        <div class="card-body p-6">
+          <div class="card-title flex justify-between items-center">
+            <h2>Recent Students</h2>
+            <button class="btn btn-sm"><%= fa_icon "arrow-right lg" %></button>          
+          </div>
+
+          <div class="card card-compact bg-base-100">
+            <div class="card-body">
+              <h3 class="font-semibold text-lg">Juan Dela Cruz</h3>
+              <p>BSIT - A</p>
+            </div>
+          </div>
+
+          <div class="card card-compact bg-base-100">
+            <div class="card-body">
+              <h3 class="font-semibold text-lg">Julia Hernandez</h3>
+              <p>BSHM - A</p>
+            </div>
+          </div>
+
+          <div class="card card-compact bg-base-100">
+            <div class="card-body">
+              <h3 class="font-semibold text-lg">James Lao</h3>
+              <p>ICT - A</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card bg-base-200 shadow-xl">
+        <div class="card-body p-6">
+          <div class="card-title flex justify-between items-center">
+            <h2>Recent Classes</h2>
+            <button class="btn btn-sm"><%= fa_icon "arrow-right lg" %></button>          
+          </div>
+
+          <div class="card card-compact bg-base-100">
+            <div class="card-body">
+              <h3 class="font-semibold text-lg">BSIT</h3>
+              <p>BS in Information Technology</p>
+            </div>
+          </div>
+
+          <div class="card card-compact bg-base-100">
+            <div class="card-body">
+              <h3 class="font-semibold text-lg">BSHM</h3>
+              <p>BS in Hospitality Management</p>
+            </div>
+          </div>
+
+          <div class="card card-compact bg-base-100">
+            <div class="card-body">
+              <h3 class="font-semibold text-lg">ICT</h3>
+              <p>Information in Communication Technology</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-span-2">
+      <div class="card bg-base-200 shadow-xl">
+        <div class="card-body p-6">
+          <div class="flex justify-between items-center">
+            <select class="select select-sm">
+              <option selected>This Year</option>
+              <option>This Month</option>
+              <option>This Week</option>
+            </select>
+
+            <%= fa_icon "group lg" %>
+          </div>
+
+          <div class="grid grid-cols-3 gap-4">
+            <div class="stats cols-span-1">
+              <div class="stat">
+                <div class="stat-title">Total Classes</div>
+                <div class="stat-value">30</div>
+                <div class="stat-desc">↗︎ 2 (12%)</div>
+              </div>
+            </div>
+
+            <div class="graph">
+              <h2>Graph</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </section>

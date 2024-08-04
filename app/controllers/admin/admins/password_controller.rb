@@ -3,7 +3,6 @@
 module Admin
   module Admins
     class PasswordController < Admin::LayoutController
-      include PaperTrailConcern
       include ErrorConcern
       include PasswordConcern
       include SuperAdminConcern
