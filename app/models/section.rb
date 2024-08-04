@@ -7,7 +7,7 @@ class Section < ApplicationRecord
   # devise :database_authenticatable, :registerable,
   # :recoverable, :rememberable, :validatable
   has_paper_trail
-  
+
   def self.to_csv(fields)
     headers = fields[:no_header].present?
 
