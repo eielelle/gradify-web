@@ -11,7 +11,9 @@ module Admin
         @count = @students.total_count
       end
 
-      def show; end
+      def show
+        set_student
+      end
 
       def new
         @student_account = StudentAccount.new
