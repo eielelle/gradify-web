@@ -55,10 +55,18 @@
                   <span><%= student.updated_at %></span>
                 </td>
                 <td class="flex">
+                  <%= link_to admin_students_manage_path(student), class: "btn btn-ghost btn-sm" do %>
+                    <%= fa_icon "eye lg" %>
+                  <% end %>
                   <%= link_to edit_admin_students_manage_path(student), class: "btn btn-ghost btn-sm", data: { 'turbo-frame': 'modal' } do %>
                     <%= fa_icon "pencil lg" %>
                   <% end %>
-                  <button class="btn btn-ghost btn-sm"><%= fa_icon "trash lg" %></button>
+                  <%= link_to edit_admin_students_password_path(student), class: "btn btn-ghost btn-sm" do %>
+                    <%= fa_icon "key lg" %>
+                  <% end %>
+                  <%= button_to admin_students_manage_path(student), method: :delete, form: { data: { 'turbo-confirm': 'Are you sure you want to delete this account?', btn_class: "btn-error" } }, class: "btn btn-ghost btn-sm" do %>
+                    <%= fa_icon "trash lg" %>
+                  <% end %>
                 </td>
               </tr>
             <% end %>

@@ -57,6 +57,7 @@ Rails.application.routes.draw do
 
     namespace :students do
       resources :manage, only: %i[index new create edit update destroy show]
+      resources :password, only: [:edit, :update]
       get 'export', to: 'export#index', as: 'export'
       get 'download', to: 'export#download', as: 'download'
       get 'history', to: 'history#index', as: 'history'
