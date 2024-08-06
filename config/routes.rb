@@ -1,10 +1,18 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  devise_for :teacher_accounts
+  # devise_for :teacher_accounts
   # TODO: fix route scope later
   devise_for :student_accounts
   devise_for :admin_accounts, path: :admin, only: [:sessions]
+
+  devise_for :teacher_accounts, path: '/api/v1/teacher', path_names: {
+    sign_in: 'sign_in',
+    sign_out: 'sign_out',
+  },
+  controllers: {
+    sessions: 'api/v1/teacher/sessions',
+  }
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

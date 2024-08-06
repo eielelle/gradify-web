@@ -19,6 +19,10 @@ gem 'ransack'
 gem 'paper_trail'
 gem 'cancancan'
 
+gem 'rack-cors'
+gem 'devise-jwt'
+gem 'jsonapi-serializer'
+
 # For spinner display only
 gem 'whirly'
 gem 'paint'
