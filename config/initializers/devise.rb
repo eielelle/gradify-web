@@ -16,7 +16,7 @@ Devise.setup do |config|
   # by default. You can change it below and use your own secret key.
   # config.secret_key = '34c32e91619565e38748e19018ff7e7efdcf2635a7b078a2f113864c7777814a8489d260cc31337933ffc5510ca4d85a619ba1300b8180c817d34f627a930e51'
   config.jwt do |jwt|
-    jwt.secret = Rails.application.credentials.fetch(:secret_key_base)
+    jwt.secret = Rails.application.credentials.secret_key_base
     jwt.dispatch_requests = [
       ['POST', %r{^/api/v1/teacher/sign_in$}]
     ]
