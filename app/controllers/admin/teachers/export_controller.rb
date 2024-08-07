@@ -6,7 +6,7 @@ module Admin
       include ExportableFormatConcern
 
       def index
-        @teacher_fields = TeacherAccount.get_export_fields(%i[encrypted_password reset_password_token])
+        @teacher_fields = TeacherAccount.get_export_fields(%i[encrypted_password reset_password_token jti])
       end
 
       def download
