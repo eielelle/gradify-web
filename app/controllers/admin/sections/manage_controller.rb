@@ -11,14 +11,18 @@ module Admin
         @count = @sections.total_count
       end
 
-      def show; end
+      def show
+        set_section
+       end
 
       def new
         @section = Section.new
         @q = Section.ransack(params[:q])
       end
 
-      def edit; end
+      def edit
+        set_section
+     end
 
       def create
         @section = Section.new(section_params)
@@ -31,13 +35,11 @@ module Admin
       end
 
       def update
-        return section_not_found if @section.nil?
-
         if @section.update(update_section_params)
           flash[:toast] = 'Updated Successfully.'
           redirect_to admin_sections_manage_index_path
         else
-          render :edit
+          render :edit, status: :unprocessable_entity
         end
       end
 
@@ -57,17 +59,12 @@ module Admin
         @section = Section.find(params[:id])
       end
 
-      def section_not_found
-        flash[:notice] = 'Section not found.'
-        redirect_to admin_sections_manage_index_path
-      end
-
       def section_params
-        params.permit(:name, :description, :archived)
+        params.require(:section).permit(:name, :description, :archived)
       end
 
       def update_section_params
-        params.permit(:name, :description, :archived)
+        params.require(:section).permit(:name, :description, :archived)
       end
 
       def set_search
