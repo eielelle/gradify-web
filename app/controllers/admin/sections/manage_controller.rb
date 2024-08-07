@@ -13,7 +13,7 @@ module Admin
 
       def show
         set_section
-       end
+      end
 
       def new
         @section = Section.new
@@ -22,7 +22,7 @@ module Admin
 
       def edit
         set_section
-     end
+      end
 
       def create
         @section = Section.new(section_params)
