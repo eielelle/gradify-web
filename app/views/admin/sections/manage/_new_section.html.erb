@@ -1,0 +1,28 @@
+<%= form_with(local: true, url: admin_sections_manage_index_path) do |form| %>
+    <label class="form-control w-full max-w-xs">
+      <div class="label">
+        <%= form.label :name, class: "label-text" %>
+      </div>
+      <%= form.text_field :name, class: "input input-bordered w-full max-w-xs" %>
+    </label>
+    
+  
+    <label class="form-control w-full max-w-xs">
+      <div class="label">
+        <%= form.label :description, class: "label-text" %>
+      </div>
+      <%= form.text_field :description, class: "input input-bordered w-full max-w-xs" %>
+    </label>
+  
+    <label class="form-control w-full max-w-xs">
+      <div class="label">
+        <%= form.label :archived, class: "label-text" %>
+      </div>
+      <%= form.check_box :archived, class: "checkbox checkbox-primary" %>
+    </label>
+  
+    <div>
+      <%= form.submit "Add Section", class: "btn btn-primary mt-4" %>
+    </div>
+  
+  <% end %>

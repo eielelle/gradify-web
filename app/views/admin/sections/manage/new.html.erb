@@ -1,0 +1,9 @@
+<%= render "shared/common_panel", title: "Add Sections", subtitle: "Manage your sections.", content: "new_section" do %>
+    <%= render "shared/common_tabs", tabs: {
+        "List": admin_sections_manage_index_path,
+        "Add": new_admin_sections_manage_path,
+        "Export": admin_sections_export_path,
+        "History": admin_sections_history_path
+    }, active_path: new_admin_sections_manage_path %>
+    <% end %>
+    <%= yield %>
