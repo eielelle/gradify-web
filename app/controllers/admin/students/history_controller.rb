@@ -34,7 +34,7 @@ module Admin
         @version = PaperTrail::Version.find(params[:id])
 
         @student = @version.reify
-      
+
         if @student.save(validate: false)
           redirect_to admin_students_versions_path(id: @version.item_id), notice: 'Rollback successful.'
         else
