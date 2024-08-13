@@ -40,7 +40,7 @@ Rails.application.routes.draw do
       get 'history', to: 'history#index', as: 'history'
       get 'versions', to: 'history#versions', as: 'versions'
       get 'snapshot/:id', to: 'history#snapshot', as: 'snapshot'
-      get 'rollback/:id', to: 'history#rollback', as: 'rollback' 
+      post 'rollback/:id', to: 'history#rollback', as: 'rollback' 
     end
 
     # /admin/teachers
