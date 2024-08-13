@@ -32,7 +32,7 @@
             <th>Whodunnit</th>
             <th>Snapshot</th>
             <th>Event</th>
-            <th>Tag</th>
+            <th>Rollback</th>
           </tr>
         </thead>
         <tbody>
@@ -47,13 +47,7 @@
               <td><%= link_to "#{version.item_type} ID: #{version.id}", admin_students_snapshot_path(id: version.id), class: "link link-primary" %></td>
               <td><%= version.event %></td>
               <td>
-                <% if version.next && !version.previous.nil? %>
-                  <p class="badge badge-warning">snapshot</p>
-                <% elsif version.previous.nil? %>
-                  <p class="badge badge-error">original</p>
-                <% else %>
-                  <p class="badge badge-success">latest</p>
-                <% end %>
+                <%= link_to 'View Previous Version', admin_students_versions_path(id: version.item_id), class: "link link-primary" %>
               </td>
             </tr>
           <% end %>

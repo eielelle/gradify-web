@@ -3,6 +3,9 @@
 module Admin
   module Students
     class ManageController < Admin::LayoutController
+      include SearchableConcern
+      include ErrorConcern
+      include PaperTrailConcern
       before_action :set_student, only: %i[show edit update destroy]
       before_action :set_search, only: %i[index new create edit update]
 

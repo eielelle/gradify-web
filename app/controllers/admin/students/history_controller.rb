@@ -27,15 +27,16 @@ module Admin
 
       def snapshot
         @version = PaperTrail::Version.find(params[:id])
-        @student = StudentAccount.find(@version.item_id)
+        @student = get_snapshot(@version)
       end
 
       def rollback
         @version = PaperTrail::Version.find(params[:id])
-        @student = StudentAccount.find(@version.item_id)
+
+        @student = @version.reify
 
         if @student.save(validate: false)
-          redirect_to admin_students_versions_path(id: @version.item_id)
+          redirect_to admin_students_versions_path(id: @version.item_id), notice: 'Rollback successful.'
         else
           flash[:toast] = 'Rollback Unsuccessful'
           render :snapshot

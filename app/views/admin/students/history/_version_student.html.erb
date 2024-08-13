@@ -34,13 +34,15 @@
                         </td>
                         <td><%= link_to "#{version.item_type} ID: #{version.id}", admin_students_snapshot_path(id: version.id), class: "link link-primary" %></td>
                         <td><%= version.event %></td>
-                        <td>
-                            <% if version.next && !version.previous.nil? %>
-                                <p class="badge badge-warning">snapshot</p>
-                            <% elsif version.previous.nil? %>
-                                <p class="badge badge-error">original</p>
-                            <% end %>
-                        </td>
+                       <td>
+                         <% if version.next && !version.previous.nil? %>
+                         <p class="badge badge-warning">snapshot</p>
+                         <% elsif version.previous.nil? %>
+                         <p class="badge badge-error">original</p>
+                         <% else %>
+                         <p class="badge badge-success">latest</p>
+                         <% end %>
+                      </td>
                     </tr>
                     <% end %>
                 </tbody>
