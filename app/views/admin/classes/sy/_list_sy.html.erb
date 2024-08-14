@@ -1,0 +1,78 @@
+<div id="list_students">
+  <header class="flex justify-between items-center mb-6">
+      <%= search_form_for @q, url: admin_classes_class_sy_index_path, method: :get, html: { class: "join" } do |f| %>
+          <%= f.search_field :name_cont, placeholder: "Search", class: "input input-bordered w-96 join-item", id: "search_input" %>
+          <%= f.select :s, options_for_select(@sort_fields, selected: params.dig(:q, :s)), {}, { class: "select select-bordered join-item", onchange: 'this.form.submit();' } %>
+          <button type="submit" class="btn btn-primary join-item">Search</button>
+          <%= link_to "Reset", admin_classes_class_sy_index_path, class: "btn btn-secondary join-item" %>
+      <% end %>
+    <div class="join">
+      <%= link_to "Export", admin_teachers_export_path, class: "btn btn-primary join-item" %>
+    </div>
+  </header>
+
+  <section>
+    <div class="overflow-x-auto">
+      <table class="table table-sm mb-6">
+        <!-- head -->
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- row 1 -->
+          <% if @items.present? %>
+            <% @items.each do | sy | %>
+              <tr class="hover">
+                <td>
+                  <div class="flex items-center gap-3">
+                    <span><%= sy.name %></span>
+                  </div>
+                </td>
+                <td>
+                  <span><%= sy.start %></span>
+                </td>
+                <td>
+                  <span><%= sy.end %></span>
+                </td>
+                <td>
+                  <span><%= format_date sy.created_at %></span>
+                </td>
+                <td>
+                  <span><%= format_date sy.updated_at %></span>
+                </td>
+                <td class="flex">
+                  <%= link_to admin_teachers_manage_path(sy), class: "btn btn-ghost btn-sm" do %>
+                    <%= fa_icon "eye lg" %>
+                  <% end %>
+                    <%= link_to edit_admin_teachers_manage_path(sy), class: "btn btn-ghost btn-sm" do %>
+                        <%= fa_icon "pencil lg" %>
+                    <% end %>
+                    <%= link_to edit_admin_teachers_password_path(sy), class: "btn btn-ghost btn-sm" do %>
+                        <%= fa_icon "key lg" %>
+                    <% end %>
+                    <%= button_to admin_teachers_manage_path(sy), method: :delete, form: { data: { 'turbo-confirm': 'Are you sure you want to delete this account?', btn_class: "btn-error" } }, class: "btn btn-ghost btn-sm" do %>
+                        <%= fa_icon "trash lg" %>
+                    <% end %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="flex justify-between items-center">
+        <span><%= @count %> Teachers</span>
+        <%= paginate @items, views_prefix: 'shared' %>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+<%= render "shared/toast", toast: flash[:toast] %>

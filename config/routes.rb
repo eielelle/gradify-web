@@ -79,6 +79,10 @@ Rails.application.routes.draw do
     # /admin/admins
     namespace :classes do
       resources :manage, as: 'manage'
+      # resources :sy, as: 'sy', only: [:create, :edit, :update, :show, :new]
+      resources :classes do
+        resources :sy, as: 'sy', only: [:create, :edit, :update, :show, :new, :index]
+      end
       # resources :password, as: 'password', only: [:edit, :update]
       # patch 'change_password', to: 'config#change_password' # config related
       # get 'confirm_destroy', to: 'config#confirm_destroy'  # config related

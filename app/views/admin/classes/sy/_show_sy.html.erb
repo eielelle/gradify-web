@@ -1,0 +1,85 @@
+<div id="list_sy">
+  <header class="flex justify-between items-center mb-6">
+      <%= search_form_for @q, url: admin_classes_sy_path, method: :get, html: { class: "join" } do |f| %>
+          <%= f.search_field :name_cont, placeholder: "Search", class: "input input-bordered w-96 join-item", id: "search_input" %>
+          <%= f.select :s, options_for_select(@sort_fields, selected: params.dig(:q, :s)), {}, { class: "select select-bordered join-item", onchange: 'this.form.submit();' } %>
+          <button type="submit" class="btn btn-primary join-item">Search</button>
+          <%= link_to "Reset", admin_classes_sy_path, class: "btn btn-secondary join-item" %>
+      <% end %>
+    <div class="join">
+      <%= link_to "Export", admin_teachers_export_path, class: "btn btn-primary join-item" %>
+    </div>
+  </header>
+
+  <section>
+    <div class="overflow-x-auto">
+      <table class="table table-sm mb-6">
+        <!-- head -->
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- row 1 -->
+          <% if @items.present? %>
+            <% @items.each do | teacher | %>
+              <tr class="hover">
+                <td>
+                  <div class="flex items-center gap-3">
+                    <span><%= teacher.name %></span>
+                  </div>
+                </td>
+                <td>
+                  <span><%= teacher.email %></span>
+                </td>
+                <td class="text-center">
+                  <span><%= teacher.sign_in_count %></span>
+                </td>
+                <td>
+                  <span><%= format_date teacher.current_sign_in_at %></span>
+                </td>
+                <td>
+                  <span><%= format_date teacher.last_sign_in_at %></span>
+                </td>
+                <td>
+                  <span><%= teacher.current_sign_in_ip %></span>
+                </td>
+                <td>
+                  <span><%= format_date teacher.created_at %></span>
+                </td>
+                <td>
+                  <span><%= format_date teacher.updated_at %></span>
+                </td>
+                <td class="flex">
+                  <%= link_to admin_teachers_manage_path(teacher), class: "btn btn-ghost btn-sm" do %>
+                    <%= fa_icon "eye lg" %>
+                  <% end %>
+                    <%= link_to edit_admin_teachers_manage_path(teacher), class: "btn btn-ghost btn-sm" do %>
+                        <%= fa_icon "pencil lg" %>
+                    <% end %>
+                    <%= link_to edit_admin_teachers_password_path(teacher), class: "btn btn-ghost btn-sm" do %>
+                        <%= fa_icon "key lg" %>
+                    <% end %>
+                    <%= button_to admin_teachers_manage_path(teacher), method: :delete, form: { data: { 'turbo-confirm': 'Are you sure you want to delete this account?', btn_class: "btn-error" } }, class: "btn btn-ghost btn-sm" do %>
+                        <%= fa_icon "trash lg" %>
+                    <% end %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="flex justify-between items-center">
+        <span><%= @count %> Items</span>
+        <%= paginate @items, views_prefix: 'shared' %>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+<%= render "shared/toast", toast: flash[:toast] %>

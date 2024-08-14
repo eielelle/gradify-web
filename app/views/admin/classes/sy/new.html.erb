@@ -1,0 +1,9 @@
+<%= render "shared/common_panel", title: "New School Year", subtitle: "Add new school year", content: "new_sy" do %>
+  <%= render "shared/common_tabs", tabs: {
+    "List": admin_classes_class_sy_index_path,
+    "Add": new_admin_classes_manage_path,
+    "Export": admin_classes_export_path,
+    "History": admin_admins_history_path
+  }, active_path: new_admin_classes_manage_path %>
+<% end %>
+

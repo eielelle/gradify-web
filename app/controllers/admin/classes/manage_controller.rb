@@ -1,14 +1,14 @@
-class Admin::Classes::ManageController < Admin::LayoutController
-    include SearchableConcern
-    include ErrorConcern
-    
-    def index
+# frozen_string_literal: true
+
+module Admin
+  module Classes
+    class ManageController < Admin::LayoutController
+      include SearchableConcern
+      include ErrorConcern
+
+      def index
         set_default_sort(default_sort_column: 'name asc')
         query_items_default(SchoolClass, params)
-    end
-
-    def new
-        @permissions = Permission.all
       end
 
       def create
@@ -26,6 +26,10 @@ class Admin::Classes::ManageController < Admin::LayoutController
         set_class
 
         redirect_to admin_classes_manage_index_path if @school_class.nil?
+      end
+
+      def show
+        set_class
       end
 
       def update
@@ -66,4 +70,6 @@ class Admin::Classes::ManageController < Admin::LayoutController
       def set_class
         @school_class = SchoolClass.find(params[:id])
       end
+    end
+  end
 end
