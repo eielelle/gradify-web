@@ -30,6 +30,8 @@ module Admin
 
       def show
         set_class
+
+        @sy = @school_class.school_years.all
       end
 
       def update
@@ -45,6 +47,15 @@ module Admin
         end
 
         render :edit, status: :unprocessable_entity
+      end
+
+      def destroy
+        set_class
+
+        return unless @school_class.destroy
+
+        flash[:toast] = 'Class deleted successfully.'
+        redirect_to admin_classes_manage_index_path
       end
 
       private

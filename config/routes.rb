@@ -76,12 +76,14 @@ Rails.application.routes.draw do
       post 'rollback/:id', to: 'history#rollback', as: 'rollback'
     end
 
-    # /admin/admins
     namespace :classes do
       resources :manage, as: 'manage'
-      # resources :sy, as: 'sy', only: [:create, :edit, :update, :show, :new]
       resources :classes do
-        resources :sy, as: 'sy', only: [:create, :edit, :update, :show, :new, :index]
+        namespace :sy do
+          resources :manage, only: [:create, :edit, :update, :show, :new, :index, :destroy]
+          get 'export', to: 'export#index', as: 'export'
+          get 'send_exports', to: 'export#download', as: 'download'
+        end
       end
       # resources :password, as: 'password', only: [:edit, :update]
       # patch 'change_password', to: 'config#change_password' # config related

@@ -22,17 +22,12 @@
 <br>
 <h2 class="text-2xl font-semibold mb-4">Students List</h2>
 <div>
-  <button>Add Student</button>
   <div class="flex justify-between items-center">
     <%= form_with url: '/custom_submit', method: :post, local: true do |form| %>
       <div class="flex gap-10">
         <div class="field">
           <%= form.label :school_year %>
-          <%= form.select :school_year, ["2021 - 2024"], {}, class: "select select-bordered" %>
-        </div>
-        <div class="field">
-          <%= form.label :quarter %>
-          <%= form.select :quarter, ["1st Quarter"], {}, class: "select select-bordered" %>
+          <%= form.select :school_year, options_from_collection_for_select(@sy, :id, :name), {}, class: "select select-bordered" %>
         </div>
         <div class="field">
           <%= form.label :section %>
@@ -41,9 +36,9 @@
       </div>
     <% end %>
     <div class="join">
-      <%= link_to "Manage SY", admin_classes_class_sy_index_path(@school_class), class: "btn join-item" %>
-      <button class="btn join-item">Manage Quarters</button>
+      <%= link_to "Manage SY", admin_classes_class_sy_manage_index_path(@school_class), class: "btn join-item" %>
       <button class="btn join-item">Manage Sections</button>
+      <button class="btn join-item">Assign Student</button>
     </div>
   </div>
   <br>
