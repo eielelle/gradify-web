@@ -1,0 +1,26 @@
+<%= form_with(local: true, url: admin_classes_manage_index_path, data: { btn_class: "btn-primary" }) do |form| %>
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
+      <%= form.label :name, class: "label-text" %>
+    </div>
+    <%= form.text_field :name, class: "input input-bordered w-full max-w-xs" %>
+    <div class="label">
+      <span class="label-text-alt text-error"><%= flash[:name_error] %></span>
+    </div>
+  </label>
+
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
+      <%= form.label :description, class: "label-text" %>
+    </div>
+    <%= form.text_area :description, class: "textarea textarea-bordered textarea-lg w-full max-w-xs" %>
+    <div class="label">
+      <span class="label-text-alt text-error"><%= flash[:description_error] %></span>
+    </div>
+  </label>
+
+  <div>
+    <%= form.submit "Add Class", class: "btn btn-primary mt-4", data: { 'turbo-confirm': 'Are you sure you want to add this new class?', btn_class: "btn-primary" } %>
+  </div>
+
+<% end %>

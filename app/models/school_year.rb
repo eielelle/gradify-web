@@ -1,15 +1,11 @@
 # frozen_string_literal: true
 
-class StudentAccount < ApplicationRecord
+class SchoolYear < ApplicationRecord
   include Exportable
 
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable, :trackable
+  belongs_to :school_class
 
-  has_paper_trail ignore: %i[encrypted_password reset_password_token reset_password_sent_at sign_in_count
-                             current_sign_in_at last_sign_in_at current_sign_in_ip last_sign_in_ip]
+  validates :name, presence: true
 
   # TODO: Refactor this to a modular approach
   def self.to_csv(fields)
@@ -30,26 +26,28 @@ class StudentAccount < ApplicationRecord
   end
 
   def self.csv_row(fields, record)
-    fields[:students].map { |field| record.send(field) }
+    fields[:sy].map { |field| record.send(field) }
   end
 
   def self.serial_data(fields)
     all.map do |record|
-      fields[:students].index_with { |field| record.send(field) }
+      sy_data = fields[:sy].index_with { |field| record.send(field) }
+
+      sy_data
     end
   end
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[created_at email id name updated_at]
+    get_export_fields(%i[school_class_id])
   end
 
-  # Allowlist associations for Ransack
   def self.ransackable_associations(_auth_object = nil)
-    %w[permissions]
+    %w[]
   end
+
 
   def self.add_headers(csv, fields)
-    csv << fields[:students].map { |student| "student_#{student}" }
+    csv << fields[:sy].map(&:to_s)
   end
 
   def self.add_records(csv, fields)

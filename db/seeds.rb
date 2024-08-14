@@ -30,7 +30,6 @@ PaperTrail.request(whodunnit: '[System Generated]') do
     password: 'password',
     permission_id: s_permission.id
   )
-
   Whirly.status = LoadingMessages.get
   
   # Create 40 Admins
@@ -53,9 +52,14 @@ PaperTrail.request(whodunnit: '[System Generated]') do
     )
   end
   Whirly.status = LoadingMessages.get
+
+  15.times do
+    SchoolClass.create(name: "Class " + rand(1000).to_s, description: "AAA")
+  end
 end
 
 # Create 10 sections
+Whirly.status = LoadingMessages.get
 10.times do
     Section.create!(
       name: Faker::JapaneseMedia::StudioGhibli.character,
@@ -63,7 +67,6 @@ end
       archived: false
     )
   end
-  Whirly.status = LoadingMessages.get
 
 # Create 40 Students
 40.times do
