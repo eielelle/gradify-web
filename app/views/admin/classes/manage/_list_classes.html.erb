@@ -7,7 +7,7 @@
           <%= link_to "Reset", admin_classes_manage_index_path, class: "btn btn-secondary join-item" %>
       <% end %>
     <div class="join">
-      <%= link_to "Export", admin_admins_export_path, class: "btn btn-primary join-item" %>
+      <%= link_to "Export", admin_classes_export_path, class: "btn btn-primary join-item" %>
     </div>
   </header>
 
@@ -38,6 +38,17 @@
                 </td>
                 <td>
                   <span><%= format_date school_class.updated_at %></span>
+                </td>
+                <td class="flex">
+                    <%= link_to admin_classes_manage_path(school_class), class: "btn btn-ghost btn-sm" do %>
+                      <%= fa_icon "eye lg" %>
+                    <% end %>
+                    <%= link_to edit_admin_classes_manage_path(school_class), class: "btn btn-ghost btn-sm" do %>
+                        <%= fa_icon "pencil lg" %>
+                    <% end %>
+                    <%= button_to admin_classes_manage_path(school_class), method: :delete, form: { data: { 'turbo-confirm': 'Are you sure you want to delete this account?', btn_class: "btn-error" } }, class: "btn btn-ghost btn-sm" do %>
+                        <%= fa_icon "trash lg" %>
+                    <% end %>
                 </td>
 
               </tr>
