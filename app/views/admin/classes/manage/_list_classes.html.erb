@@ -4,7 +4,7 @@
           <%= f.search_field :name_cont, placeholder: "Search", class: "input input-bordered w-96 join-item", id: "search_input" %>
           <%= f.select :s, options_for_select(@sort_fields, selected: params.dig(:q, :s)), {}, { class: "select select-bordered join-item", onchange: 'this.form.submit();' } %>
           <button type="submit" class="btn btn-primary join-item">Search</button>
-          <%= link_to "Reset", admin_classes_manage_index_path, class: "btn btn-secondary join-item" %>
+          
       <% end %>
     <div class="join">
       <%= link_to "Export", admin_classes_export_path, class: "btn btn-primary join-item" %>
