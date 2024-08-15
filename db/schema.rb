@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_05_200612) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_13_121529) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -38,6 +38,41 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_05_200612) do
     t.text "description", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "quarters", force: :cascade do |t|
+    t.bigint "school_year_id", null: false
+    t.date "start"
+    t.date "end"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["school_year_id"], name: "index_quarters_on_school_year_id"
+  end
+
+  create_table "school_classes", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "school_sections", force: :cascade do |t|
+    t.bigint "quarter_id", null: false
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["quarter_id"], name: "index_school_sections_on_quarter_id"
+  end
+
+  create_table "school_years", force: :cascade do |t|
+    t.bigint "school_class_id", null: false
+    t.date "start"
+    t.date "end"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["school_class_id"], name: "index_school_years_on_school_class_id"
   end
 
   create_table "sections", force: :cascade do |t|
@@ -97,4 +132,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_05_200612) do
   end
 
   add_foreign_key "admin_accounts", "permissions"
+  add_foreign_key "quarters", "school_years"
+  add_foreign_key "school_sections", "quarters"
+  add_foreign_key "school_years", "school_classes"
 end
