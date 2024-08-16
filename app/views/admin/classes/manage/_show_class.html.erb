@@ -37,7 +37,7 @@
     <% end %>
     <div class="join">
       <%= link_to "Manage SY", admin_classes_class_sy_manage_index_path(@school_class), class: "btn join-item" %>
-      <button class="btn join-item">Manage Sections</button>
+      <%= link_to "Manage Sections", admin_classes_class_sy_sections_manage_index_path(@school_class), class: "btn join-item" %>
       <button class="btn join-item">Assign Student</button>
     </div>
   </div>

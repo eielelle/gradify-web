@@ -4,6 +4,7 @@ class SchoolClass < ApplicationRecord
   include Exportable
 
   has_many :school_years, dependent: :destroy
+  has_many :school_sections, dependent: :destroy
   validates :name, presence: true
 
   # TODO: Refactor this to a modular approach
