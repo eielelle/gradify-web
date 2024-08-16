@@ -3,9 +3,9 @@
 set -o errexit
 
 bundle install
+npm install
 bundle exec rails assets:precompile
 bundle exec rails assets:clean
-npm install
 
 # If you're using a Free instance type, you need to
 # perform database migrations in the build command.
