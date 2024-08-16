@@ -8,6 +8,26 @@
       <span class="label-text-alt text-error"><%= flash[:name_error] %></span>
     </div>
   </label>
+
+    <label class="form-control w-full max-w-xs">
+    <div class="label">
+      <%= form.label :school_year, "School Year", class: "label-text" %>
+    </div>
+    <%= form.select :school_year, options_for_select(['2024-2025', '2023-2024', '2022-2023']), {}, class: "select select-bordered w-full max-w-xs" %>
+    <div class="label">
+      <span class="label-text-alt text-error"><%= flash[:school_year_error] %></span>
+    </div>
+  </label>
+
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
+      <%= form.label :section, "Section", class: "label-text" %>
+    </div>
+    <%= form.select :section, options_for_select(['Section A', 'Section B', 'Section C']), {}, class: "select select-bordered w-full max-w-xs" %>
+    <div class="label">
+      <span class="label-text-alt text-error"><%= flash[:section_error] %></span>
+    </div>
+  </label>
   
   <label class="form-control w-full max-w-xs">
     <div class="label">
