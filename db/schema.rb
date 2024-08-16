@@ -58,11 +58,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_13_121529) do
   end
 
   create_table "school_sections", force: :cascade do |t|
-    t.bigint "school_year_id", null: false
+    t.bigint "school_class_id", null: false
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["school_year_id"], name: "index_school_sections_on_school_year_id"
+    t.index ["school_class_id"], name: "index_school_sections_on_school_class_id"
   end
 
   create_table "school_years", force: :cascade do |t|
@@ -133,6 +133,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_13_121529) do
 
   add_foreign_key "admin_accounts", "permissions"
   add_foreign_key "quarters", "school_years"
-  add_foreign_key "school_sections", "school_years"
+  add_foreign_key "school_sections", "school_classes"
   add_foreign_key "school_years", "school_classes"
 end

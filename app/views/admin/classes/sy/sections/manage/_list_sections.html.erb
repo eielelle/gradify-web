@@ -25,24 +25,24 @@
         <tbody>
           <!-- row 1 -->
           <% if @items.present? %>
-            <% @items.each do | sections | %>
+            <% @items.each do | section | %>
               <tr class="hover">
                 <td>
                   <div class="flex items-center gap-3">
-                    <span><%= sections.name %></span>
+                    <span><%= section.name %></span>
                   </div>
                 </td>
                 <td>
-                  <span><%= format_date sections.created_at %></span>
+                  <span><%= format_date section.created_at %></span>
                 </td>
                 <td>
-                  <span><%= format_date sections.updated_at %></span>
+                  <span><%= format_date section.updated_at %></span>
                 </td>
                 <td class="flex">
-                    <%= link_to edit_admin_classes_class_sections_manage_path(id: sections.id), class: "btn btn-ghost btn-sm" do %>
+                    <%= link_to edit_admin_classes_class_sy_sections_manage_path(id: section.id), class: "btn btn-ghost btn-sm" do %>
                         <%= fa_icon "pencil lg" %>
                     <% end %>
-                    <%= button_to admin_classes_class_sections_manage_path(id: sections.id), method: :delete, form: { data: { 'turbo-confirm': 'Are you sure you want to delete this account?', btn_class: "btn-error" } }, class: "btn btn-ghost btn-sm" do %>
+                    <%= button_to admin_classes_class_sy_sections_manage_path(id: section.id), method: :delete, form: { data: { 'turbo-confirm': 'Are you sure you want to delete this account?', btn_class: "btn-error" } }, class: "btn btn-ghost btn-sm" do %>
                         <%= fa_icon "trash lg" %>
                     <% end %>
                 </td>

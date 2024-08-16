@@ -2,7 +2,7 @@
 
 class SchoolSection < ApplicationRecord
   include Exportable
-  belongs_to :school_year
+  belongs_to :school_class
 
   validates :name, presence: true
 
@@ -36,13 +36,12 @@ class SchoolSection < ApplicationRecord
   end
 
   def self.ransackable_attributes(_auth_object = nil)
-    get_export_fields(%i[quarter_id])
+    get_export_fields(%i[school_class_id])
   end
 
   def self.ransackable_associations(_auth_object = nil)
     %w[]
   end
-
 
   def self.add_headers(csv, fields)
     csv << fields[:sections].map(&:to_s)

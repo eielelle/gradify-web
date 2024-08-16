@@ -26,7 +26,7 @@ class Quarter < ApplicationRecord
   def self.csv_row(fields, record)
     fields[:quarters].map { |field| record.send(field) }
   end
-  
+
   def self.serial_data(fields)
     all.map do |record|
       quarter_data = fields[:quarters].index_with { |field| record.send(field) }
