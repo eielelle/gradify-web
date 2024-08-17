@@ -8,10 +8,10 @@ export default class extends Controller {
   }
 
   changeTheme() {
-    if (localStorage.getItem("theme") === "emerald") {
-        localStorage.setItem("theme", "luxury");
+    if (localStorage.getItem("theme") === "light") {
+        localStorage.setItem("theme", "dark");
     } else {
-        localStorage.setItem("theme", "emerald");
+        localStorage.setItem("theme", "light");
     }
 
     this.update()
@@ -19,12 +19,12 @@ export default class extends Controller {
 
   update() {
     if (localStorage.getItem("theme") === null) {
-        document.documentElement.setAttribute("data-theme", "emerald");
+        document.documentElement.setAttribute("data-theme", "light");
     } else {
         let themeData = localStorage.getItem("theme");
         document.documentElement.setAttribute("data-theme", themeData);
 
-        this.updateToggler(themeData == "emerald");
+        this.updateToggler(themeData == "light");
     }
   }
 
