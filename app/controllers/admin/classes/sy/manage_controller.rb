@@ -31,9 +31,10 @@ module Admin
 
         def update
           set_class
-          set_sy
 
-          return if dates_valid?
+          @sy = @class.school_years.find(params[:id])
+
+          return if dates_valid?(update_params[:start], update_params[:end])
 
           if @sy.update(update_params)
             update_success
@@ -47,9 +48,9 @@ module Admin
 
         def create
           set_class
-          set_sy
+          @sy = @class.school_years.new school_year_params
 
-          return if dates_valid?
+          return if dates_valid?(school_year_params[:start], school_year_params[:end])
 
           if @sy.save
             redirect_to admin_classes_class_sy_manage_index_path
@@ -68,20 +69,16 @@ module Admin
 
         def update_success
           flash[:toast] = 'Updated Successfully.'
-          redirect_to admin_classes_class_sy_sections_manage_index_path
+          redirect_to admin_classes_class_sy_manage_index_path
         end
 
         def set_class
           @class = SchoolClass.find(params[:class_id])
         end
 
-        def set_sy
-          @sy = @class.school_years.new school_year_params
-        end
-
-        def dates_valid?
-          date_present?(school_year_params[:start],
-                        school_year_params[:end]) || date_valid?(school_year_params[:start], school_year_params[:end])
+        def dates_valid?(start_date, end_date)
+          date_present?(start_date,
+                        end_date) || date_valid?(start_date, end_date)
         end
 
         def date_valid?(start_date, end_date)
