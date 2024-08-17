@@ -8,6 +8,8 @@ class StudentAccount < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :trackable
 
+  validates :name, presence: true
+
   has_paper_trail ignore: %i[encrypted_password reset_password_token reset_password_sent_at sign_in_count
                              current_sign_in_at last_sign_in_at current_sign_in_ip last_sign_in_ip]
 

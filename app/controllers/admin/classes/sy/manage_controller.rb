@@ -31,6 +31,7 @@ module Admin
 
         def update
           set_class
+
           @sy = @class.school_years.find(params[:id])
 
           return if dates_valid?(update_params[:start], update_params[:end])
