@@ -76,13 +76,11 @@ module Admin
           end
 
           def update_params
-            permitted_params = params.require(:school_section).permit(:name)
-            permitted_params
+            params.require(:school_section).permit(:name)
           end
 
           def school_section_params
-            permitted_params = params.permit(:name)
-            permitted_params
+            params.permit(:name)
           end
         end
       end
