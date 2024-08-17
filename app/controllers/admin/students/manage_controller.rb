@@ -30,7 +30,8 @@ module Admin
         if @student_account.save
           redirect_to admin_students_manage_index_path, notice: 'Student account created successfully.'
         else
-          render :new
+          handle_errors(@student_account)
+          redirect_to new_admin_students_manage_path
         end
       end
 
