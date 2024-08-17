@@ -50,10 +50,6 @@ class StudentAccount < ApplicationRecord
     %w[permissions]
   end
 
-  def self.get_export_fields(excluded_fields = [])
-    column_names.map(&:to_sym) - excluded_fields
-  end
-
   def self.add_headers(csv, fields)
     csv << fields[:students].map { |student| "student_#{student}" }
   end

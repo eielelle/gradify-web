@@ -40,7 +40,7 @@ Rails.application.routes.draw do
       get 'history', to: 'history#index', as: 'history'
       get 'versions', to: 'history#versions', as: 'versions'
       get 'snapshot/:id', to: 'history#snapshot', as: 'snapshot'
-      get 'rollback/:id', to: 'history#rollback', as: 'rollback' 
+      post 'rollback/:id', to: 'history#rollback', as: 'rollback' 
     end
 
     # /admin/teachers
@@ -52,7 +52,7 @@ Rails.application.routes.draw do
       get 'history', to: 'history#index', as: 'history'
       get 'versions', to: 'history#versions', as: 'versions'
       get 'snapshot/:id', to: 'history#snapshot', as: 'snapshot'
-      get 'rollback/:id', to: 'history#rollback', as: 'rollback' 
+      post 'rollback/:id', to: 'history#rollback', as: 'rollback' 
     end
 
     namespace :students do
@@ -66,10 +66,34 @@ Rails.application.routes.draw do
       post 'rollback/:id', to: 'history#rollback', as: 'rollback'
     end
   
-    resources :sections do
-      get 'export', on: :collection
-      get 'send_exports', on: :collection
-      get 'history', on: :collection
+    namespace :sections do 
+    resources :manage, only: %i[index new create edit update destroy show]
+      get 'export', to: 'export#index', as: 'export'
+      get 'download', to: 'export#download', as: 'download'
+      get 'history', to: 'history#index', as: 'history'
+      get 'versions/:id', to: 'history#version', as: 'version'
+      get 'snapshot/:id', to: 'history#snapshot', as: 'snapshot'
+      post 'rollback/:id', to: 'history#rollback', as: 'rollback'
+    end
+
+    namespace :classes do
+      resources :manage, as: 'manage'
+      resources :classes do
+        namespace :sy do
+          resources :manage, only: [:create, :edit, :update, :show, :new, :index, :destroy]
+          get 'export', to: 'export#index', as: 'export'
+          get 'send_exports', to: 'export#download', as: 'download'
+        end
+      end
+      # resources :password, as: 'password', only: [:edit, :update]
+      # patch 'change_password', to: 'config#change_password' # config related
+      # get 'confirm_destroy', to: 'config#confirm_destroy'  # config related
+      get 'export', to: 'export#index', as: 'export'
+      get 'send_exports', to: 'export#download', as: 'download'
+      # get 'history', to: 'history#index', as: 'history'
+      # get 'versions', to: 'history#versions', as: 'versions'
+      # get 'snapshot/:id', to: 'history#snapshot', as: 'snapshot'
+      # post 'rollback/:id', to: 'history#rollback', as: 'rollback' 
     end
   end
 end

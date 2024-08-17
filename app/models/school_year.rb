@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-class Section < ApplicationRecord
+class SchoolYear < ApplicationRecord
   include Exportable
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  # devise :database_authenticatable, :registerable,
-  # :recoverable, :rememberable, :validatable
-  has_paper_trail
 
+  belongs_to :school_class
+
+  validates :name, presence: true
+
+  # TODO: Refactor this to a modular approach
   def self.to_csv(fields)
     headers = fields[:no_header].present?
 
@@ -26,29 +26,27 @@ class Section < ApplicationRecord
   end
 
   def self.csv_row(fields, record)
-    fields[:sections].map { |field| record.send(field) }
+    fields[:sy].map { |field| record.send(field) }
   end
 
   def self.serial_data(fields)
     all.map do |record|
-      fields[:sections].index_with { |field| record.send(field) }
+      sy_data = fields[:sy].index_with { |field| record.send(field) }
+
+      sy_data
     end
   end
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[created_at name description updated_at]
+    get_export_fields(%i[school_class_id])
   end
 
   def self.ransackable_associations(_auth_object = nil)
-    []
-  end
-
-  def self.get_export_fields(excluded_fields = [])
-    column_names.map(&:to_sym) - excluded_fields
+    %w[]
   end
 
   def self.add_headers(csv, fields)
-    csv << fields[:sections].map { |section| "section_#{section}" }
+    csv << fields[:sy].map(&:to_s)
   end
 
   def self.add_records(csv, fields)
