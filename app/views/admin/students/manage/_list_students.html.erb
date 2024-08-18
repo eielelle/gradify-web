@@ -1,25 +1,24 @@
 <div id="list_students">
   <header class="flex justify-between items-center mb-6">
-    <%= search_form_for @q, url: admin_students_manage_index_path, method: :get, html: { class: "join" } do |f| %>
-      <%= f.search_field :name_or_email_cont, placeholder: "Search", class: "input input-bordered w-96 join-item", id: "search_input" %>
-      <%= f.select :s, options_for_select(@sort_fields, selected: params.dig(:q, :s)), {}, { class: "select select-bordered join-item", onchange: 'this.form.submit();' } %>
-      <button type="submit" class="btn btn-primary join-item">Search</button>
+    <%= search_form_for @q, url: admin_students_manage_index_path, method: :get, html: { class: "flex space-x-2" } do |f| %>
+      <%= f.search_field :name_or_email_cont, placeholder: "Search", class: "input input-bordered w-96" %>
+      <%= f.select :s, options_for_select(@sort_fields, selected: params.dig(:q, :s)), {}, { class: "select select-bordered" } %>
+      <button type="submit" class="btn btn-primary">Search</button>
     <% end %>
-    <div class="join">
-      <button class="btn btn-secondary join-item">Remove Selected</button>    
-      <%= link_to "Export", admin_students_export_path, class: "btn btn-primary join-item" %>
+    <div class="flex space-x-2">
+      <button id="remove_selected" class="btn btn-secondary hidden">Remove Selected</button>    
+      <%= link_to "Export", admin_students_export_path, class: "btn btn-primary" %>
     </div>
   </header>
 
   <section>
     <div class="overflow-x-auto">
       <table class="table table-sm mb-6">
-        <!-- head -->
         <thead>
           <tr>
             <th>
               <label>
-                <input type="checkbox" class="checkbox" />
+                <input type="checkbox" class="checkbox" id="select_all" />
               </label>
             </th>
             <th>Name</th>
@@ -30,30 +29,19 @@
           </tr>
         </thead>
         <tbody>
-          <!-- row 1 -->
           <% if @students.present? %>
-            <% @students.each do | student | %>
+            <% @students.each do |student| %>
               <tr class="hover">
                 <th>
                   <label>
                     <input type="checkbox" class="checkbox" />
                   </label>
                 </th>
-                <td>
-                  <div class="flex items-center gap-3">
-                    <span><%= student.name %></span>
-                  </div>
-                </td>
-                <td>
-                  <span><%= student.email %></span>
-                </td>
-                <td>
-                  <span><%= student.created_at %></span>
-                </td>
-                <td>
-                  <span><%= student.updated_at %></span>
-                </td>
-                <td class="flex">
+                <td><%= student.name %></td>
+                <td><%= student.email %></td>
+                <td><%= student.created_at %></td>
+                <td><%= student.updated_at %></td>
+                <td class="flex space-x-2">
                   <%= link_to admin_students_manage_path(student), class: "btn btn-ghost btn-sm" do %>
                     <%= fa_icon "eye lg" %>
                   <% end %>
@@ -81,3 +69,39 @@
 </div>
 
 <%= render "shared/toast", toast: flash[:toast] %>
+
+<script>
+// It Will Show "Remove Selected" if the checkbox is selected 
+document.addEventListener('DOMContentLoaded', function() {
+  const removeButton = document.getElementById('remove_selected');
+  const checkboxes = document.querySelectorAll('#list_students .checkbox');
+  const selectAllCheckbox = document.getElementById('select_all');
+
+  function toggleRemoveButton() {
+    const isAnyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+    removeButton.classList.toggle('hidden', !isAnyChecked);
+  }
+
+  function uncheckAll() {
+    checkboxes.forEach(checkbox => {
+      checkbox.checked = false;
+    });
+    toggleRemoveButton();
+  }
+
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', toggleRemoveButton);
+  });
+
+  removeButton.addEventListener('click', function() {
+    uncheckAll();
+  });
+
+  selectAllCheckbox.addEventListener('change', function() {
+    checkboxes.forEach(checkbox => {
+      checkbox.checked = this.checked;
+    });
+    toggleRemoveButton();
+  });
+});
+</script>
