@@ -34,7 +34,7 @@ module Admin
 
         @sy = @school_class.school_years.all
         @sections = @school_class.school_sections.all
-        @selected_students ||= @school_class.student_accounts
+        @show ||= @school_class.student_accounts
       end
 
       def update
@@ -86,7 +86,7 @@ module Admin
       end
 
       def search_student
-       # @students = @q.result(distinct: true).page(params[:page])
+        # @students = @q.result(distinct: true).page(params[:page])
       end
     end
   end

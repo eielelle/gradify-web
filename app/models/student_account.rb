@@ -37,14 +37,14 @@ class StudentAccount < ApplicationRecord
 
   def self.serial_data(fields)
     all.map do |record|
-     student_data = fields[:students].index_with { |field| record.send(field) }
+      student_data = fields[:students].index_with { |field| record.send(field) }
 
-     school_class = record.school_class
-     if school_class
-      school_class_data = fields[:classes].index_with do |field|
-        school_class.send(field)
+      school_class = record.school_class
+      if school_class
+        school_class_data = fields[:classes].index_with do |field|
+          school_class.send(field)
+        end
       end
-    end
 
       student_data.merge(school_class: school_class_data)
     end
