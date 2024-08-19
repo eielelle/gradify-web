@@ -33,7 +33,7 @@ module Admin
 
         @sy = @school_class.school_years.all
         @sections = @school_class.school_sections.all
-        @selected_students ||= @school_class.student_accounts
+        @students ||= @school_class.student_accounts
       end
 
       def update

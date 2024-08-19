@@ -20,7 +20,7 @@ module Admin
             selected_student_ids = params[:student_ids]
 
             if selected_student_ids.present?
-              @selected_students = StudentAccount.where(id: selected_student_ids)
+              @students = StudentAccount.where(id: selected_student_ids)
             else
               flash[:alert] = 'No students were selected.'
               redirect_to admin_classes_manage_index_path and return
