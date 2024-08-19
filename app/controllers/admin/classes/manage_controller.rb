@@ -33,6 +33,7 @@ module Admin
 
         @sy = @school_class.school_years.all
         @sections = @school_class.school_sections.all
+        @show ||= @school_class.student_accounts
       end
 
       def update
@@ -82,6 +83,7 @@ module Admin
       def set_class
         @school_class = SchoolClass.find(params[:id])
       end
+
     end
   end
 end

@@ -88,6 +88,9 @@ Rails.application.routes.draw do
             get 'export', to: 'export#index', as: 'export'
             get 'send_exports', to: 'export#download', as: 'download'
           end
+          namespace :students do
+            resources :manage, only: [:show, :index]
+          end
         end
       end
       # resources :password, as: 'password', only: [:edit, :update]
