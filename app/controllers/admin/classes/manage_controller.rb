@@ -7,7 +7,6 @@ module Admin
       include ErrorConcern
 
       def index
-        search_student
         set_default_sort(default_sort_column: 'name asc')
         query_items_default(SchoolClass, params)
       end
@@ -34,7 +33,7 @@ module Admin
 
         @sy = @school_class.school_years.all
         @sections = @school_class.school_sections.all
-        @show ||= @school_class.student_accounts
+        @selected_students ||= @school_class.student_accounts
       end
 
       def update
@@ -85,9 +84,6 @@ module Admin
         @school_class = SchoolClass.find(params[:id])
       end
 
-      def search_student
-        # @students = @q.result(distinct: true).page(params[:page])
-      end
     end
   end
 end
