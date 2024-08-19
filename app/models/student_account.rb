@@ -51,7 +51,7 @@ class StudentAccount < ApplicationRecord
   end
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[created_at email id name updated_at]
+    %w[created_at email name]
   end
 
   # Allowlist associations for Ransack

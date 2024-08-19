@@ -41,7 +41,7 @@ class SchoolClass < ApplicationRecord
   end
 
   def self.ransackable_attributes(_auth_object = nil)
-    get_export_fields(%i[description])
+    %w[name created_at]
   end
 
   # Allowlist associations for Ransack
