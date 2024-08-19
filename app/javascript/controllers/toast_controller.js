@@ -6,6 +6,10 @@ export default class extends Controller {
 
   connect() {
     console.log("Connecting to data-controller")
+
+    setTimeout(() => {
+      this.close()
+    }, 3000)
   }
 
   close() {
