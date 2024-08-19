@@ -5,7 +5,10 @@ class SchoolClass < ApplicationRecord
 
   has_many :school_years, dependent: :destroy
   has_many :school_sections, dependent: :destroy
+  has_many :student_accounts
   validates :name, presence: true
+
+  has_paper_trail ignore: %i[created_at updated_at]
 
   # TODO: Refactor this to a modular approach
   def self.to_csv(fields)

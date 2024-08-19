@@ -19,6 +19,7 @@ Whirly.status = "Warming up...."
 # Create Permissions
 s_permission = Permission.create(name: "SuperAdmin", description: "Super Admin")
 n_permission = Permission.create(name: "Admin", description: "Admin")
+s_class = SchoolClass.create(name: "Class " + rand(1000).to_s, description: "AAA")
 
 Whirly.status = LoadingMessages.get
 
@@ -73,7 +74,8 @@ Whirly.status = LoadingMessages.get
   StudentAccount.create(
     name: Faker::Name.name,
     email: Faker::Internet.email,
-    password: 'password'
+    password: 'password',
+    school_class_id: s_class.id
   )
 end
 
