@@ -45,7 +45,6 @@ class SchoolYear < ApplicationRecord
     %w[]
   end
 
-
   def self.add_headers(csv, fields)
     csv << fields[:sy].map(&:to_s)
   end

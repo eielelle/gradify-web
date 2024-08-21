@@ -83,6 +83,14 @@ Rails.application.routes.draw do
           resources :manage, only: [:create, :edit, :update, :show, :new, :index, :destroy]
           get 'export', to: 'export#index', as: 'export'
           get 'send_exports', to: 'export#download', as: 'download'
+          namespace :sections do
+            resources :manage, only: [:create, :edit, :update, :show, :new, :index, :destroy]
+            get 'export', to: 'export#index', as: 'export'
+            get 'send_exports', to: 'export#download', as: 'download'
+          end
+          namespace :students do
+            resources :manage, only: [:show, :index]
+          end
         end
       end
       # resources :password, as: 'password', only: [:edit, :update]

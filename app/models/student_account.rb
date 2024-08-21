@@ -2,11 +2,13 @@
 
 class StudentAccount < ApplicationRecord
   include Exportable
-
+  belongs_to :school_class
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :trackable
+
+  validates :name, presence: true
 
   has_paper_trail ignore: %i[encrypted_password reset_password_token reset_password_sent_at sign_in_count
                              current_sign_in_at last_sign_in_at current_sign_in_ip last_sign_in_ip]
@@ -35,12 +37,21 @@ class StudentAccount < ApplicationRecord
 
   def self.serial_data(fields)
     all.map do |record|
-      fields[:students].index_with { |field| record.send(field) }
+      student_data = fields[:students].index_with { |field| record.send(field) }
+
+      school_class = record.school_class
+      if school_class
+        school_class_data = fields[:classes].index_with do |field|
+          school_class.send(field)
+        end
+      end
+
+      student_data.merge(school_class: school_class_data)
     end
   end
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[created_at email id name updated_at]
+    %w[created_at email name]
   end
 
   # Allowlist associations for Ransack

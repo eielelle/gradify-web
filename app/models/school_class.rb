@@ -4,7 +4,11 @@ class SchoolClass < ApplicationRecord
   include Exportable
 
   has_many :school_years, dependent: :destroy
+  has_many :school_sections, dependent: :destroy
+  has_many :student_accounts, dependent: :destroy
   validates :name, presence: true
+
+  has_paper_trail ignore: %i[created_at updated_at]
 
   # TODO: Refactor this to a modular approach
   def self.to_csv(fields)
@@ -37,7 +41,7 @@ class SchoolClass < ApplicationRecord
   end
 
   def self.ransackable_attributes(_auth_object = nil)
-    get_export_fields(%i[description])
+    %w[name created_at]
   end
 
   # Allowlist associations for Ransack

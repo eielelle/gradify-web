@@ -32,6 +32,8 @@ module Admin
         set_class
 
         @sy = @school_class.school_years.all
+        @sections = @school_class.school_sections.all
+        @show ||= @school_class.student_accounts
       end
 
       def update

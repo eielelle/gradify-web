@@ -1,5 +1,5 @@
-<%= form_with(url: admin_teachers_download_path, method: :get, local: true, data: {turbo: false}) do |f| %>
-  <div class="collapse collapse-arrow bg-base-200 mb-6" data-controller="export" >
+<%= form_with(url: admin_classes_class_sy_sections_download_path, method: :get, local: true, data: {turbo: false}) do |f| %>
+  <div class="collapse collapse-arrow bg-base-200 mb-6" data-controller="export">
     <input type="radio" name="my-accordion-2" checked="checked" />
     <div class="collapse-title text-xl font-semibold">
       <h1>Select field to export</h1>
@@ -10,12 +10,12 @@
         <%= check_box_tag 'select_all', "select_all_fields", checked: true, class: "checkbox checkbox-primary checkbox-sm", data: { action: "click->export#checked", "export-target": "checkbox" } %>
         <%= label_tag 'select_all_fields', "Select all", class: "label-text" %>
       </div>
-      <h1 class="text-lg mb-4">Teacher Fields</h1>
+      <h1 class="text-lg mb-4">Section Fields</h1>
       <div class="flex flex-wrap mb-4">
-        <% @teacher_fields.each do |option| %>
+        <% @sec_fields.each do |option| %>
           <div class="me-6">
-            <%= check_box_tag 'selected_teachers[]', option, id: "#{option}", checked: true, class: "checkbox checkbox-primary checkbox-md cb-export" %>
-            <%= label_tag "teacher", option, class: "label-text" %>
+            <%= check_box_tag 'selected_sec[]', option, id: "class_#{option}", checked: true, class: "checkbox checkbox-primary checkbox-md cb-export" %>
+            <%= label_tag "class", option, class: "label-text" %>
           </div>
         <% end %>
       </div>

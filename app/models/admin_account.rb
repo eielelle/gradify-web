@@ -60,7 +60,7 @@ class AdminAccount < ApplicationRecord
   end
 
   def self.ransackable_attributes(_auth_object = nil)
-    get_export_fields(%i[encrypted_password reset_password_token id reset_password_sent_at])
+    %w[name email created_at]
   end
 
   # Allowlist associations for Ransack

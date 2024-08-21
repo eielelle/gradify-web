@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_13_121529) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_17_160336) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -58,11 +58,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_13_121529) do
   end
 
   create_table "school_sections", force: :cascade do |t|
-    t.bigint "quarter_id", null: false
+    t.bigint "school_class_id", null: false
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["quarter_id"], name: "index_school_sections_on_quarter_id"
+    t.index ["school_class_id"], name: "index_school_sections_on_school_class_id"
   end
 
   create_table "school_years", force: :cascade do |t|
@@ -97,8 +97,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_13_121529) do
     t.datetime "last_sign_in_at"
     t.inet "current_sign_in_ip"
     t.inet "last_sign_in_ip"
+    t.bigint "school_class_id", null: false
     t.index ["email"], name: "index_student_accounts_on_email", unique: true
     t.index ["reset_password_token"], name: "index_student_accounts_on_reset_password_token", unique: true
+    t.index ["school_class_id"], name: "index_student_accounts_on_school_class_id"
   end
 
   create_table "teacher_accounts", force: :cascade do |t|
@@ -133,6 +135,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_13_121529) do
 
   add_foreign_key "admin_accounts", "permissions"
   add_foreign_key "quarters", "school_years"
-  add_foreign_key "school_sections", "quarters"
+  add_foreign_key "school_sections", "school_classes"
   add_foreign_key "school_years", "school_classes"
+  add_foreign_key "student_accounts", "school_classes"
 end

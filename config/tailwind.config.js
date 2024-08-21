@@ -2,7 +2,7 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
   daisyui: {
-    themes: ["emerald", "luxury"],
+    themes: ["light", "dark"],
   },
   content: [
     "./public/*.html",

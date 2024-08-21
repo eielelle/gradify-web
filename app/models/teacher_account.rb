@@ -47,7 +47,7 @@ class TeacherAccount < ApplicationRecord
   end
 
   def self.ransackable_attributes(_auth_object = nil)
-    get_export_fields(%i[encrypted_password reset_password_token id reset_password_sent_at remember_created_at jti])
+    %w[name created_at email]
   end
 
   # Allowlist associations for Ransack
