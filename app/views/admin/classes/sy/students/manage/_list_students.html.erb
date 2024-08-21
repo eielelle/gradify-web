@@ -66,3 +66,16 @@
 </div>
 
 <%= render "shared/toast", toast: flash[:toast] %>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const selectAllCheckbox = document.getElementById('select_all');
+    const checkboxes = document.querySelectorAll('input[type="checkbox"].checkbox');
+
+    selectAllCheckbox.addEventListener('change', function () {
+      checkboxes.forEach(checkbox => {
+        checkbox.checked = selectAllCheckbox.checked;
+      });
+    });
+  });
+</script>

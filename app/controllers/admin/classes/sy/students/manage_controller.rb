@@ -21,12 +21,14 @@ module Admin
 
             if selected_student_ids.present?
               @show = StudentAccount.where(id: selected_student_ids)
+              @school_class = SchoolClass.find(params[:class_id])
+              @school_class.student_accounts << @show
+
+              flash[:notice] = 'Students successfully added'
             else
               flash[:alert] = 'No students were selected.'
-              redirect_to admin_classes_manage_index_path and return
             end
-            @school_class = SchoolClass.find(params[:id])
-            render :show
+            redirect_to admin_classes_class_sy_students_manage_index_path(class_id: @school_class.id)
           end
 
           def show
