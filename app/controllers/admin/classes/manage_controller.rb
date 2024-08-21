@@ -83,7 +83,6 @@ module Admin
       def set_class
         @school_class = SchoolClass.find(params[:id])
       end
-
     end
   end
 end
