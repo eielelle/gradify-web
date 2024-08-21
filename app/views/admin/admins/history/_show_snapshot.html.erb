@@ -40,18 +40,6 @@
     <strong>Current IP: </strong>
     <span><%= @admin.current_sign_in_ip %></span>
 </div>
-<br>
-
-<h2 class="text-2xl font-semibold mb-4">Timestamps</h2>
-
-<div>
-    <strong>Created At: </strong>
-    <span><%= format_date @admin.created_at %></span>
-</div>
-<div>
-    <strong>Updated At: </strong>
-    <span><%= format_date @admin.updated_at %></span>
-</div>
 
 <% if @admin.permission.name != 'SuperAdmin' %>
     <footer class="mt-4">
