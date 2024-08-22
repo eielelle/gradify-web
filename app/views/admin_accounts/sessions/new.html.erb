@@ -10,7 +10,12 @@
       </label>
       <label class="input input-lg input-bordered flex items-center gap-2 mb-4">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70"><path fill-rule="evenodd" d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z" clip-rule="evenodd" /></svg>
-        <%= f.password_field :password, autocomplete: "current-password", placeholder: :password, class: "flex-grow border-none focus:border-none focus:border-0 focus:outline-none" %>
+        <%= f.password_field :password, autocomplete: "current-password", placeholder: :password, class: "flex-grow border-none focus:border-none focus:border-0 focus:outline-none pr-10", id: "password-field" %>
+        <button type="button" onclick="togglePasswordVisibility()" class="absolute right-6 p-2">
+          <span id="password-eye">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          </span>
+        </button>
       </label>
 
       <% if devise_mapping.rememberable? %>
@@ -25,3 +30,23 @@
     <% end %>
   </div>
 </section>
+
+<script>
+  function togglePasswordVisibility() {
+    const passwordField = document.getElementById("password-field");
+    const passwordEye = document.getElementById("password-eye");
+
+    if (passwordField.type === "password") {
+      passwordField.type = "text";
+      passwordEye.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+    `;
+    } else {
+      passwordField.type = "password";
+      passwordEye.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+    `;
+    }
+  }
+</script>
+
