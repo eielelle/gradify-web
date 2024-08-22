@@ -31,12 +31,12 @@ module Admin
       def show
         set_class
 
-        if params[:selected_student_ids].present?
-          @selected_students = StudentAccount.where(id: params[:selected_student_ids])
-        else
-          @selected_students = []
-        end
-        
+        @selected_students = if params[:selected_student_ids].present?
+                               StudentAccount.where(id: params[:selected_student_ids])
+                             else
+                               []
+                             end
+
         @show = @school_class.student_accounts
         @sy = @school_class.school_years.all
         @sections = @school_class.school_sections.all
