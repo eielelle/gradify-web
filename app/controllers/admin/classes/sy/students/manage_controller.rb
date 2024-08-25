@@ -25,7 +25,7 @@ module Admin
               redirect_to admin_classes_class_sy_students_manage_index_path(class_id: @school_class.id)
             else
               flash[:alert] = 'No students were selected.'
-              
+
             end
           end
 
