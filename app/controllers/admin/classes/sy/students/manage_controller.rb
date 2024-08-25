@@ -12,8 +12,8 @@ module Admin
           before_action :set_search, only: %i[index]
 
           def index
-            @students = @q.result(distinct: true).page(params[:page])
-            @count = @students.total_count
+            set_default_sort(default_sort_column: 'name asc')
+            query_items_default(StudentAccount, params)
           end
 
           def create
@@ -30,7 +30,7 @@ module Admin
           end
 
           def show
-            @student = @class.student_accounts.find(params[:id])
+            @student = StudentAccount.find(params[:id])
           end
 
           private

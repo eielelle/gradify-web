@@ -37,7 +37,7 @@ module Admin
                                []
                              end
 
-        @show = @school_class.student_accounts
+        @show = @school_class.student_accounts.all
         @sy = @school_class.school_years.all
         @sections = @school_class.school_sections.all
       end

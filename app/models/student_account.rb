@@ -2,7 +2,7 @@
 
 class StudentAccount < ApplicationRecord
   include Exportable
-  belongs_to :school_class
+  #belongs_to :school_class
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
