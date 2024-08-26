@@ -23,11 +23,6 @@
             <th>Name</th>
             <th>Email</th>
             <th>Permission</th>
-            <th>Sign In Count</th>
-            <th>Current Sign In At</th>
-            <th>Last Sign In At</th>
-            <th>Current IP</th>
-            <th>Created At</th>
             <th>Updated At</th>
             <th>Actions</th>
           </tr>
@@ -51,21 +46,6 @@
                 </td>
                 <td>
                   <span><%= admin.permission.name %></span>
-                </td>
-                <td class="text-center">
-                  <span><%= admin.sign_in_count %></span>
-                </td>
-                <td>
-                  <span><%= format_date admin.current_sign_in_at %></span>
-                </td>
-                <td>
-                  <span><%= format_date admin.last_sign_in_at %></span>
-                </td>
-                <td>
-                  <span><%= admin.current_sign_in_ip %></span>
-                </td>
-                <td>
-                  <span><%= format_date admin.created_at %></span>
                 </td>
                 <td>
                   <span><%= format_date admin.updated_at %></span>
