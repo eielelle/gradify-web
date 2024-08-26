@@ -12,10 +12,9 @@
       </div>
     <% end %>
   </header>
-
   <section>
     <div class="overflow-x-auto">
-      <table class="table table-sm mb-6 text-center">
+      <table class="table table-lg mb-6 text-center">
         <thead>
           <tr>
             <th>Date/Time</th>
@@ -45,7 +44,6 @@
           <% end %>
         </tbody>
       </table>
-
       <div class="flex flex-col md:flex-row justify-between items-center gap-2">
         <span><%= @count %> Versions</span>
         <%= paginate @items, views_prefix: 'shared' %>
@@ -53,5 +51,4 @@
     </div>
   </section>
 </div>
-
 <%= render "shared/toast", toast: flash[:toast] %>

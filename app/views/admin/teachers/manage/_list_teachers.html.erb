@@ -1,19 +1,17 @@
 <div id="list_teachers">
   <header class="flex justify-between items-center mb-6">
-      <%= search_form_for @q, url: admin_teachers_manage_index_path, method: :get, html: { class: "join" } do |f| %>
-          <%= f.search_field :name_or_email_cont, placeholder: "Search", class: "input input-bordered w-96 join-item", id: "search_input" %>
-          <%= f.select :s, options_for_select(@sort_fields, selected: params.dig(:q, :s)), {}, { class: "select select-bordered join-item", onchange: 'this.form.submit();' } %>
-          <button type="submit" class="btn btn-primary join-item">Search</button>
-          
-      <% end %>
+    <%= search_form_for @q, url: admin_teachers_manage_index_path, method: :get, html: { class: "join" } do |f| %>
+      <%= f.search_field :name_or_email_cont, placeholder: "Search", class: "input input-bordered w-96 join-item", id: "search_input" %>
+      <%= f.select :s, options_for_select(@sort_fields, selected: params.dig(:q, :s)), {}, { class: "select select-bordered join-item", onchange: 'this.form.submit();' } %>
+      <button type="submit" class="btn btn-primary join-item">Search</button>
+    <% end %>
     <div class="join">
       <%= link_to "Export", admin_teachers_export_path, class: "btn btn-primary join-item" %>
     </div>
   </header>
-
   <section>
     <div class="overflow-x-auto">
-      <table class="table table-sm mb-6">
+      <table class="table table-lg mb-6">
         <!-- head -->
         <thead>
           <tr>
@@ -63,15 +61,15 @@
                   <%= link_to admin_teachers_manage_path(teacher), class: "btn btn-ghost btn-sm" do %>
                     <%= fa_icon "eye lg" %>
                   <% end %>
-                    <%= link_to edit_admin_teachers_manage_path(teacher), class: "btn btn-ghost btn-sm" do %>
-                        <%= fa_icon "pencil lg" %>
-                    <% end %>
-                    <%= link_to edit_admin_teachers_password_path(teacher), class: "btn btn-ghost btn-sm" do %>
-                        <%= fa_icon "key lg" %>
-                    <% end %>
-                    <%= button_to admin_teachers_manage_path(teacher), method: :delete, form: { data: { 'turbo-confirm': 'Are you sure you want to delete this account?', btn_class: "btn-error" } }, class: "btn btn-ghost btn-sm" do %>
-                        <%= fa_icon "trash lg" %>
-                    <% end %>
+                  <%= link_to edit_admin_teachers_manage_path(teacher), class: "btn btn-ghost btn-sm" do %>
+                    <%= fa_icon "pencil lg" %>
+                  <% end %>
+                  <%= link_to edit_admin_teachers_password_path(teacher), class: "btn btn-ghost btn-sm" do %>
+                    <%= fa_icon "key lg" %>
+                  <% end %>
+                  <%= button_to admin_teachers_manage_path(teacher), method: :delete, form: { data: { 'turbo-confirm': 'Are you sure you want to delete this account?', btn_class: "btn-error" } }, class: "btn btn-ghost btn-sm" do %>
+                    <%= fa_icon "trash lg" %>
+                  <% end %>
                 </td>
               </tr>
             <% end %>
@@ -83,8 +81,6 @@
         <%= paginate @items, views_prefix: 'shared' %>
       </div>
     </div>
-
   </section>
 </div>
-
 <%= render "shared/toast", toast: flash[:toast] %>
