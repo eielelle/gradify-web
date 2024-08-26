@@ -97,7 +97,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_17_160336) do
     t.datetime "last_sign_in_at"
     t.inet "current_sign_in_ip"
     t.inet "last_sign_in_ip"
-    t.bigint "school_class_id", null: false
+    t.bigint "school_class_id"
     t.index ["email"], name: "index_student_accounts_on_email", unique: true
     t.index ["reset_password_token"], name: "index_student_accounts_on_reset_password_token", unique: true
     t.index ["school_class_id"], name: "index_student_accounts_on_school_class_id"

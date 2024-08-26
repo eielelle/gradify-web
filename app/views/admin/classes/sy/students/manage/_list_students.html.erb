@@ -28,8 +28,8 @@
         </thead>
         <tbody>
           <!-- row 1 -->
-          <% if @students.present? %>
-            <% @students.each do | student | %>
+          <% if @items.present? %>
+            <% @items.each do | student | %>
               <tr class="hover">
                 <th>
                   <label>
@@ -59,10 +59,23 @@
       <% end %>
       <div class="flex justify-between items-center">
         <span><%= @count %> Students</span>
-        <%= paginate @students, views_prefix: 'shared' %>
+        <%= paginate @items, views_prefix: 'shared' %>
       </div>
     </div>
   </section>
 </div>
 
 <%= render "shared/toast", toast: flash[:toast] %>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const selectAllCheckbox = document.getElementById('select_all');
+    const checkboxes = document.querySelectorAll('input[type="checkbox"].checkbox');
+
+    selectAllCheckbox.addEventListener('change', function () {
+      checkboxes.forEach(checkbox => {
+        checkbox.checked = selectAllCheckbox.checked;
+      });
+    });
+  });
+</script>
