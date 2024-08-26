@@ -5,57 +5,55 @@
       <%= f.select :s, options_for_select(@sort_fields, selected: params.dig(:q, :s)), {}, { class: "select select-bordered join-item", onchange: 'this.form.submit();' } %>
       <button type="submit" class="btn btn-primary join-item">Search</button>
     <% end %>
-    
   </header>
-
   <section>
     <div class="overflow-x-auto">
-     <%= form_with url: admin_classes_class_sy_students_manage_index_path, method: :post do %>
-      <table class="table table-sm mb-6">
-        <!-- head -->
-        <thead>
-          <tr>
-            <th>
-              <label>
-              <input type="checkbox" class="checkbox" id="select_all" />
-              </label>
-            </th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Created At</th>
-            <th>Updated At</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- row 1 -->
-          <% if @students.present? %>
-            <% @students.each do | student | %>
-              <tr class="hover">
-                <th>
-                  <label>
-                  <%= check_box_tag 'student_ids[]', student.id, false, class: "checkbox" %>
-                  </label>
-                </th>
-                <td>
-                  <div class="flex items-center gap-3">
-                    <span><%= student.name %></span>
-                  </div>
-                </td>
-                <td>
-                  <span><%= student.email %></span>
-                </td>
-                <td>
-                  <span><%= student.created_at %></span>
-                </td>
-                <td>
-                  <span><%= student.updated_at %></span>
-                </td>
-              </tr>
+      <%= form_with url: admin_classes_class_sy_students_manage_index_path, method: :post do %>
+        <table class="table table-lg mb-6">
+          <!-- head -->
+          <thead>
+            <tr>
+              <th>
+                <label>
+                  <input type="checkbox" class="checkbox" id="select_all" />
+                </label>
+              </th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Created At</th>
+              <th>Updated At</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- row 1 -->
+            <% if @students.present? %>
+              <% @students.each do | student | %>
+                <tr class="hover">
+                  <th>
+                    <label>
+                      <%= check_box_tag 'student_ids[]', student.id, false, class: "checkbox" %>
+                    </label>
+                  </th>
+                  <td>
+                    <div class="flex items-center gap-3">
+                      <span><%= student.name %></span>
+                    </div>
+                  </td>
+                  <td>
+                    <span><%= student.email %></span>
+                  </td>
+                  <td>
+                    <span><%= student.created_at %></span>
+                  </td>
+                  <td>
+                    <span><%= student.updated_at %></span>
+                  </td>
+                </tr>
+              <% end %>
             <% end %>
-          <% end %>
-        </tbody>
-      </table>
-      <button type="submit" class="btn btn-primary">Submit Selected</button>
+          </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary">Submit Selected</button>
       <% end %>
       <div class="flex justify-between items-center">
         <span><%= @count %> Students</span>
@@ -64,5 +62,4 @@
     </div>
   </section>
 </div>
-
 <%= render "shared/toast", toast: flash[:toast] %>
