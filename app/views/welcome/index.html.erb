@@ -1,1 +1,267 @@
-<h1>Welcome</h1>
+<main class="container mx-auto">
+    <div class="navbar">
+        <div class="navbar-start">
+            <div class="dropdown">
+                <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+                <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 6h16M4 12h8m-8 6h16" />
+                </svg>
+            </div>
+            <ul
+                tabindex="0"
+                class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                <li><a>Item 1</a></li>
+                <li>
+                <a>Parent</a>
+                <ul class="p-2">
+                    <li><a>Submenu 1</a></li>
+                    <li><a>Submenu 2</a></li>
+                </ul>
+                </li>
+                <li><a>Item 3</a></li>
+            </ul>
+            </div>
+            <a class="btn btn-ghost text-xl uppercase">gradify</a>
+        </div>
+        <div class="navbar-end gap-6">
+            <ul class="menu menu-horizontal px-1 hidden lg:flex">
+                <li><a>Features</a></li>
+                <li><a>How it works</a></li>
+                <li><a href="">Why us</a></li>
+            </ul>
+            <a class="btn btn-outline btn-sm">Sign In</a>
+            <input
+                type="checkbox"
+                value="dark"
+                class="toggle theme-controller col-span-2 col-start-1 row-start-1 border-sky-400 bg-amber-300 [--tglbg:theme(colors.sky.500)] checked:border-blue-800 checked:bg-blue-300 checked:[--tglbg:theme(colors.blue.900)]" />
+        </div>
+    </div>
+
+    <div class="hero min-h-screen">
+        <div class="hero-content min-w-full justify-between flex-col lg:flex-row-reverse gap-28">
+            <div class="relative min-h-screen w-1/2">
+                <div class="mockup-browser bg-base-300 border absolute top-1/4 left-0 z-30">
+                    <div class="mockup-browser-toolbar">
+                        <div class="input">https://daisyui.com</div>
+                    </div>
+                    <div class="bg-base-200 flex justify-center px-4 py-16">Hello!</div>
+                </div>
+
+                <div class="mockup-phone absolute top-1/2 left-1/2 translate-y-[-50%]">
+                    <div class="camera"></div>
+                    <div class="display">
+                        <div class="artboard artboard-demo phone-1">Hi.</div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h1 class="text-5xl font-bold">Simplify Exam Grading with Gradify</h1>
+                <p class="py-6">
+                    The ultimate companion for teachers to effortlessly grade exams, scan bubble sheets, and manage results—all in one place.
+                </p>
+                <button class="btn btn-primary">Contact Us</button>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <h2 class="text-center mb-10 font-bold text-3xl">Why Choose Gradify?</h2>
+        <div class="flex flex-wrap justify-center gap-11">
+            <div class="card bg-base-100 w-72 shadow-xl text-center">
+            <figure>
+                <img
+                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                alt="Shoes" />
+            </figure>
+            <div class="card-body">
+                <h2 class="card-title">Camera-based Scanner</h2>
+                <p>Quickly scan and process bubble sheets using your phone or scanner.</p>
+            </div>
+            </div>
+
+            <div class="card bg-base-100 w-72 shadow-xl text-center">
+            <figure>
+                <img
+                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                alt="Shoes" />
+            </figure>
+            <div class="card-body">
+                <h2 class="card-title">Comprehensive Reporting</h2>
+                <p>Get detailed insights into student performance.</p>
+            </div>
+            </div>
+
+            <div class="card bg-base-100 w-72 shadow-xl text-center">
+            <figure>
+                <img
+                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                alt="Shoes" />
+            </figure>
+            <div class="card-body">
+                <h2 class="card-title">Cross-Platform Access</h2>
+                <p>Available on both mobile and web for convenience.</p>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero min-h-screen">
+        <div class="hero-content min-w-full justify-between flex-col lg:flex-row-reverse">
+            <img
+            src="https://img.daisyui.com/images/stock/photo-1635805737707-575885ab0820.webp"
+            class="max-w-sm rounded-lg shadow-2xl" />
+            <div id="how-to-use">
+                <h1 class="text-6xl font-bold my-6">How Gradify Works</h1>
+
+                <div class="mb-4 flex items-center gap-6">
+                    <div class="icon-content w-10 h-10 flex items-center justify-center bg-red-400 rounded-lg">
+                        <span><%= fa_icon "camera lg" %></span>
+                    </div>
+
+                    <div class="text-content">
+                        <h2 class="text-2xl font-semibold">Upload Exam</h2>
+                        <p class="text-xl">Create or upload exam papers</p>
+                    </div>
+                </div>
+
+                <div class="mb-4 flex items-center gap-6">
+                    <div class="icon-content w-10 h-10 flex items-center justify-center bg-orange-400 rounded-lg">
+                        <span><%= fa_icon "file-text lg" %></span>
+                    </div>
+
+                    <div class="text-content">
+                        <h2 class="text-2xl font-semibold">Scan Bubble Sheets</h2>
+                        <p class="text-xl">Use the app to scan completed bubble sheets.</p>
+                    </div>
+                </div>
+
+                <div class="mb-4 flex items-center gap-6">
+                    <div class="icon-content w-10 h-10 flex items-center justify-center bg-blue-400 rounded-lg">
+                        <span><%= fa_icon "rocket lg" %></span>
+                    </div>
+
+                    <div class="text-content">
+                        <h2 class="text-2xl font-semibold">Automated Grading</h2>
+                        <p class="text-xl">Let Gradify handle the grading.</p>
+                    </div>
+                </div>
+
+                <div class="mb-4 flex items-center gap-6">
+                    <div class="icon-content w-10 h-10 flex items-center justify-center bg-lime-400 rounded-lg">
+                        <span><%= fa_icon "bar-chart lg" %></span>
+                    </div>
+
+                    <div class="text-content">
+                        <h2 class="text-2xl font-semibold">Review & Report</h2>
+                        <p class="text-xl">Review results and generate reports.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+   <div>
+        <h2 class="text-center mb-10 font-bold text-3xl">Designed for Teachers, by Teachers</h2>
+        <div class="flex flex-wrap justify-center gap-11">
+            <div class="card bg-base-100 w-72 shadow-xl text-center">
+            <figure>
+                <img
+                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                alt="Shoes" />
+            </figure>
+            <div class="card-body">
+                <h2 class="card-title">Save Time</h2>
+                <p>Automate time-consuming tasks.</p>
+            </div>
+            </div>
+
+            <div class="card bg-base-100 w-72 shadow-xl text-center">
+            <figure>
+                <img
+                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                alt="Shoes" />
+            </figure>
+            <div class="card-body">
+                <h2 class="card-title">Increase Accuracy</h2>
+                <p>Reduce errors with OMR technology.</p>
+            </div>
+            </div>
+
+            <div class="card bg-base-100 w-72 shadow-xl text-center">
+            <figure>
+                <img
+                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                alt="Shoes" />
+            </figure>
+            <div class="card-body">
+                <h2 class="card-title">Enhance Productivity</h2>
+                <p>Focus on teaching, not grading.</p>
+            </div>
+            </div>
+
+            <div class="card bg-base-100 w-72 shadow-xl text-center">
+            <figure>
+                <img
+                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                alt="Shoes" />
+            </figure>
+            <div class="card-body">
+                <h2 class="card-title">Accessible Anywhere</h2>
+                <p>Manage grading from any device, anywhere.</p>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer bg-base-200 text-base-content p-10">
+    <aside>
+        <svg
+        width="50"
+        height="50"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        class="fill-current">
+        <path
+            d="M22.672 15.226l-2.432.811.841 2.515c.33 1.019-.209 2.127-1.23 2.456-1.15.325-2.148-.321-2.463-1.226l-.84-2.518-5.013 1.677.84 2.517c.391 1.203-.434 2.542-1.831 2.542-.88 0-1.601-.564-1.86-1.314l-.842-2.516-2.431.809c-1.135.328-2.145-.317-2.463-1.229-.329-1.018.211-2.127 1.231-2.456l2.432-.809-1.621-4.823-2.432.808c-1.355.384-2.558-.59-2.558-1.839 0-.817.509-1.582 1.327-1.846l2.433-.809-.842-2.515c-.33-1.02.211-2.129 1.232-2.458 1.02-.329 2.13.209 2.461 1.229l.842 2.515 5.011-1.677-.839-2.517c-.403-1.238.484-2.553 1.843-2.553.819 0 1.585.509 1.85 1.326l.841 2.517 2.431-.81c1.02-.33 2.131.211 2.461 1.229.332 1.018-.21 2.126-1.23 2.456l-2.433.809 1.622 4.823 2.433-.809c1.242-.401 2.557.484 2.557 1.838 0 .819-.51 1.583-1.328 1.847m-8.992-6.428l-5.01 1.675 1.619 4.828 5.011-1.674-1.62-4.829z"></path>
+        </svg>
+        <p>
+        ACME Industries Ltd.
+        <br />
+        Providing reliable tech since 1992
+        </p>
+    </aside>
+    <nav>
+        <h6 class="footer-title">Services</h6>
+        <a class="link link-hover">Branding</a>
+        <a class="link link-hover">Design</a>
+        <a class="link link-hover">Marketing</a>
+        <a class="link link-hover">Advertisement</a>
+    </nav>
+    <nav>
+        <h6 class="footer-title">Company</h6>
+        <a class="link link-hover">About us</a>
+        <a class="link link-hover">Contact</a>
+        <a class="link link-hover">Jobs</a>
+        <a class="link link-hover">Press kit</a>
+    </nav>
+    <nav>
+        <h6 class="footer-title">Legal</h6>
+        <a class="link link-hover">Terms of use</a>
+        <a class="link link-hover">Privacy policy</a>
+        <a class="link link-hover">Cookie policy</a>
+    </nav>
+    </footer>
+
+</main>
