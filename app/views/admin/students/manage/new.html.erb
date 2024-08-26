@@ -1,4 +1,4 @@
-<%= render "shared/common_panel", title: "Add Students", subtitle: "", content: "new_student", data: @students, count: @count do %>
+<%= render "shared/common_panel", title: "Students", subtitle: "Manage your students.", content: "new_student", data: @students, count: @count do %>
   <%= render "shared/common_tabs", tabs: {
     "List": admin_students_manage_index_path,
     "Add": new_admin_students_manage_path,
