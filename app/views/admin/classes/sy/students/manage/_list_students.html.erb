@@ -58,7 +58,7 @@
       <button type="submit" class="btn btn-primary">Submit Selected</button>
       <% end %>
       <div class="flex justify-between items-center">
-        <span><%= @count %> Students</span>
+        <span></span>
         <%= paginate @items, views_prefix: 'shared' %>
       </div>
     </div>
@@ -68,7 +68,7 @@
 <%= render "shared/toast", toast: flash[:toast] %>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('turbo:load', function () {
     const selectAllCheckbox = document.getElementById('select_all');
     const checkboxes = document.querySelectorAll('input[type="checkbox"].checkbox');
 
