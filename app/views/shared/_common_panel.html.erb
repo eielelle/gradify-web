@@ -1,7 +1,11 @@
 <% show_border = true if show_border.nil? %>
 <% url_path = nil if url_path.nil? %>
+<% back = false if back.nil? %>
 
 <section class="p-6">
+  <% if back %>
+    <%= link_to 'Back', 'javascript:history.back()', class: 'btn btn-sm mb-6' %>
+  <% end %>
   <p><%= subtitle %></p>
   <h1 class="text-3xl font-bold mb-6"><%= title %></h1>
   <%= yield %>

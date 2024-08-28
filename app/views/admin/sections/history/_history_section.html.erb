@@ -1,5 +1,5 @@
 <div role="alert" class="alert alert-info mb-4">
-    <svg
+  <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
@@ -9,10 +9,9 @@
         stroke-linejoin="round"
         stroke-width="2"
         d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-    </svg>
-    <span>Since each version represents a specific snapshot, rolling back to a version only affects the state of the object at that specific snapshot. Rolling back to an earlier version will not automatically affect other versions.</span>
+  </svg>
+  <span>Since each version represents a specific snapshot, rolling back to a version only affects the state of the object at that specific snapshot. Rolling back to an earlier version will not automatically affect other versions.</span>
 </div>
-
 <div id="history">
   <header class="flex justify-between items-center mb-6">
     <%= search_form_for @q, url: admin_sections_history_path, method: :get, html: { class: "join" } do |f| %>
@@ -22,10 +21,9 @@
       <%= link_to "Reset", admin_sections_history_path, class: "btn btn-secondary join-item" %>
     <% end %>
   </header>
-
   <section>
     <div class="overflow-x-auto">
-      <table class="table table-sm mb-6 text-center">
+      <table class="table table-lg mb-6 text-center">
         <thead>
           <tr>
             <th>Date/Time</th>
