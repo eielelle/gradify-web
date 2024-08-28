@@ -9,15 +9,14 @@
         <div class="flex flex-row gap-2 md:w-auto lg:w-auto">
           <button type="submit" class="btn btn-primary">Search</button>
           <%= link_to "Export", admin_students_export_path, class: "btn btn-primary" %>
-          <button id="remove_selected" class="btn btn-secondary hidden">Remove Selected</button>    
+          <button id="remove_selected" class="btn btn-secondary hidden">Remove Selected</button>
         </div>
       </div>
     <% end %>
   </header>
-
   <section>
     <div class="overflow-x-auto">
-      <table class="table table-sm mb-6">
+      <table class="table table-lg mb-6">
         <thead>
           <tr>
             <th>
@@ -71,41 +70,39 @@
     </div>
   </section>
 </div>
-
 <%= render "shared/toast", toast: flash[:toast] %>
-
 <script>
-// It Will Show "Remove Selected" if the checkbox is selected 
-document.addEventListener('turbo:load', function() {
-  const removeButton = document.getElementById('remove_selected');
-  const checkboxes = document.querySelectorAll('#list_students .checkbox');
-  const selectAllCheckbox = document.getElementById('select_all');
+  // It Will Show "Remove Selected" if the checkbox is selected
+  document.addEventListener('turbo:load', function() {
+    const removeButton = document.getElementById('remove_selected');
+    const checkboxes = document.querySelectorAll('#list_students .checkbox');
+    const selectAllCheckbox = document.getElementById('select_all');
 
-  function toggleRemoveButton() {
-    const isAnyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
-    removeButton.classList.toggle('hidden', !isAnyChecked);
-  }
+    function toggleRemoveButton() {
+      const isAnyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+      removeButton.classList.toggle('hidden', !isAnyChecked);
+    }
 
-  function uncheckAll() {
+    function uncheckAll() {
+      checkboxes.forEach(checkbox => {
+        checkbox.checked = false;
+      });
+      toggleRemoveButton();
+    }
+
     checkboxes.forEach(checkbox => {
-      checkbox.checked = false;
+      checkbox.addEventListener('change', toggleRemoveButton);
     });
-    toggleRemoveButton();
-  }
 
-  checkboxes.forEach(checkbox => {
-    checkbox.addEventListener('change', toggleRemoveButton);
-  });
-
-  removeButton.addEventListener('click', function() {
-    uncheckAll();
-  });
-
-  selectAllCheckbox.addEventListener('change', function() {
-    checkboxes.forEach(checkbox => {
-      checkbox.checked = this.checked;
+    removeButton.addEventListener('click', function() {
+      uncheckAll();
     });
-    toggleRemoveButton();
+
+    selectAllCheckbox.addEventListener('change', function() {
+      checkboxes.forEach(checkbox => {
+        checkbox.checked = this.checked;
+      });
+      toggleRemoveButton();
+    });
   });
-});
 </script>

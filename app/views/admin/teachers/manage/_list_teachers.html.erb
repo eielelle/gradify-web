@@ -13,10 +13,9 @@
       </div>   
       <% end %>
   </header>
-
   <section>
     <div class="overflow-x-auto">
-      <table class="table table-sm mb-6">
+      <table class="table table-lg mb-6">
         <!-- head -->
         <thead>
           <tr>
@@ -66,15 +65,15 @@
                   <%= link_to admin_teachers_manage_path(teacher), class: "btn btn-ghost btn-sm" do %>
                     <%= fa_icon "eye lg" %>
                   <% end %>
-                    <%= link_to edit_admin_teachers_manage_path(teacher), class: "btn btn-ghost btn-sm" do %>
-                        <%= fa_icon "pencil lg" %>
-                    <% end %>
-                    <%= link_to edit_admin_teachers_password_path(teacher), class: "btn btn-ghost btn-sm" do %>
-                        <%= fa_icon "key lg" %>
-                    <% end %>
-                    <%= button_to admin_teachers_manage_path(teacher), method: :delete, form: { data: { 'turbo-confirm': 'Are you sure you want to delete this account?', btn_class: "btn-error" } }, class: "btn btn-ghost btn-sm" do %>
-                        <%= fa_icon "trash lg" %>
-                    <% end %>
+                  <%= link_to edit_admin_teachers_manage_path(teacher), class: "btn btn-ghost btn-sm" do %>
+                    <%= fa_icon "pencil lg" %>
+                  <% end %>
+                  <%= link_to edit_admin_teachers_password_path(teacher), class: "btn btn-ghost btn-sm" do %>
+                    <%= fa_icon "key lg" %>
+                  <% end %>
+                  <%= button_to admin_teachers_manage_path(teacher), method: :delete, form: { data: { 'turbo-confirm': 'Are you sure you want to delete this account?', btn_class: "btn-error" } }, class: "btn btn-ghost btn-sm" do %>
+                    <%= fa_icon "trash lg" %>
+                  <% end %>
                 </td>
               </tr>
             <% end %>
@@ -86,8 +85,6 @@
         <%= paginate @items, views_prefix: 'shared' %>
       </div>
     </div>
-
   </section>
 </div>
-
 <%= render "shared/toast", toast: flash[:toast] %>
