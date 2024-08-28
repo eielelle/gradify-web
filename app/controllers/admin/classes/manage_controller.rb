@@ -32,10 +32,10 @@ module Admin
         set_class
 
         @selected_students = if params[:selected_student_ids].present?
-          StudentAccount.where(id: params[:selected_student_ids])
-        else
-          []
-        end
+                               StudentAccount.where(id: params[:selected_student_ids])
+                             else
+                               []
+                             end
 
         @sy = @school_class.school_years.all
         @sections = @school_class.school_sections.all

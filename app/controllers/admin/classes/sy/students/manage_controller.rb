@@ -7,9 +7,9 @@ module Admin
         class ManageController < Admin::LayoutController
           include SearchableConcern
           include ErrorConcern
-         
+
           before_action :set_class
-          before_action :set_search, only: %i[index]          
+          before_action :set_search, only: %i[index]
 
           def index
             set_default_sort(default_sort_column: 'name asc')
@@ -24,7 +24,7 @@ module Admin
               redirect_to admin_classes_class_sy_students_manage_index_path(class_id: @school_class.id)
             else
               flash[:alert] = 'No students were selected.'
-              
+
             end
           end
 
