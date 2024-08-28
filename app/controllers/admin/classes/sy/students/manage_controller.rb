@@ -17,14 +17,13 @@ module Admin
           end
 
           def create
-            selected_student_ids = params[:student_ids]
-            if selected_student_ids.present?
-              @school_class = SchoolClass.find(params[:class_id])
-              @school_class.student_accounts << StudentAccount.where(id: selected_student_ids)
-              redirect_to admin_classes_class_sy_students_manage_index_path(class_id: @school_class.id)
-            else
-              flash[:alert] = 'No students were selected.'
+            handle_missing_fields and return if missing_required_fields?
 
+            if selected_student_ids.present?
+              assign_students
+              redirect_to_index
+            else
+              flash[:toast] = 'No students were selected.'
             end
           end
 
@@ -33,6 +32,28 @@ module Admin
           end
 
           private
+
+          def missing_required_fields?
+            @class.school_years.blank? || @class.school_sections.blank?
+          end
+
+          def handle_missing_fields
+            flash[:toast] = 'School year and sections cannot be empty.'
+            redirect_to_index
+          end
+
+          def assign_students
+            @school_class = SchoolClass.find(params[:class_id])
+            @school_class.student_accounts << StudentAccount.where(id: selected_student_ids)
+          end
+
+          def selected_student_ids
+            params[:student_ids]
+          end
+
+          def redirect_to_index
+            redirect_to admin_classes_class_sy_students_manage_index_path(class_id: @class.id)
+          end
 
           def set_class
             @class = SchoolClass.find(params[:class_id])

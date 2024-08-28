@@ -35,7 +35,7 @@
       <%= link_to "Manage Sections", admin_classes_class_sy_sections_manage_index_path(@school_class), class: "btn join-item" %>
 
       <% if @sy.empty? || @sections.empty? %>
-        <%= button_to "Assign Student", "#", class: "btn join-item", data: { 'turbo-confirm': 'Add School Year and Sections' } %>
+        <%= button_to "Assign Student", "#", class: "btn join-item", data: { 'turbo-confirm': 'School year and sections cannot be empty.' } %>
       <% else %>
         <%= link_to "Assign Student", admin_classes_class_sy_students_manage_index_path(@school_class), class: "btn join-item" %>
       <% end %>

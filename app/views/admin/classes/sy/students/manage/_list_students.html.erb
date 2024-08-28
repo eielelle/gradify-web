@@ -65,7 +65,7 @@
 <%= render "shared/toast", toast: flash[:toast] %>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('turbo:load', function () {
     const selectAllCheckbox = document.getElementById('select_all');
     const checkboxes = document.querySelectorAll('input[type="checkbox"].checkbox');
 
