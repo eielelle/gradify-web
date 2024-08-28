@@ -89,7 +89,7 @@ Rails.application.routes.draw do
             get 'send_exports', to: 'export#download', as: 'download'
           end
           namespace :students do
-            resources :manage, only: [:show, :index]
+            resources :manage, only: [:show, :index, :create]
           end
         end
       end

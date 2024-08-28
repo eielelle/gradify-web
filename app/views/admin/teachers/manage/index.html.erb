@@ -1,4 +1,4 @@
-<%= render "shared/common_panel", title: "Teachers List", subtitle: "List of all teachers.", content: "list_teachers", data: @admins, count: @count do %>
+<%= render "shared/common_panel", title: "Teacher List", subtitle: "", content: "list_teachers", data: @admins, count: @count do %>
   <%= render "shared/common_tabs", tabs: {
     "List": admin_teachers_manage_index_path,
     "Add": new_admin_teachers_manage_path,
