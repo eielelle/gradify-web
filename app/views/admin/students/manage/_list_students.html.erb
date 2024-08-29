@@ -26,14 +26,13 @@
             </th>
             <th>Name</th>
             <th>Email</th>
-            <th>Created At</th>
             <th>Updated At</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          <% if @students.present? %>
-            <% @students.each do |student| %>
+          <% if @items.present? %>
+            <% @items.each do |student| %>
               <tr class="hover">
                 <th>
                   <label>
@@ -42,7 +41,6 @@
                 </th>
                 <td><%= student.name %></td>
                 <td><%= student.email %></td>
-                <td><%= student.created_at %></td>
                 <td><%= student.updated_at %></td>
                 <td class="flex space-x-2">
                   <%= link_to admin_students_manage_path(student), class: "btn btn-ghost btn-sm" do %>
@@ -65,7 +63,7 @@
       </table>
       <div class="flex justify-between items-center">
         <span><%= @count %> Students</span>
-        <%= paginate @students, views_prefix: 'shared' %>
+        <%= paginate @items, views_prefix: 'shared' %>
       </div>
     </div>
   </section>
