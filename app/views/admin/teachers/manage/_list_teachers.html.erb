@@ -21,11 +21,6 @@
           <tr>
             <th>Name</th>
             <th>Email</th>
-            <th>Sign In Count</th>
-            <th>Current Sign In At</th>
-            <th>Last Sign In At</th>
-            <th>Current IP</th>
-            <th>Created At</th>
             <th>Updated At</th>
             <th>Actions</th>
           </tr>
@@ -42,21 +37,6 @@
                 </td>
                 <td>
                   <span><%= teacher.email %></span>
-                </td>
-                <td class="text-center">
-                  <span><%= teacher.sign_in_count %></span>
-                </td>
-                <td>
-                  <span><%= format_date teacher.current_sign_in_at %></span>
-                </td>
-                <td>
-                  <span><%= format_date teacher.last_sign_in_at %></span>
-                </td>
-                <td>
-                  <span><%= teacher.current_sign_in_ip %></span>
-                </td>
-                <td>
-                  <span><%= format_date teacher.created_at %></span>
                 </td>
                 <td>
                   <span><%= format_date teacher.updated_at %></span>
@@ -77,6 +57,12 @@
                 </td>
               </tr>
             <% end %>
+          <% else %>
+            <tr>
+              <td colspan="3" class="text-center py-4">
+                No teachers yet
+              </td>
+            </tr>
           <% end %>
         </tbody>
       </table>
