@@ -3,6 +3,7 @@
 class SchoolSection < ApplicationRecord
   include Exportable
   belongs_to :school_class
+  has_many :student_accounts, dependent: :nullify
 
   validates :name, presence: true
 

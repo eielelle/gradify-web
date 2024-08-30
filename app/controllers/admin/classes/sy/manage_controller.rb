@@ -17,11 +17,16 @@ module Admin
 
         def destroy
           set_class
+          @school_year = @class.school_years.find(params[:id])
 
-          return unless @class.school_years.find(params[:id]).destroy
+          StudentAccount.where(school_year: @school_year).destroy_all
 
-          flash[:toast] = 'SY deleted successfully.'
-          redirect_to admin_classes_class_sy_manage_index_path
+          if @school_year.destroy
+            flash[:toast] = 'School Year deleted successfully.'
+            redirect_to admin_classes_class_sy_manage_index_path
+          else
+            handle_errors(@school_year)
+          end
         end
 
         def edit

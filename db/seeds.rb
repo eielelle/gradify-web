@@ -79,8 +79,7 @@ else
   StudentAccount.create(
     name: Faker::Name.name,
     email: Faker::Internet.email,
-    password: 'password',
-    school_class_id: s_class.id
+    password: 'password'
   )
 end
 
