@@ -16,6 +16,7 @@
             </div>
         </label>
 
+        <%= link_to 'Back', 'javascript:history.back()', class: 'btn btn-outline' %>
         <%= form.submit "Delete Account", data: { 'turbo-confirm': 'You are about to delete your own account. This action cannot be undone.' }, class: "btn btn-error mt-4" %>
     <% end %>
 </section>
