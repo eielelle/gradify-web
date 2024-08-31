@@ -40,6 +40,7 @@ module Admin
           flash[:toast] = 'Updated Successfully.'
           redirect_to admin_students_manage_index_path
         else
+          handle_errors(@student)
           render :edit, status: :unprocessable_entity
         end
       end
