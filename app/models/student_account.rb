@@ -36,7 +36,7 @@ class StudentAccount < ApplicationRecord
 
   def self.serial_data(fields)
     all.map do |record|
-      student_data = fields[:students].index_with { |field| record.send(field) }
+      fields[:students].index_with { |field| record.send(field) }
 
       # school_class = record.school_class
       # if school_class
