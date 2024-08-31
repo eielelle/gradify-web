@@ -12,20 +12,17 @@ module Admin
       end
 
       def update
-        @student = StudentAccount.find(params[:id])
-        if @student.update(password_params)
-          flash[:toast] = 'Password updated successfully.'
-          redirect_to admin_students_manage_index_path
-        else
-          flash[:error] = 'Failed to update password.'
-          render :edit, status: :unprocessable_entity
-        end
+        update_model_password resource_class: StudentAccount
       end
 
       private
 
-      def password_params
-        params.require(:student_account).permit(:password, :password_confirmation)
+      def edit_password_path
+        edit_admin_students_password_path
+      end
+
+      def after_update_path
+        admin_students_manage_index_path
       end
     end
   end
