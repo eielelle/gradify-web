@@ -38,14 +38,14 @@ class StudentAccount < ApplicationRecord
     all.map do |record|
       student_data = fields[:students].index_with { |field| record.send(field) }
 
-      school_class = record.school_class
-      if school_class
-        school_class_data = fields[:classes].index_with do |field|
-          school_class.send(field)
-        end
-      end
+      # school_class = record.school_class
+      # if school_class
+      #   school_class_data = fields[:classes].index_with do |field|
+      #     school_class.send(field)
+      #   end
+      # end
 
-      student_data.merge(school_class: school_class_data)
+      # student_data.merge(school_class: school_class_data)
     end
   end
 
