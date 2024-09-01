@@ -5,14 +5,18 @@ Rails.application.routes.draw do
   # TODO: fix route scope later
   devise_for :student_accounts, path: :student, only: [:sessions]
   devise_for :admin_accounts, path: :admin, only: [:sessions]
+  # Web routes
+  devise_for :teacher_accounts, path: :teacher, only: [:sessions]
 
-  devise_for :teacher_accounts, path: '/api/v1/teacher', path_names: {
-    sign_in: 'sign_in',
-    sign_out: 'sign_out',
-  },
-  controllers: {
-    sessions: 'api/v1/teacher/sessions',
-  }
+  # API routes with custom path and controller
+  namespace :api do
+    namespace :v1 do
+      devise_scope :teacher_account do
+        post 'teacher/sign_in', to: 'teacher/sessions#create', as: :api_v1_teacher_sign_in
+        delete 'teacher/sign_out', to: 'teacher/sessions#destroy', as: :api_v1_teacher_sign_out
+      end
+    end
+  end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
