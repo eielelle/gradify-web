@@ -10,8 +10,8 @@ module Admin
       before_action :set_search, only: %i[index new create edit update]
 
       def index
-        @students = @q.result(distinct: true).page(params[:page])
-        @count = @students.total_count
+        set_default_sort(default_sort_column: 'name asc')
+        query_items_default(StudentAccount, params)
       end
 
       def show
@@ -40,6 +40,7 @@ module Admin
           flash[:toast] = 'Updated Successfully.'
           redirect_to admin_students_manage_index_path
         else
+          handle_errors(@student)
           render :edit, status: :unprocessable_entity
         end
       end

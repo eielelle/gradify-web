@@ -74,14 +74,17 @@ else
     )
   end
 
-# Create 40 Students
-40.times do
-  StudentAccount.create(
-    name: Faker::Name.name,
-    email: Faker::Internet.email,
-    password: 'password'
-  )
-end
+  PaperTrail.request(whodunnit: '[System Generated]') do
+    # Create 40 Students
+    40.times do
+      StudentAccount.create(
+        name: Faker::Name.name,
+        email: Faker::Internet.email,
+        password: 'password',
+        school_class_id: s_class.id
+      )
+    end
+  end
 
   Whirly.stop
 

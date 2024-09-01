@@ -24,9 +24,9 @@ module Admin
         find_version_and_snapshot
 
         PaperTrail.request.whodunnit = current_admin_account.name
-        @admin.paper_trail_event = 'rollback'
+        @teacher.paper_trail_event = 'rollback'
 
-        if @admin.save(validate: false)
+        if @teacher.save(validate: false)
           redirect_to admin_teachers_versions_path(id: @version.item_id)
         else
           flash[:toast] = 'Rollback Unsuccessful'
