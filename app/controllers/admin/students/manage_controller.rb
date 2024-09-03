@@ -58,7 +58,7 @@ module Admin
         else
           redirect_to admin_students_manage_index_path, alert: 'No students were selected.'
         end
-      end      
+      end
 
       private
 
