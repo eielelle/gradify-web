@@ -68,6 +68,7 @@ Rails.application.routes.draw do
       get 'versions/:id', to: 'history#versions', as: 'versions'
       get 'snapshot/:id', to: 'history#snapshot', as: 'snapshot'
       post 'rollback/:id', to: 'history#rollback', as: 'rollback'
+      delete 'destroy_selected', to: 'manage#destroy_selected', as: 'destroy_selected'
     end
   
     namespace :sections do 
