@@ -13,18 +13,19 @@
 <h2 class="text-2xl font-semibold mb-4">Students List</h2>
 <div>
   <div class="flex justify-between items-center">
-    <%= form_with url: '/custom_submit', method: :post, local: true do |form| %>
+    <%= form_with url: admin_classes_manage_path(@school_class), method: :get, local: true do |form| %>
       <div class="flex gap-10">
         <% if @sy.any? %>
           <div class="field">
             <%= form.label :school_year %>
-            <%= form.select :school_year, options_from_collection_for_select(@sy, :id, :name), {}, class: "select select-bordered" %>
+            <%= form.select :school_year_id, options_from_collection_for_select(@sy, :id, :name, selected: params[:school_year_id]), {}, class: "select select-bordered", onchange: "this.form.submit();" %>
           </div>
         <% end %>
+
         <% if @sections.any? %>
           <div class="field">
             <%= form.label :school_section %>
-            <%= form.select :school_section, options_from_collection_for_select(@sections, :id, :name), {}, class: "select select-bordered" %>
+            <%= form.select :school_section_id, options_from_collection_for_select(@sections, :id, :name, selected: params[:school_section_id]), {}, class: "select select-bordered", onchange: "this.form.submit();" %>
           </div>
         <% end %>
       </div>
@@ -32,6 +33,7 @@
     <div class="join">
       <%= link_to "Manage SY", admin_classes_class_sy_manage_index_path(@school_class), class: "btn join-item" %>
       <%= link_to "Manage Sections", admin_classes_class_sy_sections_manage_index_path(@school_class), class: "btn join-item" %>
+      
       <% if @sy.empty? || @sections.empty? %>
         <%= button_to "Assign Student", "#", class: "btn join-item", data: { 'turbo-confirm': 'School year and sections cannot be empty.' } %>
       <% else %>
@@ -42,7 +44,7 @@
   <br>
   <section>
     <div class="overflow-x-auto">
-      <table class="table table-lg mb-6">
+      <table class="table table-sm mb-6">
         <!-- head -->
         <thead>
           <tr>
@@ -78,7 +80,7 @@
         </tbody>
       </table>
       <div class="flex justify-between items-center">
-        <span><%= @count %> Classes</span>
+        <span><%= @count %> Students</span>
       </div>
     </div>
   </section>

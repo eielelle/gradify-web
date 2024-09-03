@@ -7,6 +7,11 @@ class StudentAccount < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :trackable
 
+  # Associations
+  # belongs_to :school_class
+  belongs_to :school_year, optional: true
+  belongs_to :school_section, optional: true
+
   validates :name, presence: true
 
   has_paper_trail ignore: %i[encrypted_password reset_password_token reset_password_sent_at sign_in_count

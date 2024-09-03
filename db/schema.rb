@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_17_160336) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_30_030402) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -98,9 +98,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_17_160336) do
     t.inet "current_sign_in_ip"
     t.inet "last_sign_in_ip"
     t.bigint "school_class_id"
+    t.bigint "school_year_id"
+    t.bigint "school_section_id"
     t.index ["email"], name: "index_student_accounts_on_email", unique: true
     t.index ["reset_password_token"], name: "index_student_accounts_on_reset_password_token", unique: true
     t.index ["school_class_id"], name: "index_student_accounts_on_school_class_id"
+    t.index ["school_section_id"], name: "index_student_accounts_on_school_section_id"
+    t.index ["school_year_id"], name: "index_student_accounts_on_school_year_id"
   end
 
   create_table "teacher_accounts", force: :cascade do |t|
@@ -138,4 +142,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_17_160336) do
   add_foreign_key "school_sections", "school_classes"
   add_foreign_key "school_years", "school_classes"
   add_foreign_key "student_accounts", "school_classes"
+  add_foreign_key "student_accounts", "school_sections"
+  add_foreign_key "student_accounts", "school_years"
 end

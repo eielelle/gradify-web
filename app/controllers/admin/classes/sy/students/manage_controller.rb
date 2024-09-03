@@ -21,10 +21,10 @@ module Admin
 
             if selected_student_ids.present?
               assign_students
-              redirect_to_index
             else
               flash[:toast] = 'No students were selected.'
             end
+            redirect_to_index
           end
 
           def show
@@ -43,8 +43,33 @@ module Admin
           end
 
           def assign_students
+            set_school_class_data
+            update_students
+            set_flash_message
+          end
+
+          def set_school_class_data
             @school_class = SchoolClass.find(params[:class_id])
-            @school_class.student_accounts << StudentAccount.where(id: selected_student_ids)
+            @school_year = @school_class.school_years.find(params[:school_year_id])
+            @school_section = @school_class.school_sections.find(params[:school_section_id])
+          end
+
+          def update_students
+            selected_students.each do |student|
+              student.update(
+                school_year_id: @school_year.id,
+                school_section_id: @school_section.id,
+                school_class_id: @school_class.id
+              )
+            end
+          end
+
+          def selected_students
+            @selected_students ||= StudentAccount.where(id: selected_student_ids)
+          end
+
+          def set_flash_message
+            flash[:toast] = "#{selected_students.size} students were successfully assigned."
           end
 
           def selected_student_ids

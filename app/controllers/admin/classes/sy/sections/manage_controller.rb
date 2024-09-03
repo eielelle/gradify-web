@@ -47,10 +47,16 @@ module Admin
 
           def destroy
             set_class
-            return unless @class.school_sections.find(params[:id]).destroy
+            @school_section = @class.school_sections.find(params[:id])
 
-            flash[:toast] = 'Section deleted successfully.'
-            redirect_to admin_classes_class_sy_sections_manage_index_path
+            StudentAccount.where(school_section: @school_section).destroy_all
+
+            if @school_section.destroy
+              flash[:toast] = 'Section deleted successfully.'
+              redirect_to admin_classes_class_sy_sections_manage_index_path
+            else
+              handle_errors(@school_section)
+            end
           end
 
           def show

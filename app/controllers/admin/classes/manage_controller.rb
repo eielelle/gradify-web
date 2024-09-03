@@ -30,16 +30,10 @@ module Admin
 
       def show
         set_class
-
-        @selected_students = if params[:selected_student_ids].present?
-                               StudentAccount.where(id: params[:selected_student_ids])
-                             else
-                               []
-                             end
-
-        @sy = @school_class.school_years.all
-        @sections = @school_class.school_sections.all
-        @show = @school_class.student_accounts
+        fetch_selected_students
+        fetch_dropdown_data
+        filter_students
+        @count = @show.count
       end
 
       def update
@@ -67,6 +61,33 @@ module Admin
       end
 
       private
+
+      def fetch_selected_students
+        @selected_students = if params[:selected_student_ids].present?
+                               StudentAccount.where(id: params[:selected_student_ids])
+                             else
+                               []
+                             end
+      end
+
+      def fetch_dropdown_data
+        @sy = @school_class.school_years.all
+        @sections = @school_class.school_sections.all
+      end
+
+      def filter_students
+        @show = @school_class.student_accounts
+        filter_by_school_year
+        filter_by_school_section
+      end
+
+      def filter_by_school_year
+        @show = @show.where(school_year_id: params[:school_year_id]) if params[:school_year_id].present?
+      end
+
+      def filter_by_school_section
+        @show = @show.where(school_section_id: params[:school_section_id]) if params[:school_section_id].present?
+      end
 
       def update_class_params
         params.permit(:id, school_class: %i[name description])
