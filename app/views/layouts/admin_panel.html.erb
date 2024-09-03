@@ -40,24 +40,34 @@
                 Overview
               <% end %>
             </li>
-            <% if current_admin_account.permission.name == "SuperAdmin" %>
-              <li class="text-xl <%= current_drawer?("/admin/admins", included: true) %>">
-                <%= link_to admin_admins_manage_index_path do %>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shield me-4"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                  Manage Admins
+
+            <div class="collapse collapse-arrow bg-base-200">
+                <%= check_box_tag 'admin_option', '1', 
+        request.path.include?('/admin/admins') || request.path.include?('/admin/teachers'),
+        id: 'admin_option' %>
+              <div class="collapse-title text-xl flex gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shield me-4"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                Workforce
+              </div>
+              <ul class="collapse-content">
+                <% if current_admin_account.permission.name == "SuperAdmin" %>
+                  <li class="text-xl <%= current_drawer?("/admin/admins", included: true) %>">
+                    <%= link_to admin_admins_manage_index_path do %>
+                      Manage Admins
+                    <% end %>
+                  </li>
                 <% end %>
-              </li>
-            <% end %>
+                <li class="text-xl <%= current_drawer?("/admin/teachers", included: true) %>">
+                  <%= link_to admin_teachers_manage_index_path do %>
+                    Manage Teachers
+                  <% end %>
+                </li>
+              </ul>
+            </div>
             <li class="text-xl <%= current_drawer?("/admin/students", included: true) %>">
               <%= link_to admin_students_manage_index_path do %>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users me-4"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                 Manage Students
-              <% end %>
-            </li>
-            <li class="text-xl <%= current_drawer?("/admin/teachers", included: true) %>">
-              <%= link_to admin_teachers_manage_index_path do %>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-hexagon me-4"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
-                Manage Teachers
               <% end %>
             </li>
             <li class="text-xl <%= current_drawer?("/admin/classes", included: true) %>">
