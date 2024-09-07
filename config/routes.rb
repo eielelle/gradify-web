@@ -3,10 +3,10 @@
 Rails.application.routes.draw do
   # devise_for :teacher_accounts
   # TODO: fix route scope later
-  devise_for :student_accounts, path: :student, only: [:sessions]
-  devise_for :admin_accounts, path: :admin, only: [:sessions]
+  # devise_for :student_accounts, path: :student, only: [:sessions]
+  # devise_for :admin_accounts, path: :admin, only: [:sessions]
   # Web routes
-  devise_for :teacher_accounts, path: :teacher, only: [:sessions]
+  # devise_for :teacher_accounts, path: :teacher, only: [:sessions]
 
   # API routes with custom path and controller
   namespace :api do

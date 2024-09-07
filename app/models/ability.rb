@@ -4,11 +4,11 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can :manage, :all if user.permission.name == 'SuperAdmin'
+    # can :manage, :all if user.permission.name == 'SuperAdmin'
 
-    return unless user.permission.name == 'Admin'
+    # return unless user.permission.name == 'Admin'
 
-    cannot :manage, :admin
+    # cannot :manage, :admin
 
     # can :manage
 
