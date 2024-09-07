@@ -6,7 +6,7 @@ module Admin
       include SearchableConcern
       include ErrorConcern
       include PaperTrailConcern
-      before_action :set_student, only: %i[show edit update destroy]
+      before_action :set_student, only: %i[show edit update destroy destroy_selected]
       before_action :set_search, only: %i[index new create edit update]
 
       def index
@@ -48,6 +48,16 @@ module Admin
       def destroy
         @student.destroy
         redirect_to admin_students_manage_index_path, notice: 'Student was successfully destroyed.'
+      end
+
+      def destroy_selected
+        ids = params[:student_ids]
+        if ids.present?
+          StudentAccount.where(id: params[ids]).destroy
+          redirect_to admin_students_manage_index_path, notice: 'Selected students were successfully deleted.'
+        else
+          redirect_to admin_students_manage_index_path, alert: 'No students were selected.'
+        end
       end
 
       private
