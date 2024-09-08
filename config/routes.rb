@@ -22,6 +22,8 @@ Rails.application.routes.draw do
     namespace :workforce do
       resources :manage, as: 'manage'
       resources :password, as: 'password', only: [:edit, :update]
+      get 'export', to: 'export#index', as: 'export'
+      get 'send_exports', to: 'export#download', as: 'download'
     end
     
   end
