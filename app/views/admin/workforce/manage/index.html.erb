@@ -1,7 +1,7 @@
 <%= render "shared/common_panel", title: "Workforce List", subtitle: "", content: "list_users", data: @users, count: @count do %>
   <%= render "shared/common_tabs", tabs: {
     "List": admin_workforce_manage_index_path,
-    "Add": "",
+    "Add": new_admin_workforce_manage_path,
     "Export": "",
     "History": ""
   }, active_path: admin_workforce_manage_index_path %>

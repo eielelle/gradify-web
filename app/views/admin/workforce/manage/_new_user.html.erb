@@ -1,0 +1,46 @@
+<%= form_with(local: true, url: admin_workforce_manage_index_path, data: { btn_class: "btn-primary" }) do |form| %>
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
+      <%= form.label :name, class: "label-text" %>
+    </div>
+    <%= form.text_field :name, class: "input input-bordered w-full max-w-xs" %>
+    <div class="label">
+      <span class="label-text-alt text-error"><%= flash[:name_error] %></span>
+    </div>
+  </label>
+  
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
+        <%= form.label :role, class: "label-text" %>
+    </div>
+        <%= form.select :role, options_for_select(@roles.keys.map { |role| [role.humanize, role] }, "admin"), {}, { class: "select select-bordered" } %>
+    <div class="label">
+      <span class="label-text-alt text-error"><%= flash[:permission_error] %></span>
+    </div>
+  </label>
+
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
+      <%= form.label :email, class: "label-text" %>
+    </div>
+    <%= form.email_field :email, class: "input input-bordered w-full max-w-xs" %>
+    <div class="label">
+      <span class="label-text-alt text-error"><%= flash[:email_error] %></span>
+    </div>
+  </label>
+
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
+      <%= form.label :password, class: "label-text" %>
+    </div>
+    <%= form.password_field :password, class: "input input-bordered w-full max-w-xs" %>
+    <div class="label">
+      <span class="label-text-alt text-error"><%= flash[:password_error] %></span>
+    </div>
+  </label>
+
+  <div>
+    <%= form.submit "Add User", class: "btn btn-primary mt-4", data: { 'turbo-confirm': 'Are you sure you want to add this new account?', btn_class: "btn-primary" } %>
+  </div>
+
+<% end %>

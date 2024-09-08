@@ -16,21 +16,19 @@ module Admin
         end
   
         def new
-          @permissions = Permission.all
+          @roles = User.roles
         end
   
         def create
-          permission = Permission.find(admin_params[:permission_id])
+          return if User.roles.keys.exclude?(user_params['role'])
   
-          return if permission.nil?
+          user = User.new user_params
   
-          admin = AdminAccount.new admin_params
-  
-          if admin.save
-            redirect_to admin_admins_manage_index_path
+          if user.save
+            redirect_to admin_workforce_manage_index_path
           else
-            handle_errors(admin)
-            redirect_to new_admin_admins_manage_path
+            handle_errors(user)
+            redirect_to new_admin_workforce_manage_path
           end
         end
   
@@ -83,8 +81,8 @@ module Admin
           @permissions = Permission.all
         end
   
-        def admin_params
-          params.permit(:name, :email, :permission_id, :password)
+        def user_params
+          params.permit(:name, :email, :role, :password)
         end
   
         def update_admin_params

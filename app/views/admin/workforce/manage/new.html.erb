@@ -1,0 +1,9 @@
+<%= render "shared/common_panel", title: "Workforce List", subtitle: "", content: "new_user" do %>
+  <%= render "shared/common_tabs", tabs: {
+    "List": admin_workforce_manage_index_path,
+    "Add": new_admin_workforce_manage_path,
+    "Export": "",
+    "History": ""
+  }, active_path: new_admin_workforce_manage_path %>
+<% end %>
+
