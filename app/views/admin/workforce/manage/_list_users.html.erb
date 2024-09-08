@@ -57,7 +57,7 @@
                     <%= link_to edit_admin_workforce_manage_path(user), class: "btn btn-ghost btn-sm" do %>
                       <%= fa_icon "pencil lg" %>
                     <% end %>
-                    <%= link_to "", class: "btn btn-ghost btn-sm" do %>
+                    <%= link_to edit_admin_workforce_password_path(user), class: "btn btn-ghost btn-sm" do %>
                       <%= fa_icon "key lg" %>
                     <% end %>
                     <%= button_to "", method: :delete, form: { data: { 'turbo-confirm': 'Are you sure you want to delete this account?', btn_class: "btn-error" } }, class: "btn btn-ghost btn-sm" do %>

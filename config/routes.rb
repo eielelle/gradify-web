@@ -21,7 +21,9 @@ Rails.application.routes.draw do
     # /admin/workforce
     namespace :workforce do
       resources :manage, as: 'manage'
+      resources :password, as: 'password', only: [:edit, :update]
     end
+    
   end
 
   # end of new routing  
