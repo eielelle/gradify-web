@@ -1,6 +1,9 @@
 class User < ApplicationRecord
   include Exportable
 
+  has_paper_trail ignore: %i[encrypted_password reset_password_token reset_password_sent_at sign_in_count
+  current_sign_in_at last_sign_in_at current_sign_in_ip last_sign_in_ip]
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,

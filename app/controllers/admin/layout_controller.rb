@@ -5,7 +5,7 @@ module Admin
     #   include HandleAccessDeniedConcern
   
       layout 'admin_panel'
-    #   before_action :authenticate_admin_account!
+      before_action :auth_user
     #   # load_and_authorize_resource
   
     #   # in ApplicationController
@@ -16,6 +16,13 @@ module Admin
     #                            Ability.new(current_user)
     #                          end
     #   end
+
+
+      private
+
+      def auth_user
+        authenticate_user!
+      end
     end
   end
   

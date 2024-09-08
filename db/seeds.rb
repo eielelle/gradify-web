@@ -13,7 +13,7 @@
 require 'faker'
 require_relative '../lib/loading_messages'
 
-# User.create(email: "admin@example.com", password: "password", role: "superadmin", name: "Mark")
+User.create(email: "admin@example.com", password: "password", role: "superadmin", name: "Mark")
 
 40.times do
     User.create(email: Faker::Internet.email, password: "password", role: "admin", name: Faker::Name.name)

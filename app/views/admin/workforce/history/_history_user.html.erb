@@ -35,10 +35,10 @@
                   <span class="badge badge-ghost badge-sm">Current</span>
                 <% end %>
               </td>
-              <td><%= link_to "#{version.item_type} ID: #{version.id}", admin_admins_snapshot_path(id: version.id), class: "link link-primary" %></td>
+              <td><%= link_to "#{version.item_type} ID: #{version.id}", admin_workforce_snapshot_path(id: version.id), class: "link link-primary" %></td>
               <td><%= version.event %></td>
               <td>
-                <%= link_to 'View Previous Version', admin_admins_versions_path(id: version.item_id), class: "link link-primary" %>
+                <%= link_to 'View Previous Version', admin_workforce_versions_path(id: version.item_id), class: "link link-primary" %>
               </td>
             </tr>
           <% end %>
