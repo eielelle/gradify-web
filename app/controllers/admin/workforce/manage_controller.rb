@@ -33,7 +33,7 @@ module Admin
         end
   
         def show
-          set_admin
+          @user = User.find(params[:id])
         end
   
         def destroy

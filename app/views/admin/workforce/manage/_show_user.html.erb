@@ -1,0 +1,38 @@
+<%= render "shared/toast", toast: flash[:toast] %>
+
+<h2 class="text-2xl font-semibold mb-4">Basic Information</h2>
+
+<div>
+    <strong>Name: </strong>
+    <span><%= @user.name %></span>
+</div>
+<div>
+    <strong>Email: </strong>
+    <span><%= @user.email %></span>
+</div>
+<div>
+    <strong>User Level: </strong>
+    <span><%= @user.role %></span>
+</div>
+
+<br>
+
+<h2 class="text-2xl font-semibold mb-4">Authentication Information</h2>
+
+<div>
+    <strong>Sign In Count: </strong>
+    <span><%= @user.sign_in_count %></span>
+</div>
+<div>
+    <strong>Current Sign In At: </strong>
+    <span><%= format_date @user.current_sign_in_at %></span>
+</div>
+<div>
+    <strong>Last Sign In At: </strong>
+    <span><%= format_date @user.last_sign_in_at %></span>
+</div>
+<div>
+    <strong>Current IP: </strong>
+    <span><%= @user.current_sign_in_ip %></span>
+</div>
+<br>

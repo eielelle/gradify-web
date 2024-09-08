@@ -50,7 +50,7 @@
                   <span><%= format_date user.updated_at %></span>
                 </td>
                 <td class="flex flex-col md:flex-row gap-2">
-                  <%= link_to "", class: "btn btn-ghost btn-sm" do %>
+                  <%= link_to admin_workforce_manage_path(user), class: "btn btn-ghost btn-sm" do %>
                     <%= fa_icon "eye lg" %>
                   <% end %>
                   <% if user.role != "superadmin" %>
