@@ -8,4 +8,13 @@ class User < ApplicationRecord
   validates :role, presence: true
 
   enum role: { superadmin: 'superadmin', admin: 'admin', teacher: 'teacher', student: 'student' }
+
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[name email updated_at]
+  end
+
+  # Allowlist associations for Ransack
+  def self.ransackable_associations(_auth_object = nil)
+    %w[]
+  end
 end

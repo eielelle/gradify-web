@@ -13,7 +13,11 @@
 require 'faker'
 require_relative '../lib/loading_messages'
 
-User.create(email: "admin@example.com", password: "password", role: "superadmin", name: "Mark")
+# User.create(email: "admin@example.com", password: "password", role: "superadmin", name: "Mark")
+
+40.times do
+    User.create(email: Faker::Internet.email, password: "password", role: "admin", name: Faker::Name.name)
+end
 
 # # Check if the database already contains data for the relevant tables
 # if Permission.exists? || AdminAccount.exists? || TeacherAccount.exists? || SchoolClass.exists? || Section.exists? || StudentAccount.exists?

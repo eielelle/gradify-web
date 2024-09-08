@@ -13,6 +13,17 @@ Rails.application.routes.draw do
 
   root "welcome#index"
   get "/admin", to: "admin/overview#index", as: :admin_root
+
+  namespace :admin do
+    # /admin/config
+    # resource :config, only: [:show, :update, :destroy], controller: 'admins/config', as: 'config'
+
+    # /admin/workforce
+    namespace :workforce do
+      resources :manage, as: 'manage'
+    end
+  end
+
   # end of new routing  
 
 
