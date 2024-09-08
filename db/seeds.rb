@@ -13,6 +13,8 @@
 require 'faker'
 require_relative '../lib/loading_messages'
 
+User.create(email: "admin@example.com", password: "password", role: "superadmin", name: "Mark")
+
 # # Check if the database already contains data for the relevant tables
 # if Permission.exists? || AdminAccount.exists? || TeacherAccount.exists? || SchoolClass.exists? || Section.exists? || StudentAccount.exists?
 #   puts "Seeding skipped: Database already contains data."

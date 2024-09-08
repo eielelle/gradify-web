@@ -4,6 +4,30 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+    # User is not logged in
+    # return unless user.present?
+
+    # # Superadmin has access to everything
+    # if user.superadmin?
+
+    # # Admin can manage teachers and students
+    # elsif user.admin?
+    #   # can :manage, Teacher
+    #   # can :manage, Student
+    #   # can :read, :all
+
+    # # Teachers can manage students and read their own data
+    # elsif user.teacher?
+    #   # can :manage, Student
+    #   # can :read, Teacher, id: user.id  # Can only read their own profile
+
+    # # Students can only read their own data
+    # elsif user.student?
+    #   # can :read, Student, id: user.id  # Can only read their own profile
+    # end
+
+
+
     # can :manage, :all if user.permission.name == 'SuperAdmin'
 
     # return unless user.permission.name == 'Admin'
