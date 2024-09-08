@@ -37,14 +37,14 @@ module Admin
         end
   
         def destroy
-          set_admin
+          set_user
   
-          return if superadmin_redirect(@admin, admin_admins_manage_index_path, 'Cannot destroy Superadmin')
+          return if superadmin_redirect(@user, admin_workforce_manage_index_path, 'Cannot destroy Superadmin')
   
-          return unless @admin.destroy
+          return unless @user.destroy
   
           flash[:toast] = 'Account deleted successfully.'
-          redirect_to admin_admins_manage_index_path
+          redirect_to admin_workforce_manage_index_path
         end
   
         def edit
