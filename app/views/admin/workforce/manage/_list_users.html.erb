@@ -54,7 +54,7 @@
                     <%= fa_icon "eye lg" %>
                   <% end %>
                   <% if user.role != "superadmin" %>
-                    <%= link_to "", class: "btn btn-ghost btn-sm" do %>
+                    <%= link_to edit_admin_workforce_manage_path(user), class: "btn btn-ghost btn-sm" do %>
                       <%= fa_icon "pencil lg" %>
                     <% end %>
                     <%= link_to "", class: "btn btn-ghost btn-sm" do %>

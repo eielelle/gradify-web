@@ -6,7 +6,7 @@ module Admin
         include SearchableConcern
         include ErrorConcern
         # include PaperTrailConcern
-        # include SuperAdminConcern
+        include SuperAdminConcern
 
         # before_action :authorize_admin
   
@@ -48,23 +48,23 @@ module Admin
         end
   
         def edit
-          set_admin
+          set_user
   
-          redirect_to admin_admins_manage_index_path if @admin.nil? || @admin.permission.name == 'SuperAdmin'
+          redirect_to admin_workforce_manage_index_path if @user.nil? || @user.role == 'superadmin'
         end
   
         def update
-          set_admin
+          set_user
   
-          account_not_found and return if @admin.nil?
+          account_not_found and return if @user.nil?
   
-          return if superadmin_redirect(@admin, edit_admin_admins_manage_path, 'Cannot edit Superadmin')
+          return if superadmin_redirect(@user, edit_admin_workforce_manage_path, 'Cannot edit Superadmin')
   
-          if @admin.update(update_admin_params[:admin_account])
+          if @user.update(update_user_params[:user])
             update_success
             return
           else
-            handle_errors(@admin)
+            handle_errors(@user)
           end
   
           render :edit, status: :unprocessable_entity
@@ -76,17 +76,17 @@ module Admin
           authorize! :manage, :admin
         end
   
-        def set_admin
-          @admin = AdminAccount.includes(:permission).find(params[:id])
-          @permissions = Permission.all
+        def set_user
+          @user = User.find(params[:id])
+          @roles = User.roles
         end
   
         def user_params
           params.permit(:name, :email, :role, :password)
         end
   
-        def update_admin_params
-          params.permit(:id, admin_account: %i[name email permission_id])
+        def update_user_params
+          params.permit(:id, user: %i[name email role])
         end
   
         def account_not_found
@@ -96,7 +96,7 @@ module Admin
   
         def update_success
           flash[:toast] = 'Updated Successfully.'
-          redirect_to admin_admins_manage_index_path
+          redirect_to admin_workforce_manage_index_path
         end
       end
     end
