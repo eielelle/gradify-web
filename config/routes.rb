@@ -16,8 +16,9 @@ Rails.application.routes.draw do
 
   namespace :admin do
     # /admin/config
-#     # patch 'change_password', to: 'config#change_password' # config related
-#     # get 'confirm_destroy', to: 'config#confirm_destroy'  # config related
+    resource :config, only: [:show, :update, :destroy], controller: 'config', as: 'config'
+    patch 'change_password', to: 'config#change_password' # config related
+    get 'confirm_destroy', to: 'config#confirm_destroy'  # config related
 
     # /admin/workforce
     namespace :workforce do
@@ -29,6 +30,18 @@ Rails.application.routes.draw do
       get 'versions', to: 'history#versions', as: 'versions'
       get 'snapshot/:id', to: 'history#snapshot', as: 'snapshot'
       post 'rollback/:id', to: 'history#rollback', as: 'rollback' 
+    end
+
+    namespace :students do
+      resources :manage, only: %i[index new create edit update destroy show]
+      resources :password, only: [:edit, :update]
+      get 'export', to: 'export#index', as: 'export'
+      get 'download', to: 'export#download', as: 'download'
+      get 'history', to: 'history#index', as: 'history'
+      get 'versions/:id', to: 'history#versions', as: 'versions'
+      get 'snapshot/:id', to: 'history#snapshot', as: 'snapshot'
+      post 'rollback/:id', to: 'history#rollback', as: 'rollback'
+      delete 'destroy_selected', to: 'manage#destroy_selected', as: 'destroy_selected'
     end
 
 
@@ -108,18 +121,6 @@ Rails.application.routes.draw do
   #     get 'versions', to: 'history#versions', as: 'versions'
   #     get 'snapshot/:id', to: 'history#snapshot', as: 'snapshot'
   #     post 'rollback/:id', to: 'history#rollback', as: 'rollback' 
-  #   end
-
-  #   namespace :students do
-  #     resources :manage, only: %i[index new create edit update destroy show]
-  #     resources :password, only: [:edit, :update]
-  #     get 'export', to: 'export#index', as: 'export'
-  #     get 'download', to: 'export#download', as: 'download'
-  #     get 'history', to: 'history#index', as: 'history'
-  #     get 'versions/:id', to: 'history#versions', as: 'versions'
-  #     get 'snapshot/:id', to: 'history#snapshot', as: 'snapshot'
-  #     post 'rollback/:id', to: 'history#rollback', as: 'rollback'
-  #     delete 'destroy_selected', to: 'manage#destroy_selected', as: 'destroy_selected'
   #   end
   
   #   namespace :sections do 

@@ -7,12 +7,12 @@ module Admin
       include PasswordConcern
 
       def edit
-        @student = StudentAccount.find_by(id: params[:id])
+        @student = User.find_by(id: params[:id], role: "student")
         redirect_to admin_students_manage_index_path if @student.nil?
       end
 
       def update
-        update_model_password resource_class: StudentAccount
+        update_model_password resource_class: User
       end
 
       private

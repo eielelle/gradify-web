@@ -36,7 +36,7 @@
     <h2 class="text-xl mb-2 mt-16 font-semibold">Security</h2>
     <p class="alert alert-warning">You'll be signed out after you reset your password.</p>
 
-    <%= form_with url: admin_admins_change_password_path, method: :patch, data: { btn_class: "btn-primary" } do |form| %>
+    <%= form_with url: admin_change_password_path, method: :patch, data: { btn_class: "btn-primary" } do |form| %>
         <label class="form-control w-full max-w-xs">
             <div class="label">
             <%= form.label :old_password, class: "label-text" %>
@@ -73,7 +73,7 @@
 
     <h2 class="text-xl mb-2 mt-16 font-semibold">Legacy</h2>
 
-    <%= link_to "Remove Account", admin_admins_confirm_destroy_path, class: "btn btn-error mt-4" %>
+    <%= link_to "Remove Account", admin_confirm_destroy_path, class: "btn btn-error mt-4" %>
 
 
 </section>

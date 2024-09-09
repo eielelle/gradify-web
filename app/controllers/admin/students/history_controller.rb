@@ -6,12 +6,13 @@ module Admin
       include SearchableConcern
       include SnapshotConcern
 
-      def versions
+      def versions        
         set_default_sort(default_sort_column: 'created_at desc')
         @q = PaperTrail::Version.ransack(params[:q])
         @results = @q.result(distinct: true).where(item_id: params[:id] || params.dig(:q, :id),
-                                                   item_type: 'StudentAccount')
+                                                   item_type: 'User')
         @items = @results.page(params[:page]).per(10)
+        puts @items.item.inspect
         @count = @items.count
         @sort_fields = get_sort_fields(PaperTrail::Version)
       end
@@ -23,7 +24,7 @@ module Admin
       def rollback
         find_version_and_snapshot
 
-        PaperTrail.request.whodunnit = current_admin_account.name
+        PaperTrail.request.whodunnit = current_user.name
         @student.paper_trail_event = 'rollback'
 
         if @student.save(validate: false)
@@ -35,7 +36,7 @@ module Admin
 
       def index
         set_default_sort(default_sort_column: 'created_at desc')
-        query_items_history(PaperTrail::Version, params, model_name: 'StudentAccount')
+        query_items_history(PaperTrail::Version, params, model_name: 'User')
       end
 
       private
