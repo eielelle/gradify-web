@@ -1,5 +1,15 @@
 <%= form_with(local: true, url: admin_classes_class_sy_sections_manage_index_path, data: { btn_class: "btn-primary" }) do |form| %>
   <label class="form-control w-full max-w-xs">
+    <div class="label">
+        <%= form.label :school_year, class: "label-text" %>
+    </div>
+        <%= form.select :sy, options_from_collection_for_select(@sy, :id, :name), {}, { class: "select select-bordered" } %>
+    <div class="label">
+      <span class="label-text-alt text-error"><%= flash[:sy_error] %></span>
+    </div>
+  </label>
+  
+  <label class="form-control w-full max-w-xs">
       <div class="label">
           <%= form.label :name, class: "label-text" %>
       </div>

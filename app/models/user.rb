@@ -9,6 +9,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :validatable, :trackable
 
+  has_and_belongs_to_many :school_sections
+
   validates :name, presence: true
   validates :role, presence: true
 

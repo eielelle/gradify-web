@@ -32,8 +32,8 @@
           </thead>
           <tbody>
             <!-- row 1 -->
-            <% if @items.present? %>
-              <% @items.each do |student| %>
+            <% if @users.present? %>
+              <% @users.each do |student| %>
                 <tr class="hover">
                   <th>
                     <label>
@@ -63,7 +63,7 @@
       <% end %>
       <div class="flex justify-between items-center">
         <span></span>
-        <%= paginate @items, views_prefix: 'shared' %>
+        <%= paginate @users, views_prefix: 'shared' %>
       </div>
     </div>
   </section>

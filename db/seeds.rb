@@ -13,10 +13,15 @@
 require 'faker'
 require_relative '../lib/loading_messages'
 
+s_class = SchoolClass.create(name: "Class " + rand(1000).to_s, description: "AAA")
 User.create(email: "admin@example.com", password: "password", role: "superadmin", name: "Mark")
 
 40.times do
     User.create(email: Faker::Internet.email, password: "password", role: "admin", name: Faker::Name.name)
+end
+
+15.times do
+    SchoolClass.create(name: "Class " + rand(1000).to_s, description: "AAA")
 end
 
 # # Check if the database already contains data for the relevant tables

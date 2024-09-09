@@ -10,9 +10,41 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_08_173952) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_09_144123) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "school_classes", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "school_sections", force: :cascade do |t|
+    t.bigint "school_year_id", null: false
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["school_year_id"], name: "index_school_sections_on_school_year_id"
+  end
+
+  create_table "school_sections_users", id: false, force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "school_section_id", null: false
+    t.index ["school_section_id"], name: "index_school_sections_users_on_school_section_id"
+    t.index ["user_id"], name: "index_school_sections_users_on_user_id"
+  end
+
+  create_table "school_years", force: :cascade do |t|
+    t.bigint "school_class_id", null: false
+    t.date "start"
+    t.date "end"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["school_class_id"], name: "index_school_years_on_school_class_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -29,8 +61,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_08_173952) do
     t.datetime "updated_at", null: false
     t.string "name"
     t.string "role"
+    t.bigint "school_section_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["school_section_id"], name: "index_users_on_school_section_id"
   end
 
   create_table "versions", force: :cascade do |t|
@@ -43,4 +77,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_08_173952) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  add_foreign_key "school_sections", "school_years"
+  add_foreign_key "school_years", "school_classes"
+  add_foreign_key "users", "school_sections"
 end

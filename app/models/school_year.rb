@@ -1,12 +1,17 @@
 # frozen_string_literal: true
 
-class SchoolSection < ApplicationRecord
+class SchoolYear < ApplicationRecord
   include Exportable
+
+  # belongs_to :school_class
+  # has_many :users, dependent: :nullify
+
   belongs_to :school_class
-  has_many :student_accounts, dependent: :nullify
+  has_many :school_sections, dependent: :destroy
 
   validates :name, presence: true
 
+  # TODO: Refactor this to a modular approach
   def self.to_csv(fields)
     headers = fields[:no_header].present?
 
@@ -25,14 +30,14 @@ class SchoolSection < ApplicationRecord
   end
 
   def self.csv_row(fields, record)
-    fields[:sections].map { |field| record.send(field) }
+    fields[:sy].map { |field| record.send(field) }
   end
 
   def self.serial_data(fields)
     all.map do |record|
-      sections_data = fields[:sections].index_with { |field| record.send(field) }
+      sy_data = fields[:sy].index_with { |field| record.send(field) }
 
-      sections_data
+      sy_data
     end
   end
 
@@ -45,7 +50,7 @@ class SchoolSection < ApplicationRecord
   end
 
   def self.add_headers(csv, fields)
-    csv << fields[:sections].map(&:to_s)
+    csv << fields[:sy].map(&:to_s)
   end
 
   def self.add_records(csv, fields)
