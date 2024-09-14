@@ -83,7 +83,7 @@
                         <%= fa_icon "moon-o 2x", class: "swap-off h-10 w-10 fill-current" %>
                       </label>
                     </div>
-                    <%= button_to 'Sign Out', "/", method: :delete, data: { turbo_method: :delete, 'turbo-confirm': "Are you sure to sign out?" }, class: "btn btn-sm btn-primary" %>
+                    <%= button_to 'Sign Out', destroy_user_session_path, method: :delete, data: { turbo_method: :delete, 'turbo-confirm': "Are you sure to sign out?" }, class: "btn btn-sm btn-primary" %>
                   </div>
                 </div>
               </div>
