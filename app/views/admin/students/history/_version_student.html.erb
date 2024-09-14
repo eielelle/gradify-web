@@ -33,7 +33,7 @@
               <td>
                 <%= version.whodunnit %>
                 <br>
-                <% if current_admin_account.name == version.whodunnit %>
+                <% if current_user.name == version.whodunnit %>
                   <span class="badge badge-ghost badge-sm">Current</span>
                 <% end %>
               </td>

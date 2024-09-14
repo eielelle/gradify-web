@@ -4,8 +4,9 @@ class SchoolClass < ApplicationRecord
   include Exportable
 
   has_many :school_years, dependent: :destroy
-  has_many :school_sections, dependent: :destroy
-  has_many :student_accounts, dependent: :nullify
+  has_many :school_sections, through: :school_years
+  # has_and_belongs_to_many :school_sections, dependent: :destroy
+  # has_and_belongs_to_many :users, dependent: :nullify
   validates :name, presence: true
 
   has_paper_trail ignore: %i[created_at updated_at]

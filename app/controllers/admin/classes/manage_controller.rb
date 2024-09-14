@@ -64,7 +64,7 @@ module Admin
 
       def fetch_selected_students
         @selected_students = if params[:selected_student_ids].present?
-                               StudentAccount.where(id: params[:selected_student_ids])
+                               SchoolClass.school_years.users
                              else
                                []
                              end
@@ -76,17 +76,17 @@ module Admin
       end
 
       def filter_students
-        @show = @school_class.student_accounts
+        @show = @school_class.school_sections.flat_map(&:users).uniq
         filter_by_school_year
         filter_by_school_section
       end
 
       def filter_by_school_year
-        @show = @show.where(school_year_id: params[:school_year_id]) if params[:school_year_id].present?
+        # @show = @show.where(school_year_id: params[:school_year_id]) if params[:school_year_id].present?
       end
 
       def filter_by_school_section
-        @show = @show.where(school_section_id: params[:school_section_id]) if params[:school_section_id].present?
+        # @show = @show.where(school_section_id: params[:school_section_id]) if params[:school_section_id].present?
       end
 
       def update_class_params

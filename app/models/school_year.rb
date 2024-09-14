@@ -3,8 +3,11 @@
 class SchoolYear < ApplicationRecord
   include Exportable
 
+  # belongs_to :school_class
+  # has_many :users, dependent: :nullify
+
   belongs_to :school_class
-  has_many :student_accounts, dependent: :nullify
+  has_many :school_sections, dependent: :destroy
 
   validates :name, presence: true
 

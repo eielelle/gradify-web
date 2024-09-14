@@ -13,7 +13,7 @@ module Admin
 
           def index
             set_default_sort(default_sort_column: 'name asc')
-            query_items_default(StudentAccount, params)
+            query_items_default(User, params)
           end
 
           def create
@@ -56,16 +56,15 @@ module Admin
 
           def update_students
             selected_students.each do |student|
-              student.update(
-                school_year_id: @school_year.id,
-                school_section_id: @school_section.id,
-                school_class_id: @school_class.id
-              )
+              school_class = SchoolClass.find(@school_class.id)
+              sy = school_class.school_years.find(@school_year.id)
+              section = sy.school_sections.find(@school_section.id)
+              section.users << student
             end
           end
 
           def selected_students
-            @selected_students ||= StudentAccount.where(id: selected_student_ids)
+            @selected_students ||= User.where(id: selected_student_ids, role: "student")
           end
 
           def set_flash_message
@@ -82,11 +81,12 @@ module Admin
 
           def set_class
             @class = SchoolClass.find(params[:class_id])
-            @student_accounts = @class.student_accounts
+            # @student_accounts = @class.school_sections.flat_map(&:users).uniq
           end
 
           def set_search
-            @q = @student_accounts.ransack(params[:q])
+            @q = User.ransack(params[:q])
+            @users = @q.result(distinct: true).where(role: "student").page(params[:page]).per(10) # Only users with the 'student' role
             @sort_fields = {
               'Name': 'name asc',
               'Email': 'email asc',

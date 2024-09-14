@@ -9,7 +9,7 @@ module SuperAdminConcern
   private
 
   def superadmin_redirect(model, path, msg)
-    is_superadmin = model.permission.name == 'SuperAdmin'
+    is_superadmin = model.role == 'superadmin'
 
     if is_superadmin
       flash[:toast] = msg

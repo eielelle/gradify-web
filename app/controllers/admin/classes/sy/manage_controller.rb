@@ -19,7 +19,8 @@ module Admin
           set_class
           @school_year = @class.school_years.find(params[:id])
 
-          StudentAccount.where(school_year: @school_year).destroy_all
+          # Remove all students
+          # StudentAccount.where(school_year: @school_year).destroy_all
 
           if @school_year.destroy
             flash[:toast] = 'School Year deleted successfully.'

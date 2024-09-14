@@ -9,6 +9,9 @@ module SnapshotConcern
   private
 
   def get_snapshot(version)
+    puts version.item.nil?
+    puts version.inspect
+
     if version.item.nil?
       if version.next.nil?
         version.reify
@@ -16,7 +19,8 @@ module SnapshotConcern
         version.next.reify
       end
     else
-      version.item.paper_trail.version_at(version.created_at)
+      version.item
+      # version.item.paper_trail.version_at(version.created_at)
     end
   end
 end

@@ -16,6 +16,15 @@ module Admin
 
           def create
             set_class
+            
+            @selected_school_year = @class.school_years.find_by(id: school_section_params["sy"])
+            
+            if @selected_school_year.nil?
+              flash[:sy_error] = "Invalid School Year"
+              redirect_to new_admin_classes_class_sy_sections_manage_path
+              return
+            end
+
             set_sc
 
             if @section.save
@@ -49,7 +58,8 @@ module Admin
             set_class
             @school_section = @class.school_sections.find(params[:id])
 
-            StudentAccount.where(school_section: @school_section).destroy_all
+            # Remove students
+            # StudentAccount.where(school_section: @school_section).destroy_all
 
             if @school_section.destroy
               flash[:toast] = 'Section deleted successfully.'
@@ -64,7 +74,11 @@ module Admin
             query_items_default(SchoolSection, params)
           end
 
-          def new; end
+          def new
+            set_class
+
+            @sy = @class.school_years
+          end
 
           private
 
@@ -77,8 +91,8 @@ module Admin
             @class = SchoolClass.find(params[:class_id])
           end
 
-          def set_sc
-            @section = @class.school_sections.new school_section_params
+          def set_sc            
+            @section = @selected_school_year.school_sections.new(name: school_section_params[:name])
           end
 
           def update_params
@@ -86,7 +100,7 @@ module Admin
           end
 
           def school_section_params
-            params.permit(:name)
+            params.permit(:name, :sy)
           end
         end
       end
