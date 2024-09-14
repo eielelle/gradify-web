@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   include Exportable
 
   has_paper_trail ignore: %i[encrypted_password reset_password_token reset_password_sent_at sign_in_count
-  current_sign_in_at last_sign_in_at current_sign_in_ip last_sign_in_ip]
+                             current_sign_in_at last_sign_in_at current_sign_in_ip last_sign_in_ip]
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -14,7 +16,8 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :role, presence: true
 
-  enum role: { superadmin: 'superadmin', admin: 'admin', teacher: 'teacher', student: 'student', teacher_admin: 'teacher|admin' }
+  enum role: { superadmin: 'superadmin', admin: 'admin', teacher: 'teacher', student: 'student',
+               teacher_admin: 'teacher|admin' }
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[name email updated_at]

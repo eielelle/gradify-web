@@ -9,7 +9,7 @@ module Admin
 
       def index
         @student_fields = User.get_export_fields(%i[encrypted_password reset_password_token
-                                                              permission_id role school_section_id])
+                                                    permission_id role school_section_id])
       end
 
       def download
