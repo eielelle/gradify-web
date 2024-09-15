@@ -31,7 +31,7 @@ module Admin
       end
 
       def after_update_path
-        edit_admin_workforce_manage_path(@user, hide: true)
+        admin_workforce_manage_index_path
       end
     end
   end

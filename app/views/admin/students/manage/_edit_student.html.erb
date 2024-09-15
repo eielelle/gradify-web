@@ -1,25 +1,83 @@
-<%= form_with(model: @student, url: admin_students_manage_path(@student), method: :patch, local: true) do |form| %>
-  <label class="form-control w-full max-w-xs">
-    <div class="label">
-      <%= form.label :name, class: "label-text" %>
-    </div>
-    <%= form.text_field :name, class: "input input-bordered w-full max-w-xs" %>
-    <div class="label">
-      <span class="label-text-alt text-error"><%= flash[:name_error] %></span>
-    </div>
-  </label>
-
-  <label class="form-control w-full max-w-xs">
-    <div class="label">
-      <%= form.label :email, class: "label-text" %>
-    </div>
-    <%= form.email_field :email, class: "input input-bordered w-full max-w-xs" %>
-    <div class="label">
-      <span class="label-text-alt text-error"><%= flash[:email_error] %></span>
-    </div>
-  </label>
-
-  <div>
-    <%= form.submit "Update Student", class: "btn btn-primary mt-4" %>
-  </div>
+<% if flash[:notice] %>
+  <p class="alert"><%= flash[:notice] %></p>
 <% end %>
+
+<%= render "shared/toast", toast: flash[:toast] %>
+
+<div data-controller="toggle-password">
+  <button type="button" id="edit-password-btn" class="btn btn-secondary mb-4" data-action="click->toggle-password#togglePasswordFields">
+    <%= params[:hide] == 'true' ? 'Show Hidden Password' : 'Hide Hidden Password' %>
+  </button>
+
+  <div class="flex flex-wrap lg:w-2/3">
+    <div class="flex-1">
+      <%= form_with(model: @student, url: admin_students_manage_path(@student), method: :patch, local: true) do |form| %>
+        <label class="form-control w-full max-w-xs">
+          <div class="label">
+            <%= form.label :name, class: "label-text" %>
+          </div>
+          <%= form.text_field :name, class: "input input-bordered w-full max-w-xs" %>
+          <div class="label">
+            <span class="label-text-alt text-error"><%= flash[:name_error] %></span>
+          </div>
+        </label>
+
+        <label class="form-control w-full max-w-xs">
+          <div class="label">
+            <%= form.label :email, class: "label-text" %>
+          </div>
+          <%= form.email_field :email, class: "input input-bordered w-full max-w-xs" %>
+          <div class="label">
+            <span class="label-text-alt text-error"><%= flash[:email_error] %></span>
+          </div>
+        </label>
+
+        <div>
+          <%= form.submit "Update Student", class: "btn btn-primary mt-4" %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="flex-1">
+      <%= form_with(url: admin_students_password_path(@student), method: :patch, local: true, data: { btn_class: "btn-secondary" }) do |form| %>
+          <!-- PASSWORD FIELDS -->
+          <div id="password-fields" class="<%= params[:hide] == 'true' ? 'hidden' : 'block' %>">
+            <label class="form-control w-full max-w-xs">
+              <div class="label">
+                <%= form.label :password, 'New Account Password', class: "label-text" %>
+              </div>
+              <%= form.password_field :password, class: "input input-bordered w-full max-w-xs" %>
+              <div class="label">
+                <span class="label-text-alt text-error"><%= flash[:password_error] %></span>
+              </div>
+            </label>
+
+            <label class="form-control w-full max-w-xs">
+              <div class="label">
+                <%= form.label :password_confirmation, 'Confirm Account Password', class: "label-text" %>
+              </div>
+              <%= form.password_field :password_confirmation, class: "input input-bordered w-full max-w-xs" %>
+              <div class="label">
+                <span class="label-text-alt text-error"><%= flash[:password_confirmation_error] %></span>
+              </div>
+            </label>
+
+            <label class="form-control w-full max-w-xs">
+              <div class="label">
+                <%= form.label :current_password, 'Your Password', class: "label-text" %>
+              </div>
+              <%= form.password_field :current_password, class: "input input-bordered w-full max-w-xs" %>
+              <div class="label">
+                <span class="label-text-alt text-error"><%= flash[:current_password_error] %></span>
+              </div>
+            </label>
+            <div>
+              <%= form.submit "Change Password", class: "btn btn-primary mt-4", data: { 'turbo-confirm': 'Are you sure you want to update the password to this account?' } %>
+            </div>
+          </div>
+
+      <% end %>
+    </div>
+  </div>
+</div>
+
