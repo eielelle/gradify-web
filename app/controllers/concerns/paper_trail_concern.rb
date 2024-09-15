@@ -10,8 +10,8 @@ module PaperTrailConcern
   private
 
   def user_for_paper_trail
-    if current_admin_account
-      current_admin_account.name
+    if current_user
+      current_user.name
     else
       'Unknown'
     end

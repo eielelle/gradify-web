@@ -86,7 +86,7 @@ module Admin
 
           def set_search
             @q = User.ransack(params[:q])
-            @users = @q.result(distinct: true).where(role: 'student').page(params[:page]).per(10) # Only users with the 'student' role
+            @users = @q.result(distinct: true).where(role: 'student').page(params[:page]).per(10)
             @sort_fields = {
               'Name': 'name asc',
               'Email': 'email asc',

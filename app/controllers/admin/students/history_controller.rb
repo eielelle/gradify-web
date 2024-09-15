@@ -8,13 +8,7 @@ module Admin
 
       def versions
         set_default_sort(default_sort_column: 'created_at desc')
-        @q = PaperTrail::Version.ransack(params[:q])
-        @results = @q.result(distinct: true).where(item_id: params[:id] || params.dig(:q, :id),
-                                                   item_type: 'User')
-        @items = @results.page(params[:page]).per(10)
-        Rails.logger.debug @items.item.inspect
-        @count = @items.count
-        @sort_fields = get_sort_fields(PaperTrail::Version)
+        query_items_type('User')
       end
 
       def snapshot

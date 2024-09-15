@@ -5,7 +5,7 @@ module Admin
     class ManageController < Admin::LayoutController
       include SearchableConcern
       include ErrorConcern
-      # include PaperTrailConcern
+      include PaperTrailConcern
 
       before_action :set_student, only: %i[show edit update destroy destroy_selected]
       before_action :set_search, only: %i[index new create edit update]
@@ -13,7 +13,7 @@ module Admin
       def index
         set_default_sort(default_sort_column: 'name asc')
         @q = User.ransack(params[:q])
-        @items = @q.result(distinct: true).where(role: 'student').page(params[:page]).per(10) # Only users with the 'student' role
+        @items = @q.result(distinct: true).where(role: 'student').page(params[:page]).per(10)
       end
 
       def show
@@ -80,7 +80,7 @@ module Admin
 
       def set_search
         @q = User.ransack(params[:q])
-        @items = @q.result(distinct: true).where(role: 'student').page(params[:page]).per(10) # Only users with the 'student' role
+        @items = @q.result(distinct: true).where(role: 'student').page(params[:page]).per(10)
         @sort_fields = {
           'Name': 'name asc',
           'Email': 'email asc',
