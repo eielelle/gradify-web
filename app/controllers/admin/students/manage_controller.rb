@@ -55,17 +55,12 @@ module Admin
       end
 
       def destroy_selected
-        if params[:student_ids].present?
-          Student.destroy(params[:student_ids]) # Destroy the selected students
-          respond_to do |format|
-            format.html { redirect_to admin_students_manage_index_path, notice: 'Selected students have been removed.' }
-            format.json { head :no_content }
-          end
+        ids = params[:student_ids]
+        if ids.present?
+          User.where(id: params[ids], role: 'student').destroy_all
+          redirect_to admin_students_manage_index_path, notice: 'Selected students were successfully deleted.'
         else
-          respond_to do |format|
-            format.html { redirect_to admin_students_manage_index_path, alert: 'No students were selected.' }
-            format.json { head :unprocessable_entity }
-          end
+          redirect_to admin_students_manage_index_path, alert: 'No students were selected.'
         end
       end
 
