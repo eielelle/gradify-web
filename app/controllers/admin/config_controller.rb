@@ -5,7 +5,7 @@ module Admin
     layout 'application'
 
     include ErrorConcern
-    # include PaperTrailConcern
+    include PaperTrailConcern
     include PasswordConcern
 
     def show

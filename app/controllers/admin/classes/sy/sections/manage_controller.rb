@@ -19,11 +19,7 @@ module Admin
 
             @selected_school_year = @class.school_years.find_by(id: school_section_params['sy'])
 
-            if @selected_school_year.nil?
-              flash[:sy_error] = 'Invalid School Year'
-              redirect_to new_admin_classes_class_sy_sections_manage_path
-              return
-            end
+            return if check_school_year
 
             set_sc
 
@@ -81,6 +77,16 @@ module Admin
           end
 
           private
+
+          def check_school_year
+            if @selected_school_year.nil?
+              flash[:sy_error] = 'Invalid School Year'
+              redirect_to new_admin_classes_class_sy_sections_manage_path
+              return true
+            end
+
+            false
+          end
 
           def update_success
             flash[:toast] = 'Updated Successfully.'
