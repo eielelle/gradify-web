@@ -2,90 +2,95 @@
   <p class="alert"><%= flash[:notice] %></p>
 <% end %>
 
-<%= form_with(model: @user, url: admin_workforce_manage_path(@user), method: :patch, local: true, data: { btn_class: "btn-primary" }) do |form| %>
-  <div class="flex flex-wrap -mx-2">
-    <!-- Name, Role, Email Fields -->
-    <div class="w-full md:w-1/4 px-2">
-      <label class="form-control w-full max-w-xs">
-        <div class="label">
-          <%= form.label :name, class: "label-text" %>
-        </div>
-        <%= form.text_field :name, class: "input input-bordered w-full max-w-xs" %>
-        <div class="label">
-          <span class="label-text-alt text-error"><%= flash[:name_error] %></span>
-        </div>
-      </label>
+<%= render "shared/toast", toast: flash[:toast] %>
 
-      <label class="form-control w-full max-w-xs">
-        <div class="label">
-          <%= form.label :role, class: "label-text" %>
-        </div>
-        <%= form.select :role, options_for_select(@roles.keys.map { |role| [role.humanize, role] }, @user.role), {}, { class: "select select-bordered" } %>
-        <div class="label">
-          <span class="label-text-alt text-error"><%= flash[:permission_error] %></span>
-        </div>
-      </label>
+<div data-controller="toggle-password">
+  <button type="button" id="edit-password-btn" class="btn btn-secondary mb-4" data-action="click->toggle-password#togglePasswordFields">
+    <%= params[:hide] == 'true' ? 'Show Hidden Password' : 'Hide Hidden Password' %>
+  </button>
 
-      <label class="form-control w-full max-w-xs">
-        <div class="label">
-          <%= form.label :email, class: "label-text" %>
+  <div class="flex flex-wrap lg:w-2/3">
+    <div class="flex-1">
+      <%= form_with(model: @user, url: admin_workforce_manage_path(@user), method: :patch, local: true, data: { btn_class: "btn-primary" }) do |form| %>
+        <!-- Name, Role, Email Fields -->
+        <div>
+          <label class="form-control w-full max-w-xs">
+            <div class="label">
+              <%= form.label :name, class: "label-text" %>
+            </div>
+            <%= form.text_field :name, class: "input input-bordered w-full max-w-xs" %>
+            <div class="label">
+              <span class="label-text-alt text-error"><%= flash[:name_error] %></span>
+            </div>
+          </label>
+
+          <label class="form-control w-full max-w-xs">
+            <div class="label">
+              <%= form.label :role, class: "label-text" %>
+            </div>
+            <%= form.select :role, options_for_select(@roles.keys.map { |role| [role.humanize, role] }, @user.role), {}, { class: "select select-bordered" } %>
+            <div class="label">
+              <span class="label-text-alt text-error"><%= flash[:permission_error] %></span>
+            </div>
+          </label>
+
+          <label class="form-control w-full max-w-xs">
+            <div class="label">
+              <%= form.label :email, class: "label-text" %>
+            </div>
+            <%= form.email_field :email, class: "input input-bordered w-full max-w-xs" %>
+            <div class="label">
+              <span class="label-text-alt text-error"><%= flash[:email_error] %></span>
+            </div>
+          </label>
         </div>
-        <%= form.email_field :email, class: "input input-bordered w-full max-w-xs" %>
-        <div class="label">
-          <span class="label-text-alt text-error"><%= flash[:email_error] %></span>
+
+        <div>
+          <%= form.submit "Update User", class: "btn btn-primary mt-4", data: { 'turbo-confirm': 'Are you sure you want to save the changes to this account?' } %>
         </div>
-      </label>
+      <% end %>
     </div>
 
-    <!-- PASSWORD FIELDS -->
-    <div id="password-fields" class="w-full md:w-1/4 px-2" style="display: <%= (flash[:password_error] || flash[:password_confirmation_error] || flash[:current_password_error]) ? 'block' : 'none' %>;">
-      <label class="form-control w-full max-w-xs">
-        <div class="label">
-          <%= form.label :password, 'New Account Password', class: "label-text" %>
-        </div>
-        <%= form.password_field :password, class: "input input-bordered w-full max-w-xs" %>
-        <div class="label">
-          <span class="label-text-alt text-error"><%= flash[:password_error] %></span>
-        </div>
-      </label>
+    <div class="flex-1">
+      <%= form_with(url: admin_workforce_password_path(@user), method: :patch, local: true, data: { btn_class: "btn-secondary" }) do |form| %>
+          <!-- PASSWORD FIELDS -->
+          <div id="password-fields" class="<%= params[:hide] == 'true' ? 'hidden' : 'block' %>">
+            <label class="form-control w-full max-w-xs">
+              <div class="label">
+                <%= form.label :password, 'New Account Password', class: "label-text" %>
+              </div>
+              <%= form.password_field :password, class: "input input-bordered w-full max-w-xs" %>
+              <div class="label">
+                <span class="label-text-alt text-error"><%= flash[:password_error] %></span>
+              </div>
+            </label>
 
-      <label class="form-control w-full max-w-xs">
-        <div class="label">
-          <%= form.label :password_confirmation, 'Confirm Account Password', class: "label-text" %>
-        </div>
-        <%= form.password_field :password_confirmation, class: "input input-bordered w-full max-w-xs" %>
-        <div class="label">
-          <span class="label-text-alt text-error"><%= flash[:password_confirmation_error] %></span>
-        </div>
-      </label>
+            <label class="form-control w-full max-w-xs">
+              <div class="label">
+                <%= form.label :password_confirmation, 'Confirm Account Password', class: "label-text" %>
+              </div>
+              <%= form.password_field :password_confirmation, class: "input input-bordered w-full max-w-xs" %>
+              <div class="label">
+                <span class="label-text-alt text-error"><%= flash[:password_confirmation_error] %></span>
+              </div>
+            </label>
 
-      <label class="form-control w-full max-w-xs">
-        <div class="label">
-          <%= form.label :current_password, 'Your Password', class: "label-text" %>
-        </div>
-        <%= form.password_field :current_password, class: "input input-bordered w-full max-w-xs" %>
-        <div class="label">
-          <span class="label-text-alt text-error"><%= flash[:current_password_error] %></span>
-        </div>
-      </label>
+            <label class="form-control w-full max-w-xs">
+              <div class="label">
+                <%= form.label :current_password, 'Admin Password', class: "label-text" %>
+              </div>
+              <%= form.password_field :current_password, class: "input input-bordered w-full max-w-xs" %>
+              <div class="label">
+                <span class="label-text-alt text-error"><%= flash[:current_password_error] %></span>
+              </div>
+            </label>
+            <div>
+              <%= form.submit "Change Password", class: "btn btn-primary mt-4", data: { 'turbo-confirm': 'Are you sure you want to update the password to this account?' } %>
+            </div>
+          </div>
+
+      <% end %>
     </div>
+
   </div>
-
-  <div>
-    <%= form.submit "Update User", class: "btn btn-primary mt-4", data: { 'turbo-confirm': 'Are you sure you want to save the changes to this account?' } %>
-    <button type="button" id="edit-password-btn" class="btn btn-secondary mt-4" onclick="togglePasswordFields()">Show Edit Password</button>
-  </div>
-<% end %>
-
-<!-- SHOW PASSWORD FUNCTIONALITY -->
-<script>
-  function togglePasswordFields(){
-    const passwordFields = document.getElementById('password-fields');
-    const isHidden = passwordFields.style.display === 'none';
-    const button = document.getElementById('edit-password-btn');
-
-    // DISPLAY PASSWORD
-    passwordFields.style.display = isHidden ? 'block' : 'none';
-    button.textContent = isHidden ? 'Hide Edit Password' : 'Show Edit Password';
-  }
-</script>
+</div>
