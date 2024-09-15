@@ -7,7 +7,7 @@ module Admin
       include PasswordConcern
 
       def edit
-        @student = User.find_by(id: params[:id], role: "student")
+        @student = User.find_by(id: params[:id], role: 'student')
         redirect_to admin_students_manage_index_path if @student.nil?
       end
 

@@ -6,14 +6,14 @@ module Admin
       include SearchableConcern
       include ErrorConcern
       # include PaperTrailConcern
-      
+
       before_action :set_student, only: %i[show edit update destroy destroy_selected]
       before_action :set_search, only: %i[index new create edit update]
 
       def index
         set_default_sort(default_sort_column: 'name asc')
         @q = User.ransack(params[:q])
-        @items = @q.result(distinct: true).where(role: "student").page(params[:page]).per(10) # Only users with the 'student' role
+        @items = @q.result(distinct: true).where(role: 'student').page(params[:page]).per(10) # Only users with the 'student' role
       end
 
       def show
@@ -28,7 +28,7 @@ module Admin
       def edit; end
 
       def create
-        @student_account = User.new(student_params.merge(role: "student"))
+        @student_account = User.new(student_params.merge(role: 'student'))
         if @student_account.save
           redirect_to admin_students_manage_index_path, notice: 'Student account created successfully.'
         else
@@ -57,7 +57,7 @@ module Admin
       def destroy_selected
         ids = params[:student_ids]
         if ids.present?
-          User.where(id: params[ids], role: "student").destroy_all
+          User.where(id: params[ids], role: 'student').destroy_all
           redirect_to admin_students_manage_index_path, notice: 'Selected students were successfully deleted.'
         else
           redirect_to admin_students_manage_index_path, alert: 'No students were selected.'
@@ -67,7 +67,7 @@ module Admin
       private
 
       def set_student
-        @student = User.find_by(id: params[:id], role: "student")
+        @student = User.find_by(id: params[:id], role: 'student')
       end
 
       def student_params
@@ -80,7 +80,7 @@ module Admin
 
       def set_search
         @q = User.ransack(params[:q])
-        @items = @q.result(distinct: true).where(role: "student").page(params[:page]).per(10) # Only users with the 'student' role
+        @items = @q.result(distinct: true).where(role: 'student').page(params[:page]).per(10) # Only users with the 'student' role
         @sort_fields = {
           'Name': 'name asc',
           'Email': 'email asc',

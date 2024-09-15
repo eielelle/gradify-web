@@ -8,8 +8,7 @@ module Admin
       include ExportableFormatConcern
 
       def index
-        @user_fields = User.get_export_fields(%i[encrypted_password reset_password_token
-                                                          ])
+        @user_fields = User.get_export_fields(%i[encrypted_password reset_password_token])
       end
 
       def download

@@ -9,8 +9,8 @@ module SnapshotConcern
   private
 
   def get_snapshot(version)
-    puts version.item.nil?
-    puts version.inspect
+    Rails.logger.debug version.item.nil?
+    Rails.logger.debug version.inspect
 
     if version.item.nil?
       if version.next.nil?

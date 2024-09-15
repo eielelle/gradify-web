@@ -64,7 +64,7 @@ module Admin
           end
 
           def selected_students
-            @selected_students ||= User.where(id: selected_student_ids, role: "student")
+            @selected_students ||= User.where(id: selected_student_ids, role: 'student')
           end
 
           def set_flash_message
@@ -86,7 +86,7 @@ module Admin
 
           def set_search
             @q = User.ransack(params[:q])
-            @users = @q.result(distinct: true).where(role: "student").page(params[:page]).per(10) # Only users with the 'student' role
+            @users = @q.result(distinct: true).where(role: 'student').page(params[:page]).per(10) # Only users with the 'student' role
             @sort_fields = {
               'Name': 'name asc',
               'Email': 'email asc',

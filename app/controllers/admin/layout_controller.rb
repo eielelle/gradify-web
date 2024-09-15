@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 module Admin
-    class LayoutController < ApplicationController
+  class LayoutController < ApplicationController
     #   include HandleAccessDeniedConcern
-  
-      layout 'admin_panel'
-      before_action :auth_user
+
+    layout 'admin_panel'
+    before_action :auth_user
     #   # load_and_authorize_resource
-  
+
     #   # in ApplicationController
     #   def current_ability
     #     @current_ability ||= if current_admin_account.present?
@@ -17,12 +17,10 @@ module Admin
     #                          end
     #   end
 
+    private
 
-      private
-
-      def auth_user
-        authenticate_user!
-      end
+    def auth_user
+      authenticate_user!
     end
   end
-  
+end
