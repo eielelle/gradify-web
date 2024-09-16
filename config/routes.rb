@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   root "welcome#index"
   get "/admin", to: "admin/overview#index", as: :admin_root
+  get "/teacher", to: "teacher/overview#index", as: :teacher_root
 
   namespace :admin do
     # /admin/config
@@ -68,6 +69,8 @@ Rails.application.routes.draw do
     end
     
   end
+
+
 
   # end of new routing  
 

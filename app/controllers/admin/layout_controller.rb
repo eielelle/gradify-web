@@ -20,7 +20,11 @@ module Admin
     private
 
     def auth_user
-      authenticate_user!
+      authenticate_user! # First ensure the user is logged in
+      unless current_user&.role == 'admin' || current_user&.role == 'superadmin'
+        sign_out current_user
+        redirect_to user_session_path, alert: 'You are not authorized to access this page.'
+      end
     end
   end
 end
