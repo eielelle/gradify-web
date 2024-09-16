@@ -6,14 +6,14 @@
         <% if @sy.any? %>
           <div class="field">
             <%= form.label :school_year %>
-            <%= form.select :school_year_id, options_from_collection_for_select(@sy, :id, :name, selected: params[:school_year_id]), {}, class: "select select-bordered", onchange: "this.form.submit();" %>
+            <%= form.select :teacher_school_year_id, options_from_collection_for_select(@sy, :id, :name, selected: params[:teacher_school_year_id]), {}, class: "select select-bordered", onchange: "this.form.submit();" %>
           </div>
         <% end %>
 
         <% if @sections.any? %>
           <div class="field">
             <%= form.label :school_section %>
-            <%= form.select :school_section_id, options_from_collection_for_select(@sections, :id, :name, selected: params[:school_section_id]), {}, class: "select select-bordered", onchange: "this.form.submit();" %>
+            <%= form.select :teacher_school_section_id, options_from_collection_for_select(@sections, :id, :name, selected: params[:teacher_school_section_id]), {}, class: "select select-bordered", onchange: "this.form.submit();" %>
           </div>
         <% end %>
       </div>
@@ -39,8 +39,8 @@
           </tr>
         </thead>
         <tbody>
-          <% if @show.present? %>
-            <% @show.each do |teacher| %>
+          <% if @teachers.present? %>
+            <% @teachers.each do |teacher| %>
               <tr class="hover">
                 <td>
                   <div class="flex items-center gap-3">
@@ -65,7 +65,7 @@
         </tbody>
       </table>
       <div class="flex justify-between items-center">
-        <span><%= @count %> teachers</span>
+        <span><%= @teacher_count %> teachers</span>
       </div>
     </div>
   </section>

@@ -33,12 +33,20 @@ module Admin
         fetch_selected_students
         fetch_dropdown_data
 
-        if params[:school_year_id].present? && params[:school_section_id].present?
-          filter_students(params[:school_year_id], params[:school_section_id])
+        if params[:student_school_year_id].present? && params[:student_school_section_id].present?
+          filter_students(params[:student_school_year_id], params[:student_school_section_id])
         elsif !@sy.empty? && !@sections.empty?
           filter_students(@sy.first.id, @sections.first.id)
         end
-        @count = @show.nil? ? 0 : @show.count
+        
+        if params[:teacher_school_year_id].present? && params[:teacher_school_section_id].present?
+          filter_teachers(params[:teacher_school_year_id], params[:teacher_school_section_id])
+        elsif !@sy.empty? && !@sections.empty?
+          filter_teachers(@sy.first.id, @sections.first.id)
+        end
+
+        @student_count = @students.nil? ? 0 : @students.count
+        @teacher_count = @teachers.nil? ? 0 : @teachers.count
       end
 
       def update
@@ -83,10 +91,14 @@ module Admin
       def filter_students(sy, section)
         sections = SchoolSection.where(school_year_id: sy)
         section = sections.find(section)
-        @show = section.users
+        @students = section.users.where(role: 'student')
       end
 
-
+      def filter_teachers(sy, section)
+        sections = SchoolSection.where(school_year_id: sy)
+        section = sections.find(section)
+        @teachers = section.users.where(role: 'teacher')
+      end
 
       def update_class_params
         params.permit(:id, school_class: %i[name description])
