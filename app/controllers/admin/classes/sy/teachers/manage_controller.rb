@@ -8,12 +8,19 @@ module Admin
             include SearchableConcern
             include ErrorConcern
   
-            before_action :set_class
-            before_action :set_search, only: %i[index]
+            # before_action :set_class
+            # before_action :set_search, only: %i[index]
   
             def index
-            #   set_default_sort(default_sort_column: 'name asc')
-            #   query_items_default(User, params)
+                set_default_sort(default_sort_column: 'name asc')
+                @q = User.ransack(params[:q])
+                @users = @q.result(distinct: true).where(role: 'teacher').page(params[:page]).per(10)
+                @sort_fields = {
+                    'Name': 'name asc',
+                    'Email': 'email asc',
+                    'Created At': 'created_at asc',
+                    'Updated At': 'updated_at asc'
+                  }
             end
   
             def create

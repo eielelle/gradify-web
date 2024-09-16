@@ -10,80 +10,13 @@
   <p><%= @school_class.description %></p>
 </div>
 <br>
-<h2 class="text-2xl font-semibold mb-4">Students List</h2>
-<div>
-  <div class="flex justify-between items-center">
-    <%= form_with url: admin_classes_manage_path(@school_class), method: :get, local: true do |form| %>
-      <div class="flex gap-10">
-        <% if @sy.any? %>
-          <div class="field">
-            <%= form.label :school_year %>
-            <%= form.select :school_year_id, options_from_collection_for_select(@sy, :id, :name, selected: params[:school_year_id]), {}, class: "select select-bordered", onchange: "this.form.submit();" %>
-          </div>
-        <% end %>
 
-        <% if @sections.any? %>
-          <div class="field">
-            <%= form.label :school_section %>
-            <%= form.select :school_section_id, options_from_collection_for_select(@sections, :id, :name, selected: params[:school_section_id]), {}, class: "select select-bordered", onchange: "this.form.submit();" %>
-          </div>
-        <% end %>
-      </div>
-    <% end %>
-    <div class="join">
-      <%= link_to "Manage SY", admin_classes_class_sy_manage_index_path(@school_class), class: "btn join-item" %>
-      <%= link_to "Manage Sections", admin_classes_class_sy_sections_manage_index_path(@school_class), class: "btn join-item" %>
-      
-      <% if @sy.empty? || @sections.empty? %>
-        <%= button_to "Assign Student", "#", class: "btn join-item", data: { 'turbo-confirm': 'School year and sections cannot be empty.' } %>
-        <%= button_to "Assign Teacher", "#", class: "btn join-item", data: { 'turbo-confirm': 'School year and sections cannot be empty.' } %>
-      <% else %>
-        <%= link_to "Assign Student", admin_classes_class_sy_students_manage_index_path(@school_class), class: "btn join-item" %>
-        <%= link_to "Assign Teacher", admin_classes_class_sy_teachers_manage_index_path(@school_class), class: "btn join-item" %>
-      <% end %>
-    </div>
-  </div>
-  <br>
-  <section>
-    <div class="overflow-x-auto">
-      <table class="table table-sm mb-6">
-        <!-- head -->
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Created At</th>
-            <th>Updated At</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% if @show.present? %>
-            <% @show.each do |student| %>
-              <tr class="hover">
-                <td>
-                  <div class="flex items-center gap-3">
-                    <span><%= student.name %></span>
-                  </div>
-                </td>
-                <td>
-                  <span><%= format_date student.created_at %></span>
-                </td>
-                <td>
-                  <span><%= format_date student.updated_at %></span>
-                </td>
-              </tr>
-            <% end %>
-          <% else %>
-            <tr>
-              <td colspan="3" class="text-center py-4 text-gray-500">
-                No enrolled students yet
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-      <div class="flex justify-between items-center">
-        <span><%= @count %> Students</span>
-      </div>
-    </div>
-  </section>
-</div>
+<!-- teacher list -->
+<%= render "assigned_teachers" %>
+
+<br>
+<p class="divider"></p>
+<br>
+
+<!-- student list -->
+<%= render "assigned_students" %>
