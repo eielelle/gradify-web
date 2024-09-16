@@ -70,6 +70,35 @@ Rails.application.routes.draw do
     
   end
 
+  namespace :teacher do
+    # /teacher/config
+    resource :config, only: [:show, :update, :destroy], controller: 'config', as: 'config'
+    patch 'change_password', to: 'config#change_password' # config related
+    get 'confirm_destroy', to: 'config#confirm_destroy'  # config related
+
+    # /teacher/classes
+    namespace :classes do
+      resources :manage, as: 'manage', only: [:index, :show]
+      get 'export', to: 'export#index', as: 'export'
+      get 'send_exports', to: 'export#download', as: 'download'
+    end
+
+    # /teacher/papers
+    namespace :papers do
+      resources :manage, as: 'manage', only: [:index, :show]
+      get 'export', to: 'export#index', as: 'export'
+      get 'send_exports', to: 'export#download', as: 'download'
+    end
+
+    # /teacher/grades
+    namespace :grades do
+      resources :manage, as: 'manage'
+      get 'export', to: 'export#index', as: 'export'
+      get 'send_exports', to: 'export#download', as: 'download'
+    end
+
+
+  end
 
 
   # end of new routing  
