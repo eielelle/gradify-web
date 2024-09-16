@@ -8,7 +8,7 @@ module Admin
           include ExportableFormatConcern
 
           def index
-            @sec_fields = SchoolSection.get_export_fields(%i[school_class_id])
+            @sec_fields = SchoolSection.get_export_fields(%i[school_class_id id created_at school_year_id])
           end
 
           def download

@@ -1,5 +1,4 @@
 <%= render "shared/toast", toast: flash[:toast] %>
-<h2 class="text-2xl font-semibold mb-4">Basic Information</h2>
 <div>
   <strong>Name: </strong>
   <span><%= @school_class.name %></span>
@@ -49,7 +48,6 @@
         <thead>
           <tr>
             <th>Name</th>
-            <th>Created At</th>
             <th>Updated At</th>
           </tr>
         </thead>
@@ -61,9 +59,6 @@
                   <div class="flex items-center gap-3">
                     <span><%= student.name %></span>
                   </div>
-                </td>
-                <td>
-                  <span><%= format_date student.created_at %></span>
                 </td>
                 <td>
                   <span><%= format_date student.updated_at %></span>

@@ -8,8 +8,9 @@ module Admin
       include ExportableFormatConcern
 
       def index
-        @class_fields = SchoolClass.get_export_fields(%i[])
+        @class_fields = SchoolClass.get_export_fields(%i[id description created_at])
       end
+
 
       def download
         send_format params
