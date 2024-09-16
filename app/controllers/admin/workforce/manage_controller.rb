@@ -82,7 +82,7 @@ module Admin
       end
 
       def update_user_params
-        params.require(:user).permit(:name, :email, :role)
+        params.require(:user).permit(:name, :email)
       end
 
       def account_not_found
