@@ -3,6 +3,7 @@
 module Teacher
     class LayoutController < ApplicationController
       #   include HandleAccessDeniedConcern
+      include UserRoleAuthConcern
   
       layout 'teacher_panel'
       before_action :auth_user
@@ -16,15 +17,11 @@ module Teacher
       #                            Ability.new(current_user)
       #                          end
       #   end
-  
+
       private
-  
+
       def auth_user
-        authenticate_user!
-        unless current_user&.role == 'teacher'
-            sign_out current_user
-            redirect_to user_session_path, alert: 'You are not authorized to access this page.'
-          end
+        auth_user_role(['teacher'])
       end
     end
   end
