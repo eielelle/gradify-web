@@ -61,10 +61,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_09_144123) do
     t.datetime "updated_at", null: false
     t.string "name"
     t.string "role"
-    t.bigint "school_section_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["school_section_id"], name: "index_users_on_school_section_id"
   end
 
   create_table "versions", force: :cascade do |t|
@@ -79,5 +77,4 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_09_144123) do
 
   add_foreign_key "school_sections", "school_years"
   add_foreign_key "school_years", "school_classes"
-  add_foreign_key "users", "school_sections"
 end

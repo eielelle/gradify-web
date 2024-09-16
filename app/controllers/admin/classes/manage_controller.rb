@@ -32,8 +32,13 @@ module Admin
         set_class
         fetch_selected_students
         fetch_dropdown_data
-        filter_students
-        @count = @show.count
+
+        if params[:school_year_id].present? && params[:school_section_id].present?
+          filter_students(params[:school_year_id], params[:school_section_id])
+        elsif !@sy.empty? && !@sections.empty?
+          filter_students(@sy.first.id, @sections.first.id)
+        end
+        @count = @show.nil? ? 0 : @show.count
       end
 
       def update
@@ -75,19 +80,13 @@ module Admin
         @sections = @school_class.school_sections.all
       end
 
-      def filter_students
-        @show = @school_class.school_sections.flat_map(&:users).uniq
-        filter_by_school_year
-        filter_by_school_section
+      def filter_students(sy, section)
+        sections = SchoolSection.where(school_year_id: sy)
+        section = sections.find(section)
+        @show = section.users
       end
 
-      def filter_by_school_year
-        # @show = @show.where(school_year_id: params[:school_year_id]) if params[:school_year_id].present?
-      end
 
-      def filter_by_school_section
-        # @show = @show.where(school_section_id: params[:school_section_id]) if params[:school_section_id].present?
-      end
 
       def update_class_params
         params.permit(:id, school_class: %i[name description])
