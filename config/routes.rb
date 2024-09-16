@@ -61,6 +61,9 @@ Rails.application.routes.draw do
           namespace :students do
             resources :manage, only: [:show, :index, :create]
           end
+          namespace :teachers do
+            resources :manage, only: [:show, :index, :create]
+          end
         end
       end
 
