@@ -1,4 +1,4 @@
-<%= form_with(local: true, url: admin_workforce_manage_index_path, data: { btn_class: "btn-primary" }) do |form| %>
+<%= form_with(model: @user, local: true, url: admin_workforce_manage_index_path, data: { btn_class: "btn-primary" }) do |form| %>
   <label class="form-control w-full max-w-xs">
     <div class="label">
       <%= form.label :name, class: "label-text" %>
@@ -15,7 +15,7 @@
     </div>
         <%= form.select :role, options_for_select(@roles.keys.map { |role| [role.humanize, role] }, "admin"), {}, { class: "select select-bordered" } %>
     <div class="label">
-      <span class="label-text-alt text-error"><%= flash[:permission_error] %></span>
+      <span class="label-text-alt text-error"><%= flash[:role_error] %></span>
     </div>
   </label>
 

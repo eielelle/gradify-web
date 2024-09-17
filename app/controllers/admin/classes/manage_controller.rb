@@ -32,8 +32,21 @@ module Admin
         set_class
         fetch_selected_students
         fetch_dropdown_data
-        filter_students
-        @count = @show.count
+
+        if params[:student_school_year_id].present? && params[:student_school_section_id].present?
+          filter_students(params[:student_school_year_id], params[:student_school_section_id])
+        elsif !@sy.empty? && !@sections.empty?
+          filter_students(@sy.first.id, @sections.first.id)
+        end
+        
+        if params[:teacher_school_year_id].present? && params[:teacher_school_section_id].present?
+          filter_teachers(params[:teacher_school_year_id], params[:teacher_school_section_id])
+        elsif !@sy.empty? && !@sections.empty?
+          filter_teachers(@sy.first.id, @sections.first.id)
+        end
+
+        @student_count = @students.nil? ? 0 : @students.count
+        @teacher_count = @teachers.nil? ? 0 : @teachers.count
       end
 
       def update
@@ -75,18 +88,16 @@ module Admin
         @sections = @school_class.school_sections.all
       end
 
-      def filter_students
-        @show = @school_class.school_sections.flat_map(&:users).uniq
-        filter_by_school_year
-        filter_by_school_section
+      def filter_students(sy, section)
+        sections = SchoolSection.where(school_year_id: sy)
+        section = sections.find(section)
+        @students = section.users.where(role: 'student')
       end
 
-      def filter_by_school_year
-        # @show = @show.where(school_year_id: params[:school_year_id]) if params[:school_year_id].present?
-      end
-
-      def filter_by_school_section
-        # @show = @show.where(school_section_id: params[:school_section_id]) if params[:school_section_id].present?
+      def filter_teachers(sy, section)
+        sections = SchoolSection.where(school_year_id: sy)
+        section = sections.find(section)
+        @teachers = section.users.where(role: 'teacher')
       end
 
       def update_class_params

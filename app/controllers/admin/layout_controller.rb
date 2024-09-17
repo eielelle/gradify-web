@@ -3,6 +3,7 @@
 module Admin
   class LayoutController < ApplicationController
     #   include HandleAccessDeniedConcern
+    include UserRoleAuthConcern
 
     layout 'admin_panel'
     before_action :auth_user
@@ -20,7 +21,7 @@ module Admin
     private
 
     def auth_user
-      authenticate_user!
+      auth_user_role(['superadmin', 'admin'])
     end
   end
 end

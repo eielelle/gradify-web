@@ -6,7 +6,7 @@
 
 <div data-controller="toggle-password">
   <button type="button" id="edit-password-btn" class="btn btn-secondary mb-4" data-action="click->toggle-password#togglePasswordFields">
-    <%= params[:hide] == 'true' ? 'Show Hidden Password' : 'Hide Hidden Password' %>
+    <%= params[:hide] == 'true' ? 'Show Edit Password' : 'Hide Edit Password' %>
   </button>
 
   <div class="flex flex-wrap lg:w-2/3">
@@ -21,16 +21,6 @@
             <%= form.text_field :name, class: "input input-bordered w-full max-w-xs" %>
             <div class="label">
               <span class="label-text-alt text-error"><%= flash[:name_error] %></span>
-            </div>
-          </label>
-
-          <label class="form-control w-full max-w-xs">
-            <div class="label">
-              <%= form.label :role, class: "label-text" %>
-            </div>
-            <%= form.select :role, options_for_select(@roles.keys.map { |role| [role.humanize, role] }, @user.role), {}, { class: "select select-bordered" } %>
-            <div class="label">
-              <span class="label-text-alt text-error"><%= flash[:permission_error] %></span>
             </div>
           </label>
 

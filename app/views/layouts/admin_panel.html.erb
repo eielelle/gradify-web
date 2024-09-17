@@ -57,12 +57,14 @@
                 Manage Students
               <% end %>
             </li>
+
             <li class="text-xl <%= current_drawer?("/admin/classes", included: true) %>">
               <%= link_to admin_classes_manage_index_path do %>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book-open me-4"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
                 Manage Classes
               <% end %>
             </li>
+<<<<<<< HEAD
             <li class="text-xl <%= current_drawer?("/admin/classes/sections", included: true) %>">
               <%= link_to "admin_classes_class_sy_sections_manage_index_path" do %>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers me-4">
@@ -70,6 +72,14 @@
                   <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
                 </svg>
                 Manage Sections
+=======
+
+            <li class="text-xl <%= current_drawer?("/admin/exams", included: true) %>">
+              <%= link_to admin_exams_manage_index_path do %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file me-4"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+              
+              Manage Exams
+>>>>>>> 2ac96f26370537926b4333aa34cdc8c21562c529
               <% end %>
             </li>
 
