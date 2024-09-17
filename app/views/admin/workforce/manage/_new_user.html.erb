@@ -15,7 +15,7 @@
     </div>
         <%= form.select :role, options_for_select(@roles.keys.map { |role| [role.humanize, role] }, "admin"), {}, { class: "select select-bordered" } %>
     <div class="label">
-      <span class="label-text-alt text-error"><%= flash[:permission_error] %></span>
+      <span class="label-text-alt text-error"><%= flash[:role_error] %></span>
     </div>
   </label>
 
