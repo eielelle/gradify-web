@@ -22,7 +22,6 @@ module Admin
 
       def new
         @student_account = User.new
-        # @q = User.ransack(params[:q])
       end
 
       def edit; end
@@ -43,15 +42,15 @@ module Admin
           redirect_to admin_students_manage_index_path
         else
           handle_errors(@student)
-          render :edit, status: :unprocessable_entity
+          redirect_to edit_admin_students_manage_path(@student, hide: true)
         end
       end
 
       def destroy
-        render 'error_page', status: :not_found
-        # puts "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-        # @student.destroy
-        # redirect_to admin_students_manage_index_path, notice: 'Student was successfully destroyed.'
+        set_student
+
+        @student.destroy
+        redirect_to admin_students_manage_index_path, notice: 'Student was successfully destroyed.'
       end
 
       def destroy_selected

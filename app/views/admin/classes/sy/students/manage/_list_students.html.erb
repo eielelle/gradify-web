@@ -9,8 +9,7 @@
 
   <section>
     <div class="overflow-x-auto">
-      <!-- Form to handle deletion -->
-      <%= form_with url: destroy_selected_admin_students_manage_index_path, method: :delete do %>
+      <%= form_with url: admin_classes_class_sy_students_manage_index_path do %>
         <!-- Dropdowns for selecting School Year and Section -->
         <div class="flex mb-4">
           <%= select_tag 'school_year_id', options_from_collection_for_select(@class.school_years, 'id', 'name'), include_blank: 'Select School Year', class: "select select-bordered mr-4", required: true %>
@@ -55,7 +54,7 @@
           </tbody>
         </table>
         
-        <button type="submit" class="btn btn-danger">Remove Selected</button>
+        <button type="submit" class="btn btn-primary">Assign Selected</button>
       <% end %>
 
       <div class="flex justify-between items-center">
@@ -69,7 +68,7 @@
 <%= render "shared/toast", toast: flash[:toast] %>
 
 <script>
-  document.addEventListener('form:load', function () {
+  document.addEventListener('turbo:load', function () {
     const selectAllCheckbox = document.getElementById('select_all');
     const checkboxes = document.querySelectorAll('input[type="checkbox"].checkbox');
 

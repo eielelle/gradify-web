@@ -1,0 +1,22 @@
+<section class="container mx-auto px-4 pt-4 pb-20">
+    <header class="mb-6">
+        <h1 class="text-2xl font-bold">Warning!</h1>
+        <p>You are about to delete your own account. This action cannot be undone.</p>
+        <p>Please enter your password to confirm.</p>
+    </header>
+
+    <%= form_with url: teacher_config_path, local: true, method: :delete do |form| %>
+        <label class="form-control w-full max-w-xs">
+            <div class="label">
+                <%= form.label :enter_password, class: "label-text" %>
+            </div>
+            <%= form.password_field :password, class: "input input-bordered w-full max-w-xs" %>
+            <div class="label">
+                <span class="label-text-alt text-error"><%= flash[:password_error] %></span>
+            </div>
+        </label>
+
+        <%= link_to 'Back', 'javascript:history.back()', class: 'btn btn-outline' %>
+        <%= form.submit "Delete Account", data: { 'turbo-confirm': 'You are about to delete your own account. This action cannot be undone.' }, class: "btn btn-error mt-4" %>
+    <% end %>
+</section>

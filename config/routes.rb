@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   root "welcome#index"
   get "/admin", to: "admin/overview#index", as: :admin_root
+  get "/teacher", to: "teacher/overview#index", as: :teacher_root
 
   namespace :admin do
     # /admin/config
@@ -32,9 +33,19 @@ Rails.application.routes.draw do
       post 'rollback/:id', to: 'history#rollback', as: 'rollback' 
     end
 
+    namespace :exams do
+      resources :manage, as: 'manage'
+      get 'export', to: 'export#index', as: 'export'
+      get 'download', to: 'export#download', as: 'download'
+      get 'history', to: 'history#index', as: 'history'
+      get 'versions/:id', to: 'history#versions', as: 'versions'
+      get 'snapshot/:id', to: 'history#snapshot', as: 'snapshot'
+      post 'rollback/:id', to: 'history#rollback', as: 'rollback'
+    end
+
     namespace :students do
-      resources :manage, only: %i[index new create edit update destroy show]
-      resources :password, only: [:edit, :update]
+      resources :manage, as: 'manage'
+      resources :password, only: [:update]
       get 'export', to: 'export#index', as: 'export'
       get 'download', to: 'export#download', as: 'download'
       get 'history', to: 'history#index', as: 'history'
@@ -43,7 +54,6 @@ Rails.application.routes.draw do
       post 'rollback/:id', to: 'history#rollback', as: 'rollback'
       delete 'destroy_selected', to: 'manage#destroy_selected', as: 'destroy_selected'
     end
-
 
     namespace :classes do
       resources :manage, as: 'manage'
@@ -60,6 +70,9 @@ Rails.application.routes.draw do
           namespace :students do
             resources :manage, only: [:show, :index, :create]
           end
+          namespace :teachers do
+            resources :manage, only: [:show, :index, :create]
+          end
         end
       end
 
@@ -68,6 +81,37 @@ Rails.application.routes.draw do
     end
     
   end
+
+  namespace :teacher do
+    # /teacher/config
+    resource :config, only: [:show, :update, :destroy], controller: 'config', as: 'config'
+    patch 'change_password', to: 'config#change_password' # config related
+    get 'confirm_destroy', to: 'config#confirm_destroy'  # config related
+
+    # /teacher/classes
+    namespace :classes do
+      resources :manage, as: 'manage', only: [:index, :show]
+      get 'export', to: 'export#index', as: 'export'
+      get 'send_exports', to: 'export#download', as: 'download'
+    end
+
+    # /teacher/papers
+    namespace :papers do
+      resources :manage, as: 'manage', only: [:index, :show]
+      get 'export', to: 'export#index', as: 'export'
+      get 'send_exports', to: 'export#download', as: 'download'
+    end
+
+    # /teacher/grades
+    namespace :grades do
+      resources :manage, as: 'manage'
+      get 'export', to: 'export#index', as: 'export'
+      get 'send_exports', to: 'export#download', as: 'download'
+    end
+
+
+  end
+
 
   # end of new routing  
 

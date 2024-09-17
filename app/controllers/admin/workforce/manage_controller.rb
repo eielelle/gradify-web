@@ -16,6 +16,7 @@ module Admin
       end
 
       def new
+        @user = User.new
         @roles = User.roles
       end
 
@@ -59,8 +60,14 @@ module Admin
         set_user
 
         return account_not_found if @user.nil?
+        return if superadmin_redirect(@user, edit_admin_workforce_manage_path, 'Cannot edit Superadmin')
 
-        nil if superadmin_redirect(@user, edit_admin_workforce_manage_path, 'Cannot edit Superadmin')
+        if @user.update(update_user_params)
+          update_success
+        else
+          handle_errors(@user)
+          redirect_to edit_admin_workforce_manage_path(@user, hide: true)
+        end
       end
 
       private
@@ -71,11 +78,11 @@ module Admin
       end
 
       def user_params
-        params.require(:user).permit(:name, :email, :role)
+        params.require(:user).permit(:name, :email, :role, :password)
       end
 
       def update_user_params
-        params.require(:user).permit(:name, :email, :role)
+        params.require(:user).permit(:name, :email)
       end
 
       def account_not_found

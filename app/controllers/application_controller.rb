@@ -7,12 +7,13 @@ class ApplicationController < ActionController::Base
 
   private
 
+  # This controls what path the user is redirected when successfully signed in
   def role_paths
     {
       'superadmin' => admin_root_path,
-      'admin' => admin_dashboard_path,
-      'teacher' => teacher_dashboard_path,
-      'student' => student_dashboard_path
+      'admin' => admin_root_path,
+      'teacher' => teacher_root_path,
+      # 'student' => student_dashboard_path
     }
   end
 end
