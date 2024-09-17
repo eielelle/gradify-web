@@ -27,6 +27,9 @@ gem 'jsonapi-serializer'
 gem 'whirly'
 gem 'paint'
 
+# This is for the Multiple Select in Checkbox
+gem 'select_all-rails'
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 7.1.3', '>= 7.1.3.4'
 

@@ -5,13 +5,12 @@ class Ability
 
   def initialize(user)
     # User is not logged in
-    return unless user.present?
+    return if user.blank?
 
     # # Superadmin has access to everything
-    if user.superadmin?
-      can :manage, User
+    return unless user.superadmin?
 
-    end
+    can :manage, User
 
     # # Admin can manage teachers and students
     # elsif user.admin?
@@ -28,8 +27,6 @@ class Ability
     # elsif user.student?
     #   # can :read, Student, id: user.id  # Can only read their own profile
     # end
-
-
 
     # can :manage, :all if user.permission.name == 'SuperAdmin'
 

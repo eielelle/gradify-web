@@ -23,18 +23,25 @@ module SearchableConcern
       @sort_fields = get_sort_fields(model_class)
     end
 
+    def query_items_type(item_type)
+      @q = PaperTrail::Version.ransack(params[:q])
+      @results = @q.result(distinct: true).where(item_id: params[:id] || params.dig(:q, :id),
+                                                 item_type:)
+      @items = @results.page(params[:page]).per(10)
+      paginate_and_sort(@items, PaperTrail::Version)
+    end
+
     def query_items_default(model_class, params)
       @q = model_class.ransack(params[:q])
       @items = @q.result(distinct: true).page(params[:page]).per(10)
-      @count = model_class.count
-      @sort_fields = get_sort_fields(model_class)
+      paginate_and_sort(model_class, model_class)
     end
+  end
 
-    def query_items_default_where_id(model_class, params, where_clause = {})
-      @q = model_class.ransack(params[:q])
-      @items = @q.result(distinct: true).where(where_clause).page(params[:page]).per(10)
-      @count = model_class.count
-      @sort_fields = get_sort_fields(model_class)
-    end
+  private
+
+  def paginate_and_sort(items, sort_fields)
+    @count = items.count
+    @sort_fields = get_sort_fields(sort_fields)
   end
 end

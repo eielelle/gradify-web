@@ -2,7 +2,7 @@
 
 module ApplicationHelper
   def border_class(condition)
-    condition ? 'border-b border-x' : ''
+    condition ? 'border-b border-x p-6' : ''
   end
 
   def current_drawer?(path, included: false)

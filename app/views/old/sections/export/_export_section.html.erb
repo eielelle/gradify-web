@@ -1,0 +1,38 @@
+<%= form_with(url: admin_sections_download_path, method: :get, local: true, data: {turbo: false}) do |f| %>
+    <div class="collapse collapse-arrow bg-base-200 mb-6">
+      <input type="radio" name="my-accordion-2" checked="checked" />
+      <div class="collapse-title text-xl font-semibold">
+        <h1>Select field to export</h1>
+      </div>
+  
+      <div class="collapse-content">
+        <div class="mb-4">
+          <%= check_box_tag 'select_all', "select_all_fields", checked: true, class: "checkbox checkbox-primary checkbox-sm" %>
+          <%= label_tag 'select_all_fields', "Select all", class: "label-text" %>
+        </div>
+        <h1 class="text-lg mb-4">Student Fields</h1>
+        <div class="flex flex-wrap mb-4">
+          <% @section_fields.each do |option| %>
+            <div class="me-6">
+              <%= check_box_tag 'selected_sections[]', option, id: "section_#{option}", checked: true, class: "checkbox checkbox-primary checkbox-md" %>
+              <%= label_tag "section", option, class: "label-text" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  
+    <div class="collapse collapse-arrow bg-base-200 mb-6">
+      <input type="radio" name="my-accordion-2" />
+      <div class="collapse-title text-xl font-semibold">
+        <h1>Options for csv</h1>
+      </div>
+      <div class="collapse-content">
+        <%= check_box_tag "no_header", id: "no_header", checked: true, class: "checkbox checkbox-primary checkbox-md" %>
+        <%= label_tag 'no_header', "No headers", class: "label-text" %>
+      </div>
+    </div>
+  
+    <button class="btn btn-primary" type="submit" name="csv" value="true">Export to CSV</button>
+    <button class="btn btn-primary" name="json" value="true">Export to JSON</button>
+  <% end %>

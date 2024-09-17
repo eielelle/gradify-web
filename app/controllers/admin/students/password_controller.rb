@@ -6,8 +6,9 @@ module Admin
       include ErrorConcern
       include PasswordConcern
 
+      before_action :set_student
+
       def edit
-        @student = User.find_by(id: params[:id], role: "student")
         redirect_to admin_students_manage_index_path if @student.nil?
       end
 
@@ -17,8 +18,12 @@ module Admin
 
       private
 
+      def set_student
+        @student = User.find_by(id: params[:id], role: 'student')
+      end
+
       def edit_password_path
-        edit_admin_students_password_path
+        edit_admin_students_manage_path(@student, hide: false)
       end
 
       def after_update_path

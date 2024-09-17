@@ -23,7 +23,7 @@ Rails.application.routes.draw do
     # /admin/workforce
     namespace :workforce do
       resources :manage, as: 'manage'
-      resources :password, as: 'password', only: [:edit, :update]
+      resources :password, as: 'password', only: [:update]
       get 'export', to: 'export#index', as: 'export'
       get 'send_exports', to: 'export#download', as: 'download'
       get 'history', to: 'history#index', as: 'history'

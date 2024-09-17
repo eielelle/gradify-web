@@ -9,9 +9,6 @@ module SnapshotConcern
   private
 
   def get_snapshot(version)
-    puts version.item.nil?
-    puts version.inspect
-
     if version.item.nil?
       if version.next.nil?
         version.reify

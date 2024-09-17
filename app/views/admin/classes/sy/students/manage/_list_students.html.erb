@@ -6,9 +6,11 @@
       <button type="submit" class="btn btn-primary join-item">Search</button>
     <% end %>
   </header>
+
   <section>
     <div class="overflow-x-auto">
-      <%= form_with url: admin_classes_class_sy_students_manage_index_path, method: :post do %>
+      <!-- Form to handle deletion -->
+      <%= form_with url: destroy_selected_admin_students_manage_index_path, method: :delete do %>
         <!-- Dropdowns for selecting School Year and Section -->
         <div class="flex mb-4">
           <%= select_tag 'school_year_id', options_from_collection_for_select(@class.school_years, 'id', 'name'), include_blank: 'Select School Year', class: "select select-bordered mr-4", required: true %>
@@ -16,7 +18,7 @@
         </div>
 
         <table class="table table-lg mb-6">
-          <!-- head -->
+          <!-- Table head -->
           <thead>
             <tr>
               <th>
@@ -30,7 +32,6 @@
             </tr>
           </thead>
           <tbody>
-            <!-- row 1 -->
             <% if @users.present? %>
               <% @users.each do |student| %>
                 <tr class="hover">
@@ -48,15 +49,24 @@
                     <span><%= student.email %></span>
                   </td>
                   <td>
+                    <span><%= student.created_at %></span>
+                  </td>
+                  <td>
                     <span><%= student.updated_at %></span>
                   </td>
                 </tr>
               <% end %>
+            <% else %>
+              <tr>
+                <td colspan="5">No students found.</td>
+              </tr>
             <% end %>
           </tbody>
         </table>
-        <button type="submit" class="btn btn-primary">Submit Selected</button>
+        
+        <button type="submit" class="btn btn-danger">Remove Selected</button>
       <% end %>
+
       <div class="flex justify-between items-center">
         <span></span>
         <%= paginate @users, views_prefix: 'shared' %>
@@ -64,10 +74,11 @@
     </div>
   </section>
 </div>
+
 <%= render "shared/toast", toast: flash[:toast] %>
 
 <script>
-  document.addEventListener('turbo:load', function () {
+  document.addEventListener('form:load', function () {
     const selectAllCheckbox = document.getElementById('select_all');
     const checkboxes = document.querySelectorAll('input[type="checkbox"].checkbox');
 
