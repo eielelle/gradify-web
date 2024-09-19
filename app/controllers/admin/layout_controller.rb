@@ -21,7 +21,7 @@ module Admin
     private
 
     def auth_user
-      auth_user_role(['superadmin', 'admin'])
+      auth_user_role(%w[superadmin admin])
     end
   end
 end

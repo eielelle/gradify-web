@@ -54,9 +54,8 @@ module Admin
       end
 
       def destroy_selected
-        ids = params[:student_ids]
-        if ids.present?
-          User.where(id: params[ids], role: 'student').destroy_all
+        if params[:student_ids].present?
+          User.where(id: params[:student_ids], role: 'student').destroy_all
           redirect_to admin_students_manage_index_path, notice: 'Selected students were successfully deleted.'
         else
           redirect_to admin_students_manage_index_path, alert: 'No students were selected.'

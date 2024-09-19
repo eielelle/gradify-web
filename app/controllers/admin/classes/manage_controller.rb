@@ -38,7 +38,7 @@ module Admin
         elsif !@sy.empty? && !@sections.empty?
           filter_students(@sy.first.id, @sections.first.id)
         end
-        
+
         if params[:teacher_school_year_id].present? && params[:teacher_school_section_id].present?
           filter_teachers(params[:teacher_school_year_id], params[:teacher_school_section_id])
         elsif !@sy.empty? && !@sections.empty?

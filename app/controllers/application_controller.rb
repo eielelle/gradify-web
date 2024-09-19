@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
     {
       'superadmin' => admin_root_path,
       'admin' => admin_root_path,
-      'teacher' => teacher_root_path,
+      'teacher' => teacher_root_path
       # 'student' => student_dashboard_path
     }
   end
