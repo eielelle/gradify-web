@@ -9,7 +9,7 @@
 
   <section>
     <div class="overflow-x-auto">
-      <%= form_with url: admin_classes_class_sy_teachers_manage_index_path do %>
+      <%= form_with(local: true,url: admin_classes_class_sy_teachers_manage_index_path, data: { btn_class: "btn-primary" }) do |form| %>
         <!-- Dropdowns for selecting School Year and Section -->
         <div class="flex mb-4">
           <%= select_tag 'school_year_id', options_from_collection_for_select(@class.school_years, 'id', 'name'), include_blank: 'Select School Year', class: "select select-bordered mr-4", required: true %>
@@ -54,7 +54,7 @@
           </tbody>
         </table>
         
-        <button type="submit" class="btn btn-primary">Assign Selected</button>
+        <%= form.submit "Assign Teacher", class: "btn btn-primary mt-4", data: { 'turbo-confirm': 'Are you sure you want to add this new class?', btn_class: "btn-primary" } %>
       <% end %>
 
       <div class="flex justify-between items-center">

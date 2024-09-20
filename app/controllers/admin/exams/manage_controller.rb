@@ -16,9 +16,11 @@ module Admin
   
         def new
           @exam = Exam.new
+          @subjects = Exam.subjects
         end
   
         def create
+          return if Exam.subjects.keys.exclude?(exam_params[:subject])
           exam = Exam.new(exam_params)
   
           if exam.save
@@ -47,14 +49,14 @@ module Admin
         def edit
           set_exam
   
-          redirect_to admin_exams_manage_index_path if @exam.nil?
+          redirect_to admin_exams_manage_index_path if @exam.nil? || @exam.subject.nil?
         end
   
         def update
           set_exam
     
           if @exam.update(update_exam_params)
-            update_success
+            update_success 
           else
             handle_errors(@exam)
             redirect_to edit_admin_exams_manage_path(@exam)
@@ -65,6 +67,7 @@ module Admin
   
         def set_exam
           @exam = Exam.find(params[:id])
+          @subjects = Exam.subjects
         end
   
         def exam_params

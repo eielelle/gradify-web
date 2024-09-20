@@ -8,6 +8,8 @@ class Exam < ApplicationRecord
     validates :items, presence: true
     validates :answer_key, presence: true
 
+    enum subject: { english: 'english', math: 'math', science: 'science', filipino: 'filipino'}
+
     def self.ransackable_attributes(_auth_object = nil)
       %w[name updated_at]
     end
