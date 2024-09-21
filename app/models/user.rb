@@ -56,7 +56,15 @@ class User < ApplicationRecord
   end
 
   def self.csv_row(fields, record)
-    fields[:users].map { |field| record.send(field) }
+    role = fields[:role]
+
+    fields[:users].map do |field|
+      if role.present?
+        record.send(field) if record.role == role
+      else
+        record.send(field)
+      end
+    end
   end
 
   def self.serial_data(fields)
