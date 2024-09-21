@@ -7,7 +7,7 @@ module Admin
       include SnapshotConcern
 
       def versions
-        set_default_sort(default_sort_column: 'created_at desc')  
+        set_default_sort(default_sort_column: 'created_at desc')
         @q = PaperTrail::Version.ransack(params[:q])
         @results = @q.result(distinct: true).where(item_id: params[:id] || params.dig(:q,
                                                                                       :id), item_type: 'SchoolClass')
@@ -23,9 +23,9 @@ module Admin
       def rollback
         find_version_and_snapshot
 
-        PaperTrail.request.whodunnit = current_school_class.name 
+        PaperTrail.request.whodunnit = current_school_class.name
         @school_class.paper_trail_event = 'rollback'
-  
+
         if @school_class.save(validate: false)
           redirect_to admin_classes_versions_path(id: @version.item_id)
         else

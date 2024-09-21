@@ -10,6 +10,9 @@ Style/Documentation:
 HasAndBelongsToMany:
   Enabled: false
 
+Metrics/ClassLength:
+  Max: 200
+
 AllCops:
   Include:
     - 'app/**/*.rb'
