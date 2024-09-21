@@ -5,7 +5,7 @@
 <%= render "shared/toast", toast: flash[:toast] %>
 
 <div data-controller="toggle-password">
-  <button type="button" id="edit-password-btn" class="btn btn-secondary mb-4" data-action="click->toggle-password#togglePasswordFields">
+  <button type="button" id="edit-password-btn" class="btn btn-primary mb-4" data-action="click->toggle-password#togglePasswordFields">
     <%= params[:hide] == 'true' ? 'Show Edit Password' : 'Hide Edit Password' %>
   </button>
 

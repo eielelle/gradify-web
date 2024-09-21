@@ -1,9 +1,9 @@
-<%= render "shared/common_panel", title: "New Class", subtitle: "", content: "new_class" do %>
+<%= render "shared/common_panel", title: "History List", subtitle: "", content: "history_classes" do %>
   <%= render "shared/common_tabs", tabs: {
     "List": admin_classes_manage_index_path,
     "Add": new_admin_classes_manage_path,
     "Export": admin_classes_export_path,
     "History": admin_classes_history_path
-  }, active_path: new_admin_classes_manage_path %>
+  }, active_path: admin_classes_history_path %>
 <% end %>
 
