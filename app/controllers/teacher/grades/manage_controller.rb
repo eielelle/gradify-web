@@ -1,9 +1,9 @@
-module Teacher
-    module Grades
-        class ManageController < Teacher::LayoutController
-            def index
+# frozen_string_literal: true
 
-            end
-        end
+module Teacher
+  module Grades
+    class ManageController < Teacher::LayoutController
+      def index; end
     end
+  end
 end
