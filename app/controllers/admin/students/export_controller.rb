@@ -8,8 +8,7 @@ module Admin
       include ExportableFormatConcern
 
       def index
-        @student_fields = User.get_export_fields(%i[encrypted_password reset_password_token
-                                                    permission_id role school_section_id])
+        @student_fields = User.get_export_fields(%i[school_section_id encrypted_password reset_password_sent_at reset_password_token remember_created_at])
       end
 
       def download
