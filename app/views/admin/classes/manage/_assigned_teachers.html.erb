@@ -3,10 +3,10 @@
   <div class="flex justify-between items-center">
     <%= form_with url: admin_classes_manage_path(@school_class), method: :get, local: true do |form| %>
       <div class="flex gap-10">
-        <% if @sy.any? %>
+        <% if @school_year.any? %>
           <div class="field">
             <%= form.label :school_year %>
-            <%= form.select :teacher_school_year_id, options_from_collection_for_select(@sy, :id, :name, selected: params[:teacher_school_year_id]), {}, class: "select select-bordered", onchange: "this.form.submit();" %>
+            <%= form.select :teacher_school_year_id, options_from_collection_for_select(@school_year, :id, :name, selected: params[:teacher_school_year_id]), {}, class: "select select-bordered", onchange: "this.form.submit();" %>
           </div>
         <% end %>
 
@@ -19,7 +19,8 @@
       </div>
     <% end %>
     <div class="join">
-      <% if @sy.empty? || @sections.empty? %>
+
+      <% if @school_year.empty? || @sections.empty? %>
         <%= button_to "Assign Teacher", "#", class: "btn join-item", data: { 'turbo-confirm': 'School year and sections cannot be empty.' } %>
       <% else %>
         <%= link_to "Assign Teacher", admin_classes_class_sy_teachers_manage_index_path(@school_class), class: "btn join-item" %>
@@ -58,7 +59,7 @@
           <% else %>
             <tr>
               <td colspan="3" class="text-center py-4 text-gray-500">
-                No enrolled teachers yet
+                No assigned teachers yet
               </td>
             </tr>
           <% end %>
