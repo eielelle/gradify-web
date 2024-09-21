@@ -10,11 +10,11 @@ module Admin
         set_default_sort(default_sort_column: 'created_at desc')
         query_items_type('User')
 
-        @sort_fields = set_sort_fields([
-          "created_at",
-          "event",
-          "whodunnit"
-        ])
+        @sort_fields = set_sort_fields(%w[
+                                         created_at
+                                         event
+                                         whodunnit
+                                       ])
       end
 
       def snapshot
@@ -38,11 +38,11 @@ module Admin
         set_default_sort(default_sort_column: 'created_at desc')
         query_items_history(PaperTrail::Version, params, model_name: 'User')
 
-        @sort_fields = set_sort_fields([
-          "created_at",
-          "event",
-          "whodunnit"
-        ])
+        @sort_fields = set_sort_fields(%w[
+                                         created_at
+                                         event
+                                         whodunnit
+                                       ])
       end
 
       private

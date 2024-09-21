@@ -8,7 +8,8 @@ module Admin
       include ExportableFormatConcern
 
       def index
-        @student_fields = User.get_export_fields(%i[school_section_id encrypted_password reset_password_sent_at reset_password_token remember_created_at])
+        @student_fields = User.get_export_fields(%i[school_section_id encrypted_password reset_password_sent_at
+                                                    reset_password_token remember_created_at])
       end
 
       def download
@@ -23,7 +24,7 @@ module Admin
 
         return unless format && method
 
-        send_data User.send(method, { users:, no_header:, role: "student" }),
+        send_data User.send(method, { users:, no_header:, role: 'student' }),
                   filename: "#{date}.#{format}"
       end
     end

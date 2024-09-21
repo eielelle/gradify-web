@@ -13,11 +13,7 @@ module Admin
                                                                                       :id), item_type: 'SchoolClass')
         @items = @results.page(params[:page]).per(10)
         @count = @items.count
-        @sort_fields = set_sort_fields([
-          "created_at",
-          "event",
-          "whodunnit"
-        ])
+        @sort_fields = set_sort_fields(%w[created_at event whodunnit])
       end
 
       def snapshot
@@ -41,11 +37,11 @@ module Admin
         set_default_sort(default_sort_column: 'created_at desc')
         query_items_history(PaperTrail::Version, params, model_name: 'SchoolClass')
 
-        @sort_fields = set_sort_fields([
-          "created_at",
-          "event",
-          "whodunnit"
-        ])
+        @sort_fields = set_sort_fields(%w[
+                                         created_at
+                                         event
+                                         whodunnit
+                                       ])
       end
 
       private
