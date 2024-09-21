@@ -9,5 +9,5 @@
   <p><%= subtitle %></p>
   <h1 class="text-3xl font-bold mb-6"><%= title %></h1>
   <%= yield %>
-  <div class="<%= border_class(show_border) %> bg-base-100 border-base-300 rounded-b-lg"><%= render "#{content}", url_path: url_path %></div>
+  <div class="<%= border_class(show_border) %> bg-base-100 border-base-300 rounded-b-lg" style="border-color: var(--b2)"><%= render "#{content}", url_path: url_path %></div>
 </section>
