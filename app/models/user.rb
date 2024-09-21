@@ -16,8 +16,7 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :role, presence: true
 
-  enum role: { superadmin: 'superadmin', admin: 'admin', teacher: 'teacher', student: 'student',
-               teacher_admin: 'teacher|admin' }
+  enum role: { superadmin: 'superadmin', admin: 'admin', teacher: 'teacher', student: 'student' }
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[name email updated_at]
