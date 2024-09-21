@@ -13,15 +13,28 @@
 require 'faker'
 require_relative '../lib/loading_messages'
 
+
+
 # s_class = SchoolClass.create(name: "Class " + rand(1000).to_s, description: "AAA")
 User.create(email: "admin@example.com", password: "password", role: "superadmin", name: "John Doe")
 
 10.times do
     User.create(email: Faker::Internet.email, password: "password", role: "admin", name: Faker::Name.name)
+    User.create(email: Faker::Internet.email, password: "password", role: "student", name: Faker::Name.name)
 end
 
-SchoolClass.create(name: "ICT", description: "Information Communications Technology")
-SchoolClass.create(name: "STEM", description: "STEM")
+@ict = SchoolClass.create(name: "ICT", description: "Information Communications Technology")
+@stem = SchoolClass.create(name: "STEM", description: "Science, Technology, Engineering, and Mathematics")
+@gas = SchoolClass.create(name: "GAS", description: "General Academic Strand")
+SchoolClass.create(name: "ABM", description: "Accountancy, Business, and Management")
+SchoolClass.create(name: "HUMSS", description: "Humanities and Social Sciences")
+
+@ict.school_years.create(name: "2023 - 2024")
+@ict.school_years.create(name: "2024 - 2025")
+@stem.school_years.create(name: "2024 - 2025")
+@gas.school_years.create(name: "2024 - 2025")
+
+
 
 # # Check if the database already contains data for the relevant tables
 # if Permission.exists? || AdminAccount.exists? || TeacherAccount.exists? || SchoolClass.exists? || Section.exists? || StudentAccount.exists?

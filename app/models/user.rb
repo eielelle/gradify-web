@@ -16,8 +16,7 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :role, presence: true
 
-  enum role: { superadmin: 'superadmin', admin: 'admin', teacher: 'teacher', student: 'student',
-               teacher_admin: 'teacher|admin' }
+  enum role: { superadmin: 'superadmin', admin: 'admin', teacher: 'teacher', student: 'student' }
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[name email updated_at]
@@ -56,7 +55,15 @@ class User < ApplicationRecord
   end
 
   def self.csv_row(fields, record)
-    fields[:users].map { |field| record.send(field) }
+    role = fields[:role]
+
+    fields[:users].map do |field|
+      if role.present?
+        record.send(field) if record.role == role
+      else
+        record.send(field)
+      end
+    end
   end
 
   def self.serial_data(fields)
