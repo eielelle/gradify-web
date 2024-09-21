@@ -27,7 +27,7 @@ module Admin
       def rollback
         find_version_and_snapshot
 
-        PaperTrail.request.whodunnit = current_school_class.name
+        PaperTrail.request.whodunnit = current_user.name
         @school_class.paper_trail_event = 'rollback'
 
         if @school_class.save(validate: false)
