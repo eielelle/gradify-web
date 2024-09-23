@@ -21,6 +21,7 @@ module Api
 
         def respond_to_on_destroy
           if current_user
+            current_user.generate_jti
             log_out_success
           else
             log_out_fail

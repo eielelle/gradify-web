@@ -125,6 +125,8 @@ Rails.application.routes.draw do
         post 'teacher/sign_in', to: 'teacher/sessions#create', as: :api_v1_teacher_sign_in
         delete 'teacher/sign_out', to: 'teacher/sessions#destroy', as: :api_v1_teacher_sign_out
       end
+
+      get 'classes', to: 'teacher/classes#index', as: :api_v1_get_teacher_classes
     end
   end
 end

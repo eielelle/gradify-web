@@ -2,6 +2,7 @@
 
 class User < ApplicationRecord
   include Exportable
+  include Devise::JWT::RevocationStrategies::JTIMatcher
 
   has_paper_trail ignore: %i[encrypted_password reset_password_token reset_password_sent_at sign_in_count
                              current_sign_in_at last_sign_in_at current_sign_in_ip last_sign_in_ip]
@@ -9,7 +10,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :validatable, :trackable
+         :recoverable, :validatable, :trackable, :jwt_authenticatable, jwt_revocation_strategy: self
 
   has_and_belongs_to_many :school_sections
 
@@ -17,6 +18,23 @@ class User < ApplicationRecord
   validates :role, presence: true
 
   enum role: { superadmin: 'superadmin', admin: 'admin', teacher: 'teacher', student: 'student' }
+
+  after_create :generate_jti
+
+  def generate_jti
+    self.jti = SecureRandom.uuid
+    save
+  end
+
+  # JWT Revocation Strategy
+  def revoke_jwt
+    # This method will be called to revoke the JWT
+    update(jti: nil)
+  end
+
+  def self.revoke_jwt(user)
+    user.revoke_jwt
+  end
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[name email updated_at]
