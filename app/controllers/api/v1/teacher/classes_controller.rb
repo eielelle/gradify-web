@@ -16,7 +16,7 @@ module Api
             end
 
             def year_and_sections
-              school_class = SchoolClass.find(params[:id])
+              school_class = SchoolClass.find(JSON.parse(request.body.read)["id"])
               years = school_class.school_years
               sections = school_class.school_sections
 
@@ -27,20 +27,14 @@ module Api
             end
 
             def students
-              school_class = SchoolClass.find(params[:class_id])
-              years = school_class.school_years.find(params[:sy_id])
-              sections = school_class.school_sections.find(params[:section_id])
+              school_class = SchoolClass.find(JSON.parse(request.body.read)["class_id"])
+              years = school_class.school_years.find(JSON.parse(request.body.read)["sy_id"])
+              sections = school_class.school_sections.find(JSON.parse(request.body.read)["section_id"])
               students = sections.users.where(role: 'student')
 
               render json: {
                 students: StudentSerializer.new(students).serializable_hash[:data]
               }
-            end
-
-            private
-
-            def class_params
-                params.permit(:sort, :search)
             end
         end
       end
