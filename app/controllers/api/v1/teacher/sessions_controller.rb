@@ -14,7 +14,7 @@ module Api
         def respond_with(resource, _opts = {})
           if resource.id.nil?
             log_in_fail
-          elsif resource.role == "teacher"
+          elsif resource.role == 'teacher'
             log_in_success
           end
         end
