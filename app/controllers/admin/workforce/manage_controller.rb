@@ -17,7 +17,7 @@ module Admin
 
       def new
         @user = User.new
-        @roles = User.roles
+        @roles = User.roles.reject { |key, _| ['student'].include?(key) }
       end
 
       def create

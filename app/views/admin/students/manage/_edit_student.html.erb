@@ -11,7 +11,7 @@
 
   <div class="flex flex-wrap lg:w-2/3">
     <div class="flex-1">
-      <%= form_with(model: @student, url: admin_students_manage_path(@student), method: :patch, local: true) do |form| %>
+      <%= form_with(model: @student, url: admin_students_manage_path(@student), method: :patch, local: true, data: { btn_class: "btn-primary" }) do |form| %>
         <label class="form-control w-full max-w-xs">
           <div class="label">
             <%= form.label :name, class: "label-text" %>
@@ -33,7 +33,7 @@
         </label>
 
         <div>
-          <%= form.submit "Update Student", class: "btn btn-primary mt-4" %>
+          <%= form.submit "Update Student", class: "btn btn-primary mt-4", data: { 'turbo-confirm': 'Are you sure you want to save the changes to this student?' } %>
         </div>
       <% end %>
     </div>
@@ -75,7 +75,6 @@
               <%= form.submit "Change Password", class: "btn btn-primary mt-4", data: { 'turbo-confirm': 'Are you sure you want to update the password to this account?' } %>
             </div>
           </div>
-
       <% end %>
     </div>
   </div>
