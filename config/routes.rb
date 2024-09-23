@@ -126,7 +126,9 @@ Rails.application.routes.draw do
         delete 'teacher/sign_out', to: 'teacher/sessions#destroy', as: :api_v1_teacher_sign_out
       end
 
-      get 'classes', to: 'teacher/classes#index', as: :api_v1_get_teacher_classes
+      get 'teacher/classes', to: 'teacher/classes#index', as: :api_v1_get_teacher_classes
+      get 'teacher/classes/years_and_sections', to: 'teacher/classes#year_and_sections'
+      get 'teacher/classes/students', to: 'teacher/classes#students'
     end
   end
 end
