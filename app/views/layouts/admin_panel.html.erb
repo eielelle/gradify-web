@@ -78,8 +78,15 @@
             <li class="text-xl <%= current_drawer?("/admin/exams", included: true) %>">
               <%= link_to admin_exams_manage_index_path do %>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file me-4"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-              
               Manage Exams
+              <% end %>
+            </li>
+
+             <li class="text-xl <%= current_drawer?("/admin/subjects", included: true) %>">
+              <%= link_to admin_subjects_manage_index_path do %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 14.1l-4.1-4.1 2-2 4.1 4.1 2-2 2 2-2 2z"/><path d="M3 21v-3l12-12 3 3L6 21H3z"/></svg>
+              
+                Manage Subjects
               <% end %>
             </li>
 

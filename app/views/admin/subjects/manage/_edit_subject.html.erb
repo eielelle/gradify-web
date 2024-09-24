@@ -1,0 +1,19 @@
+<%= form_with(model: @subject, url: admin_subjects_manage_path(@subject), local: true, method: :patch) do |form| %>
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
+      <%= form.label :name, class: "label-text" %>
+    </div>
+    <%= form.text_field :name, class: "input input-bordered w-full max-w-xs" %>
+  </label>
+
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
+      <%= form.label :description, class: "label-text" %>
+    </div>
+    <%= form.text_area :description, class: "textarea textarea-bordered textarea-lg w-full max-w-xs" %>
+  </label>
+
+  <div>
+    <%= form.submit "Update Subject", class: "btn btn-primary mt-4" %>
+  </div>
+<% end %>

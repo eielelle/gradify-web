@@ -88,6 +88,10 @@ Rails.application.routes.draw do
       get 'snapshot/:id', to: 'history#snapshot', as: 'snapshot'
       post 'rollback/:id', to: 'history#rollback', as: 'rollback'
     end
+
+    namespace :subjects do
+      resources :manage, only: %i[index new create edit update destroy]
+    end
     
   end
 
