@@ -63,6 +63,10 @@ Rails.application.routes.draw do
           resources :manage, only: [:create, :edit, :update, :show, :new, :index, :destroy]
           get 'export', to: 'export#index', as: 'export'
           get 'send_exports', to: 'export#download', as: 'download'
+          get 'history', to: 'history#index', as: 'history'
+          get 'versions/:id', to: 'history#versions', as: 'versions'
+          get 'snapshot/:id', to: 'history#snapshot', as: 'snapshot'
+          post 'rollback/:id', to: 'history#rollback', as: 'rollback'
           namespace :sections do
             resources :manage, only: [:create, :edit, :update, :show, :new, :index, :destroy]
             get 'export', to: 'export#index', as: 'export'
@@ -83,7 +87,6 @@ Rails.application.routes.draw do
       get 'versions/:id', to: 'history#versions', as: 'versions'
       get 'snapshot/:id', to: 'history#snapshot', as: 'snapshot'
       post 'rollback/:id', to: 'history#rollback', as: 'rollback'
-      delete 'destroy_selected', to: 'manage#destroy_selected', as: 'destroy_selected'
     end
     
   end
