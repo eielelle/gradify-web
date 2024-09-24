@@ -85,6 +85,10 @@ Rails.application.routes.draw do
       post 'rollback/:id', to: 'history#rollback', as: 'rollback'
       delete 'destroy_selected', to: 'manage#destroy_selected', as: 'destroy_selected'
     end
+
+    namespace :subjects do
+      resources :manage, only: %i[index new create edit update destroy]
+    end
     
   end
 

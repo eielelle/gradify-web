@@ -1,0 +1,6 @@
+<%= render "shared/common_panel", title: "Subjects List", subtitle: "", content: "list_subjects" do %>
+  <%= render "shared/common_tabs", tabs: {
+    "List": admin_subjects_manage_index_path,
+    "Add": new_admin_subjects_manage_path,
+  }, active_path: admin_subjects_manage_index_path %>
+<% end %>
