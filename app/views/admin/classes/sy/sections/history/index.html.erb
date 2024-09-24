@@ -1,9 +1,9 @@
-<%= render "shared/common_panel", title: "List Sections", subtitle: "", content: "list_sections", back: true do %>
+<%= render "shared/common_panel", title: "History List", subtitle: "", content: "history_section" do %>
   <%= render "shared/common_tabs", tabs: {
     "List": admin_classes_class_sy_sections_manage_index_path,
     "Add": new_admin_classes_class_sy_sections_manage_path,
     "Export": admin_classes_class_sy_sections_export_path,
     "History": admin_classes_class_sy_sections_history_path
-  }, active_path: admin_classes_class_sy_sections_manage_index_path %>
+  }, active_path: admin_classes_class_sy_sections_history_path %>
 <% end %>
 

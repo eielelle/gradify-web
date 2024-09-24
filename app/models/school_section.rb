@@ -10,6 +10,8 @@ class SchoolSection < ApplicationRecord
 
   validates :name, presence: true
 
+  has_paper_trail ignore: %i[created_at updated_at]
+
   def self.to_csv(fields)
     headers = fields[:no_header].present?
 
