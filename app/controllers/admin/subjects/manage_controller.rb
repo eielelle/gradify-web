@@ -11,8 +11,10 @@ module Admin
       before_action :set_search, only: %i[index new create edit update]
 
       def index
-        @q = Subject.ransack(params[:q])
-        @subjects = @q.result.order(:name).page(params[:page]).per(10)
+        set_default_sort(default_sort_column: 'name asc')
+        query_items_default(Subject, params)
+
+        set_sort_fields(%w[name updated_at])
       end
 
       def new
