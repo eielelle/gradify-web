@@ -2,11 +2,17 @@
 
 class Subject < ApplicationRecord
   include Exportable
+  has_paper_trail
 
   validates :name, presence: true
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[created_at description id id_value name updated_at]
+  end
+
+  # Allowlist associations for Ransack
+  def self.ransackable_associations(_auth_object = nil)
+    %w[]
   end
 
   def self.add_headers(csv, fields)
