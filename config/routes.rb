@@ -95,6 +95,8 @@ Rails.application.routes.draw do
 
     namespace :subjects do
       resources :manage, only: %i[index new create edit update destroy show]
+      get 'export', to: 'export#index', as: 'export'
+      get 'download', to: 'export#download', as: 'download'
     end
     
   end

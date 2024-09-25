@@ -1,7 +1,7 @@
-<%= render "shared/common_panel", title: "New Subject", subtitle: "", content: "new_subject" do %>
+<%= render "shared/common_panel", title: "Export Subject", subtitle: "", content: "export_subject" do %>
   <%= render "shared/common_tabs", tabs: {
     "List": admin_subjects_manage_index_path,
     "Add": new_admin_subjects_manage_path,
     "Export": admin_subjects_export_path
-  }, active_path: new_admin_subjects_manage_path %>
+  }, active_path: admin_subjects_export_path %>
 <% end %>
