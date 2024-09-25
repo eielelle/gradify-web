@@ -49,6 +49,10 @@ module Admin
         redirect_to admin_subjects_manage_index_path, notice: 'Subject was successfully destroyed.'
       end
 
+      def show
+        set_subject
+      end
+
       private
 
       def set_subject

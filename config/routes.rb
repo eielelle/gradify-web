@@ -94,7 +94,7 @@ Rails.application.routes.draw do
     end
 
     namespace :subjects do
-      resources :manage, only: %i[index new create edit update destroy]
+      resources :manage, only: %i[index new create edit update destroy show]
     end
     
   end
