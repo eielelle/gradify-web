@@ -16,6 +16,7 @@ module Admin
 
       def new
         @exam = Exam.new
+        @subjects = Subject.all
       end
 
       def create

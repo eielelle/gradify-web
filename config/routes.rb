@@ -94,7 +94,13 @@ Rails.application.routes.draw do
     end
 
     namespace :subjects do
-      resources :manage, only: %i[index new create edit update destroy]
+      resources :manage, only: %i[index new create edit update destroy show]
+      get 'export', to: 'export#index', as: 'export'
+      get 'download', to: 'export#download', as: 'download'
+      get 'history', to: 'history#index', as: 'history'
+      get 'versions/:id', to: 'history#versions', as: 'versions'
+      get 'snapshot/:id', to: 'history#snapshot', as: 'snapshot'
+      post 'rollback/:id', to: 'history#rollback', as: 'rollback'
     end
     
   end
