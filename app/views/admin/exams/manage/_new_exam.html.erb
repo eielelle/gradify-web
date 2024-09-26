@@ -16,34 +16,76 @@
                     <div class="label">
                     <%= form.label :subject, class: "label-text" %>
                     </div>
-                    <%= form.text_field :subject, class: "input input-bordered w-full max-w-xs" %>
+                    <%= form.select :subject, options_from_collection_for_select(@subjects, :id, :name), {}, { class: "select select-bordered" } %>
                     <div class="label">
                     <span class="label-text-alt text-error"><%= flash[:subject_error] %></span>
                     </div>
                 </label>
-
-                <label class="form-control w-full max-w-xs">
-                    <div class="label">
-                        <%= form.label :items, class: "label-text" %>
-                    </div>
-                        <%= form.select :items, options_for_select([20, 50, 70]), {}, { class: "select select-bordered", id: "questions_count" } %>
-                    <div class="label">
-                    <span class="label-text-alt text-error"><%= flash[:items_error] %></span>
-                    </div>
-                </label>
-
-                <label class="form-control w-full max-w-xs">
-                    <div class="label">
-                        <%= form.label :answer_key, class: "label-text" %>
-                    </div>
-                        <%= form.text_field :answer_key, class: "input input-bordered w-full max-w-xs" %>
-                    <div class="label">
-                    <span class="label-text-alt text-error"><%= flash[:items_error] %></span>
-                    </div>
-                </label>
             </div>
 
-            <div id="bubble_sheet"></div>
+        <div class="container mx-auto p-4">
+          <!-- Grid Container for two tables (25 items each) -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- First 25 items (1-25) -->
+            <div class="bubble-sheet">
+              <table class="min-w-full table-auto border-collapse border border-gray-300">
+                <thead>
+                  <tr class="bg-gray-100 text-black">
+                    <th class="border border-gray-300 px-4 py-2">Item #</th>
+                    <th class="border border-gray-300 px-4 py-2">A</th>
+                    <th class="border border-gray-300 px-4 py-2">B</th>
+                    <th class="border border-gray-300 px-4 py-2">C</th>
+                    <th class="border border-gray-300 px-4 py-2">D</th>
+                    <th class="border border-gray-300 px-4 py-2">E</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% (1..25).each do |item_number| %>
+                    <tr>
+                      <td class="border border-gray-300 px-4 py-2 text-center"><%= item_number %></td>
+                      <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="A"></td>
+                      <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="B"></td>
+                      <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="C"></td>
+                      <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="D"></td>
+                      <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="E"></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Next 25 items (26-50) -->
+            <div class="bubble-sheet">
+              <table class="min-w-full table-auto border-collapse border border-gray-300">
+                <thead>
+                  <tr class="bg-gray-100 text-black">
+                    <th class="border border-gray-300 px-4 py-2">Item #</th>
+                    <th class="border border-gray-300 px-4 py-2">A</th>
+                    <th class="border border-gray-300 px-4 py-2">B</th>
+                    <th class="border border-gray-300 px-4 py-2">C</th>
+                    <th class="border border-gray-300 px-4 py-2">D</th>
+                    <th class="border border-gray-300 px-4 py-2">E</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% (26..50).each do |item_number| %>
+                    <tr>
+                      <td class="border border-gray-300 px-4 py-2 text-center"><%= item_number %></td>
+                      <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="A"></td>
+                      <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="B"></td>
+                      <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="C"></td>
+                      <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="D"></td>
+                      <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="E"></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+
         </div>
 
     
