@@ -8,6 +8,7 @@ class SchoolYear < ApplicationRecord
 
   belongs_to :school_class
   has_many :school_sections, dependent: :destroy
+  has_many :subjects, through: :school_class
 
   validates :name, presence: true
 

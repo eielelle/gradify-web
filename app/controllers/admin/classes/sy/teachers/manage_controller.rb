@@ -10,6 +10,7 @@ module Admin
 
           before_action :set_class
           before_action :set_search, only: %i[index]
+          before_action :set_subjects, only: %i[index]
 
           def index
             set_default_sort(default_sort_column: 'name asc')
@@ -41,11 +42,11 @@ module Admin
           private
 
           def missing_required_fields?
-            @class.school_years.blank? || @class.school_sections.blank?
+            @class.school_years.blank? || @class.school_sections.blank? || params[:subject_id].blank?
           end
 
           def handle_missing_fields
-            flash[:toast] = 'School year and sections cannot be empty.'
+            flash[:toast] = 'School year, section, and subject cannot be empty.'
             redirect_to_index
           end
 
@@ -59,6 +60,8 @@ module Admin
             @school_class = SchoolClass.find(params[:class_id])
             @school_year = @school_class.school_years.find(params[:school_year_id])
             @school_section = @school_class.school_sections.find(params[:school_section_id])
+            @subject = Subject.find(params[:subject_id])
+            teacher.subjects << @subject unless teacher.subjects.include?(@subject)
           end
 
           def update_teachers
@@ -89,6 +92,10 @@ module Admin
           def set_class
             @class = SchoolClass.find(params[:class_id])
             # @teacher_accounts = @class.school_sections.flat_map(&:users).uniq
+          end
+
+          def set_subjects
+            @subjects = Subject.all
           end
 
           def set_search

@@ -5,8 +5,10 @@ class Subject < ApplicationRecord
   has_paper_trail
 
   validates :name, presence: true
-
+  validates :subject, presence: true
   has_many :exams
+  has_many :school_classes
+  has_many :school_years, through: :school_classes
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[name description updated_at]
