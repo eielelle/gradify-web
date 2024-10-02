@@ -69,10 +69,11 @@ module Admin
       def check_and_filter_students
         school_year_id = params[:student_school_year_id]
         section_id = params[:student_school_section_id]
+        subject_id = params[:subject_id]
 
-        if school_year_id.present? && section_id.present?
+        if school_year_id.present? && section_id.present? 
           filter_students(school_year_id, section_id)
-        elsif @school_year.any? && @sections.any?
+        elsif @school_year.any? && @sections.any? 
           filter_students(@school_year.first.id, @sections.first.id)
         end
       end
@@ -80,8 +81,9 @@ module Admin
       def check_and_filter_teachers
         school_year_id = params[:teacher_school_year_id]
         section_id = params[:teacher_school_section_id]
+        
 
-        if school_year_id.present? && section_id.present?
+        if school_year_id.present? && section_id.present? 
           filter_teachers(school_year_id, section_id)
         elsif @school_year.any? && @sections.any?
           filter_teachers(@school_year.first.id, @sections.first.id)
@@ -99,6 +101,7 @@ module Admin
       def fetch_dropdown_data
         @school_year = @school_class.school_years.all
         @sections = @school_class.school_sections.all
+        @subjects = Subject.all
       end
 
       def filter_students(school_year, section)

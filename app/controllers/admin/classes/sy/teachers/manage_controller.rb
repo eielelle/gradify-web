@@ -15,6 +15,7 @@ module Admin
             set_default_sort(default_sort_column: 'name asc')
             @q = User.ransack(params[:q])
             @users = @q.result(distinct: true).where(role: 'teacher').page(params[:page]).per(10)
+            @subjects = Subject.all
             @sort_fields = {
               'Name': 'name asc',
               'Email': 'email asc',
@@ -59,6 +60,7 @@ module Admin
             @school_class = SchoolClass.find(params[:class_id])
             @school_year = @school_class.school_years.find(params[:school_year_id])
             @school_section = @school_class.school_sections.find(params[:school_section_id])
+            @selected_subjects = Subject.where(id: params[:subject_ids]) # Get selected subjects
           end
 
           def update_teachers
@@ -66,7 +68,8 @@ module Admin
               school_class = SchoolClass.find(@school_class.id)
               sy = school_class.school_years.find(@school_year.id)
               section = sy.school_sections.find(@school_section.id)
-              section.users << teacher
+              section.users << teacher unless section.users.include?(teacher)
+              teacher.subjects << @selected_subjects unless teacher.subjects.include?(@selected_subjects)
             end
           end
 

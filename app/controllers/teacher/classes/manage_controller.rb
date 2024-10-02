@@ -8,7 +8,7 @@ module Teacher
       include PaperTrailConcern
 
       def index
-        #set_class
+        assigned_classes = current_user.school_classes
         set_default_sort(default_sort_column: 'name asc')
         query_items_default(SchoolClass, params)
       end

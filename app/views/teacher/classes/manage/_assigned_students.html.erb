@@ -1,7 +1,7 @@
 <h2 class="text-2xl font-semibold mb-4">Students List</h2>
-<div>
+<div class="bg-gray-800 text-white p-4 rounded-lg shadow-md">
   <div class="flex justify-between items-center">
-    <%= form_with url: admin_classes_manage_path(@school_class), method: :get, local: true do |form| %>
+    <%= form_with url: teacher_classes_manage_path(@school_class), method: :get, local: true do |form| %>
       <div class="flex gap-10">
         <% if @school_year.any? %>
           <div class="field">
@@ -18,20 +18,10 @@
         <% end %>
       </div>
     <% end %>
-    <div class="join">
-      <%= link_to "Manage SY", admin_classes_class_sy_manage_index_path(@school_class), class: "btn join-item" %>
-      <%= link_to "Manage Sections", admin_classes_class_sy_sections_manage_index_path(@school_class), class: "btn join-item" %>
-
-      <% if @school_year.empty? || @sections.empty? %>
-        <%= button_to "Assign Student", "#", class: "btn join-item", data: { 'turbo-confirm': 'School year and sections cannot be empty.' } %>
-      <% else %>
-        <%= link_to "Assign Student", admin_classes_class_sy_students_manage_index_path(@school_class), class: "btn join-item" %>
-      <% end %>
-    </div>
   </div>
   <br>
   <section>
-    <div class="overflow-x-auto">
+    <div class="bg-gray-800 text-white p-4 rounded-lg shadow-md">
       <table class="table table-sm mb-6">
         <!-- head -->
         <thead>

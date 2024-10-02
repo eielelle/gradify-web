@@ -13,7 +13,8 @@
         <!-- Dropdowns for selecting School Year and Section -->
         <div class="flex mb-4">
           <%= select_tag 'school_year_id', options_from_collection_for_select(@class.school_years, 'id', 'name'), include_blank: 'Select School Year', class: "select select-bordered mr-4", required: true %>
-          <%= select_tag 'school_section_id', options_from_collection_for_select(@class.school_sections, 'id', 'name'), include_blank: 'Select School Section', class: "select select-bordered", required: true %>
+          <%= select_tag 'school_section_id', options_from_collection_for_select(@class.school_sections, 'id', 'name'), include_blank: 'Select School Section', class: "select select-bordered mr-4", required: true %>
+          
         </div>
 
         <table class="table table-lg mb-6">

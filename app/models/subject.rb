@@ -7,6 +7,8 @@ class Subject < ApplicationRecord
   validates :name, presence: true
 
   has_many :exams
+  has_and_belongs_to_many :school_classes
+  has_and_belongs_to_many :users
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[name description updated_at]
