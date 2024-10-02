@@ -20,13 +20,20 @@ module Admin
       end
 
       def create
-        exam = Exam.new(exam_params)
-
-        if exam.save
+        @exam = Exam.new(exam_params)
+        
+        # Set a default value for items
+        @exam.items = 50  # or whatever number of items you have
+        
+        # Collect all answer parameters
+        @exam.answer_key = collect_answers
+        
+        if @exam.save
           redirect_to admin_exams_manage_index_path, notice: 'Exam was successfully created.'
         else
-          handle_errors(exam)
-          redirect_to new_admin_exams_manage_path
+          flash[:error] = @exam.errors.full_messages.join(', ')
+          @subjects = Subject.all  # Needed for the form
+          render :new, status: :unprocessable_entity
         end
       end
 
@@ -69,11 +76,20 @@ module Admin
       end
 
       def exam_params
-        params.require(:exam).permit(:name, :subject, :items, :answer_key)
+        params.require(:exam).permit(:name, :subject_id)
       end
 
       def update_exam_params
-        params.require(:exam).permit(:name, :subject, :items, :answer_key)
+        params.require(:exam).permit(:name, :subject_id, :items, :answer_key)
+      end
+
+      def collect_answers
+        answers = []
+        50.times do |i|
+          answer = params["answer_#{i+1}"]
+          answers << (answer || '_')  # Use underscore for unanswered questions
+        end
+        answers.join('')
       end
 
       def update_success
