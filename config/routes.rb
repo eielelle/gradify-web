@@ -120,10 +120,13 @@ Rails.application.routes.draw do
 
     # /teacher/papers
     namespace :papers do
-      resources :manage, as: 'manage', only: [:index, :show]
+      resources :manage, only: [:index, :show] do
+        get :exam, on: :collection
+      end
       get 'export', to: 'export#index', as: 'export'
       get 'send_exports', to: 'export#download', as: 'download'
     end
+    
 
     # /teacher/grades
     namespace :grades do
