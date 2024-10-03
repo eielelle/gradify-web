@@ -5,7 +5,10 @@ class Subject < ApplicationRecord
   has_paper_trail
 
   validates :name, presence: true
+  validates :subject, presence: true
 
+  has_many :school_classes
+  has_many :school_years, through: :school_classes
   has_many :exams
   has_and_belongs_to_many :school_classes
   has_and_belongs_to_many :users
