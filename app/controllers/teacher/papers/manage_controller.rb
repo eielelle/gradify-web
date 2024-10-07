@@ -7,6 +7,9 @@ module Teacher
       
       def index
         @teacher = current_user
+
+        @subjects = @teacher.subjects.includes(:school_classes) # Fetch the subjects and related school classes
+
         @assignments = @teacher.school_sections
                        .includes(school_year: { school_class: :subjects })
                        .group_by { |section| section.school_year.school_class.subjects }
