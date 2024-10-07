@@ -1,8 +1,9 @@
-class CreateSchoolClassesUsersJoinTable < ActiveRecord::Migration[6.1]
+class CreateSchoolClassesUsersJoinTable < ActiveRecord::Migration[7.1]
   def change
     create_join_table :users, :school_sections do |t|
       t.index :user_id
       t.index :school_section_id
+      t.integer :subject_id, index: true
     end
 
     # create_join_table :school_sections, :users do |t|

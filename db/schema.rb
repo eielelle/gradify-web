@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_02_122222) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_05_093858) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -31,6 +31,20 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_02_122222) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "school_classes_subjects", id: false, force: :cascade do |t|
+    t.bigint "school_class_id", null: false
+    t.bigint "subject_id", null: false
+    t.index ["school_class_id"], name: "index_school_classes_subjects_on_school_class_id"
+    t.index ["subject_id"], name: "index_school_classes_subjects_on_subject_id"
+  end
+
+  create_table "school_classes_users", id: false, force: :cascade do |t|
+    t.bigint "school_class_id", null: false
+    t.bigint "user_id", null: false
+    t.index ["school_class_id"], name: "index_school_classes_users_on_school_class_id"
+    t.index ["user_id"], name: "index_school_classes_users_on_user_id"
+  end
+
   create_table "school_sections", force: :cascade do |t|
     t.bigint "school_year_id", null: false
     t.string "name"
@@ -42,7 +56,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_02_122222) do
   create_table "school_sections_users", id: false, force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "school_section_id", null: false
+    t.integer "subject_id"
     t.index ["school_section_id"], name: "index_school_sections_users_on_school_section_id"
+    t.index ["subject_id"], name: "index_school_sections_users_on_subject_id"
     t.index ["user_id"], name: "index_school_sections_users_on_user_id"
   end
 
@@ -66,6 +82,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_02_122222) do
   create_table "subjects_users", id: false, force: :cascade do |t|
     t.bigint "subject_id", null: false
     t.bigint "user_id", null: false
+    t.index ["subject_id", "user_id"], name: "index_subjects_users_on_subject_id_and_user_id"
+    t.index ["user_id", "subject_id"], name: "index_subjects_users_on_user_id_and_subject_id"
   end
 
   create_table "users", force: :cascade do |t|

@@ -21,7 +21,7 @@ if User.exists?
 else
     Whirly.status = LoadingMessages.get
     PaperTrail.request(whodunnit: '[System Generated]') do
-        User.create(email: "admin@example.com", password: "password", role: "superadmin", name: "John Doe")
+        User.create(email: "admin@example.com", password: "password", role: "superadmin", name: "Jameson Teodore")
         
         Whirly.status = LoadingMessages.get
         3.times do

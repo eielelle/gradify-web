@@ -1,8 +1,8 @@
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-  <% @assignments.each do |subject, sections| %>
+  <% @assignments.each do |subjects, sections| %>
     <div class="card bg-base-100 shadow-xl border-2 border-primary">
       <div class="card-body">
-        <h2 class="card-title"><%= subject.name %></h2>
+        <h2 class="card-title"><%= subjects.name %></h2>
         <% sections.each do |section| %>
           <div class="mt-2">
             <p class="font-semibold"><%= section.school_year.school_class.name %></p>

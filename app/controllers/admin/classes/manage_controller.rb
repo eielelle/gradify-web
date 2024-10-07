@@ -59,7 +59,6 @@ module Admin
         set_class
 
         return unless @school_class.destroy
-
         flash[:toast] = 'Class deleted successfully.'
         redirect_to admin_classes_manage_index_path
       end
@@ -91,11 +90,13 @@ module Admin
       end
 
       def fetch_selected_students
-        @selected_students = if params[:selected_student_ids].present?
-                               SchoolClass.school_years.users
-                             else
-                               []
-                             end
+        existing_student_ids = @school_class.users.where(role: 'student').pluck(:id)
+        if params[:selected_student_ids].present?
+          new_student_ids = params[:selected_student_ids] - existing_student_ids
+          @selected_students = User.where(id: new_student_ids)
+        else
+          @selected_students = []
+        end
       end
 
       def fetch_dropdown_data

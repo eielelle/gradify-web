@@ -1,5 +1,5 @@
 <h2 class="text-2xl font-semibold mb-4">Students List</h2>
-<div class="bg-gray-800 text-white p-4 rounded-lg shadow-md">
+<div>
   <div class="flex justify-between items-center">
     <%= form_with url: teacher_classes_manage_path(@school_class), method: :get, local: true do |form| %>
       <div class="flex gap-10">
@@ -21,7 +21,7 @@
   </div>
   <br>
   <section>
-    <div class="bg-gray-800 text-white p-4 rounded-lg shadow-md">
+    <div class="overflow-x-auto">
       <table class="table table-sm mb-6">
         <!-- head -->
         <thead>

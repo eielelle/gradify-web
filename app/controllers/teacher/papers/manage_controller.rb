@@ -7,8 +7,9 @@ module Teacher
       
       def index
         @teacher = current_user
-        @assignments = @teacher.school_sections.includes(school_year: :school_class)
-                      .group_by { |section| section.school_year.school_class.subjects }
+        @assignments = @teacher.school_sections
+                       .includes(school_year: { school_class: :subjects })
+                       .group_by { |section| section.school_year.school_class.subjects }
       end
 
       def exam; end

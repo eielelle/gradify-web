@@ -1,26 +1,24 @@
 <%= render "shared/toast", toast: flash[:toast] %>
-<div class="bg-gray-800 text-white p-4 rounded-lg shadow-md">
-  <div class="mb-4">
+<div>
+  <div>
     <strong>Name:</strong>
-    <span class="block text-lg font-semibold"><%= @school_class.name %></span>
+    <span><%= @school_class.name %></span>
   </div>
-  <div class="mb-4">
+  <div>
     <strong>Description:</strong>
-    <p class="text-gray-400"><%= @school_class.description %></p>
+    <p><%= @school_class.description %></p>
   </div>
-
-  <hr class="border-gray-600 mb-4">
 
   <div>
     <strong>Teachers</strong>
     <% if @teachers.any? %>
       <ul class="list-disc ml-5">
         <% @teachers.each do |teacher| %>
-          <li class="text-gray-300"><%= teacher.name %></li>
+          <li class><%= teacher.name %></li>
         <% end %>
       </ul>
     <% else %>
-      <p class="text-gray-400">No other teachers assigned to this class.</p>
+      <p>No other teachers assigned to this class.</p>
     <% end %>
   </div>
 </div>

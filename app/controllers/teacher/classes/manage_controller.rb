@@ -3,6 +3,7 @@
 module Teacher
   module Classes
     class ManageController < Teacher::LayoutController
+      before_action :authenticate_user!
       include SearchableConcern
       include ErrorConcern
       include PaperTrailConcern
