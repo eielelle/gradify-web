@@ -1,15 +1,20 @@
 <h2>Exams</h2>
 
-<% if @exams.any? %>
-  <ul class="list-disc pl-5">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <% if @exams.any? %>
     <% @exams.each do |exam| %>
-      <li>
-        <strong><%= exam.name %></strong>
-        <p>Items: <%= exam.items %></p>
-        <p>Answer Key: <%= exam.answer_key %></p>
-      </li>
+      <div class="card bg-base-100 shadow-xl border-2 border-primary">
+        <div class="card-body">
+          <h3 class="card-title"><%= exam.name %></h3>
+          <p><strong>Items:</strong> <%= exam.items %></p>
+          <p><strong>Answer Key:</strong> <%= exam.answer_key %></p>
+          <div class="card-actions justify-end mt-4">
+            <button class="btn btn-primary">View Details</button> <!-- Optional button for further actions -->
+          </div>
+        </div>
+      </div>
     <% end %>
-  </ul>
-<% else %>
-  <p>No exams assigned.</p>
-<% end %>
+  <% else %>
+    <p>No exams assigned.</p>
+  <% end %>
+</div>
