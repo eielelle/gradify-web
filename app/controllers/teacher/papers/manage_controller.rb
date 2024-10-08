@@ -15,7 +15,12 @@ module Teacher
                        .group_by { |section| section.school_year.school_class.subjects }
       end
 
-      def exam; end
+      def show
+        @teacher = current_user
+        @exams = Exam.where(subject_id: @teacher.subjects.pluck(:id)) # Fetch exams for teacher's subjects
+      end
+
+
     end
   end
 end

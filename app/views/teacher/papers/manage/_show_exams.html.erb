@@ -1,0 +1,15 @@
+<h2>Exams</h2>
+
+<% if @exams.any? %>
+  <ul class="list-disc pl-5">
+    <% @exams.each do |exam| %>
+      <li>
+        <strong><%= exam.name %></strong>
+        <p>Items: <%= exam.items %></p>
+        <p>Answer Key: <%= exam.answer_key %></p>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No exams assigned.</p>
+<% end %>

@@ -11,7 +11,7 @@
             </div>
           <% end %>
           <div class="card-actions justify-end mt-4">
-            <button class="btn btn-primary">View Papers</button>
+            <%= link_to "View Papers", teacher_papers_manage_path(id: subject.id), class: "btn btn-primary" %>
           </div>
         </div>
       </div>
