@@ -1,20 +1,38 @@
-<h2>Exams</h2>
-
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-  <% if @exams.any? %>
+<% if @exams.any? %>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     <% @exams.each do |exam| %>
       <div class="card bg-base-100 shadow-xl border-2 border-primary">
         <div class="card-body">
-          <h3 class="card-title"><%= exam.name %></h3>
-          <p><strong>Items:</strong> <%= exam.items %></p>
-          <p><strong>Answer Key:</strong> <%= exam.answer_key %></p>
+          <h3 class="card-title text-lg font-bold mb-2"><%= exam.name %></h3>
+
+          <div class="space-y-2">
+            <div>
+              <span class="font-semibold">Subject:</span>
+              <span class="ml-1"><%= exam.subject.name %></span>
+            </div>
+            
+            <div>
+              <span class="font-semibold">Items:</span>
+              <span class="ml-1"><%= exam.items %></span>
+            </div>
+            
+            <div>
+              <span class="font-semibold block">Answer Key:</span>
+              <div class="p-2 rounded-md mt-1 overflow-x-auto">
+                <code class="text-sm break-all">
+                  <%= exam.answer_key %>
+                </code>
+              </div>
+            </div>
+          </div>
+
           <div class="card-actions justify-end mt-4">
-            <button class="btn btn-primary">View Details</button> <!-- Optional button for further actions -->
+            <%= link_to "View Details", "#", class: "btn btn-primary" %>
           </div>
         </div>
       </div>
     <% end %>
-  <% else %>
-    <p>No exams assigned.</p>
-  <% end %>
-</div>
+  </div>
+<% else %>
+  <p class="text-center text-gray-500">No exams found for this subject.</p>
+<% end %>

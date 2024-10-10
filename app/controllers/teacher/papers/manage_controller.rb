@@ -17,9 +17,9 @@ module Teacher
 
       def show
         @teacher = current_user
-        @exams = Exam.where(subject_id: @teacher.subjects.pluck(:id)) # Fetch exams for teacher's subjects
+        @subject = @teacher.subjects.find(params[:id])
+        @exams = @subject.exams.includes(:subject)
       end
-
 
     end
   end
