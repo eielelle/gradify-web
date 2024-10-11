@@ -6,10 +6,9 @@ module Teacher
       before_action :authenticate_user!
       include SearchableConcern
       include ErrorConcern
-      include PaperTrailConcern
 
       def index
-        assigned_classes = current_user.school_classes
+        current_user.school_classes # Adjust this according to your application logic
         set_default_sort(default_sort_column: 'name asc')
         query_items_default(SchoolClass, params)
       end
@@ -49,16 +48,19 @@ module Teacher
       end
 
       def fetch_selected_students
-        @selected_students = if params[:selected_student_ids].present?
-                               SchoolClass.school_years.users
-                             else
-                               []
-                             end
+        existing_student_ids = @school_class.users.where(role: 'student').pluck(:id)
+        if params[:selected_student_ids].present?
+          new_student_ids = params[:selected_student_ids] - existing_student_ids
+          @selected_students = User.where(id: new_student_ids)
+        else
+          @selected_students = []
+        end
       end
 
       def fetch_dropdown_data
         @school_year = @school_class.school_years.all
         @sections = @school_class.school_sections.all
+        @subjects = Subject.all
       end
 
       def filter_students(school_year, section)

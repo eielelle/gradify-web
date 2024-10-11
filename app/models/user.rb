@@ -14,8 +14,7 @@ class User < ApplicationRecord
 
   has_and_belongs_to_many :subjects
   has_and_belongs_to_many :school_sections
-  has_and_belongs_to_many :school_classes
-
+  has_and_belongs_to_many :school_classes, through: :school_sections
 
   validates :name, presence: true
   validates :role, presence: true

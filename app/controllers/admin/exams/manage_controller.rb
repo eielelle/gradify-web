@@ -21,18 +21,23 @@ module Admin
 
       def create
         @exam = Exam.new(exam_params)
-        
+        @subjects = Subject.all
+
+        return if invalid_params?
+
         # Set a default value for items
-        @exam.items = 50  # or whatever number of items you have
-        
+        @exam.items = 50 # or whatever number of items you have
+
         # Collect all answer parameters
         @exam.answer_key = collect_answers
-        
+
+        return unless answer_validation
+
         if @exam.save
           redirect_to admin_exams_manage_index_path, notice: 'Exam was successfully created.'
         else
           flash[:error] = @exam.errors.full_messages.join(', ')
-          @subjects = Subject.all  # Needed for the form
+          @subjects = Subject.all # Needed for the form
           render :new, status: :unprocessable_entity
         end
       end
@@ -86,10 +91,34 @@ module Admin
       def collect_answers
         answers = []
         50.times do |i|
-          answer = params["answer_#{i+1}"]
-          answers << (answer || '_')  # Use underscore for unanswered questions
+          answer = params["answer_#{i + 1}"]
+          answers << (answer || '_') # Use underscore for unanswered questions
         end
         answers.join('')
+      end
+
+      def invalid_params?
+        if params[:exam][:name].blank?
+          flash[:toast] = 'Quarter cannot be blank.'
+          render :new, status: :unprocessable_entity
+          return true
+        elsif params[:exam][:subject_id].blank?
+          flash[:toast] = 'Subject must be selected.'
+          render :new, status: :unprocessable_entity
+          return true
+        end
+        false
+      end
+
+      def answer_validation
+        if @exam.answer_key.exclude?('A') && @exam.answer_key.exclude?('B') &&
+           @exam.answer_key.exclude?('C') && @exam.answer_key.exclude?('D')
+
+          flash[:toast] = 'Please select an answer before submitting the exam.'
+          render :new, status: :unprocessable_entity
+          return false
+        end
+        true
       end
 
       def update_success

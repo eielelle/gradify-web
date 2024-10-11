@@ -8,7 +8,7 @@ module Admin
       include ExportableFormatConcern
 
       def index
-        @subject_fields = Subject.get_export_fields()
+        @subject_fields = Subject.get_export_fields
       end
 
       def download

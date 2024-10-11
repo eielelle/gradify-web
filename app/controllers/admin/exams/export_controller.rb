@@ -8,7 +8,7 @@ module Admin
       include ExportableFormatConcern
 
       def index
-        @exam_fields = Exam.get_export_fields()
+        @exam_fields = Exam.get_export_fields
       end
 
       def download

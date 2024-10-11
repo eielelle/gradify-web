@@ -48,6 +48,7 @@ module Admin
         set_subject
 
         return unless @subject.destroy
+
         flash[:toast] = 'Subject was successfully destroyed.' # Use flash for toast notification
         redirect_to admin_subjects_manage_index_path
       end

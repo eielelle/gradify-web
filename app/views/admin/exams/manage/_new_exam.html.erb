@@ -4,11 +4,11 @@
             <div class="flex-1">
                 <label class="form-control w-full max-w-xs">
                     <div class="label">
-                    <%= form.label :name, class: "label-text" %>
+                    <%= form.label :quarter, class: "label-text" %>
                     </div>
                     <%= form.text_field :name, class: "input input-bordered w-full max-w-xs" %>
                     <div class="label">
-                    <span class="label-text-alt text-error"><%= flash[:name_error] %></span>
+                    <span class="label-text-alt text-error"><%= flash[:quarter_error] %></span>
                     </div>
                 </label>
 
@@ -17,6 +17,9 @@
                       <%= form.label :subject_id, "Subject", class: "label-text" %>
                     </div>
                     <%= form.collection_select :subject_id, @subjects, :id, :name, { prompt: "Select a subject" }, { class: "select select-bordered" } %>
+                     <div class="label">
+                    <span class="label-text-alt text-error"><%= flash[:subject_error] %></span>
+                    </div>
                 </label>
             </div>
 
@@ -34,7 +37,6 @@
                     <th class="border border-gray-300 px-4 py-2">B</th>
                     <th class="border border-gray-300 px-4 py-2">C</th>
                     <th class="border border-gray-300 px-4 py-2">D</th>
-                    <th class="border border-gray-300 px-4 py-2">E</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -45,7 +47,6 @@
                       <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="B"></td>
                       <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="C"></td>
                       <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="D"></td>
-                      <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="E"></td>
                     </tr>
                   <% end %>
                 </tbody>
@@ -62,7 +63,6 @@
                     <th class="border border-gray-300 px-4 py-2">B</th>
                     <th class="border border-gray-300 px-4 py-2">C</th>
                     <th class="border border-gray-300 px-4 py-2">D</th>
-                    <th class="border border-gray-300 px-4 py-2">E</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -73,7 +73,6 @@
                       <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="B"></td>
                       <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="C"></td>
                       <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="D"></td>
-                      <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="E"></td>
                     </tr>
                   <% end %>
                 </tbody>
@@ -159,3 +158,4 @@
     }
   });
 </script>
+<%= render "shared/toast", toast: flash[:toast] %>

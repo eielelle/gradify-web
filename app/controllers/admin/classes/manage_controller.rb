@@ -59,6 +59,7 @@ module Admin
         set_class
 
         return unless @school_class.destroy
+
         flash[:toast] = 'Class deleted successfully.'
         redirect_to admin_classes_manage_index_path
       end
@@ -68,11 +69,11 @@ module Admin
       def check_and_filter_students
         school_year_id = params[:student_school_year_id]
         section_id = params[:student_school_section_id]
-        subject_id = params[:subject_id]
+        params[:subject_id]
 
-        if school_year_id.present? && section_id.present? 
+        if school_year_id.present? && section_id.present?
           filter_students(school_year_id, section_id)
-        elsif @school_year.any? && @sections.any? 
+        elsif @school_year.any? && @sections.any?
           filter_students(@school_year.first.id, @sections.first.id)
         end
       end
@@ -80,9 +81,8 @@ module Admin
       def check_and_filter_teachers
         school_year_id = params[:teacher_school_year_id]
         section_id = params[:teacher_school_section_id]
-        
 
-        if school_year_id.present? && section_id.present? 
+        if school_year_id.present? && section_id.present?
           filter_teachers(school_year_id, section_id)
         elsif @school_year.any? && @sections.any?
           filter_teachers(@school_year.first.id, @sections.first.id)

@@ -16,6 +16,13 @@
             <%= form.select :student_school_section_id, options_from_collection_for_select(@sections, :id, :name, selected: params[:student_school_section_id]), {}, class: "select select-bordered", onchange: "this.form.submit();" %>
           </div>
         <% end %>
+
+        <% if @subjects.any? %>
+          <div class="field">
+            <%= form.label :subject %>
+            <%= form.select :subject_id, options_from_collection_for_select(@subjects, :id, :name, selected: params[:subject_id]), {}, class: "select select-bordered", onchange: "this.form.submit();" %>
+          </div>
+        <% end %>
       </div>
     <% end %>
   </div>

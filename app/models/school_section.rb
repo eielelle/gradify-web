@@ -10,7 +10,6 @@ class SchoolSection < ApplicationRecord
   has_and_belongs_to_many :subjects
   has_and_belongs_to_many :users
 
-
   validates :name, presence: true
 
   has_paper_trail ignore: %i[created_at updated_at]

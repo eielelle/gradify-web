@@ -60,7 +60,7 @@ module Admin
             @school_class = SchoolClass.find(params[:class_id])
             @school_year = @school_class.school_years.find(params[:school_year_id])
             @school_section = @school_class.school_sections.find(params[:school_section_id])
-            @selected_subjects = Subject.where(id: params[:subject_ids]) 
+            @selected_subjects = Subject.where(id: params[:subject_ids])
           end
 
           def update_teachers
@@ -72,7 +72,6 @@ module Admin
               teacher.subjects << @selected_subjects
             end
           end
-          
 
           def selected_teachers
             @selected_teachers ||= User.where(id: selected_teacher_ids, role: 'teacher')

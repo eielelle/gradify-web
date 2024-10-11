@@ -66,12 +66,12 @@ module Admin
           def update_students
             assigned_students = []
             already_assigned_students = []
-          
+
             selected_students.each do |student|
               school_class = SchoolClass.find(@school_class.id)
               sy = school_class.school_years.find(@school_year.id)
               section = sy.school_sections.find(@school_section.id)
-          
+
               if section.users.exists?(id: student.id)
                 already_assigned_students << student
               else
@@ -80,26 +80,21 @@ module Admin
                 assigned_students << student
               end
             end
-          
-            [assigned_students, already_assigned_students]  # return both arrays
+
+            [assigned_students, already_assigned_students] # return both arrays
           end
-          
-          
 
           def selected_students
             @selected_students ||= User.where(id: selected_student_ids, role: 'student')
           end
 
           def set_flash_message(assigned_students, already_assigned_students)
-            if assigned_students.any?
-              flash[:toast] = "#{assigned_students.size} students were successfully assigned."
-            end
-          
-            if already_assigned_students.any?
-              flash[:toast] = "#{already_assigned_students.size} students were already assigned to this class."
-            end
+            flash[:toast] = "#{assigned_students.size} students were successfully assigned." if assigned_students.any?
+
+            return unless already_assigned_students.any?
+
+            flash[:toast] = "#{already_assigned_students.size} students were already assigned to this class."
           end
-          
 
           def selected_student_ids
             params[:student_ids]
