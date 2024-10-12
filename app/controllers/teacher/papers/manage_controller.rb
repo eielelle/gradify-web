@@ -38,6 +38,21 @@ module Teacher
           flash.now[:alert] = "No students found for this exam and subject combination."
         end
       end
+
+      def student_exam_overviews
+        @teacher = current_user
+        @subject = @teacher.subjects.find(params[:id])
+        @exam = @subject.exams.find(params[:exam_id])
+        @student = User.find(params[:student_id])
+      
+        # Fetch student’s answers, total score, and incorrect answers (assuming you have models for these).
+        # @student_exam_results = @exam.results.where(student: @student)
+      
+        # Handle case where no exam data is found.
+        #if @student_exam_results.empty?
+          #flash.now[:alert] = "No exam results found for this student."
+        #end
+      end
       
 
     end

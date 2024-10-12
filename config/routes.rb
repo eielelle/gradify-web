@@ -123,6 +123,7 @@ Rails.application.routes.draw do
       resources :manage, only: [:index, :show] do
         member do
           get 'exam_details/:exam_id', to: 'manage#exam_details', as: 'exam_details'
+          get 'student_exam_overviews/:exam_id/:student_id', to: 'manage#student_exam_overviews', as: 'student_exam_overviews'
         end
       end
       get 'export', to: 'export#index', as: 'export'

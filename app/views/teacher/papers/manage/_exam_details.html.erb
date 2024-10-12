@@ -6,7 +6,11 @@
       <thead>
         <tr>
           <th>Name</th>
-          <th>Email</th>
+          <th>Total Score</th>
+          <th>Correct</th>
+          <th>Incorrect</th>
+          <th>Double Answer</th>
+          <th>No Answer</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -14,9 +18,13 @@
         <% @students.each do |student| %>
           <tr>
             <td><%= student.name %></td>
-            <td><%= student.email %></td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
             <td>
-              <%= link_to "View Results", "#", class: "btn btn-primary btn-sm" %>
+              <%= link_to "View Results", student_exam_overviews_teacher_papers_manage_path(id: @subject.id, exam_id: @exam.id, student_id: student.id), class: "btn btn-primary btn-sm" %>
             </td>
           </tr>
         <% end %>
