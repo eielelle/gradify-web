@@ -3,7 +3,7 @@
 class SchoolClass < ApplicationRecord
   include Exportable
 
-  has_and_belongs_to_many :subjects
+  has_many :subjects, dependent: :destroy
   # belongs_to :subject
   has_many :school_years, dependent: :destroy
   has_many :school_sections, through: :school_years

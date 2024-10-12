@@ -2,16 +2,17 @@
 
 class Subject < ApplicationRecord
   include Exportable
-  has_paper_trail
-
-  validates :name, presence: true
-  # validates :subject, presence: true
-
   has_many :school_classes
   has_many :school_years, through: :school_classes
   has_many :exams
   has_and_belongs_to_many :school_classes
   has_and_belongs_to_many :users
+  
+  has_paper_trail
+
+  validates :name, presence: true
+  validates :school_class_id, presence: true
+  # validates :subject, presence: true
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[name description updated_at]

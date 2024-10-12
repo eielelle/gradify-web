@@ -15,7 +15,7 @@ module Admin
             set_default_sort(default_sort_column: 'name asc')
             @q = User.ransack(params[:q])
             @users = @q.result(distinct: true).where(role: 'student').page(params[:page]).per(10)
-            @subjects = Subject.all
+            @subjects = @class.subjects.distinct
             @sort_fields = {
               'Name': 'name asc',
               'Email': 'email asc',

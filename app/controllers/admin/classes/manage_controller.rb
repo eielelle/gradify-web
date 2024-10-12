@@ -9,6 +9,7 @@ module Admin
       def index
         set_default_sort(default_sort_column: 'name asc')
         query_items_default(SchoolClass, params)
+        
       end
 
       def create
@@ -35,6 +36,16 @@ module Admin
 
         check_and_filter_students
         check_and_filter_teachers
+
+        @subjects = @school_class.subjects
+        if params[:subject_id].present?
+          selected_subject = Subject.find(params[:subject_id])
+          @teachers = selected_subject.users.where(role: 'teacher') # Assuming a subject can have multiple teachers
+          @students = selected_subject.users.where(role: 'student') # Filter students based on selected subject
+        else
+          @teachers = [] # No subject selected, no teachers to show
+          @students = [] # No subject selected, no students to show
+        end
 
         @student_count = @students.nil? ? 0 : @students.count
         @teacher_count = @teachers.nil? ? 0 : @teachers.count
@@ -69,7 +80,7 @@ module Admin
       def check_and_filter_students
         school_year_id = params[:student_school_year_id]
         section_id = params[:student_school_section_id]
-        params[:subject_id]
+        
 
         if school_year_id.present? && section_id.present?
           filter_students(school_year_id, section_id)
@@ -102,7 +113,7 @@ module Admin
       def fetch_dropdown_data
         @school_year = @school_class.school_years.all
         @sections = @school_class.school_sections.all
-        @subjects = Subject.all
+        @subjects = @school_class.subjects
       end
 
       def filter_students(school_year, section)

@@ -19,6 +19,7 @@ module Admin
 
       def new
         @subject = Subject.new
+        @school_classes = SchoolClass.all.order(:name)
       end
 
       def create
@@ -27,12 +28,15 @@ module Admin
           flash[:toast] = 'Subject added successfully.'
           redirect_to admin_subjects_manage_index_path
         else
+          @school_classes = SchoolClass.all.order(:name)
           handle_errors(@subject)
           render :new, status: :unprocessable_entity
         end
       end
 
-      def edit; end
+      def edit
+        @school_classes = SchoolClass.all.order(:name)
+      end
 
       def update
         if @subject.update(subject_params)
@@ -64,7 +68,7 @@ module Admin
       end
 
       def subject_params
-        params.require(:subject).permit(:name, :description)
+        params.require(:subject).permit(:name, :description, :school_class_id)
       end
 
       def set_search
