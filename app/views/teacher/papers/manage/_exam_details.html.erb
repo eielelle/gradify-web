@@ -1,0 +1,28 @@
+<h4 class="text-xl font-bold mb-4">Students</h4>
+
+<% if @students.any? %>
+  <div class="overflow-x-auto">
+    <table class="table w-full">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @students.each do |student| %>
+          <tr>
+            <td><%= student.name %></td>
+            <td><%= student.email %></td>
+            <td>
+              <%= link_to "View Results", "#", class: "btn btn-primary btn-sm" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <p class="text-center text-gray-500">No students found for this exam and subject combination.</p>
+<% end %>

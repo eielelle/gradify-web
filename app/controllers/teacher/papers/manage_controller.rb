@@ -20,6 +20,26 @@ module Teacher
         @subject = @teacher.subjects.find(params[:id])
         @exams = @subject.exams.includes(:subject)
       end
+
+      def exam_details
+        @teacher = current_user
+        @subject = @teacher.subjects.find(params[:id])  # Fetch the specific subject based on the teacher's assignment
+        @exam = @subject.exams.find(params[:exam_id])   # Fetch the exam associated with the subject
+      
+        # Fetch students based on the subject and school section they are assigned to
+        @students = User.joins(:school_sections, :subjects)
+                        .where(role: 'student')
+                        .where(school_sections: { id: @teacher.school_section_ids }) # Sections that are taught by this teacher
+                        .where(subjects: { id: @subject.id }) # Ensure the subject matches
+                        .distinct
+      
+        # Handle case where no students are found
+        if @students.empty?
+          flash.now[:alert] = "No students found for this exam and subject combination."
+        end
+      end
+      
+
     end
   end
 end

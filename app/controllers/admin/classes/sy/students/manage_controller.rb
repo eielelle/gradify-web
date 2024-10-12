@@ -42,11 +42,11 @@ module Admin
           private
 
           def missing_required_fields?
-            @class.school_years.blank? || @class.school_sections.blank?
+            @class.school_years.blank? || @class.school_sections.blank? || params[:subject_ids].blank?
           end
 
           def handle_missing_fields
-            flash[:toast] = 'School year and sections cannot be empty.'
+            flash[:toast] = 'School year, sections, and subjects cannot be empty.'
             redirect_to_index
           end
 
@@ -80,8 +80,8 @@ module Admin
                 assigned_students << student
               end
             end
-
-            [assigned_students, already_assigned_students] # return both arrays
+          
+            [assigned_students, already_assigned_students]
           end
 
           def selected_students
@@ -89,11 +89,13 @@ module Admin
           end
 
           def set_flash_message(assigned_students, already_assigned_students)
-            flash[:toast] = "#{assigned_students.size} students were successfully assigned." if assigned_students.any?
-
-            return unless already_assigned_students.any?
-
-            flash[:toast] = "#{already_assigned_students.size} students were already assigned to this class."
+            if assigned_students.any?
+              flash[:toast] = "#{assigned_students.size} students were successfully assigned with selected subjects."
+            end
+          
+            if already_assigned_students.any?
+              flash[:toast] = "#{already_assigned_students.size} students were already assigned to this class."
+            end
           end
 
           def selected_student_ids
