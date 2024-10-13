@@ -34,13 +34,13 @@ module Admin
         return unless answer_validation
 
         if @exam.save
-          redirect_to admin_exams_manage_index_path, notice: 'Exam was successfully created.'
+          flash[:success] = 'Exam was successfully created.'
+          redirect_to admin_exams_manage_index_path
         else
           flash[:error] = @exam.errors.full_messages.join(', ')
-          @subjects = Subject.all # Needed for the form
           render :new, status: :unprocessable_entity
         end
-      end
+      end        
 
       def show
         set_exam

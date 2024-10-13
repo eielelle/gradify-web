@@ -1,10 +1,23 @@
 <% if toast.present? %>
-    <div class="fixed top-0 right-0 mt-4 mr-4 z-50" data-controller="toast" data-toast-target="toast">
+    <div 
+        id="toast" 
+        class="fixed top-4 right-4 z-50 transition-opacity duration-500"
+    >
         <div class="alert">
             <span><%= toast %></span>
             <div>
-                <button class="btn btn-bg-primary btn-sm" data-action="click->toast#close">X</button>
+                <button class="btn btn-bg-primary btn-sm" onclick="closeToast()">X</button>
             </div>
         </div>
     </div>
+
+    <script>
+        function closeToast() {
+            const toast = document.getElementById('toast');
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 500); 
+        }
+
+        setTimeout(closeToast, 15000);
+    </script>
 <% end %>
