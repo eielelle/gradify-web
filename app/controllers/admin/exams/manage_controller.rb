@@ -34,7 +34,7 @@ module Admin
         return unless answer_validation
 
         if @exam.save
-          flash[:success] = 'Exam was successfully created.'
+          flash[:toast] = 'Exam was successfully created.'
           redirect_to admin_exams_manage_index_path
         else
           flash[:error] = @exam.errors.full_messages.join(', ')
@@ -111,13 +111,28 @@ module Admin
       end
 
       def answer_validation
+        unanswered_items = []
+        
+        # Loop through the answer key and collect unanswered items
+        @exam.answer_key.split('').each_with_index do |answer, index|
+          unanswered_items << (index + 1) if answer == '_'
+        end
+      
+        if unanswered_items.any?
+          flash[:toast] = "Questions #{unanswered_items.join(', ')} have no answers."
+          render :new, status: :unprocessable_entity
+          return false
+        end
+      
+        # Check if at least one valid answer is selected
         if @exam.answer_key.exclude?('A') && @exam.answer_key.exclude?('B') &&
            @exam.answer_key.exclude?('C') && @exam.answer_key.exclude?('D')
-
+      
           flash[:toast] = 'Please select an answer before submitting the exam.'
           render :new, status: :unprocessable_entity
           return false
         end
+      
         true
       end
 

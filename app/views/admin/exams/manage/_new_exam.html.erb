@@ -84,13 +84,27 @@
 
         </div>
 
-    
+        <dialog id="review_answer_key_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-5xl">
+          <h3 class="text-lg font-bold">Review Answer Key</h3>
+          <p class="py-4">Below are the answers you've selected for this exam. Please review them before submitting:</p>
+  
+          <div id="answer_key_review" class="overflow-y-auto max-h-96">
+            <!-- Answer key content will be inserted here dynamically -->
+          </div>
+  
+          <div class="modal-action">
+            <%= form.submit "Add Exam", class: "btn btn-primary", data: { 'turbo-confirm': 'Are you sure you want to add this new exam?', btn_class: "btn-primary" } %>
+            <button type="button" class="btn" onclick="closeReviewModal()">Close</button>
+            </div>
+        </div>
+      </dialog>             
     
 
     <div>
-        <%= form.submit "Add Exam", class: "btn btn-primary mt-4", data: { 'turbo-confirm': 'Are you sure you want to add this new exam?', btn_class: "btn-primary" } %>
+        <button type="button" class="btn btn-primary mt-4" onclick="event.preventDefault(); openReviewModal();">Review Answer Key</button>
     </div>
-
+    
     <% end %>
 </section>
 
@@ -157,5 +171,32 @@
       bubbleSheetContainer.innerHTML = ''; // Clear the sheet if no value is selected
     }
   });
+
+ function openReviewModal() {
+  const answerKeyContainer = document.getElementById('answer_key_review');
+  answerKeyContainer.innerHTML = ''; // Clear previous content
+
+  // Loop through the form to collect answers (assuming 50 items)
+  for (let i = 1; i <= 50; i++) {
+    const selectedAnswer = document.querySelector(`input[name="answer_${i}"]:checked`);
+    const answerValue = selectedAnswer ? selectedAnswer.value : '-'; // If no answer selected, show '-'
+    
+    // Create a row to display the item and its selected answer
+    const answerRow = document.createElement('div');
+    answerRow.classList.add('py-2');
+    answerRow.innerHTML = `Item ${i}: <strong>${answerValue}</strong>`;
+    
+    answerKeyContainer.appendChild(answerRow);
+  }
+
+  // Show the review modal
+  document.getElementById('review_answer_key_modal').showModal();
+}
+
+function closeReviewModal() {
+  document.getElementById('review_answer_key_modal').close();
+}
+
+
 </script>
 <%= render "shared/toast", toast: flash[:toast] %>

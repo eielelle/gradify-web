@@ -43,8 +43,8 @@ module Admin
           @teachers = selected_subject.users.where(role: 'teacher') # Assuming a subject can have multiple teachers
           @students = selected_subject.users.where(role: 'student') # Filter students based on selected subject
         else
-          @teachers = [] # No subject selected, no teachers to show
-          @students = [] # No subject selected, no students to show
+          #@teachers = [] # No subject selected, no teachers to show
+          #@students = [] # No subject selected, no students to show
         end
 
         @student_count = @students.nil? ? 0 : @students.count
