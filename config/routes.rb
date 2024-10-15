@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   root "welcome#index"
   get "/admin", to: "admin/overview#index", as: :admin_root
   get "/teacher", to: "teacher/overview#index", as: :teacher_root
+  get "/student", to: "student/overview#index", as: :student_root
 
   namespace :admin do
     # /admin/config
@@ -152,6 +153,32 @@ Rails.application.routes.draw do
       get 'teacher/classes', to: 'teacher/classes#index', as: :api_v1_get_teacher_classes
       get 'teacher/classes/years_and_sections', to: 'teacher/classes#year_and_sections'
       get 'teacher/classes/students', to: 'teacher/classes#students'
+    end
+  end
+
+  namespace :student do
+    # /student/config
+    resource :config, only: [:show, :update, :destroy], controller: 'config', as: 'config'
+    patch 'change_password', to: 'config#change_password'
+    get 'confirm_destroy', to: 'config#confirm_destroy'
+
+    # /student/exams
+    namespace :exams do
+      resources :manage, only: [:index, :show]
+      get 'export', to: 'export#index', as: 'export'
+      get 'download', to: 'export#download', as: 'download'
+    end
+
+  end
+  # end of new routing 
+  namespace :api do
+    namespace :v1 do
+      devise_scope :user do
+        post 'student/sign_in', to: 'student/sessions#create', as: :api_v1_student_sign_in
+        delete 'student/sign_out', to: 'student/sessions#destroy', as: :api_v1_student_sign_out
+      end
+
+      get 'student/exams', to: 'student/exams#index', as: :api_v1_get_student_exams
     end
   end
 end
