@@ -6,6 +6,8 @@ module Student
         before_action :authenticate_user!
   
         def index
+          @student = current_user
+          @subjects_with_exams = @student.subjects.includes(:exams, :school_classes)
         end
   
         def show
