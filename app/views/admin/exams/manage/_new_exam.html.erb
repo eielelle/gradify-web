@@ -172,22 +172,33 @@
     }
   });
 
- function openReviewModal() {
+function openReviewModal() {
   const answerKeyContainer = document.getElementById('answer_key_review');
   answerKeyContainer.innerHTML = ''; // Clear previous content
 
-  // Loop through the form to collect answers (assuming 50 items)
-  for (let i = 1; i <= 50; i++) {
-    const selectedAnswer = document.querySelector(`input[name="answer_${i}"]:checked`);
-    const answerValue = selectedAnswer ? selectedAnswer.value : '-'; // If no answer selected, show '-'
-    
-    // Create a row to display the item and its selected answer
-    const answerRow = document.createElement('div');
-    answerRow.classList.add('py-2');
-    answerRow.innerHTML = `Item ${i}: <strong>${answerValue}</strong>`;
-    
-    answerKeyContainer.appendChild(answerRow);
+  // Create a wrapper div for the five-column layout
+  const columnWrapper = document.createElement('div');
+  columnWrapper.classList.add('grid', 'grid-cols-5', 'gap-4'); // Tailwind grid with 5 columns
+
+  // Loop through the form to collect answers, organizing in 5 columns
+  for (let row = 1; row <= 10; row++) {
+    for (let col = 0; col < 5; col++) {
+      const itemNumber = row + col * 10; // Calculate item number for each column
+
+      const selectedAnswer = document.querySelector(`input[name="answer_${itemNumber}"]:checked`);
+      const answerValue = selectedAnswer ? selectedAnswer.value : '-'; // If no answer selected, show '-'
+      
+      // Create a div for each item and its answer
+      const answerRow = document.createElement('div');
+      answerRow.classList.add('py-2');
+      answerRow.innerHTML = `Item ${itemNumber}: <strong>${answerValue}</strong>`;
+      
+      columnWrapper.appendChild(answerRow);
+    }
   }
+
+  // Append the five-column layout to the container
+  answerKeyContainer.appendChild(columnWrapper);
 
   // Show the review modal
   document.getElementById('review_answer_key_modal').showModal();
@@ -196,7 +207,6 @@
 function closeReviewModal() {
   document.getElementById('review_answer_key_modal').close();
 }
-
 
 </script>
 <%= render "shared/toast", toast: flash[:toast] %>
