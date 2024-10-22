@@ -1,12 +1,53 @@
+<% if @students.any? %>
+  <div class="overflow-x-auto">
+    <table class="table w-full">
+      <thead>
+        <tr class="transition-colors duration-150 ease-in-out border-gray-50" 
+            data-theme="light:bg-gray-100 dark:bg-gray-800">
+          <th class="px-6 py-3 text-left transition-colors" data-theme="light:text-gray-900 dark:text-gray-200">Name</th>
+          <th class="px-6 py-3 text-left transition-colors" data-theme="light:text-gray-900 dark:text-gray-200">Section</th>
+          <th class="px-6 py-3 text-left transition-colors" data-theme="light:text-gray-900 dark:text-gray-200">Subject</th>
+          <% @exams.each do |exam| %>
+            <th class="px-6 py-3 text-left transition-colors" data-theme="light:text-gray-900 dark:text-gray-200"><%= exam.name %></th>
+          <% end %>
+          <th class="px-6 py-3 text-left transition-colors" data-theme="light:text-gray-900 dark:text-gray-200">Average</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @students.each do |student| %>
+          <% student.subjects.each do |subject| %>
+            <tr class="transition-colors duration-150 ease-in-out " 
+                data-theme="light:border-gray-200 dark:border-gray-700 light:hover:bg-gray-50 dark:hover:bg-gray-800">
+              <td class="px-6 py-4 transition-colors" data-theme="light:text-gray-900 dark:text-gray-200"><%= student.name %></td>
+              <td class="px-6 py-4 transition-colors" data-theme="light:text-gray-900 dark:text-gray-200"><%= student.school_sections.map(&:name).join(", ") %></td>
+              <td class="px-6 py-4 transition-colors" data-theme="light:text-gray-900 dark:text-gray-200"><%= subject.name %></td>
 
+              <% @exams.where(subject: subject).each do |exam| %>
+                <td class="px-6 py-4">
+                  <div class="p-2 rounded transition-colors duration-150 ease-in-out" 
+                       data-theme="light:text-gray-900 dark:text-gray-200 light:hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <div class="font-medium">Total: 0</div>
+                    <div class="text-xs transition-colors" data-theme="light:text-gray-500 dark:text-gray-400">
+                      Correct: 0 | Incorrect: 0
+                    </div>
+                  </div>
+                </td>
+              <% end %>
 
-
-<div class="card bg-primary text-primary-content w-96">
-  <div class="card-body">
-    <h2 class="card-title">Card title!</h2>
-    <p>If a dog chews shoes whose shoes does he choose?</p>
-    <div class="card-actions justify-end">
-      <button class="btn">Buy Now</button>
-    </div>
+              <td class="px-6 py-4">
+                <div class="p-2 rounded transition-colors duration-150 ease-in-out" 
+                     data-theme="light:text-gray-900 dark:text-gray-200 light:hover:bg-gray-100 dark:hover:bg-gray-700">
+                  0
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
   </div>
-</div>
+<% else %>
+  <p class="text-center py-4 transition-colors" data-theme="light:text-gray-500 dark:text-gray-400">
+    No students found for this exam and subject combination.
+  </p>
+<% end %>
