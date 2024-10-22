@@ -169,6 +169,20 @@ Rails.application.routes.draw do
       get 'download', to: 'export#download', as: 'download'
     end
 
+    # /student/classes
+    namespace :classes do
+      resources :manage, only: [:index, :show]
+      get 'export', to: 'export#index', as: 'export'
+      get 'download', to: 'export#download', as: 'download'
+    end
+
+    # /student/grades
+    namespace :grades do
+      resources :manage, only: [:index, :show]
+      get 'export', to: 'export#index', as: 'export'
+      get 'download', to: 'export#download', as: 'download'
+    end
+
   end
   # end of new routing 
   namespace :api do

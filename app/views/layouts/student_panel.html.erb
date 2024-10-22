@@ -54,6 +54,30 @@
                 My Exams
               <% end %>
             </li>
+            
+            <li class="text-xl <%= current_drawer?('student/classes', included: true) %>">
+              <%= link_to student_classes_manage_index_path do %>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle me-4">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="9 12 11 14 15 10"></polyline>
+                </svg>
+                Enrolled Class
+              <% end %>
+            </li>
+
+            <li class="text-xl">
+              <%= link_to student_exams_manage_index_path do %>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-grades me-4">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <text x="10" y="11" fill="currentColor" font-size="10" font-weight="bold">A</text>
+                  <polygon points="17.5 4 16 6 18 6 16.5 8 18.5 8 19 6 21 6 19.5 4" fill="currentColor"></polygon>
+                </svg>
+                View Grades
+              <% end %>
+            </li>
 
 
             <div class="flex-1 flex flex-col justify-end">
