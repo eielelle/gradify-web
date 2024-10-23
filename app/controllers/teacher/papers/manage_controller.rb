@@ -44,15 +44,44 @@ module Teacher
         @subject = @teacher.subjects.find(params[:id])
         @exam = @subject.exams.find(params[:exam_id])
         @student = User.find(params[:student_id])
-      
-        # Fetch student’s answers, total score, and incorrect answers (assuming you have models for these).
-        # @student_exam_results = @exam.results.where(student: @student)
-      
-        # Handle case where no exam data is found.
-        #if @student_exam_results.empty?
-          #flash.now[:alert] = "No exam results found for this student."
-        #end
+        
+        # Fetch the answer key from the exam
+        @answer_key = @exam.answer_key
+        
+        # Commented out the fetching of student's answers for now
+        # @student_answers = @student.exam_results.where(exam: @exam).pluck(:answers).first
+        
+        # Initialize arrays to store analysis data
+        # @average_correct = []
+        # @difficulty_index = []
+        # @discrimination_index = []
+        
+        # Fetch all students who took the exam for future item analysis
+        # all_students = @exam.students
+        
+        # Example of item analysis logic for future use
+        # (1..@answer_key.size).each do |item|
+        #   total_students = all_students.count
+        #   correct_answers = all_students.select { |s| s.exam_results.where(exam: @exam).pluck(:answers)[0][item - 1] == @answer_key[item - 1] }.count
+          
+        #   # Calculate average correct percentage for this item
+        #   @average_correct[item - 1] = (correct_answers.to_f / total_students) * 100
+          
+        #   # Calculate Difficulty Index
+        #   @difficulty_index[item - 1] = correct_answers.to_f / total_students
+          
+        #   # Split students into upper and lower groups based on scores
+        #   upper_group = all_students.sort_by(&:score).last(total_students / 2)
+        #   lower_group = all_students.sort_by(&:score).first(total_students / 2)
+          
+        #   upper_correct = upper_group.select { |s| s.exam_results.where(exam: @exam).pluck(:answers)[0][item - 1] == @answer_key[item - 1] }.count
+        #   lower_correct = lower_group.select { |s| s.exam_results.where(exam: @exam).pluck(:answers)[0][item - 1] == @answer_key[item - 1] }.count
+          
+        #   # Calculate Discrimination Index (upper group correct - lower group correct)
+        #   @discrimination_index[item - 1] = (upper_correct - lower_correct).to_f / (total_students / 2)
+        # end
       end
+      
       
 
     end

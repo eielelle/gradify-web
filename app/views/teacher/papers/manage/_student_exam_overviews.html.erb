@@ -25,29 +25,76 @@
   </div>
 </div>
 
-  <div class="w-full h-64 bg-gray-700 rounded-lg overflow-hidden">
-    <img src="/api/placeholder/800/400" alt="Large placeholder image" class="w-full h-full object-cover" />
-  </div>
+<div class="w-full h-64 bg-gray-700 rounded-lg overflow-hidden">
+  <img src="/api/placeholder/800/400" alt="Large placeholder image" class="w-full h-full object-cover" />
+</div>
 
-  <div class="overflow-x-auto">
-    <table class="table w-full">
-      <thead>
+<div class="overflow-x-auto">
+  <table class="table w-full">
+    <thead>
+      <tr>
+        <th>Total Score</th>
+        <th>Correct</th>
+        <th>Incorrect</th>
+        <th>Double Answer</th>
+        <th>No Answer</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Add Item Analysis table below the existing table -->
+<h2 class="text-2xl font-bold mt-8 mb-4">Item Analysis</h2>
+
+<div class="overflow-x-auto mt-6">
+  <table class="table w-full">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Answer Key</th>
+        <!-- Commenting out the student's answer column for now -->
+        <!-- <th>Student's Answer</th> -->
+        <th>A</th>
+        <th>B</th>
+        <th>C</th>
+        <th>D</th>
+        <th>Average Correct (%)</th>
+        <th>Difficulty Index</th>
+        <th>Discrimination Index</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% (1..@answer_key.size).each do |item| %>
         <tr>
-          <th>Total Score</th>
-          <th>Correct</th>
-          <th>Incorrect</th>
-          <th>Double Answer</th>
-          <th>No Answer</th>
+          <td>Item <%= item %></td>
+          <td><%= @answer_key[item - 1] %></td>
+          
+          <!-- Placeholder for student answers for options A, B, C, and D -->
+          <td><%= "A" %></td>
+          <td><%= "B" %></td>
+          <td><%= "C" %></td>
+          <td><%= "D" %></td>
+          
+          <!-- Placeholders for average, difficulty index, and discrimination index -->
+          <td>0%</td> <!-- Placeholder for average correct percentage -->
+          <td>0.00</td> <!-- Placeholder for difficulty index -->
+          <td>0.00</td> <!-- Placeholder for discrimination index -->
         </tr>
-      </thead>
-      <tbody>
-          <tr>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-          </tr>
-      </tbody>
-    </table>
-  </div>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+
