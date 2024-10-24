@@ -10,44 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_17_160336) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_12_163417) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "admin_accounts", force: :cascade do |t|
-    t.bigint "permission_id", null: false
-    t.string "name", null: false
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string "current_sign_in_ip"
-    t.string "last_sign_in_ip"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_admin_accounts_on_email", unique: true
-    t.index ["permission_id"], name: "index_admin_accounts_on_permission_id"
-    t.index ["reset_password_token"], name: "index_admin_accounts_on_reset_password_token", unique: true
-  end
-
-  create_table "permissions", force: :cascade do |t|
-    t.string "name", null: false
-    t.text "description", default: "", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "quarters", force: :cascade do |t|
-    t.bigint "school_year_id", null: false
-    t.date "start"
-    t.date "end"
+  create_table "exams", force: :cascade do |t|
     t.string "name"
+    t.bigint "subject_id", null: false
+    t.integer "items"
+    t.string "answer_key"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["school_year_id"], name: "index_quarters_on_school_year_id"
+    t.index ["subject_id"], name: "index_exams_on_subject_id"
   end
 
   create_table "school_classes", force: :cascade do |t|
@@ -57,12 +31,35 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_17_160336) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "school_sections", force: :cascade do |t|
+  create_table "school_classes_subjects", id: false, force: :cascade do |t|
     t.bigint "school_class_id", null: false
+    t.bigint "subject_id", null: false
+    t.index ["school_class_id"], name: "index_school_classes_subjects_on_school_class_id"
+    t.index ["subject_id"], name: "index_school_classes_subjects_on_subject_id"
+  end
+
+  create_table "school_classes_users", id: false, force: :cascade do |t|
+    t.bigint "school_class_id", null: false
+    t.bigint "user_id", null: false
+    t.index ["school_class_id"], name: "index_school_classes_users_on_school_class_id"
+    t.index ["user_id"], name: "index_school_classes_users_on_user_id"
+  end
+
+  create_table "school_sections", force: :cascade do |t|
+    t.bigint "school_year_id", null: false
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["school_class_id"], name: "index_school_sections_on_school_class_id"
+    t.index ["school_year_id"], name: "index_school_sections_on_school_year_id"
+  end
+
+  create_table "school_sections_users", id: false, force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "school_section_id", null: false
+    t.integer "subject_id"
+    t.index ["school_section_id"], name: "index_school_sections_users_on_school_section_id"
+    t.index ["subject_id"], name: "index_school_sections_users_on_subject_id"
+    t.index ["user_id"], name: "index_school_sections_users_on_user_id"
   end
 
   create_table "school_years", force: :cascade do |t|
@@ -75,36 +72,23 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_17_160336) do
     t.index ["school_class_id"], name: "index_school_years_on_school_class_id"
   end
 
-  create_table "sections", force: :cascade do |t|
-    t.string "name", null: false
-    t.text "description", default: "", null: false
-    t.boolean "archived"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "student_accounts", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "subjects", force: :cascade do |t|
     t.string "name"
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.inet "current_sign_in_ip"
-    t.inet "last_sign_in_ip"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "school_class_id", null: false
-    t.index ["email"], name: "index_student_accounts_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_student_accounts_on_reset_password_token", unique: true
-    t.index ["school_class_id"], name: "index_student_accounts_on_school_class_id"
+    t.index ["school_class_id"], name: "index_subjects_on_school_class_id"
   end
 
-  create_table "teacher_accounts", force: :cascade do |t|
-    t.string "name", null: false
+  create_table "subjects_users", id: false, force: :cascade do |t|
+    t.bigint "subject_id", null: false
+    t.bigint "user_id", null: false
+    t.index ["subject_id", "user_id"], name: "index_subjects_users_on_subject_id_and_user_id"
+    t.index ["user_id", "subject_id"], name: "index_subjects_users_on_user_id_and_subject_id"
+  end
+
+  create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -117,10 +101,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_17_160336) do
     t.string "last_sign_in_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
+    t.string "role"
+    t.bigint "school_section_id"
     t.string "jti"
-    t.index ["email"], name: "index_teacher_accounts_on_email", unique: true
-    t.index ["jti"], name: "index_teacher_accounts_on_jti"
-    t.index ["reset_password_token"], name: "index_teacher_accounts_on_reset_password_token", unique: true
+    t.integer "subject_id"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["jti"], name: "index_users_on_jti"
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["school_section_id"], name: "index_users_on_school_section_id"
   end
 
   create_table "versions", force: :cascade do |t|
@@ -133,9 +122,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_17_160336) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
-  add_foreign_key "admin_accounts", "permissions"
-  add_foreign_key "quarters", "school_years"
-  add_foreign_key "school_sections", "school_classes"
+  add_foreign_key "exams", "subjects"
+  add_foreign_key "school_sections", "school_years"
   add_foreign_key "school_years", "school_classes"
-  add_foreign_key "student_accounts", "school_classes"
+  add_foreign_key "subjects", "school_classes"
+  add_foreign_key "users", "school_sections"
 end

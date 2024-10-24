@@ -1,0 +1,9 @@
+<%= render "shared/common_panel", title: "Export Exam", subtitle: "", content: "export_exam" do %>
+  <%= render "shared/common_tabs", tabs: {
+    "List": admin_exams_manage_index_path,
+    "Add": new_admin_exams_manage_path,
+    "Export": admin_exams_export_path,
+    "History": admin_exams_history_path
+  }, active_path: admin_exams_export_path %>
+<% end %>
+

@@ -1,0 +1,10 @@
+<%= render "shared/common_panel", title: "List of Sections", subtitle: "List of all sections.", content: "list_section", data: @sections, count: @count do %>
+            <%= render "shared/common_tabs", tabs: {
+                "List": admin_sections_manage_index_path,
+                "Add": new_admin_sections_manage_path,
+                "Export": admin_sections_export_path,
+                "History": admin_sections_history_path
+            }, active_path: admin_sections_manage_index_path %>
+            <% end %>
+
+            

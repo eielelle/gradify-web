@@ -1,0 +1,212 @@
+<section data-controller="exam">
+    <%= form_with(model: @exam, local: true, url: admin_exams_manage_index_path, data: { btn_class: "btn-primary" }) do |form| %>
+        <div class="flex flex-wrap w-1/2 justify-between">
+            <div class="flex-1">
+                <label class="form-control w-full max-w-xs">
+                    <div class="label">
+                    <%= form.label :quarter, class: "label-text" %>
+                    </div>
+                    <%= form.text_field :name, class: "input input-bordered w-full max-w-xs" %>
+                    <div class="label">
+                    <span class="label-text-alt text-error"><%= flash[:quarter_error] %></span>
+                    </div>
+                </label>
+
+                <label class="form-control w-full max-w-xs">
+                    <div class="label">
+                      <%= form.label :subject_id, "Subject", class: "label-text" %>
+                    </div>
+                    <%= form.collection_select :subject_id, @subjects, :id, :name, { prompt: "Select a subject" }, { class: "select select-bordered" } %>
+                     <div class="label">
+                    <span class="label-text-alt text-error"><%= flash[:subject_error] %></span>
+                    </div>
+                </label>
+            </div>
+
+        <div class="container mx-auto p-4">
+          <!-- Grid Container for two tables (25 items each) -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- First 25 items (1-25) -->
+            <div class="bubble-sheet">
+              <table class="min-w-full table-auto border-collapse border border-gray-300">
+                <thead>
+                  <tr class="bg-gray-100 text-black">
+                    <th class="border border-gray-300 px-4 py-2">Item #</th>
+                    <th class="border border-gray-300 px-4 py-2">A</th>
+                    <th class="border border-gray-300 px-4 py-2">B</th>
+                    <th class="border border-gray-300 px-4 py-2">C</th>
+                    <th class="border border-gray-300 px-4 py-2">D</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% (1..25).each do |item_number| %>
+                    <tr>
+                      <td class="border border-gray-300 px-4 py-2 text-center"><%= item_number %></td>
+                      <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="A"></td>
+                      <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="B"></td>
+                      <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="C"></td>
+                      <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="D"></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Next 25 items (26-50) -->
+            <div class="bubble-sheet">
+              <table class="min-w-full table-auto border-collapse border border-gray-300">
+                <thead>
+                  <tr class="bg-gray-100 text-black">
+                    <th class="border border-gray-300 px-4 py-2">Item #</th>
+                    <th class="border border-gray-300 px-4 py-2">A</th>
+                    <th class="border border-gray-300 px-4 py-2">B</th>
+                    <th class="border border-gray-300 px-4 py-2">C</th>
+                    <th class="border border-gray-300 px-4 py-2">D</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% (26..50).each do |item_number| %>
+                    <tr>
+                      <td class="border border-gray-300 px-4 py-2 text-center"><%= item_number %></td>
+                      <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="A"></td>
+                      <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="B"></td>
+                      <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="C"></td>
+                      <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="D"></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+
+        </div>
+
+        <dialog id="review_answer_key_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-5xl">
+          <h3 class="text-lg font-bold">Review Answer Key</h3>
+          <p class="py-4">Below are the answers you've selected for this exam. Please review them before submitting:</p>
+  
+          <div id="answer_key_review" class="overflow-y-auto max-h-96">
+            <!-- Answer key content will be inserted here dynamically -->
+          </div>
+  
+          <div class="modal-action">
+            <%= form.submit "Add Exam", class: "btn btn-primary", data: { 'turbo-confirm': 'Are you sure you want to add this new exam?', btn_class: "btn-primary" } %>
+            <button type="button" class="btn" onclick="closeReviewModal()">Close</button>
+            </div>
+        </div>
+      </dialog>             
+    
+
+    <div>
+        <button type="button" class="btn btn-primary mt-4" onclick="event.preventDefault(); openReviewModal();">Review Answer Key</button>
+    </div>
+    
+    <% end %>
+</section>
+
+
+<script>
+  // Get the dropdown and the container where the bubble sheet will be generated
+  const questionCountDropdown = document.getElementById('questions_count');
+  const bubbleSheetContainer = document.getElementById('bubble_sheet');
+
+  createBubbleSheet(questionCountDropdown.value)
+
+  // Function to create the bubble sheet
+  function createBubbleSheet(count) {
+    // Clear any existing content in the bubble sheet container
+    bubbleSheetContainer.innerHTML = '';
+
+    if (count > 0) {
+      // Create a table to represent the bubble sheet
+      const table = document.createElement('table');
+      table.classList.add("table")
+      table.classList.add("w-44")
+      table.border = "1"; // Add borders for visibility (optional)
+
+      // Table header
+      const header = table.createTHead();
+      const headerRow = header.insertRow(0);
+      headerRow.classList.add("bg-base-300")
+      headerRow.insertCell(0).innerText = "Question";
+      ['A', 'B', 'C', 'D'].forEach((option, index) => {
+        headerRow.insertCell(index + 1).innerText = option;
+      });
+
+      // Create rows for each question
+      for (let i = 1; i <= count; i++) {
+        const row = table.insertRow();
+        const questionCell = row.insertCell(0);
+        questionCell.innerText = i; // Question number
+
+        // Create 4 options (A, B, C, D) for each question
+        ['A', 'B', 'C', 'D'].forEach(option => {
+          const optionCell = row.insertCell();
+          const label = document.createElement('label');
+          const radioButton = document.createElement('input');
+          radioButton.type = 'radio';
+          radioButton.name = `question_${i}`;
+          radioButton.value = option;
+          label.appendChild(radioButton);
+          label.appendChild(document.createTextNode(option));
+          optionCell.appendChild(label);
+        });
+      }
+
+      // Append the table to the container
+      bubbleSheetContainer.appendChild(table);
+    }
+  }
+
+  // Add an event listener to detect when the dropdown value changes
+  questionCountDropdown.addEventListener('change', (event) => {
+    const selectedValue = parseInt(event.target.value, 10);
+    if (selectedValue) {
+      createBubbleSheet(selectedValue);
+    } else {
+      bubbleSheetContainer.innerHTML = ''; // Clear the sheet if no value is selected
+    }
+  });
+
+function openReviewModal() {
+  const answerKeyContainer = document.getElementById('answer_key_review');
+  answerKeyContainer.innerHTML = ''; // Clear previous content
+
+  // Create a wrapper div for the five-column layout
+  const columnWrapper = document.createElement('div');
+  columnWrapper.classList.add('grid', 'grid-cols-5', 'gap-4'); // Tailwind grid with 5 columns
+
+  // Loop through the form to collect answers, organizing in 5 columns
+  for (let row = 1; row <= 10; row++) {
+    for (let col = 0; col < 5; col++) {
+      const itemNumber = row + col * 10; // Calculate item number for each column
+
+      const selectedAnswer = document.querySelector(`input[name="answer_${itemNumber}"]:checked`);
+      const answerValue = selectedAnswer ? selectedAnswer.value : '-'; // If no answer selected, show '-'
+      
+      // Create a div for each item and its answer
+      const answerRow = document.createElement('div');
+      answerRow.classList.add('py-2');
+      answerRow.innerHTML = `Item ${itemNumber}: <strong>${answerValue}</strong>`;
+      
+      columnWrapper.appendChild(answerRow);
+    }
+  }
+
+  // Append the five-column layout to the container
+  answerKeyContainer.appendChild(columnWrapper);
+
+  // Show the review modal
+  document.getElementById('review_answer_key_modal').showModal();
+}
+
+function closeReviewModal() {
+  document.getElementById('review_answer_key_modal').close();
+}
+
+</script>
+<%= render "shared/toast", toast: flash[:toast] %>

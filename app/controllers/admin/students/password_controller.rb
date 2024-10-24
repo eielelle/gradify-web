@@ -6,26 +6,28 @@ module Admin
       include ErrorConcern
       include PasswordConcern
 
+      before_action :set_student
+
       def edit
-        @student = StudentAccount.find_by(id: params[:id])
         redirect_to admin_students_manage_index_path if @student.nil?
       end
 
       def update
-        @student = StudentAccount.find(params[:id])
-        if @student.update(password_params)
-          flash[:toast] = 'Password updated successfully.'
-          redirect_to admin_students_manage_index_path
-        else
-          flash[:error] = 'Failed to update password.'
-          render :edit, status: :unprocessable_entity
-        end
+        update_model_password resource_class: User
       end
 
       private
 
-      def password_params
-        params.require(:student_account).permit(:password, :password_confirmation)
+      def set_student
+        @student = User.find_by(id: params[:id], role: 'student')
+      end
+
+      def edit_password_path
+        edit_admin_students_manage_path(@student, hide: false)
+      end
+
+      def after_update_path
+        admin_students_manage_index_path
       end
     end
   end

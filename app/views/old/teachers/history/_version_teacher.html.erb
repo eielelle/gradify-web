@@ -1,0 +1,61 @@
+<div id="versions">
+  <header class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+    <%= search_form_for @q, url: admin_teachers_versions_path, method: :get, html: { class: "join w-full md:w-auto flex flex-col md:flex-row justify-between gap-4 md:gap-0" } do |f| %>
+      <%= f.hidden_field :id, value: params[:id] || params.dig(:q, :id) %>
+      <div class="flex flex-col md:flex-row gap-2 w-full md:w-auto">
+        <%= f.search_field :event_or_whodunnit_cont, placeholder: "Search", class: "input input-bordered w-full md:w-96 join-item mb-2 md:mb-0", id: "search_input" %>
+        <%= f.select :s, options_for_select(@sort_fields, selected: params.dig(:q, :s)), {}, { class: "select select-bordered w-full md:w-auto mb-2 md:mb-0", onchange: 'this.form.submit();' } %>
+      </div>
+      <div class="flex flex-row gap-2 w-full md:w-auto">
+        <div class="flex flex-row gap-2">
+          <button type="submit" class="btn btn-primary join-item">Search</button>
+          <%= link_to "Reset", admin_teachers_versions_path(id: params[:id] || params.dig(:q, :id)), class: "btn btn-secondary join-item" %>
+        </div>
+      </div>
+    <% end %>
+  </header>
+  <section>
+    <div class="overflow-x-auto">
+      <table class="table table-lg mb-6 text-center">
+        <thead>
+          <tr>
+            <th>Date/Time</th>
+            <th>Whodunnit</th>
+            <th>Snapshot</th>
+            <th>Event</th>
+            <th>Tag</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @items.each_with_index do |version, index| %>
+            <tr class="hover">
+              <td><%= format_date version.created_at %></td>
+              <td>
+                <%= version.whodunnit %>
+                <br>
+                <% if current_admin_account.name == version.whodunnit %>
+                  <span class="badge badge-ghost badge-sm">Current</span>
+                <% end %>
+              </td>
+              <td><%= link_to "#{version.item_type} ID: #{version.id}", admin_teachers_snapshot_path(id: version.id), class: "link link-primary" %></td>
+              <td><%= version.event %></td>
+              <td>
+                <% if version.next && !version.previous.nil? %>
+                  <p class="badge badge-warning">snapshot</p>
+                <% elsif version.previous.nil? %>
+                  <p class="badge badge-error">original</p>
+                <% else %>
+                  <p class="badge badge-success">latest</p>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="flex justify-between items-center">
+        <span><%= @count %> Versions</span>
+        <%= paginate @items, views_prefix: 'shared' %>
+      </div>
+    </div>
+  </section>
+</div>

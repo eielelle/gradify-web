@@ -1,1 +1,231 @@
-<h1>Welcome</h1>
+
+<main class="px-6">
+    <section class="container mx-auto">
+        <div class="navbar">
+            <div class="navbar-start">
+                <div class="dropdown">
+                    <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+                    <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M4 6h16M4 12h8m-8 6h16" />
+                    </svg>
+                </div>
+                <ul
+                    tabindex="0"
+                    class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how-it-works">How it works</a></li>
+                    <li><a href="#why-us">Why us</a></li>
+                </ul>
+                </div>
+                <a class="btn btn-ghost text-xl uppercase">gradify</a>
+            </div>
+            <div class="navbar-end gap-6">
+                <ul class="menu menu-horizontal px-1 hidden lg:flex">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how-it-works">How it works</a></li>
+                    <li><a href="#why-us">Why us</a></li>
+                </ul>
+                <%= link_to "Sign In", new_user_session_path, class: "btn btn-outline btn-sm" %>
+                <input
+                    type="checkbox"
+                    value="dark"
+                    class="toggle theme-controller col-span-2 col-start-1 row-start-1 border-sky-400 bg-amber-300 [--tglbg:theme(colors.sky.500)] checked:border-blue-800 checked:bg-blue-300 checked:[--tglbg:theme(colors.blue.900)]" />
+            </div>
+        </div>
+
+        <div class="hero min-h-screen">
+            <div class="hero-content min-w-full justify-between flex-col lg:flex-row-reverse gap-28">
+                <div class="relative min-h-[900px] w-1/2 hidden md:block">
+                    <div class="mockup-browser bg-base-300 border absolute bottom-40 right-1/3 z-30 ">
+                        <div class="mockup-browser-toolbar">
+                            <div class="input">https://gradify.com</div>
+                        </div>
+                        <div class="bg-base-200 flex justify-center">
+                            <%= image_tag 'web-mockup.png' %>
+                        </div>
+                    </div>
+
+                    <div class="mockup-phone absolute top-20 right-0">
+                        <div class="camera"></div>
+                        <div class="display">
+                            <div class="artboard artboard-demo phone-1">Hi.</div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h1 class="text-5xl font-bold">Simplify Exam Grading with Gradify</h1>
+                    <p class="py-6">
+                        The ultimate companion for teachers to effortlessly grade exams, scan bubble sheets, and manage results—all in one place.
+                    </p>
+                    <button class="btn btn-primary">Contact Us</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="features">
+            <h2 class="text-center mb-10 font-bold text-3xl">Why Choose Gradify?</h2>
+            <div class="flex flex-wrap justify-center gap-11">
+                <div class="card bg-base-100 w-72 shadow-xl text-center">
+                <figure>
+                    <%= image_tag 'Product teardown-rafiki.png', class: "w-2/3" %>
+                </figure>
+                <div class="card-body">
+                    <h2 class="card-title justify-center">Camera-based Scanner</h2>
+                    <p>Quickly scan and process bubble sheets using your phone or scanner.</p>
+                </div>
+                </div>
+
+                <div class="card bg-base-100 w-72 shadow-xl text-center">
+                <figure>
+                    <%= image_tag 'Online report-bro.png', class: "w-2/3" %>
+                </figure>
+                <div class="card-body">
+                    <h2 class="card-title justify-center">Comprehensive Reporting</h2>
+                    <p>Get detailed insights into student performance.</p>
+                </div>
+                </div>
+
+                <div class="card bg-base-100 w-72 shadow-xl text-center">
+                <figure>
+                    <%= image_tag 'Devices-rafiki.png', class: "w-2/3" %>
+                </figure>
+                <div class="card-body">
+                    <h2 class="card-title justify-center">Cross-Platform Access</h2>
+                    <p>Available on both mobile and web for convenience.</p>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="how-it-works" class="hero min-h-screen">
+            <div class="hero-content min-w-full justify-between flex-col lg:flex-row-reverse gap-28">
+                <%= video_tag 'Placeholder Video.mp4', controls: true, autoplay: true, class: 'shadow-2xl rounded-md'  %>
+                <div id="how-to-use">
+                    <h1 class="text-6xl font-bold my-6">How Gradify Works</h1>
+
+                    <div class="mb-4 flex items-center gap-6">
+                        <div class="icon-content text-white w-10 h-10 flex items-center justify-center bg-red-400 rounded-lg">
+                            <span><%= fa_icon "camera lg" %></span>
+                        </div>
+
+                        <div class="text-content">
+                            <h2 class="text-2xl font-semibold">Upload Exam</h2>
+                            <p class="text-xl">Create or upload exam papers</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-4 flex items-center gap-6">
+                        <div class="icon-content text-white w-10 h-10 flex items-center justify-center bg-orange-400 rounded-lg">
+                            <span><%= fa_icon "file-text lg" %></span>
+                        </div>
+
+                        <div class="text-content">
+                            <h2 class="text-2xl font-semibold">Scan Bubble Sheets</h2>
+                            <p class="text-xl">Use the app to scan completed bubble sheets.</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-4 flex items-center gap-6">
+                        <div class="icon-content text-white w-10 h-10 flex items-center justify-center bg-blue-400 rounded-lg">
+                            <span><%= fa_icon "rocket lg" %></span>
+                        </div>
+
+                        <div class="text-content">
+                            <h2 class="text-2xl font-semibold">Automated Grading</h2>
+                            <p class="text-xl">Let Gradify handle the grading.</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-4 flex items-center gap-6">
+                        <div class="icon-content text-white w-10 h-10 flex items-center justify-center bg-lime-400 rounded-lg">
+                            <span><%= fa_icon "bar-chart lg" %></span>
+                        </div>
+
+                        <div class="text-content">
+                            <h2 class="text-2xl font-semibold">Review & Report</h2>
+                            <p class="text-xl">Review results and generate reports.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="why-us" class="mb-20">
+            <h2 class="text-center mb-10 font-bold text-3xl">Designed for Teachers, by Teachers</h2>
+            <div class="flex flex-wrap justify-center gap-11">
+                <div class="card bg-base-100 w-72 shadow-xl text-center">
+                <figure>
+                    <%= image_tag 'time flies-bro.png', class: "w-2/3" %>
+                </figure>
+                <div class="card-body">
+                    <h2 class="card-title justify-center">Save Time</h2>
+                    <p>Automate time-consuming tasks.</p>
+                </div>
+                </div>
+
+                <div class="card bg-base-100 w-72 shadow-xl text-center">
+                <figure>
+                    <%= image_tag 'Devices-rafiki.png', class: "w-2/3" %>
+                </figure>
+                <div class="card-body">
+                    <h2 class="card-title justify-center">Increase Accuracy</h2>
+                    <p>Reduce errors with OMR technology.</p>
+                </div>
+                </div>
+
+                <div class="card bg-base-100 w-72 shadow-xl text-center">
+                <figure>
+                    <%= image_tag 'Work life balance-pana.png', class: "w-2/3" %>
+                </figure>
+                <div class="card-body">
+                    <h2 class="card-title justify-center">Enhance Productivity</h2>
+                    <p>Focus on teaching, not grading.</p>
+                </div>
+                </div>
+
+                <div class="card bg-base-100 w-72 shadow-xl text-center">
+                <figure>
+                    <%= image_tag 'Working from anywhere-cuate.png', class: "w-2/3" %>
+                </figure>
+                <div class="card-body">
+                    <h2 class="card-title justify-center">Accessible Anywhere</h2>
+                    <p>Manage grading from any device, anywhere.</p>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer bg-base-200 text-base-content p-10">
+        <aside>
+            <%= image_tag 'GF.png', class: "w-14 h-14" %>
+            <p>
+            <strong class="text-lg">Gradify</strong>
+            <br />
+            All Rights Reserved. 2024
+            </p>
+        </aside>
+        <nav>
+            <h6 class="footer-title">Team</h6>
+            <a class="link link-hover">Contact</a>
+        </nav>
+        <nav>
+            <h6 class="footer-title">Legal</h6>
+            <a class="link link-hover">Terms of use</a>
+            <a class="link link-hover">Privacy policy</a>
+            <a class="link link-hover">Cookie policy</a>
+        </nav>
+        </footer>
+
+    </section>
+
+</main>

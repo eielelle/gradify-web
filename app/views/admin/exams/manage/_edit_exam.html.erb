@@ -1,0 +1,125 @@
+<% if flash[:notice] %>
+  <p class="alert"><%= flash[:notice] %></p>
+<% end %>
+
+<%= render "shared/toast", toast: flash[:toast] %>
+
+<section data-controller="exam">
+    <%= form_with(model: @exam, local: true, url: admin_exams_manage_path, data: { btn_class: "btn-primary" }) do |form| %>
+        <div class="flex flex-wrap w-1/2 justify-between">
+            <div class="flex-1">
+                <label class="form-control w-full max-w-xs">
+                    <div class="label">
+                    <%= form.label :quater, class: "label-text" %>
+                    </div>
+                    <%= form.text_field :name, class: "input input-bordered w-full max-w-xs" %>
+                    <div class="label">
+                    <span class="label-text-alt text-error"><%= flash[:name_error] %></span>
+                    </div>
+                </label>
+
+                <label class="form-control w-full max-w-xs">
+                    <div class="label">
+                    <%= form.label :subject, class: "label-text" %>
+                    </div>
+                    <%= form.text_field :subject, class: "input input-bordered w-full max-w-xs" %>
+                    <div class="label">
+                    <span class="label-text-alt text-error"><%= flash[:subject_error] %></span>
+                    </div>
+                </label>
+
+                <label class="form-control w-full max-w-xs">
+                    <div class="label">
+                        <%= form.label :items, class: "label-text" %>
+                    </div>
+                        <%= form.select :items, options_for_select([20, 50, 70]), {}, { class: "select select-bordered", id: "questions_count" } %>
+                    <div class="label">
+                    <span class="label-text-alt text-error"><%= flash[:items_error] %></span>
+                    </div>
+                </label>
+
+                <label class="form-control w-full max-w-xs">
+                    <div class="label">
+                        <%= form.label :answer_key, class: "label-text" %>
+                    </div>
+                        <%= form.text_field :answer_key, class: "input input-bordered w-full max-w-xs" %>
+                    <div class="label">
+                    <span class="label-text-alt text-error"><%= flash[:items_error] %></span>
+                    </div>
+                </label>
+            </div>
+
+            <div id="bubble_sheet"></div>
+        </div>
+
+    <div>
+        <%= form.submit "Update Exam", class: "btn btn-primary mt-4", data: { 'turbo-confirm': 'Are you sure you want to update this exam?', btn_class: "btn-primary" } %>
+    </div>
+
+    <% end %>
+</section>
+
+
+<script>
+  // Get the dropdown and the container where the bubble sheet will be generated
+  const questionCountDropdown = document.getElementById('questions_count');
+  const bubbleSheetContainer = document.getElementById('bubble_sheet');
+
+  createBubbleSheet(questionCountDropdown.value)
+
+  // Function to create the bubble sheet
+  function createBubbleSheet(count) {
+    // Clear any existing content in the bubble sheet container
+    bubbleSheetContainer.innerHTML = '';
+
+    if (count > 0) {
+      // Create a table to represent the bubble sheet
+      const table = document.createElement('table');
+      table.classList.add("table")
+      table.classList.add("w-44")
+      table.border = "1"; // Add borders for visibility (optional)
+
+      // Table header
+      const header = table.createTHead();
+      const headerRow = header.insertRow(0);
+      headerRow.classList.add("bg-base-300")
+      headerRow.insertCell(0).innerText = "Question";
+      ['A', 'B', 'C', 'D'].forEach((option, index) => {
+        headerRow.insertCell(index + 1).innerText = option;
+      });
+
+      // Create rows for each question
+      for (let i = 1; i <= count; i++) {
+        const row = table.insertRow();
+        const questionCell = row.insertCell(0);
+        questionCell.innerText = i; // Question number
+
+        // Create 4 options (A, B, C, D) for each question
+        ['A', 'B', 'C', 'D'].forEach(option => {
+          const optionCell = row.insertCell();
+          const label = document.createElement('label');
+          const radioButton = document.createElement('input');
+          radioButton.type = 'radio';
+          radioButton.name = `question_${i}`;
+          radioButton.value = option;
+          label.appendChild(radioButton);
+          label.appendChild(document.createTextNode(option));
+          optionCell.appendChild(label);
+        });
+      }
+
+      // Append the table to the container
+      bubbleSheetContainer.appendChild(table);
+    }
+  }
+
+  // Add an event listener to detect when the dropdown value changes
+  questionCountDropdown.addEventListener('change', (event) => {
+    const selectedValue = parseInt(event.target.value, 10);
+    if (selectedValue) {
+      createBubbleSheet(selectedValue);
+    } else {
+      bubbleSheetContainer.innerHTML = ''; // Clear the sheet if no value is selected
+    }
+  });
+</script>

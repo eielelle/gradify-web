@@ -4,6 +4,8 @@ module Api
   module V1
     module Teacher
       class SessionsController < Devise::SessionsController
+        # before_action :configure_sign_in_params, only: [:create]
+
         protect_from_forgery with: :null_session
         respond_to :json
 
@@ -12,13 +14,14 @@ module Api
         def respond_with(resource, _opts = {})
           if resource.id.nil?
             log_in_fail
-          else
+          elsif resource.role == 'teacher'
             log_in_success
           end
         end
 
         def respond_to_on_destroy
-          if current_teacher_account
+          if current_user
+            current_user.generate_jti
             log_out_success
           else
             log_out_fail
@@ -52,7 +55,6 @@ module Api
             message: "Couldn't find an active session."
           }, status: :unauthorized
         end
-        # before_action :configure_sign_in_params, only: [:create]
 
         # protected
 

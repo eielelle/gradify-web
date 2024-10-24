@@ -1,107 +1,101 @@
 <div id="list_students">
-  <header class="flex justify-between items-center mb-6">
-    <%= search_form_for @q, url: admin_students_manage_index_path, method: :get, html: { class: "flex space-x-2" } do |f| %>
-      <%= f.search_field :name_or_email_cont, placeholder: "Search", class: "input input-bordered w-96" %>
-      <%= f.select :s, options_for_select(@sort_fields, selected: params.dig(:q, :s)), {}, { class: "select select-bordered" } %>
-      <button type="submit" class="btn btn-primary">Search</button>
+  <header class="flex flex-col md:flex-row justify-between items-center mb-6">
+    <%= search_form_for @q, url: admin_students_manage_index_path, method: :get, html: { class: "join w-full md:w-auto flex flex-col md:flex-row justify-between gap-4 md:gap-0" } do |f| %>
+      <div class="flex flex-col md:flex-row gap-2 w-full md:w-auto">
+        <%= f.search_field :name_or_email_cont, placeholder: "Search Student Name or Email", class: "input input-bordered w-full md:w-96 join-item mb-2 md:mb-0" %>
+        <%= f.select :s, options_for_select(@sort_fields, selected: params.dig(:q, :s)), {}, { class: "select select-bordered w-full md:w-auto mb-2 md:mb-0", onchange: 'this.form.submit();' } %>
+      </div>
+      <div class="flex flex-row gap-2 w-full md:w-auto">
+        <div class="flex flex-row gap-2 md:w-auto lg:w-auto">
+          <button type="submit" class="btn btn-primary">Search</button>
+          <%= link_to "Export", admin_students_export_path, class: "btn btn-primary" %>
+        </div>
+      </div>
     <% end %>
-    <div class="flex space-x-2">
-      <button id="remove_selected" class="btn btn-secondary hidden">Remove Selected</button>    
-      <%= link_to "Export", admin_students_export_path, class: "btn btn-primary" %>
-    </div>
   </header>
-
   <section>
     <div class="overflow-x-auto">
-      <table class="table table-sm mb-6">
-        <thead>
-          <tr>
-            <th>
-              <label>
-                <input type="checkbox" class="checkbox" id="select_all" />
-              </label>
-            </th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Created At</th>
-            <th>Updated At</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% if @students.present? %>
-            <% @students.each do |student| %>
-              <tr class="hover">
-                <th>
-                  <label>
-                    <input type="checkbox" class="checkbox" />
-                  </label>
-                </th>
-                <td><%= student.name %></td>
-                <td><%= student.email %></td>
-                <td><%= student.created_at %></td>
-                <td><%= student.updated_at %></td>
-                <td class="flex space-x-2">
-                  <%= link_to admin_students_manage_path(student), class: "btn btn-ghost btn-sm" do %>
-                    <%= fa_icon "eye lg" %>
-                  <% end %>
-                  <%= link_to edit_admin_students_manage_path(student), class: "btn btn-ghost btn-sm", data: { 'turbo-frame': 'modal' } do %>
-                    <%= fa_icon "pencil lg" %>
-                  <% end %>
-                  <%= link_to edit_admin_students_password_path(student), class: "btn btn-ghost btn-sm" do %>
-                    <%= fa_icon "key lg" %>
-                  <% end %>
-                  <%= button_to admin_students_manage_path(student), method: :delete, form: { data: { 'turbo-confirm': 'Are you sure you want to delete this account?', btn_class: "btn-error" } }, class: "btn btn-ghost btn-sm" do %>
-                    <%= fa_icon "trash lg" %>
-                  <% end %>
+      <%= form_with url: admin_students_destroy_selected_path, method: :delete, id: "batch_form", data: { turbo_confirm: "Are you sure you want to remove the selected students?" } do |f| %>
+        <table class="table table-lg mb-6">
+          <thead>
+            <tr>
+              <th>
+                <label>
+                  <input type="checkbox" class="checkbox" id="select_all" />
+                </label>
+              </th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Updated At</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if @items.present? %>
+              <% @items.each do |student| %>
+                <tr class="hover">
+                  <th>
+                    <label>
+                      <%= f.check_box :student_ids, { multiple: true, class: "checkbox" }, student.id, nil %>
+                    </label>
+                  </th>
+                  <td><%= student.name %></td>
+                  <td><%= student.email %></td>
+                  <td><%= student.updated_at %></td>
+                  <td class="flex space-x-2">
+                    <%= link_to admin_students_manage_path(student), class: "btn btn-ghost btn-sm" do %>
+                      <%= fa_icon "eye lg" %>
+                    <% end %>
+                    <%= link_to edit_admin_students_manage_path(student, hide: true), class: "btn btn-ghost btn-sm", data: { 'turbo-frame': 'modal' } do %>
+                      <%= fa_icon "pencil lg" %>
+                    <% end %>
+                    <%= button_to admin_students_manage_path(student), method: :delete, form: { data: { 'turbo-confirm': 'Are you sure you want to delete this student?', btn_class: "btn-error" } }, class: "btn btn-ghost btn-sm" do %>
+                      <%= fa_icon "trash lg" %>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            <% else %>
+              <tr>
+                <td colspan="5" class="text-center py-4">
+                  No students yet
                 </td>
               </tr>
             <% end %>
-          <% end %>
-        </tbody>
-      </table>
-      <div class="flex justify-between items-center">
-        <span><%= @count %> Students</span>
-        <%= paginate @students, views_prefix: 'shared' %>
-      </div>
+          </tbody>
+        </table>
+        <div class="flex justify-between items-center">
+          <span><%= @count %> Students</span>
+          <%= f.submit "Remove Selected", id: "remove_selected", class: "btn btn-secondary hidden" %>
+          <%= paginate @items, views_prefix: 'shared' %>
+        </div>
+      <% end %>
     </div>
   </section>
 </div>
-
 <%= render "shared/toast", toast: flash[:toast] %>
-
 <script>
-// It Will Show "Remove Selected" if the checkbox is selected 
-document.addEventListener('DOMContentLoaded', function() {
-  const removeButton = document.getElementById('remove_selected');
-  const checkboxes = document.querySelectorAll('#list_students .checkbox');
-  const selectAllCheckbox = document.getElementById('select_all');
+  document.addEventListener('turbo:load', function() {
+    const removeButton = document.getElementById('remove_selected');
+    const checkboxes = document.querySelectorAll('#list_students .checkbox');
+    const selectAllCheckbox = document.getElementById('select_all');
 
-  function toggleRemoveButton() {
-    const isAnyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
-    removeButton.classList.toggle('hidden', !isAnyChecked);
-  }
+    function toggleRemoveButton() {
+      const isAnyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+      removeButton.classList.toggle('hidden', !isAnyChecked);
+    }
 
-  function uncheckAll() {
     checkboxes.forEach(checkbox => {
-      checkbox.checked = false;
+      checkbox.addEventListener('change', toggleRemoveButton);
     });
-    toggleRemoveButton();
-  }
 
-  checkboxes.forEach(checkbox => {
-    checkbox.addEventListener('change', toggleRemoveButton);
-  });
-
-  removeButton.addEventListener('click', function() {
-    uncheckAll();
-  });
-
-  selectAllCheckbox.addEventListener('change', function() {
-    checkboxes.forEach(checkbox => {
-      checkbox.checked = this.checked;
+    selectAllCheckbox.addEventListener('change', function() {
+      checkboxes.forEach(checkbox => {
+        checkbox.checked = this.checked;
+      });
+      toggleRemoveButton();
     });
+
     toggleRemoveButton();
   });
-});
 </script>

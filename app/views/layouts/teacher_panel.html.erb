@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html data-controller="theme">
+  <head>
+    <title>GradifyWeb</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+  <body>
+    <%= render "shared/confirm", btn_class: "btn-success" %>
+
+    <main>
+      <div class="drawer lg:drawer-open">
+        <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
+        <div class="drawer-content">
+          <!-- Page content here -->
+          <%= yield %>
+               <label for="my-drawer-2" 
+               class="btn btn-primary drawer-button fixed left-0 top-1/2 transform -translate-y-1/2 
+                      md:top-1/3 lg:hidden transition-all duration-300">></label>
+        </div>
+        <div class="drawer-side">
+          <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
+          <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+            <!-- Sidebar content here -->
+            <div class="px-4 mr-4 flex items-center">
+              <%= image_tag 'GF.png', class: 'w-8 h-8 rounded-lg' %>
+              <span class="ml-4 text-2xl font-bold uppercase" style="font-family: Poppins">Gradify</span>
+            </div>
+            <div class="divider"></div>
+            <li class="text-xl <%= current_drawer?(teacher_root_path) %>">
+              <%= link_to teacher_root_path do %>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart me-4">
+                  <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                  <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                </svg>
+                Overview
+              <% end %>
+            </li>
+
+            <li class="text-xl <%= current_drawer?('teacher/classes', included: true) %>">
+              <%= link_to teacher_classes_manage_index_path do %>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book-open me-4"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                My Classes
+              <% end %>
+            </li>
+
+            <li class="text-xl <%= current_drawer?('teacher/papers', included: true) %>">
+              <%= link_to teacher_papers_manage_index_path do %>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file me-4"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+                My Exams
+              <% end %>
+            </li>
+
+            <li class="text-xl <%= current_drawer?('teacher/grades', included: true) %>">
+              <%= link_to teacher_grades_manage_index_path do %>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart me-4">
+                  <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                  <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                </svg>
+                Grade Book
+              <% end %>
+            </li>
+
+            <div class="flex-1 flex flex-col justify-end">
+              <div class="card bg-base-100 shadow-xl">
+                <div class="card-body p-4">
+                  <h2 class="card-title mb-2"><%= current_user.name %></h2>
+                  <div class="card-actions justify-between items-center">
+                    <div class="flex justify-between items-center">
+                      <%= link_to teacher_config_path do %>
+                        <%= fa_icon "cog 2x", class: "h-10 w-10" %>
+                      <% end %>
+                      <label class="swap swap-rotate" data-theme-target="switch">
+                        <!-- this hidden checkbox controls the state -->
+                        <input type="checkbox" data-action="click->theme#changeTheme" class="theme-controller" />
+
+                        <!-- sun icon -->
+                        <%= fa_icon "sun-o 2x", class: "swap-on h-10 w-10 fill-current" %>
+
+                        <!-- moon icon -->
+                        <%= fa_icon "moon-o 2x", class: "swap-off h-10 w-10 fill-current" %>
+                      </label>
+                    </div>
+                    <%= button_to 'Sign Out', destroy_user_session_path, method: :delete, data: { turbo_method: :delete, 'turbo-confirm': "Are you sure to sign out?" }, class: "btn btn-sm btn-primary" %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ul>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

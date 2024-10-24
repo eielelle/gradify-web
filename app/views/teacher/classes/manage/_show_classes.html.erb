@@ -1,0 +1,30 @@
+<%= render "shared/toast", toast: flash[:toast] %>
+<div>
+  <div>
+    <strong>Name:</strong>
+    <span><%= @school_class.name %></span>
+  </div>
+  <div>
+    <strong>Description:</strong>
+    <p><%= @school_class.description %></p>
+  </div>
+
+  <div>
+    <strong>Teachers</strong>
+    <% if @teachers.any? %>
+      <ul class="list-disc ml-5">
+        <% @teachers.each do |teacher| %>
+          <li class><%= teacher.name %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>No other teachers assigned to this class.</p>
+    <% end %>
+  </div>
+</div>
+
+<br>
+
+
+<!-- student list -->
+<%= render "assigned_students" %>

@@ -2,9 +2,17 @@
 
 class SchoolSection < ApplicationRecord
   include Exportable
-  belongs_to :school_class
+  # belongs_to :school_class
+  # has_many :users, dependent: :nullify
+
+  belongs_to :school_year
+  has_one :school_class, through: :school_year
+  has_and_belongs_to_many :subjects
+  has_and_belongs_to_many :users
 
   validates :name, presence: true
+
+  has_paper_trail ignore: %i[created_at updated_at]
 
   def self.to_csv(fields)
     headers = fields[:no_header].present?

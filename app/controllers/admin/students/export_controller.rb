@@ -8,9 +8,8 @@ module Admin
       include ExportableFormatConcern
 
       def index
-        @student_fields = StudentAccount.get_export_fields(%i[encrypted_password reset_password_token
-                                                              permission_id])
-        @permission_fields = Permission.get_export_fields
+        @student_fields = User.get_export_fields(%i[school_section_id encrypted_password reset_password_sent_at
+                                                    reset_password_token remember_created_at])
       end
 
       def download
@@ -18,15 +17,14 @@ module Admin
       end
 
       def send_format(params)
-        students = params[:selected_students].to_a || []
-        permissions = params[:selected_permissions].to_a || []
+        users = params[:selected_students].to_a || []
         no_header = params[:no_header]
         date = formatted_date
         format, method = detect_format_and_method(params)
 
         return unless format && method
 
-        send_data StudentAccount.send(method, { students:, permissions:, no_header: }),
+        send_data User.send(method, { users:, no_header:, role: 'student' }),
                   filename: "#{date}.#{format}"
       end
     end

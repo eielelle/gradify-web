@@ -1,8 +1,9 @@
-<%= render "shared/common_panel", title: "List School Years", subtitle: "List of all school year.", content: "list_sy" do %>
+<%= render "shared/common_panel", title: "List School Years", subtitle: "", content: "list_sy", back: true do %>
   <%= render "shared/common_tabs", tabs: {
     "List": admin_classes_class_sy_manage_index_path,
     "Add": new_admin_classes_class_sy_manage_path,
     "Export": admin_classes_class_sy_export_path,
+    "History": admin_classes_class_sy_history_path
   }, active_path: admin_classes_class_sy_manage_index_path %>
 <% end %>
 

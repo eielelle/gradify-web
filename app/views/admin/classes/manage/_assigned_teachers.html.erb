@@ -1,0 +1,81 @@
+<h2 class="text-2xl font-semibold mb-4">Assigned Teachers</h2>
+<div>
+  <div class="flex justify-between items-center">
+    <%= form_with url: admin_classes_manage_path(@school_class), method: :get, local: true do |form| %>
+      <div class="flex gap-10">
+        <% if @school_year.any? %>
+          <div class="field">
+            <%= form.label :school_year %>
+            <%= form.select :teacher_school_year_id, options_from_collection_for_select(@school_year, :id, :name, selected: params[:teacher_school_year_id]), {}, class: "select select-bordered", onchange: "this.form.submit();" %>
+          </div>
+        <% end %>
+
+        <% if @sections.any? %>
+          <div class="field">
+            <%= form.label :school_section %>
+            <%= form.select :teacher_school_section_id, options_from_collection_for_select(@sections, :id, :name, selected: params[:teacher_school_section_id]), {}, class: "select select-bordered", onchange: "this.form.submit();" %>
+          </div>
+        <% end %>
+
+        <% if @subjects.any? %>
+          <div class="field">
+            <%= form.label :subject %>
+            <%= form.select :subject_id, options_from_collection_for_select(@subjects, :id, :name, selected: params[:subject_id]), {}, class: "select select-bordered", onchange: "this.form.submit();" %>
+          </div>
+        <% end %>
+        
+      </div>
+    <% end %>
+    <div class="join">
+
+      <% if @school_year.empty? || @sections.empty? %>
+        <%= button_to "Assign Teacher", "#", class: "btn join-item", data: { 'turbo-confirm': 'School year and sections cannot be empty.' } %>
+      <% else %>
+        <%= link_to "Assign Teacher", admin_classes_class_sy_teachers_manage_index_path(@school_class), class: "btn join-item" %>
+      <% end %>
+    </div>
+  </div>
+  <br>
+  <section>
+    <div class="overflow-x-auto">
+      <table class="table table-sm mb-6">
+        <!-- head -->
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if @teachers.present? %>
+            <% @teachers.each do |teacher| %>
+              <tr class="hover">
+                <td>
+                  <div class="flex items-center gap-3">
+                    <span><%= teacher.name %></span>
+                  </div>
+                </td>
+                <td>
+                  <span><%= format_date teacher.created_at %></span>
+                </td>
+                <td>
+                  <span><%= format_date teacher.updated_at %></span>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td colspan="3" class="text-center py-4 text-gray-500">
+                No assigned teachers yet
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="flex justify-between items-center">
+        <span><%= @teacher_count %> teachers</span>
+      </div>
+    </div>
+  </section>
+</div>

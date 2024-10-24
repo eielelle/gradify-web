@@ -3,9 +3,15 @@
 class SchoolYear < ApplicationRecord
   include Exportable
 
+  # belongs_to :school_class
+  # has_many :users, dependent: :nullify
+
   belongs_to :school_class
+  has_many :school_sections, dependent: :destroy
 
   validates :name, presence: true
+
+  has_paper_trail ignore: %i[created_at updated_at]
 
   # TODO: Refactor this to a modular approach
   def self.to_csv(fields)

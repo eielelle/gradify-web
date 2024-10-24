@@ -1,0 +1,18 @@
+<%= render "shared/toast", toast: flash[:toast] %>
+
+<div>
+    <strong>Name: </strong>
+    <span><%= @exam.name%></span>
+</div>
+<div>
+    <strong>Subject: </strong>
+    <span><%= @exam.subject.name %></span>
+</div>
+<div>
+    <strong>Items: </strong>
+    <span><%= @exam.items %></span>
+</div>
+<div>
+    <strong>Status: </strong>
+    <span><div class="badge badge-warning">Not GIven</div></span>
+</div>

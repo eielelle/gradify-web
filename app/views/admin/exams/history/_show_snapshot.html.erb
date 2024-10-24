@@ -1,0 +1,27 @@
+<p><strong>Version ID:</strong> <%= @version.id %></p>
+<p><strong>Event:</strong> <%= @version.event %></p>
+<p><strong>Created At:</strong> <%= format_date @version.created_at %></p>
+<p><strong>Author:</strong> <%= @version.whodunnit %></p>
+
+<br>
+
+<div>
+    <strong>Name: </strong>
+    <span><%= @exam.name %></span>
+</div>
+<div>
+    <strong>Subject: </strong>
+    <span><%= @exam.subject %></span>
+</div>
+<div>
+    <strong>Items: </strong>
+    <span><%= @exam.items %></span>
+</div>
+<div>
+    <strong>Status: </strong>
+    <span><div class="badge badge-warning">Not GIven</div></span>
+</div>
+
+<footer class="mt-4">
+    <%= button_to "Rollback", admin_workforce_rollback_path(@version.id), class: "btn btn-primary", form: { data: { 'turbo-confirm': 'Are you sure you want to rollback to this version? This will overwrite the current state.', btn_class: "btn-primary" } } %>
+</footer>

@@ -28,11 +28,10 @@
       <h1>Options for CSV</h1>
     </div>
     <div class="collapse-content">
-      <%= check_box_tag "no_header", id: "no_header", checked: true, class: "checkbox checkbox-primary checkbox-md" %>
+      <%= check_box_tag "no_header", id: "no_header", checked: false, class: "checkbox checkbox-primary checkbox-md" %>
       <%= label_tag 'no_header', "No headers", class: "label-text" %>
     </div>
   </div>
 
   <button class="btn btn-primary" type="submit" name="csv" value="true">Export to CSV</button>
-  <button class="btn btn-primary"  name="json" value="true">Export to JSON</button>
 <% end %>

@@ -16,6 +16,11 @@ module Admin
 
           def create
             set_class
+
+            @selected_school_year = @class.school_years.find_by(id: school_section_params['sy'])
+
+            return if check_school_year
+
             set_sc
 
             if @section.save
@@ -47,10 +52,17 @@ module Admin
 
           def destroy
             set_class
-            return unless @class.school_sections.find(params[:id]).destroy
+            @school_section = @class.school_sections.find(params[:id])
 
-            flash[:toast] = 'Section deleted successfully.'
-            redirect_to admin_classes_class_sy_sections_manage_index_path
+            # Remove students
+            # StudentAccount.where(school_section: @school_section).destroy_all
+
+            if @school_section.destroy
+              flash[:toast] = 'Section deleted successfully.'
+              redirect_to admin_classes_class_sy_sections_manage_index_path
+            else
+              handle_errors(@school_section)
+            end
           end
 
           def show
@@ -58,9 +70,23 @@ module Admin
             query_items_default(SchoolSection, params)
           end
 
-          def new; end
+          def new
+            set_class
+
+            @sy = @class.school_years
+          end
 
           private
+
+          def check_school_year
+            if @selected_school_year.nil?
+              flash[:sy_error] = 'Invalid School Year'
+              redirect_to new_admin_classes_class_sy_sections_manage_path
+              return true
+            end
+
+            false
+          end
 
           def update_success
             flash[:toast] = 'Updated Successfully.'
@@ -72,7 +98,7 @@ module Admin
           end
 
           def set_sc
-            @section = @class.school_sections.new school_section_params
+            @section = @selected_school_year.school_sections.new(name: school_section_params[:name])
           end
 
           def update_params
@@ -80,7 +106,7 @@ module Admin
           end
 
           def school_section_params
-            params.permit(:name)
+            params.permit(:name, :sy)
           end
         end
       end
