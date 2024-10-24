@@ -26,7 +26,7 @@ module Admin
         return if invalid_params?
 
         # Set a default value for items
-        @exam.items = 50 # or whatever number of items you have
+        @exam.items = 50
 
         # Collect all answer parameters
         @exam.answer_key = collect_answers
@@ -38,9 +38,10 @@ module Admin
           redirect_to admin_exams_manage_index_path
         else
           flash[:error] = @exam.errors.full_messages.join(', ')
+          # Render with existing answers, subject, and quarter preserved
           render :new, status: :unprocessable_entity
         end
-      end        
+      end       
 
       def show
         set_exam
@@ -59,6 +60,7 @@ module Admin
 
       def edit
         set_exam
+        @subjects = Subject.all
 
         redirect_to admin_exams_manage_index_path if @exam.nil?
       end
@@ -100,10 +102,14 @@ module Admin
       def invalid_params?
         if params[:exam][:name].blank?
           flash[:toast] = 'Quarter cannot be blank.'
+          @exam.answer_key = collect_answers # Preserve answers
+          @subjects = Subject.all # Preserve subjects list
           render :new, status: :unprocessable_entity
           return true
         elsif params[:exam][:subject_id].blank?
           flash[:toast] = 'Subject must be selected.'
+          @exam.answer_key = collect_answers # Preserve answers
+          @subjects = Subject.all # Preserve subjects list
           render :new, status: :unprocessable_entity
           return true
         end
@@ -117,22 +123,28 @@ module Admin
         @exam.answer_key.split('').each_with_index do |answer, index|
           unanswered_items << (index + 1) if answer == '_'
         end
-      
+        
         if unanswered_items.any?
-          flash[:toast] = "Questions #{unanswered_items.join(', ')} have no answers."
+          if unanswered_items.length == 50
+            flash[:toast] = "Questions 1 to 50 have no answer."
+          else
+            limited_items = unanswered_items.take(5)  # Limit to 5 items to prevent long message
+            remaining_count = unanswered_items.length - limited_items.length
+            
+            # Generate message
+            message = "Item #{limited_items.join(', ')} "
+            message += remaining_count > 0 ? "and #{remaining_count} more items have no answer." : "have no answer."
+            
+            flash[:toast] = message
+          end
+          
+          # Preserve subject and answer_key values
+          @subjects = Subject.all
+          @exam.answer_key = collect_answers # Preserve answers
           render :new, status: :unprocessable_entity
           return false
         end
-      
-        # Check if at least one valid answer is selected
-        if @exam.answer_key.exclude?('A') && @exam.answer_key.exclude?('B') &&
-           @exam.answer_key.exclude?('C') && @exam.answer_key.exclude?('D')
-      
-          flash[:toast] = 'Please select an answer before submitting the exam.'
-          render :new, status: :unprocessable_entity
-          return false
-        end
-      
+        
         true
       end
 
