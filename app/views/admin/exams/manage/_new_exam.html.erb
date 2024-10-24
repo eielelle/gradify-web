@@ -4,20 +4,20 @@
             <div class="flex-1">
                 <label class="form-control w-full max-w-xs">
                     <div class="label">
-                    <%= form.label :name, class: "label-text" %>
+                    <%= form.label :quarter, class: "label-text" %>
                     </div>
                     <%= form.text_field :name, class: "input input-bordered w-full max-w-xs" %>
                     <div class="label">
-                    <span class="label-text-alt text-error"><%= flash[:name_error] %></span>
+                    <span class="label-text-alt text-error"><%= flash[:quarter_error] %></span>
                     </div>
                 </label>
 
                 <label class="form-control w-full max-w-xs">
                     <div class="label">
-                    <%= form.label :subject, class: "label-text" %>
+                      <%= form.label :subject_id, "Subject", class: "label-text" %>
                     </div>
-                    <%= form.select :subject, options_from_collection_for_select(@subjects, :id, :name), {}, { class: "select select-bordered" } %>
-                    <div class="label">
+                    <%= form.collection_select :subject_id, @subjects, :id, :name, { prompt: "Select a subject" }, { class: "select select-bordered" } %>
+                     <div class="label">
                     <span class="label-text-alt text-error"><%= flash[:subject_error] %></span>
                     </div>
                 </label>
@@ -37,7 +37,6 @@
                     <th class="border border-gray-300 px-4 py-2">B</th>
                     <th class="border border-gray-300 px-4 py-2">C</th>
                     <th class="border border-gray-300 px-4 py-2">D</th>
-                    <th class="border border-gray-300 px-4 py-2">E</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -48,7 +47,6 @@
                       <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="B"></td>
                       <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="C"></td>
                       <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="D"></td>
-                      <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="E"></td>
                     </tr>
                   <% end %>
                 </tbody>
@@ -65,7 +63,6 @@
                     <th class="border border-gray-300 px-4 py-2">B</th>
                     <th class="border border-gray-300 px-4 py-2">C</th>
                     <th class="border border-gray-300 px-4 py-2">D</th>
-                    <th class="border border-gray-300 px-4 py-2">E</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -76,7 +73,6 @@
                       <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="B"></td>
                       <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="C"></td>
                       <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="D"></td>
-                      <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="E"></td>
                     </tr>
                   <% end %>
                 </tbody>
@@ -88,13 +84,27 @@
 
         </div>
 
-    
+        <dialog id="review_answer_key_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-5xl">
+          <h3 class="text-lg font-bold">Review Answer Key</h3>
+          <p class="py-4">Below are the answers you've selected for this exam. Please review them before submitting:</p>
+  
+          <div id="answer_key_review" class="overflow-y-auto max-h-96">
+            <!-- Answer key content will be inserted here dynamically -->
+          </div>
+  
+          <div class="modal-action">
+            <%= form.submit "Add Exam", class: "btn btn-primary", data: { 'turbo-confirm': 'Are you sure you want to add this new exam?', btn_class: "btn-primary" } %>
+            <button type="button" class="btn" onclick="closeReviewModal()">Close</button>
+            </div>
+        </div>
+      </dialog>             
     
 
     <div>
-        <%= form.submit "Add Exam", class: "btn btn-primary mt-4", data: { 'turbo-confirm': 'Are you sure you want to add this new exam?', btn_class: "btn-primary" } %>
+        <button type="button" class="btn btn-primary mt-4" onclick="event.preventDefault(); openReviewModal();">Review Answer Key</button>
     </div>
-
+    
     <% end %>
 </section>
 
@@ -161,4 +171,42 @@
       bubbleSheetContainer.innerHTML = ''; // Clear the sheet if no value is selected
     }
   });
+
+function openReviewModal() {
+  const answerKeyContainer = document.getElementById('answer_key_review');
+  answerKeyContainer.innerHTML = ''; // Clear previous content
+
+  // Create a wrapper div for the five-column layout
+  const columnWrapper = document.createElement('div');
+  columnWrapper.classList.add('grid', 'grid-cols-5', 'gap-4'); // Tailwind grid with 5 columns
+
+  // Loop through the form to collect answers, organizing in 5 columns
+  for (let row = 1; row <= 10; row++) {
+    for (let col = 0; col < 5; col++) {
+      const itemNumber = row + col * 10; // Calculate item number for each column
+
+      const selectedAnswer = document.querySelector(`input[name="answer_${itemNumber}"]:checked`);
+      const answerValue = selectedAnswer ? selectedAnswer.value : '-'; // If no answer selected, show '-'
+      
+      // Create a div for each item and its answer
+      const answerRow = document.createElement('div');
+      answerRow.classList.add('py-2');
+      answerRow.innerHTML = `Item ${itemNumber}: <strong>${answerValue}</strong>`;
+      
+      columnWrapper.appendChild(answerRow);
+    }
+  }
+
+  // Append the five-column layout to the container
+  answerKeyContainer.appendChild(columnWrapper);
+
+  // Show the review modal
+  document.getElementById('review_answer_key_modal').showModal();
+}
+
+function closeReviewModal() {
+  document.getElementById('review_answer_key_modal').close();
+}
+
 </script>
+<%= render "shared/toast", toast: flash[:toast] %>

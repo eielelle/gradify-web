@@ -12,7 +12,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :validatable, :trackable, :jwt_authenticatable, jwt_revocation_strategy: self
 
+  has_and_belongs_to_many :subjects
   has_and_belongs_to_many :school_sections
+  has_and_belongs_to_many :school_classes, through: :school_sections
 
   validates :name, presence: true
   validates :role, presence: true

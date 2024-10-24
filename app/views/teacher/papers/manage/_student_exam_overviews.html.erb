@@ -1,0 +1,100 @@
+<div class="flex flex-col md:flex-row justify-between items-center px-8 py-6 bg-transparent">
+  <div class="flex items-center space-x-3 mb-4 md:mb-0">
+    <div class="w-24 h-24 square-full bg-gray-700 flex items-center justify-center">
+      <svg class="w-14 h-14 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 21V19a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z" />
+      </svg>
+    </div>
+    <div>
+      <h3 class="text-2xl font-semibold text-gray-100"><%= @student.name %></h3>
+      <p class="text-md text-gray-400">Student ID No.: <%= @student.id %></p>
+    </div>
+  </div>
+    
+  <div class="relative flex flex-col items-center">
+    <div class="w-32 h-32 rounded-full border-4 border-primary flex items-center justify-center">
+      <span class="text-4xl font-bold text-primary">85</span>
+    </div>
+    <p class="text-md mt-2 text-gray-300">Total Score: 100 Points</p>
+        
+    <% if 85 >= 50 %>
+      <div class="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">Passed</div>
+    <% else %>
+      <div class="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">Failed</div>
+    <% end %>
+  </div>
+</div>
+
+<div class="w-full h-64 bg-gray-700 rounded-lg overflow-hidden">
+  <img src="/api/placeholder/800/400" alt="Large placeholder image" class="w-full h-full object-cover" />
+</div>
+
+<div class="overflow-x-auto">
+  <table class="table w-full">
+    <thead>
+      <tr>
+        <th>Total Score</th>
+        <th>Correct</th>
+        <th>Incorrect</th>
+        <th>Double Answer</th>
+        <th>No Answer</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Add Item Analysis table below the existing table -->
+<h2 class="text-2xl font-bold mt-8 mb-4">Item Analysis</h2>
+
+<div class="overflow-x-auto mt-6">
+  <table class="table w-full">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Answer Key</th>
+        <!-- Commenting out the student's answer column for now -->
+        <!-- <th>Student's Answer</th> -->
+        <th>A</th>
+        <th>B</th>
+        <th>C</th>
+        <th>D</th>
+        <th>Average Correct (%)</th>
+        <th>Difficulty Index</th>
+        <th>Discrimination Index</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% (1..@answer_key.size).each do |item| %>
+        <tr>
+          <td>Item <%= item %></td>
+          <td><%= @answer_key[item - 1] %></td>
+          
+          <!-- Placeholder for student answers for options A, B, C, and D -->
+          <td><%= "A" %></td>
+          <td><%= "B" %></td>
+          <td><%= "C" %></td>
+          <td><%= "D" %></td>
+          
+          <!-- Placeholders for average, difficulty index, and discrimination index -->
+          <td>0%</td> <!-- Placeholder for average correct percentage -->
+          <td>0.00</td> <!-- Placeholder for difficulty index -->
+          <td>0.00</td> <!-- Placeholder for discrimination index -->
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+

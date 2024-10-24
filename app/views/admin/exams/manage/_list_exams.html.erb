@@ -19,7 +19,7 @@
         <!-- head -->
         <thead>
           <tr>
-            <th>Name</th>
+            <th>Quarter</th>
             <th>Subject</th>
             <th>Items</th>
             <th>Status</th>
@@ -37,13 +37,13 @@
                   </div>
                 </td>
                 <td>
-                  <span><%= exam.subject %></span>
+                  <span><%= exam.subject.name %></span>
                 </td>
                 <td>
                   <span><%= exam.items %></span>
                 </td>
                 <td>
-                  <span><div class="badge badge-warning">Not GIven</div></span>
+                  <span><div class="badge badge-warning">Not Given</div></span>
                 </td>
                 <td>
                   <span><%= format_date exam.updated_at %></span>

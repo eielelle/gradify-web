@@ -13,7 +13,15 @@ module Admin
 
           def index
             set_default_sort(default_sort_column: 'name asc')
-            query_items_default(User, params)
+            @q = User.ransack(params[:q])
+            @users = @q.result(distinct: true).where(role: 'student').page(params[:page]).per(10)
+            @subjects = @class.subjects.distinct
+            @sort_fields = {
+              'Name': 'name asc',
+              'Email': 'email asc',
+              'Created At': 'created_at asc',
+              'Updated At': 'updated_at asc'
+            }
           end
 
           def create
@@ -34,41 +42,60 @@ module Admin
           private
 
           def missing_required_fields?
-            @class.school_years.blank? || @class.school_sections.blank?
+            @class.school_years.blank? || @class.school_sections.blank? || params[:subject_ids].blank?
           end
 
           def handle_missing_fields
-            flash[:toast] = 'School year and sections cannot be empty.'
+            flash[:toast] = 'School year, sections, and subjects cannot be empty.'
             redirect_to_index
           end
 
           def assign_students
             set_school_class_data
-            update_students
-            set_flash_message
+            assigned_students, already_assigned_students = update_students
+            set_flash_message(assigned_students, already_assigned_students)
           end
 
           def set_school_class_data
             @school_class = SchoolClass.find(params[:class_id])
             @school_year = @school_class.school_years.find(params[:school_year_id])
             @school_section = @school_class.school_sections.find(params[:school_section_id])
+            @selected_subjects = Subject.where(id: params[:subject_ids])
           end
 
           def update_students
+            assigned_students = []
+            already_assigned_students = []
+
             selected_students.each do |student|
               school_class = SchoolClass.find(@school_class.id)
               sy = school_class.school_years.find(@school_year.id)
               section = sy.school_sections.find(@school_section.id)
-              section.users << student
+
+              if section.users.exists?(id: student.id)
+                already_assigned_students << student
+              else
+                section.users << student
+                student.subjects << @selected_subjects
+                assigned_students << student
+              end
             end
+          
+            [assigned_students, already_assigned_students]
           end
 
           def selected_students
             @selected_students ||= User.where(id: selected_student_ids, role: 'student')
           end
 
-          def set_flash_message
-            flash[:toast] = "#{selected_students.size} students were successfully assigned."
+          def set_flash_message(assigned_students, already_assigned_students)
+            if assigned_students.any?
+              flash[:toast] = "#{assigned_students.size} students were successfully assigned with selected subjects."
+            end
+          
+            if already_assigned_students.any?
+              flash[:toast] = "#{already_assigned_students.size} students were already assigned to this class."
+            end
           end
 
           def selected_student_ids

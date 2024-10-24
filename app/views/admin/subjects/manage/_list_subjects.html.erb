@@ -19,8 +19,8 @@
       </tr>
     </thead>
     <tbody>
-       <% if @subjects.present? %>
-            <% @subjects.each do |subject| %>
+       <% if @items.present? %>
+            <% @items.each do |subject| %>
             <tr class="hover">
                 <td><%= subject.name %></td>
                 <td><%= subject.description %></td>
@@ -45,6 +45,6 @@
         <% end %>
     </tbody>
   </table>
-  <%= paginate @subjects, views_prefix: 'shared' %>
+  <%= paginate @items, views_prefix: 'shared' %>
 </div>
 <%= render "shared/toast", toast: flash[:toast] %>

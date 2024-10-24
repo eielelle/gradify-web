@@ -1,1 +1,20 @@
-<h1>papers</h1>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <% @assignments.each do |subjects, sections| %>
+    <% @subjects.each do |subject| %>
+      <div class="card bg-base-100 shadow-xl border-2 border-primary">
+        <div class="card-body">
+          <h2 class="card-title"><%= subject.name %></h2>
+          <% sections.each do |section| %>
+            <div class="mt-2">
+              <p class="font-semibold"><%= section.school_year.school_class.name %></p>
+              <p><%= section.name %> / <%= section.school_year.name %></p>
+            </div>
+          <% end %>
+          <div class="card-actions justify-end mt-4">
+            <%= link_to "View Papers", teacher_papers_manage_path(id: subject.id), class: "btn btn-primary" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>
