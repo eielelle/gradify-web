@@ -1,13 +1,7 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  school_year: one
-  start: 2024-08-13
-  end: 2024-08-13
   name: MyString
 
 two:
-  school_year: two
-  start: 2024-08-13
-  end: 2024-08-13
   name: MyString
