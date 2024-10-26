@@ -39,13 +39,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_12_163417) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "school_classes_subjects", id: false, force: :cascade do |t|
-    t.bigint "school_class_id", null: false
-    t.bigint "subject_id", null: false
-    t.index ["school_class_id"], name: "index_school_classes_subjects_on_school_class_id"
-    t.index ["subject_id"], name: "index_school_classes_subjects_on_subject_id"
-  end
-
   create_table "school_classes_users", id: false, force: :cascade do |t|
     t.bigint "school_class_id", null: false
     t.bigint "user_id", null: false
