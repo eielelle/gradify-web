@@ -19,6 +19,7 @@
         <!-- head -->
         <thead>
           <tr>
+            <th>Name</th>
             <th>Quarter</th>
             <th>Subject</th>
             <th>Items</th>
@@ -35,6 +36,9 @@
                   <div class="flex items-center gap-3">
                     <span><%= exam.name %></span>
                   </div>
+                </td>
+                <td>
+                  <span><%= exam.quarter.name %></span>
                 </td>
                 <td>
                   <span><%= exam.subject.name %></span>
