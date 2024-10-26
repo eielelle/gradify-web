@@ -8,9 +8,14 @@ module Teacher
       include ErrorConcern
 
       def index
-        current_user.school_classes # Adjust this according to your application logic
-        set_default_sort(default_sort_column: 'name asc')
-        query_items_default(SchoolClass, params)
+        @school_classes = SchoolClass
+                            .joins(school_sections: :users)
+                            .where(users: { id: current_user.id, role: 'teacher' })
+                            .distinct
+
+        set_default_sort(default_sort_column: 'name asc')      
+        @school_classes = query_items_default(@school_classes, params) if @school_classes.respond_to?(:to_sql)
+        flash[:notice] = "No classes assigned to you yet." if @school_classes.empty?
       end
 
       def show

@@ -52,8 +52,8 @@ module Admin
 
           def assign_students
             set_school_class_data
-            assigned_students, already_assigned_students = update_students
-            set_flash_message(assigned_students, already_assigned_students)
+            update_students
+            set_flash_message
           end
 
           def set_school_class_data
@@ -64,38 +64,30 @@ module Admin
           end
 
           def update_students
-            assigned_students = []
-            already_assigned_students = []
-
             selected_students.each do |student|
               school_class = SchoolClass.find(@school_class.id)
               sy = school_class.school_years.find(@school_year.id)
               section = sy.school_sections.find(@school_section.id)
 
-              if section.users.exists?(id: student.id)
-                already_assigned_students << student
-              else
+              # Check if the student is already assigned to the section
+              unless section.users.exists?(student.id)
+                # Assign the student to the section
                 section.users << student
-                student.subjects << @selected_subjects
-                assigned_students << student
+
+                # Assign each subject without checking for duplicates
+                @selected_subjects.each do |subject|
+                  student.subjects << subject
+                end
               end
             end
-          
-            [assigned_students, already_assigned_students]
           end
 
           def selected_students
             @selected_students ||= User.where(id: selected_student_ids, role: 'student')
           end
 
-          def set_flash_message(assigned_students, already_assigned_students)
-            if assigned_students.any?
-              flash[:toast] = "#{assigned_students.size} students were successfully assigned with selected subjects."
-            end
-          
-            if already_assigned_students.any?
-              flash[:toast] = "#{already_assigned_students.size} students were already assigned to this class."
-            end
+          def set_flash_message
+            flash[:toast] = "#{selected_students.size} students were successfully assigned."
           end
 
           def selected_student_ids
@@ -108,7 +100,6 @@ module Admin
 
           def set_class
             @class = SchoolClass.find(params[:class_id])
-            # @student_accounts = @class.school_sections.flat_map(&:users).uniq
           end
 
           def set_search
