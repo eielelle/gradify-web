@@ -9,7 +9,6 @@ module Teacher
           @export_fields = [
             'student_name',
             'student_email',
-            'class',
             'section',
             'subject',
             'exam_scores',
@@ -47,8 +46,10 @@ module Teacher
   
         def generate_csv(students, fields, no_header)
           CSV.generate(headers: !no_header) do |csv|
+            # Add headers if needed
             csv << fields unless no_header
   
+            # Add data rows
             students.each do |student|
               student.subjects.each do |subject|
                 row_data = []
@@ -56,10 +57,6 @@ module Teacher
                   row_data << case field
                              when 'student_name' then student.name
                              when 'student_email' then student.email
-                             when 'class' then 
-                               student.school_sections.map { |section| 
-                                 section.school_year.school_class.name 
-                               }.uniq.join(", ")
                              when 'section' then student.school_sections.map(&:name).join(", ")
                              when 'subject' then subject.name
                              when 'exam_scores'
