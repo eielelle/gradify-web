@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_12_163417) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_25_120816) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -106,10 +106,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_12_163417) do
     t.bigint "school_section_id"
     t.string "jti"
     t.integer "subject_id"
+    t.string "student_number"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["jti"], name: "index_users_on_jti"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["school_section_id"], name: "index_users_on_school_section_id"
+    t.index ["student_number"], name: "index_users_on_student_number", unique: true
   end
 
   create_table "versions", force: :cascade do |t|
