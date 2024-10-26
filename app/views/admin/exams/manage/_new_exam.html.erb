@@ -4,9 +4,19 @@
       <div class="flex-1">
         <label class="form-control w-full max-w-xs">
           <div class="label">
-            <%= form.label :quarter, class: "label-text" %>
+            <%= form.label :name, class: "label-text" %>
           </div>
           <%= form.text_field :name, class: "input input-bordered w-full max-w-xs" %>
+          <div class="label">
+            <span class="label-text-alt text-error"><%= flash[:name_error] %></span>
+          </div>
+        </label>
+
+        <label class="form-control w-full max-w-xs">
+          <div class="label">
+            <%= form.label :quarter_id, "Quarter", class: "label-text" %>
+          </div>
+          <%= form.collection_select :quarter_id, @quarters, :id, :name, { prompt: "Select a quarter" }, { class: "select select-bordered" } %>
           <div class="label">
             <span class="label-text-alt text-error"><%= flash[:quarter_error] %></span>
           </div>
