@@ -1,6 +1,16 @@
 <%= form_with(model: @subject, url: admin_subjects_manage_path(@subject), local: true, method: :patch) do |form| %>
   <label class="form-control w-full max-w-xs">
     <div class="label">
+      <%= form.label :school_class_id, 'Select Class', class: "label-text" %>
+    </div>
+    <%= form.select :school_class_id, options_from_collection_for_select(@school_classes, :id, :name), {}, { class: "select select-bordered w-full max-w-xs" } %>
+    <div class="label">
+      <span class="label-text-alt text-error"><%= flash[:school_class_error] %></span>
+    </div>
+  </label>
+  
+  <label class="form-control w-full max-w-xs">
+    <div class="label">
       <%= form.label :name, class: "label-text" %>
     </div>
     <%= form.text_field :name, class: "input input-bordered w-full max-w-xs" %>

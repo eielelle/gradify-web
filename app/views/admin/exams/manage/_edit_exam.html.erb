@@ -19,13 +19,13 @@
                 </label>
 
                 <label class="form-control w-full max-w-xs">
-                    <div class="label">
-                    <%= form.label :subject, class: "label-text" %>
-                    </div>
-                    <%= form.text_field :subject, class: "input input-bordered w-full max-w-xs" %>
-                    <div class="label">
+                  <div class="label">
+                    <%= form.label :subject_id, "Subject", class: "label-text" %>
+                  </div>
+                  <%= form.collection_select :subject_id, @subjects, :id, :name, { prompt: "Select a subject" }, { class: "select select-bordered" } %>
+                  <div class="label">
                     <span class="label-text-alt text-error"><%= flash[:subject_error] %></span>
-                    </div>
+                  </div>
                 </label>
 
                 <label class="form-control w-full max-w-xs">

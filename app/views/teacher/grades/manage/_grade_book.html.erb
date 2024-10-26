@@ -1,15 +1,57 @@
 <div id="grade_book">
   <header class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-    <%= search_form_for @q, url: teacher_grades_manage_index_path, method: :get, html: { class: "join w-full md:w-auto flex flex-col md:flex-row justify-between gap-4 md:gap-0" } do |f| %>
-      <div class="flex flex-col md:flex-row gap-2 w-full md:w-auto">
-        <%= f.search_field :name_or_email_cont, placeholder: "Search Student Name or Email", class: "input input-bordered w-full md:w-96 join-item mb-2 md:mb-0", id: "search_input" %>
-        <%= f.select :s, options_for_select(@sort_fields, selected: params.dig(:q, :s)), {}, { class: "select select-bordered w-full md:w-auto mb-2 md:mb-0", onchange: 'this.form.submit();' } %>
+    <%= search_form_for @q, url: teacher_grades_manage_index_path, method: :get, html: { class: "join w-full flex flex-col md:flex-row justify-between gap-4" } do |f| %>
+      <div class="flex flex-col md:flex-row gap-2 w-full">
+        <%= f.search_field :name_or_email_cont, 
+            placeholder: "Search Student Name or Email", 
+            class: "input input-bordered w-full md:w-96 join-item mb-2 md:mb-0" %>
+        
+        <%= select_tag 'school_class_id', 
+            options_from_collection_for_select(@school_classes, 'id', 'name', params[:school_class_id]), 
+            { include_blank: 'Select Class', 
+              class: "select select-bordered w-full md:w-auto mb-2 md:mb-0",
+              data: { 
+                controller: "select",
+                action: "change->select#submit"
+              } } %>
+            
+        <%= select_tag 'school_year_id', 
+            options_from_collection_for_select(@school_years, 'id', 'name', params[:school_year_id]), 
+            { include_blank: 'Select School Year', 
+              class: "select select-bordered w-full md:w-auto mb-2 md:mb-0",
+              data: { 
+                controller: "select",
+                action: "change->select#submit"
+              } } %>
+            
+        <%= select_tag 'section_id', 
+            options_from_collection_for_select(@sections, 'id', 'name', params[:section_id]), 
+            { include_blank: 'Select Section', 
+              class: "select select-bordered w-full md:w-auto mb-2 md:mb-0",
+              data: { 
+                controller: "select",
+                action: "change->select#submit"
+              } } %>
+            
+        <%= select_tag 'subject_id', 
+            options_from_collection_for_select(@subjects, 'id', 'name', params[:subject_id]), 
+            { include_blank: 'Select Subject', 
+              class: "select select-bordered w-full md:w-auto mb-2 md:mb-0",
+              data: { 
+                controller: "select",
+                action: "change->select#submit"
+              } } %>
+              
+        <%= f.select :s, 
+            options_for_select(@sort_fields, selected: params.dig(:q, :s)), 
+            {}, 
+            { class: "select select-bordered w-full md:w-auto mb-2 md:mb-0", 
+              onchange: 'this.form.submit();' } %>
       </div>
+      
       <div class="flex flex-row gap-2 w-full md:w-auto">
-        <div class="flex flex-row gap-2">
-          <button type="submit" class="btn btn-primary">Search</button>
-          <%= link_to "Export", teacher_grades_export_path, class: "btn btn-primary" %>
-        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+        <%= link_to "Export", teacher_grades_export_path, class: "btn btn-primary" %>
       </div>
     <% end %>
   </header>
@@ -20,6 +62,7 @@
         <thead>
           <tr>
             <th>Name</th>
+            <th>Class</th>
             <th>Section</th>
             <th>Subject</th>
             <% @exams.each do |exam| %>
@@ -33,6 +76,11 @@
             <% student.subjects.each do |subject| %>
               <tr class="hover">
                 <td><%= student.name %></td>
+                <td>
+                  <%= student.school_sections.map { |section| 
+                    section.school_year.school_class.name 
+                  }.uniq.join(", ") %>
+                </td>
                 <td><%= student.school_sections.map(&:name).join(", ") %></td>
                 <td><%= subject.name %></td>
                 <% @exams.where(subject: subject).each do |exam| %>
@@ -65,3 +113,38 @@
     </p>
   <% end %>
 </div>
+
+<%# Add JavaScript to handle dependent dropdowns %>
+<%= javascript_tag do %>
+  document.addEventListener('turbo:load', function() {
+    // Handle Class change
+    const classSelect = document.getElementById('school_class_id');
+    const yearSelect = document.getElementById('school_year_id');
+    const sectionSelect = document.getElementById('section_id');
+    
+    if (classSelect) {
+      classSelect.addEventListener('change', function() {
+        // Clear dependent dropdowns
+        yearSelect.value = '';
+        sectionSelect.value = '';
+        this.form.submit();
+      });
+    }
+    
+    // Handle School Year change
+    if (yearSelect) {
+      yearSelect.addEventListener('change', function() {
+        // Clear dependent dropdown
+        sectionSelect.value = '';
+        this.form.submit();
+      });
+    }
+    
+    // Handle Section change
+    if (sectionSelect) {
+      sectionSelect.addEventListener('change', function() {
+        this.form.submit();
+      });
+    }
+  });
+<% end %>

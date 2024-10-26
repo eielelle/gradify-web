@@ -74,49 +74,61 @@
                     <th class="border border-gray-300 px-4 py-2">C</th>
                     <th class="border border-gray-300 px-4 py-2">D</th>
                   </tr>
-                </thead>
-                <tbody>
-                  <% (26..50).each do |item_number| %>
-                    <tr>
-                      <td class="border border-gray-300 px-4 py-2 text-center"><%= item_number %></td>
-                      <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="A"></td>
-                      <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="B"></td>
-                      <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="C"></td>
-                      <td class="border border-gray-300 px-4 py-2 text-center"><input type="radio" name="answer_<%= item_number %>" value="D"></td>
-                    </tr>
-                  <% end %>
-                </tbody>
-              </table>
-            </div>
-
+                <% end %>
+              </tbody>
+            </table>
           </div>
-        </div>
 
-        </div>
-
-        <dialog id="review_answer_key_modal" class="modal">
-        <div class="modal-box w-11/12 max-w-5xl">
-          <h3 class="text-lg font-bold">Review Answer Key</h3>
-          <p class="py-4">Below are the answers you've selected for this exam. Please review them before submitting:</p>
-  
-          <div id="answer_key_review" class="overflow-y-auto max-h-96">
-            <!-- Answer key content will be inserted here dynamically -->
+          <!-- Next 25 items (26-50) -->
+          <div class="bubble-sheet">
+            <table class="min-w-full table-auto border-collapse border border-gray-300">
+              <thead>
+                <tr class="bg-gray-100 text-black">
+                  <th class="border border-gray-300 px-4 py-2">Item #</th>
+                  <th class="border border-gray-300 px-4 py-2">A</th>
+                  <th class="border border-gray-300 px-4 py-2">B</th>
+                  <th class="border border-gray-300 px-4 py-2">C</th>
+                  <th class="border border-gray-300 px-4 py-2">D</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% (26..50).each do |item_number| %>
+                  <tr>
+                    <td class="border border-gray-300 px-4 py-2 text-center"><%= item_number %></td>
+                    <% ['A', 'B', 'C', 'D'].each do |option| %>
+                      <td class="border border-gray-300 px-4 py-2 text-center">
+                        <input type="radio" name="answer_<%= item_number %>" value="<%= option %>" 
+                          <%= 'checked' if params["answer_#{item_number}"] == option %>>
+                      </td>
+                    <% end %>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
           </div>
-  
-          <div class="modal-action">
-            <%= form.submit "Add Exam", class: "btn btn-primary", data: { 'turbo-confirm': 'Are you sure you want to add this new exam?', btn_class: "btn-primary" } %>
-            <button type="button" class="btn" onclick="closeReviewModal()">Close</button>
-            </div>
+
         </div>
-      </dialog>             
-    
+      </div>
+    </div>
+
+    <dialog id="review_answer_key_modal" class="modal">
+      <div class="modal-box w-11/12 max-w-5xl">
+        <h3 class="text-lg font-bold">Review Answer Key</h3>
+        <p class="py-4">Below are the answers you've selected for this exam. Please review them before submitting:</p>
+        <div id="answer_key_review" class="overflow-y-auto max-h-96"></div>
+        <div class="modal-action">
+          <%= form.submit "Add Exam", class: "btn btn-primary", data: { 'turbo-confirm': 'Are you sure you want to add this new exam?', btn_class: "btn-primary" } %>
+          <button type="button" class="btn" onclick="closeReviewModal()">Close</button>
+        </div>
+      </div>
+    </dialog>
 
     <div>
-        <button type="button" class="btn btn-primary mt-4" onclick="event.preventDefault(); openReviewModal();">Review Answer Key</button>
+      <button type="button" class="btn btn-primary mt-4" onclick="event.preventDefault(); openReviewModal();">Review Answer Key</button>
     </div>
-    
-    <% end %>
+  <% end %>
 </section>
+
 
 
 <script>

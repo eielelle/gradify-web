@@ -149,6 +149,12 @@ Rails.application.routes.draw do
         post 'teacher/sign_in', to: 'teacher/sessions#create', as: :api_v1_teacher_sign_in
         delete 'teacher/sign_out', to: 'teacher/sessions#destroy', as: :api_v1_teacher_sign_out
       end
+      resources :papers, only: [:index, :show] do
+        member do
+          get 'exam_details/:exam_id', to: 'papers#exam_details'
+          get 'student_exam_overview/:exam_id/:student_id', to: 'papers#student_exam_overview'
+        end
+      end
 
       get 'teacher/exams', to: 'teacher/exams#index', as: :api_v1_get_teacher_exams
     end
