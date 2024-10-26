@@ -13,14 +13,17 @@
         </label>
 
         <label class="form-control w-full max-w-xs">
-          <div class="label">
-            <%= form.label :subject_id, "Subject", class: "label-text" %>
-          </div>
-          <%= form.collection_select :subject_id, @subjects, :id, :name, { prompt: "Select a subject" }, { class: "select select-bordered" } %>
-          <div class="label">
-            <span class="label-text-alt text-error"><%= flash[:subject_error] %></span>
-          </div>
-        </label>
+            <div class="label">
+              <%= form.label :subject_id, "Subject", class: "label-text" %>
+            </div>
+            <%= form.collection_select :subject_id, @subjects, :id,
+                ->(subject) { "#{subject.name} - #{subject.school_class&.name}" },
+                { prompt: "Select a subject" },
+                { class: "select select-bordered" } %>
+            <div class="label">
+              <span class="label-text-alt text-error"><%= flash[:subject_error] %></span>
+            </div>
+          </label>
       </div>
 
       <div class="container mx-auto p-4">
