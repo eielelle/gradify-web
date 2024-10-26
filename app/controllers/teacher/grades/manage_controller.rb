@@ -18,11 +18,13 @@ module Teacher
         
         # Get filtered students
         @students = @q.result(distinct: true)
-                     .joins(:school_sections, :subjects)
-                     .where(role: 'student')
-                     .where(school_sections: { id: @teacher.school_section_ids })
-                     .where(subjects: { id: @subjects.pluck(:id) })
-                     .includes(:school_sections, :subjects)
+                .joins(:school_sections, :subjects)
+                .joins('INNER JOIN school_years ON school_sections.school_year_id = school_years.id')
+                .joins('INNER JOIN school_classes ON school_years.school_class_id = school_classes.id')
+                .where(role: 'student')
+                .where(school_sections: { id: @teacher.school_section_ids })
+                .where(subjects: { id: @subjects.pluck(:id) })
+                .includes(:school_sections, :subjects, school_sections: { school_year: :school_class })
         
         @exams = Exam.where(subject_id: @subjects.pluck(:id))
         
