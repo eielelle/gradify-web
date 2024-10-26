@@ -156,9 +156,7 @@ Rails.application.routes.draw do
         end
       end
 
-      get 'teacher/classes', to: 'teacher/classes#index', as: :api_v1_get_teacher_classes
-      get 'teacher/classes/years_and_sections', to: 'teacher/classes#year_and_sections'
-      get 'teacher/classes/students', to: 'teacher/classes#students'
+      get 'teacher/exams', to: 'teacher/exams#index', as: :api_v1_get_teacher_exams
     end
   end
 

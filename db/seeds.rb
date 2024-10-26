@@ -55,64 +55,14 @@ else
         Whirly.status = LoadingMessages.get
         @stem.school_years.find_by(id: @stem_sy.id).school_sections.create(name: "11 - A")
         @gas.school_years.find_by(id: @gas_sy.id).school_sections.create(name: "11 - B")
+
+        Whirly.status = LoadingMessages.get
+        Quarter.create(name: "1st Grading Period")
+        Quarter.create(name: "2nd Grading Period")
+        Quarter.create(name: "3rd Grading Period")
+        Quarter.create(name: "4th Grading Period")
         
     end
     Whirly.stop
     puts "Seeding complete. Database has been populated with initial data."
 end
-
-# HERES THE OLD SEEDING OF SCHOOL CLASS, YEAR, SECTION
-# Whirly.status = LoadingMessages.get
-        # @ict = SchoolClass.create(name: "ICT", description: "Information Communications Technology")
-        # @stem = SchoolClass.create(name: "STEM", description: "Science, Technology, Engineering, and Mathematics")
-        # @gas = SchoolClass.create(name: "GAS", description: "General Academic Strand")
-        # SchoolClass.create(name: "ABM", description: "Accountancy, Business, and Management")
-        # SchoolClass.create(name: "HUMSS", description: "Humanities and Social Sciences")
-        
-        # Whirly.status = LoadingMessages.get
-        # @ict_sy = SchoolYear.create(name: "2023 - 2024", school_class_id: @ict.id)
-        # SchoolYear.create(name: "2024 - 2025", school_class_id: @ict.id)
-        # @stem_sy = SchoolYear.create(name: "2023 - 2024", school_class_id: @stem.id)
-        # @gas_sy = SchoolYear.create(name: "2023 - 2024", school_class_id: @gas.id)
-        
-        # Whirly.status = LoadingMessages.get
-        # @ict.school_years.find_by(id: @ict_sy.id).school_sections.create(name: "11 - A")
-        # @ict.school_years.find_by(id: @ict_sy.id).school_sections.create(name: "11 - B")
-        # @ict.school_years.find_by(id: @ict_sy.id).school_sections.create(name: "12 - A")
-
-        # Whirly.status = LoadingMessages.get
-        # @stem.school_years.find_by(id: @stem_sy.id).school_sections.create(name: "11 - A")
-        # @gas.school_years.find_by(id: @gas_sy.id).school_sections.create(name: "11 - B")
-
-# HERES THE STABLE VERSION OF SEED BUT IT DOESNT STORE IN TABLE DATA
-=begin
-Whirly.status = LoadingMessages.get
-        @ict = SchoolClass.create(name: "ICT", description: "Information Communications Technology")
-        @stem = SchoolClass.create(name: "STEM", description: "Science, Technology, Engineering, and Mathematics")
-        @gas = SchoolClass.create(name: "GAS", description: "General Academic Strand")
-        SchoolClass.create(name: "ABM", description: "Accountancy, Business, and Management")
-        SchoolClass.create(name: "HUMSS", description: "Humanities and Social Sciences")
-        
-        Whirly.status = LoadingMessages.get
-        @ict_sy = SchoolYear.create(name: "2023 - 2024", school_class_id: @ict.id)
-        SchoolYear.create(name: "2024 - 2025", school_class_id: @ict.id)
-        @stem_sy = SchoolYear.create(name: "2023 - 2024", school_class_id: @stem.id)
-        @gas_sy = SchoolYear.create(name: "2023 - 2024", school_class_id: @gas.id)
-        
-        Whirly.status = LoadingMessages.get
-
-        # Ensure the school years are saved before creating sections
-        if @ict_sy.persisted? # Check if @ict_sy is saved
-        @ict_sy.school_sections.create(name: "11 - A")
-        @ict_sy.school_sections.create(name: "11 - B")
-        @ict_sy.school_sections.create(name: "12 - A")
-        end
-
-        if @stem_sy.persisted? # Check if @stem_sy is saved
-        @stem_sy.school_sections.create(name: "11 - A")
-        end
-
-        if @gas_sy.persisted? # Check if @gas_sy is saved
-        @gas_sy.school_sections.create(name: "11 - B")
-        end
-=end

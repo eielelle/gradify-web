@@ -11,6 +11,7 @@ class Exam < ApplicationRecord
   validates :answer_key, presence: true
 
   belongs_to :subject
+  belongs_to :quarter
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[name updated_at]

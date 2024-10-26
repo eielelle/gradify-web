@@ -17,13 +17,15 @@ module Admin
       def new
         @exam = Exam.new
         @subjects = Subject.all
+        @quarters = Quarter.all
       end
 
       def create
         @exam = Exam.new(exam_params)
         @subjects = Subject.all
+        @quarters = Quarter.all
 
-        return if invalid_params?
+        # return if invalid_params?
 
         # Set a default value for items
         @exam.items = 50
@@ -37,9 +39,8 @@ module Admin
           flash[:toast] = 'Exam was successfully created.'
           redirect_to admin_exams_manage_index_path
         else
-          flash[:error] = @exam.errors.full_messages.join(', ')
-          # Render with existing answers, subject, and quarter preserved
-          render :new, status: :unprocessable_entity
+          handle_errors(@exam)
+          redirect_to new_admin_exams_manage_path
         end
       end       
 
@@ -83,7 +84,7 @@ module Admin
       end
 
       def exam_params
-        params.require(:exam).permit(:name, :subject_id)
+        params.require(:exam).permit(:name, :subject_id, :quarter_id)
       end
 
       def update_exam_params
