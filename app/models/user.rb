@@ -21,7 +21,6 @@ class User < ApplicationRecord
 
   enum role: { superadmin: 'superadmin', admin: 'admin', teacher: 'teacher', student: 'student' }
 
-  before_create :generate_student_number, if: :student?
   after_create :generate_jti
 
   def generate_jti
@@ -40,7 +39,7 @@ class User < ApplicationRecord
   end
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[name email student_number updated_at]
+    %w[name email updated_at]
   end
 
   # Allowlist associations for Ransack
@@ -92,26 +91,4 @@ class User < ApplicationRecord
       fields[:users].index_with { |field| record.send(field) }
     end
   end
-
-  private
-
-  def generate_student_number
-    loop do
-      # Get the last student number or start from 0
-      last_number = User.where(role: 'student')
-                       .where.not(student_number: nil)
-                       .maximum(:student_number)
-                       .to_i
-      
-      # Generate the next number
-      next_number = format('%06d', last_number + 1)
-      
-      # Assign the student number if it's unique
-      self.student_number = next_number
-      
-      # Break the loop if the student number is unique
-      break unless User.exists?(student_number: student_number)
-    end
-  end
-
 end
