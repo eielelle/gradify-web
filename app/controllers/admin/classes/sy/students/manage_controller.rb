@@ -68,17 +68,8 @@ module Admin
               school_class = SchoolClass.find(@school_class.id)
               sy = school_class.school_years.find(@school_year.id)
               section = sy.school_sections.find(@school_section.id)
-
-              # Check if the student is already assigned to the section
-              unless section.users.exists?(student.id)
-                # Assign the student to the section
-                section.users << student
-
-                # Assign each subject without checking for duplicates
-                @selected_subjects.each do |subject|
-                  student.subjects << subject
-                end
-              end
+              section.users << student
+              student.subjects << @selected_subjects
             end
           end
 
