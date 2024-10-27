@@ -52,8 +52,8 @@ module Admin
 
           def assign_students
             set_school_class_data
-            update_students
-            set_flash_message
+            already_assigned_students = update_students
+            set_flash_message(already_assigned_students)
           end
 
           def set_school_class_data
@@ -64,21 +64,40 @@ module Admin
           end
 
           def update_students
-            selected_students.each do |student|
-              school_class = SchoolClass.find(@school_class.id)
-              sy = school_class.school_years.find(@school_year.id)
-              section = sy.school_sections.find(@school_section.id)
-              section.users << student
-              student.subjects << @selected_subjects
-            end
+            already_assigned_students = []
+              selected_students.each do |student|
+                            school_class = SchoolClass.find(@school_class.id)
+                            sy = school_class.school_years.find(@school_year.id)
+                            section = sy.school_sections.find(@school_section.id)
+                        
+                            @selected_subjects.each do |subject|
+                              if section.users.exists?(student.id) && student.subjects.include?(subject)
+                                already_assigned_students << student.name # Add to already assigned list
+                              else
+                                section.users << student unless section.users.include?(student)
+                                student.subjects << subject unless student.subjects.include?(subject)
+                              end
+                            end
+                          end
+            already_assigned_students
           end
 
           def selected_students
             @selected_students ||= User.where(id: selected_student_ids, role: 'student')
           end
 
-          def set_flash_message
-            flash[:toast] = "#{selected_students.size} students were successfully assigned."
+          def set_flash_message(already_assigned_students)
+            newly_assigned_count = selected_students.size - already_assigned_students.size
+          
+            # Set flash message for newly assigned teachers
+            if newly_assigned_count > 0
+              flash[:toast] = "#{newly_assigned_count} students were successfully assigned."
+            end
+          
+            # Set flash alert for teachers who were already assigned
+            if already_assigned_students.any?
+              flash[:toast] = "The students is already exists: #{already_assigned_students.join(', ')}"
+            end
           end
 
           def selected_student_ids
