@@ -37,16 +37,6 @@ module Admin
         check_and_filter_students
         check_and_filter_teachers
 
-        @subjects = @school_class.subjects
-        if params[:subject_id].present?
-          selected_subject = Subject.find(params[:subject_id])
-          @teachers = selected_subject.users.where(role: 'teacher') # Assuming a subject can have multiple teachers
-          @students = selected_subject.users.where(role: 'student') # Filter students based on selected subject
-        else
-          #@teachers = [] # No subject selected, no teachers to show
-          #@students = [] # No subject selected, no students to show
-        end
-
         @student_count = @students.nil? ? 0 : @students.count
         @teacher_count = @teachers.nil? ? 0 : @teachers.count
       end
