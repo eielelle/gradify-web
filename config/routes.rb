@@ -78,10 +78,18 @@ Rails.application.routes.draw do
             post 'rollback/:id', to: 'history#rollback', as: 'rollback'
           end
           namespace :students do
-            resources :manage, only: [:show, :index, :create]
+            resources :manage, only: [:show, :index, :create] do
+              collection do
+                post :unassign_selected
+              end
+            end
           end
           namespace :teachers do
-            resources :manage, only: [:show, :index, :create]
+            resources :manage, only: [:show, :index, :create] do
+              collection do
+                post :unassign_selected
+              end
+            end
           end
         end
       end

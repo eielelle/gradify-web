@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_12_163417) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_27_064630) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -37,6 +37,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_12_163417) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "school_classes_subjects", id: false, force: :cascade do |t|
+    t.bigint "school_class_id", null: false
+    t.bigint "subject_id", null: false
+    t.index ["school_class_id"], name: "index_school_classes_subjects_on_school_class_id"
+    t.index ["subject_id"], name: "index_school_classes_subjects_on_subject_id"
   end
 
   create_table "school_classes_users", id: false, force: :cascade do |t|
@@ -107,10 +114,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_12_163417) do
     t.bigint "school_section_id"
     t.string "jti"
     t.integer "subject_id"
+    t.string "student_number"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["jti"], name: "index_users_on_jti"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["school_section_id"], name: "index_users_on_school_section_id"
+    t.index ["student_number"], name: "index_users_on_student_number", unique: true
   end
 
   create_table "versions", force: :cascade do |t|
