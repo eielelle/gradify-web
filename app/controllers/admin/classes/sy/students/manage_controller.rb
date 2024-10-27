@@ -39,6 +39,28 @@ module Admin
             @student = StudentAccount.find(params[:id])
           end
 
+          def unassign_selected
+            if params[:student_ids].present? && params[:school_section_id].present?
+              school_section = SchoolSection.find_by(id: params[:school_section_id])
+              
+              if school_section
+                students = User.where(id: params[:student_ids], role: 'student')
+                students.each do |student|
+                  student.school_sections.delete(school_section)
+                  student.subjects.clear # Clear all subject associations for this section
+                end
+                
+                flash[:toast] = "Successfully unassigned #{students.count} students"
+              else
+                flash[:toast] = "School section not found"
+              end
+            else
+              flash[:toast] = "No students selected or section not specified"
+            end
+            
+            redirect_to admin_classes_manage_path(params[:class_id])
+          end
+
           private
 
           def missing_required_fields?
