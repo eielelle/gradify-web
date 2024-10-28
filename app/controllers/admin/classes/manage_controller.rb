@@ -122,17 +122,27 @@ module Admin
 
       def filter_students(school_year, section)
         sections = SchoolSection.where(school_year_id: school_year)
-        section = sections.find(section)
-        @students = section.users.where(role: 'student')
+        section = sections.find_by(id: section) # Change to find_by
+        if section
+          @students = section.users.where(role: 'student')
+        else
+          @students = User.none # Set to an empty relation if section is not found
+          flash[:alert] = "Section not found for the given school year."
+        end
       end
 
       def filter_teachers(school_year, section, subject_id = nil)
         sections = SchoolSection.where(school_year_id: school_year)
-        section = sections.find(section)
-        @teachers = section.users.where(role: 'teacher')
+        section = sections.find_by(id: section) # Change to find_by
+        if section
+          @teachers = section.users.where(role: 'teacher')
 
-        # Further filter teachers by subject if subject_id is provided
-  @teachers = @teachers.joins(:subjects).where(subjects: { id: subject_id }) if subject_id.present?
+          # Further filter teachers by subject if subject_id is provided
+          @teachers = @teachers.joins(:subjects).where(subjects: { id: subject_id }) if subject_id.present?
+        else
+          @teachers = User.none # Set to an empty relation if section is not found
+          flash[:alert] = "Section not found for the given school year."
+        end
       end
 
       def update_class_params
