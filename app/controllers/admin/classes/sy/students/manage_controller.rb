@@ -58,7 +58,10 @@ module Admin
               flash[:toast] = "No students selected or section not specified"
             end
             
-            redirect_to admin_classes_manage_path(params[:class_id])
+            respond_to do |format|
+              format.turbo_stream { render turbo_stream: turbo_stream.remove(params[:teacher_ids].map { |id| "teacher_#{id}" }) }
+              format.html { redirect_to admin_classes_manage_path(params[:class_id]) }
+            end
           end
 
           private
