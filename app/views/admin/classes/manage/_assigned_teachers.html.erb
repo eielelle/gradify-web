@@ -46,7 +46,7 @@
             <tr>
               <th>
                 <label>
-                  <input type="checkbox" class="checkbox" id="select_all" />
+                  <input type="checkbox" class="checkbox" id="select_all_teachers" />
                 </label>
               </th>
               <th>Name</th>
@@ -82,8 +82,8 @@
           </tbody>
         </table>
         <div class="flex justify-between items-center">
-          <span><%= @teacher_count %> teachers</span>
-          <%= f.submit "Unassign Selected", id: "unassign_teachers", class: "btn btn-secondary hidden" %>
+          <span><%= @teacher_count %> Teachers</span>
+          <%= f.submit "Unassign Selected", id: "unassign_teachers", class: "btn btn-primary hidden" %>
         </div>
       <% end %>
     </div>
