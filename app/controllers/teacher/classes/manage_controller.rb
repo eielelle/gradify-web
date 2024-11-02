@@ -13,7 +13,7 @@ module Teacher
                             .where(users: { id: current_user.id, role: 'teacher' })
                             .distinct
 
-        set_default_sort(default_sort_column: 'name asc')      
+        set_default_sort(default_sort_column: 'name asc')
         @school_classes = query_items_default(@school_classes, params) if @school_classes.respond_to?(:to_sql)
         flash[:notice] = "No classes assigned to you yet." if @school_classes.empty?
       end
@@ -22,9 +22,11 @@ module Teacher
         set_class
         fetch_selected_students
         fetch_dropdown_data
-
+        
         check_and_filter_students
         check_and_filter_teachers
+
+        filter_students_by_subject if params[:subject_id].present?
 
         @student_count = @students.nil? ? 0 : @students.count
         @teacher_count = @teachers.nil? ? 0 : @teachers.count
@@ -60,24 +62,43 @@ module Teacher
         else
           @selected_students = []
         end
+      
+        @students = @school_class.users.where(role: 'student')
       end
 
       def fetch_dropdown_data
-        @school_year = @school_class.school_years.all
-        @sections = @school_class.school_sections.all
-        @subjects = Subject.all
+        @school_year = SchoolYear.joins(school_sections: :users)
+                                 .where(users: { id: current_user.id, role: 'teacher' })
+                                 .distinct
+      
+        @sections = SchoolSection.joins(:users, :school_year)
+                                 .where(users: { id: current_user.id, role: 'teacher' })
+                                 .where(school_year: { id: @school_year.ids })
+                                 .distinct
+      
+        @subjects = @school_class.subjects
+      end
+      
+      def filter_students_by_subject
+        selected_subject = Subject.find(params[:subject_id])
+      
+        @students = @students.joins(:subjects).where(subjects: { id: selected_subject.id })
       end
 
       def filter_students(school_year, section)
-        sections = SchoolSection.where(school_year_id: school_year)
-        section = sections.find(section)
-        @students = section.users.where(role: 'student')
+        section = SchoolSection.where(school_year_id: school_year, id: section)
+                               .joins(:users)
+                               .where(users: { role: 'student' })
+                               .distinct
+        @students = section.first.users.where(role: 'student') if section.present?
       end
 
       def filter_teachers(school_year, section)
-        sections = SchoolSection.where(school_year_id: school_year)
-        section = sections.find(section)
-        @teachers = section.users.where(role: 'teacher')
+        section = SchoolSection.where(school_year_id: school_year, id: section)
+                               .joins(:users)
+                               .where(users: { role: 'teacher' })
+                               .distinct
+        @teachers = section.first.users.where(role: 'teacher') if section.present?
       end
 
       def class_params
