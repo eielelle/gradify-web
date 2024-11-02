@@ -16,8 +16,6 @@ module Api
             log_in_fail
           elsif resource.role == 'teacher'
             log_in_success
-          else
-            log_in_fail
           end
         end
 

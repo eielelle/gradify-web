@@ -1,38 +1,51 @@
-<div>
-  <% if current_user.present? %>
-    <h2 class="text-2xl font-bold text-center text-Black-600 mb-6">ABM</h2>
+<% if current_user.present? %>
+  <div class="overflow-x-auto">
+    <table class="table w-full">
+      <thead>
+        <tr class="transition-colors duration-150 ease-in-out border-gray-50" 
+            data-theme="light:bg-gray-100 dark:bg-gray-800">
+          <th class="px-6 py-3 text-left transition-colors" data-theme="light:text-gray-900 dark:text-gray-200">Name</th>
+          <th class="px-6 py-3 text-left transition-colors" data-theme="light:text-gray-900 dark:text-gray-200">Section</th>
+          <th class="px-6 py-3 text-left transition-colors" data-theme="light:text-gray-900 dark:text-gray-200">Subject</th>
+          <% @exams.each do |exam| %>
+            <th class="px-6 py-3 text-left transition-colors" data-theme="light:text-gray-900 dark:text-gray-200"><%= exam.name %></th>
+          <% end %>
+          <th class="px-6 py-3 text-left transition-colors" data-theme="light:text-gray-900 dark:text-gray-200">Average</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% current_user.subjects.each do |subject| %>
+          <tr class="transition-colors duration-150 ease-in-out" 
+              data-theme="light:border-gray-200 dark:border-gray-700 light:hover:bg-gray-50 dark:hover:bg-gray-800">
+            <td class="px-6 py-4 transition-colors" data-theme="light:text-gray-900 dark:text-gray-200"><%= current_user.name %></td>
+            <td class="px-6 py-4 transition-colors" data-theme="light:text-gray-900 dark:text-gray-200"><%= current_user.school_sections.map(&:name).join(", ") %></td>
+            <td class="px-6 py-4 transition-colors" data-theme="light:text-gray-900 dark:text-gray-200"><%= subject.name %></td>
 
-    <div class="flex flex-wrap -mx-2">
-      <% @subjects.each do |subject| %>
-        <div class="mx-2 mb-4">
-          <div class="bg-base-100 shadow-md rounded-lg p-6 border-2 border-lime-400">
-            <h3 class="text-lg font-semibold text-Black-600"><%= subject.name %></h3>
-            
-            <% teacher = subject.users.find_by(role: 'teacher') %>
-            <p class="text-sm text-Black-600">
-              Instructor: <%= teacher&.name || "Not assigned" %>
-              <br>
-              Last Updated: <%= subject.updated_at.strftime("%d %b, %Y") %>
-            </p>
+            <% @exams.where(subject: subject).each do |exam| %>
+              <td class="px-6 py-4">
+                <div class="p-2 rounded transition-colors duration-150 ease-in-out" 
+                     data-theme="light:text-gray-900 dark:text-gray-200 light:hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <div class="font-medium">Total: 0</div>
+                  <div class="text-xs transition-colors" data-theme="light:text-gray-500 dark:text-gray-400">
+                    Correct: 0 | Incorrect: 0
+                  </div>
+                </div>
+              </td>
+            <% end %>
 
-            <div class="mt-5 grid grid-cols-4 gap-6 font-bold text-Black-600 border-t pb-2">
-              <div>1st Quarter</div>
-              <div>2nd Quarter</div>
-              <div>3rd Quarter</div>
-              <div>4th Quarter</div>
-
-              <div>-</div> <!-- Placeholder for 1st Quarter -->
-              <div>-</div> <!-- Placeholder for 2nd Quarter -->
-              <div>-</div> <!-- Placeholder for 3rd Quarter -->
-              <div>-</div> <!-- Placeholder for 4th Quarter -->
-            </div>
-          </div>
-        </div>
-      <% end %>
-    </div>
-  <% else %>
-    <p class="text-center py-4 text-gray-500">
-      No student found. Please log in.
-    </p>
-  <% end %>
-</div>
+            <td class="px-6 py-4">
+              <div class="p-2 rounded transition-colors duration-150 ease-in-out" 
+                   data-theme="light:text-gray-900 dark:text-gray-200 light:hover:bg-gray-100 dark:hover:bg-gray-700">
+                0
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <p class="text-center py-4 transition-colors" data-theme="light:text-gray-500 dark:text-gray-400">
+    No student found. Please log in.
+  </p>
+<% end %>

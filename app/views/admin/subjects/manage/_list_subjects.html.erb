@@ -12,7 +12,6 @@
   <table class="table table-lg">
     <thead>
       <tr>
-        <th>Strand</th>
         <th>Name</th>
         <th>Description</th>
         <th>Updated At</th>
@@ -23,7 +22,6 @@
        <% if @items.present? %>
             <% @items.each do |subject| %>
             <tr class="hover">
-                <td><%= subject.school_class.name if subject.school_class %></td>
                 <td><%= subject.name %></td>
                 <td><%= subject.description %></td>
                 <td><%= format_date subject.updated_at %></td>
@@ -42,7 +40,7 @@
             <% end %>
             <% else %>
             <tr>
-              <td colspan="5">No subjects found.</td>
+              <td colspan="3">No subjects found.</td>
             </tr>
         <% end %>
     </tbody>
