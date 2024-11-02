@@ -33,20 +33,15 @@ module Admin
         set_class
         fetch_selected_students
         fetch_dropdown_data
-
+      
+        # Apply the school section filter first to get initial set of students and teachers
         check_and_filter_students
         check_and_filter_teachers
-
-        @subjects = @school_class.subjects
-        if params[:subject_id].present?
-          selected_subject = Subject.find(params[:subject_id])
-          @teachers = selected_subject.users.where(role: 'teacher') # Assuming a subject can have multiple teachers
-          @students = selected_subject.users.where(role: 'student') # Filter students based on selected subject
-        else
-          #@teachers = [] # No subject selected, no teachers to show
-          #@students = [] # No subject selected, no students to show
-        end
-
+      
+        # Narrow down the filtered students and teachers by the selected subject
+        filter_students_by_subject if params[:subject_id].present?
+      
+        # Set counts for students and teachers
         @student_count = @students.nil? ? 0 : @students.count
         @teacher_count = @teachers.nil? ? 0 : @teachers.count
       end
@@ -76,6 +71,14 @@ module Admin
       end
 
       private
+      
+      def filter_students_by_subject
+        selected_subject = Subject.find(params[:subject_id])
+      
+        # Refine @teachers and @students based on the selected subject
+        @teachers = @teachers.where(id: selected_subject.users.where(role: 'teacher').pluck(:id))
+        @students = @students.where(id: selected_subject.users.where(role: 'student').pluck(:id))
+      end
 
       def check_and_filter_students
         school_year_id = params[:student_school_year_id]
@@ -92,11 +95,12 @@ module Admin
       def check_and_filter_teachers
         school_year_id = params[:teacher_school_year_id]
         section_id = params[:teacher_school_section_id]
+        subject_id = params[:subject_id]
 
         if school_year_id.present? && section_id.present?
-          filter_teachers(school_year_id, section_id)
+          filter_teachers(school_year_id, section_id, subject_id)
         elsif @school_year.any? && @sections.any?
-          filter_teachers(@school_year.first.id, @sections.first.id)
+          filter_teachers(@school_year.first.id, @sections.first.id, subject_id)
         end
       end
 
@@ -118,14 +122,27 @@ module Admin
 
       def filter_students(school_year, section)
         sections = SchoolSection.where(school_year_id: school_year)
-        section = sections.find(section)
-        @students = section.users.where(role: 'student')
+        section = sections.find_by(id: section) # Change to find_by
+        if section
+          @students = section.users.where(role: 'student')
+        else
+          @students = User.none # Set to an empty relation if section is not found
+          flash[:alert] = "Section not found for the given school year."
+        end
       end
 
-      def filter_teachers(school_year, section)
+      def filter_teachers(school_year, section, subject_id = nil)
         sections = SchoolSection.where(school_year_id: school_year)
-        section = sections.find(section)
-        @teachers = section.users.where(role: 'teacher')
+        section = sections.find_by(id: section) # Change to find_by
+        if section
+          @teachers = section.users.where(role: 'teacher')
+
+          # Further filter teachers by subject if subject_id is provided
+          @teachers = @teachers.joins(:subjects).where(subjects: { id: subject_id }) if subject_id.present?
+        else
+          @teachers = User.none # Set to an empty relation if section is not found
+          flash[:alert] = "Section not found for the given school year."
+        end
       end
 
       def update_class_params

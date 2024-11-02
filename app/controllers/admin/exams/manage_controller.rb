@@ -16,14 +16,14 @@ module Admin
 
       def new
         @exam = Exam.new
-        @subjects = Subject.all
         @quarters = Quarter.all
+        @subjects = Subject.includes(:school_class)
       end
 
       def create
         @exam = Exam.new(exam_params)
-        @subjects = Subject.all
         @quarters = Quarter.all
+        @subjects = Subject.includes(:school_class)
 
         # return if invalid_params?
 
@@ -63,7 +63,7 @@ module Admin
 
       def edit
         set_exam
-        @subjects = Subject.all
+        @subjects = Subject.includes(:school_class)
 
         redirect_to admin_exams_manage_index_path if @exam.nil?
       end

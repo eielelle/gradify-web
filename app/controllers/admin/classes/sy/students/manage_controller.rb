@@ -39,6 +39,28 @@ module Admin
             @student = StudentAccount.find(params[:id])
           end
 
+          def unassign_selected
+            if params[:student_ids].present? && params[:school_section_id].present?
+              school_section = SchoolSection.find_by(id: params[:school_section_id])
+              
+              if school_section
+                students = User.where(id: params[:student_ids], role: 'student')
+                students.each do |student|
+                  student.school_sections.delete(school_section)
+                  student.subjects.clear # Clear all subject associations for this section
+                end
+                
+                flash[:toast] = "Successfully unassigned #{students.count} students"
+              else
+                flash[:toast] = "School section not found"
+              end
+            else
+              flash[:toast] = "No students selected or section not specified"
+            end
+            
+            redirect_to admin_classes_manage_path(params[:class_id])
+          end
+
           private
 
           def missing_required_fields?
@@ -52,8 +74,8 @@ module Admin
 
           def assign_students
             set_school_class_data
-            update_students
-            set_flash_message
+            already_assigned_students = update_students
+            set_flash_message(already_assigned_students)
           end
 
           def set_school_class_data
@@ -64,31 +86,48 @@ module Admin
           end
 
           def update_students
+            already_assigned_students = []
+          
             selected_students.each do |student|
-              school_class = SchoolClass.find(@school_class.id)
-              sy = school_class.school_years.find(@school_year.id)
-              section = sy.school_sections.find(@school_section.id)
+              
+              existing_section = student.school_sections.find_by(school_year_id: @school_year.id)
+          
+              if existing_section
+                
+                already_assigned_students << "#{existing_section.name}"
+              else
 
-              # Check if the student is already assigned to the section
-              unless section.users.exists?(student.id)
-                # Assign the student to the section
-                section.users << student
-
-                # Assign each subject without checking for duplicates
+                @school_section.users << student
                 @selected_subjects.each do |subject|
-                  student.subjects << subject
+                  student.subjects << subject unless student.subjects.include?(subject)
                 end
               end
             end
+          
+            already_assigned_students
           end
+          
+          
 
           def selected_students
             @selected_students ||= User.where(id: selected_student_ids, role: 'student')
           end
 
-          def set_flash_message
-            flash[:toast] = "#{selected_students.size} students were successfully assigned."
+          def set_flash_message(already_assigned_students)
+            newly_assigned_count = selected_students.size - already_assigned_students.size
+          
+            
+            if newly_assigned_count.positive?
+              flash[:toast] = "#{newly_assigned_count} students were successfully assigned."
+            end
+          
+            
+            if already_assigned_students.any?
+              flash[:toast] = "Already assigned in: #{already_assigned_students.join(', ')}"
+            end
           end
+          
+          
 
           def selected_student_ids
             params[:student_ids]

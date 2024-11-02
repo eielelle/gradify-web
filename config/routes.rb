@@ -78,10 +78,18 @@ Rails.application.routes.draw do
             post 'rollback/:id', to: 'history#rollback', as: 'rollback'
           end
           namespace :students do
-            resources :manage, only: [:show, :index, :create]
+            resources :manage, only: [:show, :index, :create] do
+              collection do
+                post :unassign_selected
+              end
+            end
           end
           namespace :teachers do
-            resources :manage, only: [:show, :index, :create]
+            resources :manage, only: [:show, :index, :create] do
+              collection do
+                post :unassign_selected
+              end
+            end
           end
         end
       end
@@ -150,9 +158,12 @@ Rails.application.routes.draw do
         delete 'teacher/sign_out', to: 'teacher/sessions#destroy', as: :api_v1_teacher_sign_out
       end
 
-      get 'teacher/classes', to: 'teacher/classes#index', as: :api_v1_get_teacher_classes
-      get 'teacher/classes/years_and_sections', to: 'teacher/classes#year_and_sections'
-      get 'teacher/classes/students', to: 'teacher/classes#students'
+      get 'teacher/exams', to: 'teacher/exams#index', as: :api_v1_get_teacher_exams
+      get 'teacher/responses', to: 'teacher/responses#index', as: :api_v1_get_teacher_responses
+      post 'teacher/responses', to: 'teacher/responses#create', as: :api_v1_create_teacher_response
+      # get 'teacher/classes', to: 'teacher/classes#index', as: :api_v1_get_teacher_classes
+      # get 'teacher/classes/years_and_sections', to: 'teacher/classes#year_and_sections'
+      # get 'teacher/classes/students', to: 'teacher/classes#students'
     end
   end
 
