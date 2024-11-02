@@ -28,7 +28,7 @@ else
         student_counter = 1
         3.times do
             User.create(email: Faker::Internet.email, password: "password", role: "admin", name: Faker::Name.name)
-            User.create(email: Faker::Internet.email, password: "password", role: "student", name: Faker::Name.name, student_number: format('%06d', student_counter))
+            User.create(email: Faker::Internet.email, password: "password", role: "student", name: Faker::Name.name, student_number: format('%05d', student_counter))
             student_counter += 1  # Increment counter for next student
             User.create(email: Faker::Internet.email, password: "password", role: "superadmin", name: Faker::Name.name)
             User.create(email: Faker::Internet.email, password: "password", role: "teacher", name: Faker::Name.name)

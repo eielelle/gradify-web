@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_27_064630) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_01_033209) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -30,6 +30,20 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_27_064630) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "responses", force: :cascade do |t|
+    t.bigint "exam_id", null: false
+    t.bigint "user_id", null: false
+    t.string "student_number"
+    t.string "image_path"
+    t.integer "detected"
+    t.integer "score"
+    t.string "answer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exam_id"], name: "index_responses_on_exam_id"
+    t.index ["user_id"], name: "index_responses_on_user_id"
   end
 
   create_table "school_classes", force: :cascade do |t|
@@ -134,6 +148,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_27_064630) do
 
   add_foreign_key "exams", "quarters"
   add_foreign_key "exams", "subjects"
+  add_foreign_key "responses", "exams"
+  add_foreign_key "responses", "users"
   add_foreign_key "school_sections", "school_years"
   add_foreign_key "school_years", "school_classes"
   add_foreign_key "subjects", "school_classes"

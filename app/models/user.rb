@@ -104,7 +104,7 @@ class User < ApplicationRecord
                        .to_i
       
       # Generate the next number
-      next_number = format('%06d', last_number + 1)
+      next_number = format('%05d', last_number + 1)
       
       # Assign the student number if it's unique
       self.student_number = next_number
