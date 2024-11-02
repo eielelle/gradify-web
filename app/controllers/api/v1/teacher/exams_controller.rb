@@ -1,7 +1,7 @@
 module Api
     module V1
         module Teacher
-            class ExamsController < ApplicationController
+            class ExamsController < AuthController
                 respond_to :json
 
                 def index
@@ -12,8 +12,6 @@ module Api
                     else
                         subject = teacher.subjects.all
                         exams = Exam.where(subject_id: subject)
-                        puts "HEY"
-                        puts exams.length
     
                         render json: {
                             exams: ExamSerializer.new(exams).serializable_hash[:data]
@@ -44,9 +42,6 @@ module Api
                             subject:
                         }
                     end
-
-                    puts "N LENGTH"
-                    puts n.length
                 end
             end
         end
