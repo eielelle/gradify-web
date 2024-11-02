@@ -89,14 +89,14 @@ module Admin
             already_assigned_students = []
           
             selected_students.each do |student|
-              
-              existing_section = student.school_sections.find_by(school_year_id: @school_year.id)
+              existing_section = student.school_sections.find_by(id: @school_section.id, school_year_id: @school_year.id)
           
               if existing_section
-                
-                already_assigned_students << "#{existing_section.name}"
+                already_assigned_students << existing_section.name
+                @selected_subjects.each do |subject|
+                  student.subjects << subject unless student.subjects.include?(subject)
+                end
               else
-
                 @school_section.users << student
                 @selected_subjects.each do |subject|
                   student.subjects << subject unless student.subjects.include?(subject)
@@ -107,8 +107,6 @@ module Admin
             already_assigned_students
           end
           
-          
-
           def selected_students
             @selected_students ||= User.where(id: selected_student_ids, role: 'student')
           end
@@ -126,7 +124,6 @@ module Admin
               flash[:toast] = "Already assigned in: #{already_assigned_students.join(', ')}"
             end
           end
-          
           
 
           def selected_student_ids
