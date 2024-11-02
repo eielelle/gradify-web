@@ -12,7 +12,7 @@ module Admin
 
       def index
         set_default_sort(default_sort_column: 'name asc')
-        query_items_default(Subject.includes(:school_class), params) 
+        query_items_default(Subject, params)
 
         set_sort_fields(%w[name updated_at])
       end

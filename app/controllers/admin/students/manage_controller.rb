@@ -69,11 +69,11 @@ module Admin
       end
 
       def student_params
-        params.require(:student_account).permit(:name, :email, :password, :password_confirmation, :student_number)
+        params.require(:student_account).permit(:name, :email, :password, :password_confirmation)
       end
 
       def update_student_params
-        params.permit(:id, user: %i[name email student_number])
+        params.permit(:id, user: %i[name email])
       end
 
       def set_search
@@ -81,7 +81,6 @@ module Admin
         @items = @q.result(distinct: true).where(role: 'student').page(params[:page]).per(10)
         @sort_fields = {
           'Name': 'name asc',
-          'Student Number': 'student_number asc',
           'Email': 'email asc',
           'Created At': 'created_at asc',
           'Updated At': 'updated_at asc'

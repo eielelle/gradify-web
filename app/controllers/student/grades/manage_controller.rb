@@ -13,15 +13,11 @@ module Student
       
         @student = current_user
       
-        #@subjects = @student.subjects.includes(:exams, :teacher)
-        @subjects = @student.subjects.includes(:exams, users: :subjects, school_class: :school_years)
-
-        @school_years = SchoolYear.where(id: @subjects.map(&:school_class).map(&:school_year_ids).flatten.uniq)
-
-        #@exams = Exam.where(subject_id: @subjects.pluck(:id)).includes(:subject)
+        @subjects = @student.subjects.includes(:exams)
+      
         @exams = Exam.where(subject_id: @subjects.pluck(:id)).includes(:subject)
       
-        #@students = User.where(role: 'student') 
+        @students = User.where(role: 'student') 
       end
       
     end

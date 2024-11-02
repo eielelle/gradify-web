@@ -5,7 +5,6 @@ class Subject < ApplicationRecord
   has_many :school_classes
   has_many :school_years, through: :school_classes
   has_many :exams
-  belongs_to :school_class
   has_and_belongs_to_many :school_classes
   has_and_belongs_to_many :users
   
