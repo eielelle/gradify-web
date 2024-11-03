@@ -18,7 +18,9 @@
           </tr>
         </thead>
         <tbody>
-          <% @students.each do |student| %>
+          <% @student_stats.each do |data| %>
+            <% student = data[:student] %>
+            <% stats = data[:stats] %>
             <tr class="transition-colors duration-150 ease-in-out border-b" 
                 data-theme="light:border-gray-200 dark:border-gray-700 light:hover:bg-gray-50 dark:hover:bg-gray-800">
               <td class="px-6 py-4 transition-colors" data-theme="light:text-gray-900 dark:text-gray-200">
@@ -27,37 +29,41 @@
               <td class="px-6 py-4">
                 <div class="p-2 rounded transition-colors duration-150 ease-in-out" 
                      data-theme="light:text-gray-900 dark:text-gray-200 light:hover:bg-gray-100 dark:hover:bg-gray-700">
-                  0
+                  <%= stats[:total_score] %>
                 </div>
               </td>
               <td class="px-6 py-4">
                 <div class="p-2 rounded transition-colors duration-150 ease-in-out" 
                      data-theme="light:text-gray-900 dark:text-gray-200 light:hover:bg-gray-100 dark:hover:bg-gray-700">
-                  0
+                  <%= stats[:correct] %>
                 </div>
               </td>
               <td class="px-6 py-4">
                 <div class="p-2 rounded transition-colors duration-150 ease-in-out" 
                      data-theme="light:text-gray-900 dark:text-gray-200 light:hover:bg-gray-100 dark:hover:bg-gray-700">
-                  0
+                  <%= stats[:incorrect] %>
                 </div>
               </td>
               <td class="px-6 py-4">
                 <div class="p-2 rounded transition-colors duration-150 ease-in-out" 
                      data-theme="light:text-gray-900 dark:text-gray-200 light:hover:bg-gray-100 dark:hover:bg-gray-700">
-                  0
+                  <%= stats[:double_answer] %>
                 </div>
               </td>
               <td class="px-6 py-4">
                 <div class="p-2 rounded transition-colors duration-150 ease-in-out" 
                      data-theme="light:text-gray-900 dark:text-gray-200 light:hover:bg-gray-100 dark:hover:bg-gray-700">
-                  0
+                  <%= stats[:no_answer] %>
                 </div>
               </td>
               <td class="px-6 py-4">
                 <div class="p-2 rounded transition-colors duration-150 ease-in-out" 
                      data-theme="light:text-gray-900 dark:text-gray-200 light:hover:bg-gray-100 dark:hover:bg-gray-700">
-                  <span><div class="badge badge-warning">Undetected</div></span>
+                  <span>
+                    <div class="badge <%= stats[:status] == 'Detected' ? 'badge-success' : 'badge-warning' %>">
+                      <%= stats[:status] %>
+                    </div>
+                  </span>
                 </div>
               </td>
               <td class="px-6 py-4">
@@ -70,7 +76,7 @@
     </div>
   <% else %>
     <p class="text-center py-4 transition-colors" data-theme="light:text-gray-500 dark:text-gray-400">
-      No students found for this exam and subject combination.
+      No students found for this exam.
     </p>
   <% end %>
 </div>

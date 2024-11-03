@@ -33,10 +33,76 @@ module Teacher
                         .where(subjects: { id: @subject.id }) # Ensure the subject matches
                         .distinct
       
+        # Preload all responses for the exam to avoid N+1 queries
+        @responses = Response.where(exam: @exam)
+        .where(user_id: @students.pluck(:id))
+        .index_by(&:user_id)
+
+        # Calculate statistics for each student
+        @student_stats = @students.map do |student|
+        response = @responses[student.id]
+        stats = calculate_response_stats(response, @exam) if response
+
+        {
+        student: student,
+        stats: stats || default_stats
+        }
+        end
+
         # Handle case where no students are found
         if @students.empty?
           flash.now[:alert] = "No students found for this exam and subject combination."
         end
+      end
+
+      def calculate_response_stats(response, exam)
+        return default_stats unless response&.answer.present? && exam.answer_key.present?
+      
+        student_answers = response.answer.chars
+        correct_answers = exam.answer_key.chars
+        items_count = exam.items
+      
+        # Initialize counters
+        correct = 0
+        incorrect = 0
+        double_answer = 0
+        no_answer = 0
+      
+        # Compare each answer
+        student_answers.each_with_index do |student_answer, index|
+          break if index >= items_count # Don't process beyond the number of items
+          
+          case student_answer
+          when correct_answers[index]
+            correct += 1
+          when '_'
+            no_answer += 1
+          when '*'
+            double_answer += 1
+          else
+            incorrect += 1
+          end
+        end
+      
+        {
+          total_score: correct,
+          correct: correct,
+          incorrect: incorrect,
+          double_answer: double_answer,
+          no_answer: no_answer,
+          status: response.detected == 1 ? 'Detected' : 'Undetected'
+        }
+      end
+
+      def default_stats
+        {
+          total_score: 0,
+          correct: 0,
+          incorrect: 0,
+          double_answer: 0,
+          no_answer: 0,
+          status: 'Undetected'
+        }
       end
 
       def student_exam_overviews
