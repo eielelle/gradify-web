@@ -5,10 +5,10 @@
 
   <section class="grid grid-cols-4 gap-4 pb-8">
     <div class="flex gap-4 col-span-4">
-      <%= render 'shared/stat', title: "Total Students", desc: "↗︎ 400 (22%)", value: "79" %>
-      <%= render 'shared/stat', title: "Total Teachers", desc: "↗︎ 29 (22%)", value: "504" %>
-      <%= render 'shared/stat', title: "Total Admins", desc: "↗︎ 43 (22%)", value: "80" %>
-      <%= render 'shared/stat', title: "Total Classes", desc: "↗︎ 10 (22%)", value: "238" %>
+      <%= render 'shared/stat', title: "Total Students", desc: "↗︎ 400 (22%)", value: @total_students %>
+      <%= render 'shared/stat', title: "Total Teachers", desc: "↗︎ 29 (22%)", value: @total_teachers %>
+      <%= render 'shared/stat', title: "Total Admins", desc: "↗︎ 43 (22%)", value: @total_admins %>
+      <%= render 'shared/stat', title: "Total Classes", desc: "↗︎ 10 (22%)", value: @total_classes %>
       <%= render 'shared/stat', title: "Database Status", desc: "As of August 03, 2024 at 02:00 PM", value: "Online" %>
     </div>
 
@@ -42,7 +42,7 @@
       </div>
     </div>
 
-    <div>
+    <!--<div>
       <div class="card bg-base-200 shadow-xl">
       <figure>
         <%= image_tag 'promotion.jpg', class: "brightness-50" %>
@@ -55,7 +55,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
 
     <div>
       <div class="card bg-base-200 shadow-xl">
@@ -73,7 +73,7 @@
       </div>
     </div>
 
-    <div>
+    <!--<div>
       <div class="card bg-base-200 shadow-xl">
         <div class="card-body p-6">
           <div class="card-title flex justify-between items-center">
@@ -103,9 +103,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
 
-    <div>
+    <!--<div>
       <div class="card bg-base-200 shadow-xl">
         <div class="card-body p-6">
           <div class="card-title flex justify-between items-center">
@@ -135,9 +135,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
 
-    <div class="col-span-2">
+   <!--<div class="col-span-2">
       <div class="card bg-base-200 shadow-xl">
         <div class="card-body p-6">
           <div class="flex justify-between items-center">
@@ -165,7 +165,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
   </section>
 
 </section>
