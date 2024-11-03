@@ -1,14 +1,19 @@
 <div>
   <% if current_user.present? %>
-    <% @school_class.each do |school_class| %>
-      <h2 class="text-2xl font-bold text-center text-black-600 mb-6"><%= school_class.name %></h2>
+    <% if @school_class.any? %>
+      <% @school_class.each do |school_class| %>
+        <h2 class="text-2xl font-bold text-center text-black-600 mb-6"><%= school_class.name %></h2>
+      <% end %>
+    <% else %>
+      <p class="text-center py-4 text-gray-500">No classes found.</p>
     <% end %>
+
     <div class="flex flex-wrap -mx-2">
       <% @subjects.each do |subject| %>
         <div class="mx-2 mb-4">
           <div class="bg-base-100 shadow-md rounded-lg p-6 border-2 border-lime-400">
             <h3 class="text-lg font-semibold text-black-600"><%= subject.name %></h3>
-            
+
             <% teacher = subject.users.find_by(role: 'teacher') %>
             <p class="text-sm text-black-600">
               Instructor: <%= teacher&.name || "Not assigned" %>
@@ -22,10 +27,10 @@
               <div>3rd Quarter</div>
               <div>4th Quarter</div>
 
-              <div>-</div> <!-- Placeholder for 1st Quarter -->
-              <div>-</div> <!-- Placeholder for 2nd Quarter -->
-              <div>-</div> <!-- Placeholder for 3rd Quarter -->
-              <div>-</div> <!-- Placeholder for 4th Quarter -->
+              <div><%= @grades.dig(subject.id, :q1) || "-" %></div>
+              <div><%= @grades.dig(subject.id, :q2) || "-" %></div>
+              <div><%= @grades.dig(subject.id, :q3) || "-" %></div>
+              <div><%= @grades.dig(subject.id, :q4) || "-" %></div>
             </div>
           </div>
         </div>

@@ -1,8 +1,7 @@
-<h2>Exams<h2>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
   <% @subjects_with_exams.each do |subject| %>
     <% subject.exams.each do |exam| %>
-      <div class="card bg-base-100 shadow-xl border-2 border-primary">
+      <div class="card bg-base-100 shadow-xl border-2 border-lime-400">
         <div class="card-body">
           <h2 class="card-title"><%= exam.name %></h2>
           <p><strong>Subject:</strong> <%= subject.name %></p>
