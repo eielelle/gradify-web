@@ -10,12 +10,18 @@
             </svg>
           </div>
           <div class="ml-4">
-            <h3 class="text-lg font-semibold "><%= school_class.name %></h3>
-            <p class="text-md text-gray-500">Section: 
+            <p class="text-md font-semibold">Section: 
               <% if student_sections.any? %>
                 <%= student_sections.map(&:name).join(', ') %>
               <% else %>
                 No sections assigned
+              <% end %>
+            </p>
+            <p class="text-md font-semibold mt-2">Subjects: 
+              <% if school_class.subjects.any? %>
+                <%= school_class.subjects.map(&:name).join(', ') %>
+              <% else %>
+                No subjects assigned
               <% end %>
             </p>
           </div>

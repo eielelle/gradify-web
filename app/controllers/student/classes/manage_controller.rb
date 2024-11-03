@@ -7,7 +7,7 @@ module Student
       include PaperTrailConcern
 
       def index
-        @student_sections = current_user.school_sections.includes(:school_class)
+        @student_sections = current_user.school_sections.includes(school_class: :subjects)
         @student_classes = @student_sections.map(&:school_class).uniq
 
         if @student_classes.empty?
