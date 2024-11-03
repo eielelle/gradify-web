@@ -1,21 +1,22 @@
 <div>
   <% if current_user.present? %>
-    <h2 class="text-2xl font-bold text-center text-Black-600 mb-6">ABM</h2>
-
+    <% @school_class.each do |school_class| %>
+      <h2 class="text-2xl font-bold text-center text-black-600 mb-6"><%= school_class.name %></h2>
+    <% end %>
     <div class="flex flex-wrap -mx-2">
       <% @subjects.each do |subject| %>
         <div class="mx-2 mb-4">
           <div class="bg-base-100 shadow-md rounded-lg p-6 border-2 border-lime-400">
-            <h3 class="text-lg font-semibold text-Black-600"><%= subject.name %></h3>
+            <h3 class="text-lg font-semibold text-black-600"><%= subject.name %></h3>
             
             <% teacher = subject.users.find_by(role: 'teacher') %>
-            <p class="text-sm text-Black-600">
+            <p class="text-sm text-black-600">
               Instructor: <%= teacher&.name || "Not assigned" %>
               <br>
               Last Updated: <%= subject.updated_at.strftime("%d %b, %Y") %>
             </p>
 
-            <div class="mt-5 grid grid-cols-4 gap-6 font-bold text-Black-600 border-t pb-2">
+            <div class="mt-5 grid grid-cols-4 gap-6 font-bold text-black-600 border-t pb-2">
               <div>1st Quarter</div>
               <div>2nd Quarter</div>
               <div>3rd Quarter</div>

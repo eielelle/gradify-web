@@ -74,9 +74,10 @@ module Admin
 
           def assign_students
             set_school_class_data
-            already_assigned_students = update_students
-            set_flash_message(already_assigned_students)
+            already_assigned_students, newly_assigned_students, assigned_to_subject = update_students
+            set_flash_message(already_assigned_students, newly_assigned_students, assigned_to_subject)
           end
+          
 
           def set_school_class_data
             @school_class = SchoolClass.find(params[:class_id])
@@ -87,43 +88,57 @@ module Admin
 
           def update_students
             already_assigned_students = []
+            newly_assigned_students = []
+            assigned_to_subject = []
           
             selected_students.each do |student|
-              existing_section = student.school_sections.find_by(id: @school_section.id, school_year_id: @school_year.id)
+              existing_section = student.school_sections.find_by(school_year_id: @school_year.id)
           
               if existing_section
-                already_assigned_students << existing_section.name
+                already_assigned_students << "#{student.name} (#{existing_section.name})"
+                
                 @selected_subjects.each do |subject|
-                  student.subjects << subject unless student.subjects.include?(subject)
+                  if student.subjects.include?(subject)
+                    assigned_to_subject << student.name # Track students assigned to the subject
+                  else
+                    student.subjects << subject
+                    newly_assigned_students << student.name # Track students newly assigned to the subject
+                  end
                 end
               else
                 @school_section.users << student
+                newly_assigned_students << student.name
+          
                 @selected_subjects.each do |subject|
                   student.subjects << subject unless student.subjects.include?(subject)
                 end
               end
             end
           
-            already_assigned_students
+            # Return all three arrays for use in the calling method
+            [already_assigned_students, newly_assigned_students, assigned_to_subject]
           end
+          
+          
           
           def selected_students
             @selected_students ||= User.where(id: selected_student_ids, role: 'student')
           end
 
-          def set_flash_message(already_assigned_students)
-            newly_assigned_count = selected_students.size - already_assigned_students.size
-          
-            
-            if newly_assigned_count.positive?
-              flash[:toast] = "#{newly_assigned_count} students were successfully assigned."
+          def set_flash_message(already_assigned_students, newly_assigned_students, assigned_to_subject)
+            if newly_assigned_students.any?
+              flash[:toast] = "#{newly_assigned_students.size} students were successfully assigned to the subject."
             end
           
-            
+            if assigned_to_subject.any?
+              flash[:toast] = "Successfully assigned to the subject: #{assigned_to_subject.join(', ')}"
+            end
+          
             if already_assigned_students.any?
-              flash[:toast] = "Already assigned in: #{already_assigned_students.join(', ')}"
+              flash[:toast] = "Already Assigned: #{already_assigned_students.join(', ')}"
             end
           end
+          
           
 
           def selected_student_ids
