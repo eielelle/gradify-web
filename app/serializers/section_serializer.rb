@@ -2,5 +2,5 @@
 
 class SectionSerializer
   include JSONAPI::Serializer
-  attributes :id, :name, :created_at, :updated_at
+  attributes :id, :school_year_id, :name, :created_at
 end
