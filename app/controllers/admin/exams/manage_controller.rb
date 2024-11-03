@@ -70,7 +70,10 @@ module Admin
 
       def update
         set_exam
-
+      
+        # Collect updated answers from the form
+        @exam.answer_key = collect_answers
+      
         if @exam.update(update_exam_params)
           update_success
         else
@@ -78,6 +81,7 @@ module Admin
           redirect_to edit_admin_exams_manage_path(@exam)
         end
       end
+      
 
       private
 
