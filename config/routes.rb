@@ -161,9 +161,12 @@ Rails.application.routes.draw do
       get 'teacher/exams', to: 'teacher/exams#index', as: :api_v1_get_teacher_exams
       get 'teacher/responses', to: 'teacher/responses#index', as: :api_v1_get_teacher_responses
       post 'teacher/responses', to: 'teacher/responses#create', as: :api_v1_create_teacher_response
-      # get 'teacher/classes', to: 'teacher/classes#index', as: :api_v1_get_teacher_classes
-      # get 'teacher/classes/years_and_sections', to: 'teacher/classes#year_and_sections'
-      # get 'teacher/classes/students', to: 'teacher/classes#students'
+      get 'teacher/classes', to: 'teacher/classes#get_classes', as: :api_v1_create_teacher_classes
+      get 'teacher/class/years', to: 'teacher/classes#get_school_years', as: :api_v1_create_teacher_classes_sy
+      get 'teacher/class/year/sections', to: 'teacher/classes#get_sections', as: :api_v1_create_teacher_classes_sy_sections
+      get 'teacher/class/subjects', to: 'teacher/classes#get_subjects', as: :api_v1_create_teacher_classes_subjects
+      get 'teacher/section/students', to: 'teacher/classes#get_students', as: :api_v1_create_teacher_sections_students
+
     end
   end
 
@@ -207,4 +210,3 @@ Rails.application.routes.draw do
     end
   end
 end
-
