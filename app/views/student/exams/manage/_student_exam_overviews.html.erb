@@ -7,20 +7,17 @@
     </div>
     <div>
       <h3 class="text-2xl font-semibold text-gray-100"><%= @student.name %></h3>
-      <p class="text-md text-gray-400">Student ID No.: <%= @student.id %></p>
+      <p class="text-md text-gray-400">Student ID No.: <%= @student.student_number %></p>
     </div>
   </div>
     
   <div class="relative flex flex-col items-center">
     <div class="w-32 h-32 rounded-full border-4 border-primary flex items-center justify-center">
-    <!--REPLACE THIS REAL SCORE-->
-      <span class="text-4xl font-bold text-primary">85</span>
+      <span class="text-4xl font-bold text-primary"><%= @stats[:total_score] %></span>
     </div>
-    <!--REPLACE THIS IF THERE IS REAL TOTAL SCORE-->
-    <p class="text-md mt-2 text-gray-300">Total Score: 100 Points</p>
+    <p class="text-md mt-2 text-gray-300">Total Score: <%= @exam.items %> Points</p>
         
-     <!--REPLACE THIS INTO @total_score.to_f / @exam.items >= 0.5 IF THERE IS A REAL DATA-->   
-    <% if @total_score.to_f / @exam.items >= 0.5 %>
+    <% if @stats[:total_score].to_f / @exam.items >= 0.5 %>
       <div class="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">Passed</div>
     <% else %>
       <div class="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">Failed</div>
@@ -28,9 +25,15 @@
   </div>
 </div>
 
-<div class="w-full h-64 bg-gray-700 rounded-lg overflow-hidden">
-  <img src="/api/placeholder/800/400" alt="Large placeholder image" class="w-full h-full object-cover" />
-</div>
+<% if @response&.image_path.present? %>
+  <div class="w-full h-64 bg-gray-700 rounded-lg overflow-hidden">
+    <img src="<%= @response.image_path %>" alt="Answer sheet" class="w-full h-full object-cover" />
+  </div>
+<% else %>
+  <div class="w-full h-64 bg-gray-700 rounded-lg overflow-hidden flex items-center justify-center">
+    <p class="text-gray-400">No answer sheet image available</p>
+  </div>
+<% end %>
 
 <div class="overflow-x-auto mt-6">
   <table class="table w-full">
@@ -45,13 +48,64 @@
     </thead>
     <tbody>
       <tr>
-      <!--REPLACE THIS REAL DATA-->
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
+        <td><%= @stats[:total_score] %></td>
+        <td><%= @stats[:correct] %></td>
+        <td><%= @stats[:incorrect] %></td>
+        <td><%= @stats[:double_answer] %></td>
+        <td><%= @stats[:no_answer] %></td>
       </tr>
+    </tbody>
+  </table>
+</div>
+
+<h2 class="text-2xl font-bold mt-8 mb-4">Item Analysis</h2>
+
+<div class="overflow-x-auto mt-6">
+  <table class="table w-full">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Answer Key</th>
+        <th>Your Answer</th>
+        <th>Status</th>
+        <th>Class Average (%)</th>
+        <th>Difficulty Index</th>
+        <th>Discrimination Index</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @item_analysis&.any? %>
+        <% @item_analysis.each do |item| %>
+          <tr>
+            <td>Item <%= item[:item_number] %></td>
+            <td><%= item[:correct_answer] %></td>
+            <td><%= item[:student_answer] %></td>
+            <td>
+              <% case item[:status] %>
+              <% when 'Correct' %>
+                <div class="badge badge-success">Correct</div>
+              <% when 'No Answer' %>
+                <div class="badge badge-warning">No Answer</div>
+              <% when 'Double Answer' %>
+                <div class="badge badge-warning">Double Answer</div>
+              <% else %>
+                <div class="badge badge-error">Incorrect</div>
+              <% end %>
+            </td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <!--UNCOMMENT THIS IF THERES IS LOGIC-->
+            <!--<td><%= item[:avg_correct] %>%</td>-->
+            <!--<td><%= item[:difficulty_index] %></td>-->
+            <!--<td><%= item[:discrimination_index] %></td>-->
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="7" class="text-center">No item analysis data available</td>
+        </tr>
+      <% end %>
     </tbody>
   </table>
 </div>

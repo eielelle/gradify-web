@@ -1,56 +1,93 @@
-<div class="flex flex-col md:flex-row justify-between items-center px-8 py-6 bg-transparent">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 py-6 bg-base-200 rounded-lg">
+  <%# Student Info Section %>
   <div class="flex items-center space-x-3 mb-4 md:mb-0">
-    <div class="w-24 h-24 square-full bg-gray-700 flex items-center justify-center">
-      <svg class="w-14 h-14 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 21V19a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z" />
-      </svg>
+    <div class="avatar placeholder">
+      <div class="w-24 h-24 rounded-full bg-neutral text-neutral-content">
+        <span class="text-3xl"><%= @student.name[0] %></span>
+      </div>
     </div>
     <div>
-      <h3 class="text-2xl font-semibold text-gray-100"><%= @student.name %></h3>
-      <p class="text-md text-gray-400">Student ID No.: <%= @student.id %></p>
+      <h3 class="text-2xl font-semibold"><%= @student.name %></h3>
+      <p class="text-md opacity-75">Student ID: <%= @student.student_number %></p>
     </div>
   </div>
-    
+  
+  <%# Score Section %>
+  <% response = Response.find_by(exam: @exam, user: @student) %>
   <div class="relative flex flex-col items-center">
-    <div class="w-32 h-32 rounded-full border-4 border-primary flex items-center justify-center">
-      <span class="text-4xl font-bold text-primary">85</span>
+    <div class="radial-progress text-primary" style="--value:<%= response&.score.to_f / @exam.items * 100 %>;">
+      <span class="text-2xl font-bold"><%= response&.score || 0 %></span>
     </div>
-    <p class="text-md mt-2 text-gray-300">Total Score: 100 Points</p>
-        
-    <% if 85 >= 50 %>
-      <div class="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">Passed</div>
+    <p class="text-md mt-2">Total Score: <%= @exam.items %> Points</p>
+    
+    <% if response&.score.to_i >= (@exam.items / 2) %>
+      <div class="badge badge-success absolute -top-2 -right-2">Passed</div>
     <% else %>
-      <div class="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">Failed</div>
+      <div class="badge badge-error absolute -top-2 -right-2">Failed</div>
     <% end %>
   </div>
 </div>
 
-<div class="w-full h-64 bg-gray-700 rounded-lg overflow-hidden">
-  <img src="/api/placeholder/800/400" alt="Large placeholder image" class="w-full h-full object-cover" />
-</div>
+<% if @response&.image_path.present? %>
+  <div class="w-full h-64 bg-gray-700 rounded-lg overflow-hidden">
+    <img src="<%= @response.image_path %>" alt="Answer sheet" class="w-full h-full object-cover" />
+  </div>
+<% else %>
+  <div class="w-full h-64 bg-gray-700 rounded-lg overflow-hidden flex items-center justify-center">
+    <p class="text-gray-400">No answer sheet image available</p>
+  </div>
+<% end %>
 
-<div class="overflow-x-auto">
-  <table class="table w-full">
-    <thead>
-      <tr>
-        <th>Total Score</th>
-        <th>Correct</th>
-        <th>Incorrect</th>
-        <th>Double Answer</th>
-        <th>No Answer</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+    <div class="overflow-x-auto">
+      <table class="table w-full">
+        <thead>
+          <tr>
+            <th>Total Score</th>
+            <th>Correct</th>
+            <th>Incorrect</th>
+            <th>Double Answer</th>
+            <th>No Answer</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% 
+            if response&.answer.present? && @exam.answer_key.present?
+              student_answers = response.answer.chars
+              correct_answers = @exam.answer_key.chars
+              correct = 0
+              incorrect = 0
+              double_answer = 0
+              no_answer = 0
+              
+              student_answers.each_with_index do |ans, idx|
+                case ans
+                when correct_answers[idx]
+                  correct += 1
+                when '_'
+                  no_answer += 1
+                when '*'
+                  double_answer += 1
+                else
+                  incorrect += 1
+                end
+              end
+          %>
+            <tr>
+              <td><%= response.score %></td>
+              <td><%= correct %></td>
+              <td><%= incorrect %></td>
+              <td><%= double_answer %></td>
+              <td><%= no_answer %></td>
+            </tr>
+          <% else %>
+            <tr>
+              <td colspan="5" class="text-center">No response data available</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
 
 <!-- Add Item Analysis table below the existing table -->
 <h2 class="text-2xl font-bold mt-8 mb-4">Item Analysis</h2>
@@ -61,36 +98,47 @@
       <tr>
         <th>Item</th>
         <th>Answer Key</th>
-        <!-- Commenting out the student's answer column for now -->
-        <!-- <th>Student's Answer</th> -->
-        <th>A</th>
-        <th>B</th>
-        <th>C</th>
-        <th>D</th>
+        <th>Student's Answer</th>
+        <th>Status</th>
         <th>Average Correct (%)</th>
         <th>Difficulty Index</th>
         <th>Discrimination Index</th>
       </tr>
     </thead>
     <tbody>
-      <% (1..@answer_key.size).each do |item| %>
-        <tr>
-          <td>Item <%= item %></td>
-          <td><%= @answer_key[item - 1] %></td>
-          
-          <!-- Placeholder for student answers for options A, B, C, and D -->
-          <td><%= "A" %></td>
-          <td><%= "B" %></td>
-          <td><%= "C" %></td>
-          <td><%= "D" %></td>
-          
-          <!-- Placeholders for average, difficulty index, and discrimination index -->
-          <td>0%</td> <!-- Placeholder for average correct percentage -->
-          <td>0.00</td> <!-- Placeholder for difficulty index -->
-          <td>0.00</td> <!-- Placeholder for discrimination index -->
-        </tr>
-      <% end %>
-    </tbody>
+          <% if response&.answer.present? && @exam.answer_key.present?
+              student_answers = response.answer.chars
+              correct_answers = @exam.answer_key.chars
+              
+              correct_answers.each_with_index do |correct_ans, idx|
+                student_ans = student_answers[idx]
+          %>
+                <tr>
+                  <td>Item <%= idx + 1 %></td>
+                  <td><%= correct_ans %></td>
+                  <td><%= student_ans %></td>
+                  <td>
+                    <% if student_ans == correct_ans %>
+                      <div class="badge badge-success">Correct</div>
+                    <% elsif student_ans == '_' %>
+                      <div class="badge badge-warning">No Answer</div>
+                    <% elsif student_ans == '*' %>
+                      <div class="badge badge-warning">Double Answer</div>
+                    <% else %>
+                      <div class="badge badge-error">Incorrect</div>
+                    <% end %>
+                  </td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+          <%   end
+             else %>
+            <tr>
+              <td colspan="4" class="text-center">No response data available</td>
+            </tr>
+          <% end %>
+        </tbody>
   </table>
 </div>
 
