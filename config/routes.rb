@@ -115,6 +115,7 @@ Rails.application.routes.draw do
   end
 
   namespace :teacher do
+    get 'overview/download_pdf', to: 'overview#download_pdf'
     # /teacher/config
     resource :config, only: [:show, :update, :destroy], controller: 'config', as: 'config'
     patch 'change_password', to: 'config#change_password' # config related
