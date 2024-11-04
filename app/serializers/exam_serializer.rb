@@ -15,5 +15,9 @@ class ExamSerializer
     subject = Subject.find(event.subject_id) if event.subject_id
     SubjectSerializer.new(subject).serializable_hash[:data][:attributes] if subject
   end
+
+  attribute :responses do |event|
+    responses = event.responses.size;
+  end
 end
   
