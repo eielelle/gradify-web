@@ -2,5 +2,5 @@
 
 class StudentSerializer
   include JSONAPI::Serializer
-  attributes :id, :name, :email, :created_at, :updated_at
+  attributes :id, :name, :email, :student_number, :created_at, :updated_at
 end

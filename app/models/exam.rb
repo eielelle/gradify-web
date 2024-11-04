@@ -13,6 +13,8 @@ class Exam < ApplicationRecord
   belongs_to :subject
   belongs_to :quarter
 
+  has_many :responses
+
   def self.ransackable_attributes(_auth_object = nil)
     %w[name updated_at]
   end
