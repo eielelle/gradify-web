@@ -1,9 +1,0 @@
-<%= render "shared/common_panel", title: "Export Admin", subtitle: "", content: "export_admin" do %>
-  <%= render "shared/common_tabs", tabs: {
-    "List": admin_admins_manage_index_path,
-    "Add": new_admin_admins_manage_path,
-    "Export": admin_admins_export_path,
-    "History": admin_admins_history_path
-  }, active_path: admin_admins_export_path %>
-<% end %>
-
