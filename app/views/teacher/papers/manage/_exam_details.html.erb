@@ -13,7 +13,6 @@
             <th class="px-6 py-3 text-left transition-colors" data-theme="light:text-gray-900 dark:text-gray-200">Incorrect</th>
             <th class="px-6 py-3 text-left transition-colors" data-theme="light:text-gray-900 dark:text-gray-200">Double Answer</th>
             <th class="px-6 py-3 text-left transition-colors" data-theme="light:text-gray-900 dark:text-gray-200">No Answer</th>
-            <th class="px-6 py-3 text-left transition-colors" data-theme="light:text-gray-900 dark:text-gray-200">Status</th>
             <th class="px-6 py-3 text-left transition-colors" data-theme="light:text-gray-900 dark:text-gray-200">Actions</th>
           </tr>
         </thead>
@@ -54,16 +53,6 @@
                 <div class="p-2 rounded transition-colors duration-150 ease-in-out" 
                      data-theme="light:text-gray-900 dark:text-gray-200 light:hover:bg-gray-100 dark:hover:bg-gray-700">
                   <%= stats[:no_answer] %>
-                </div>
-              </td>
-              <td class="px-6 py-4">
-                <div class="p-2 rounded transition-colors duration-150 ease-in-out" 
-                     data-theme="light:text-gray-900 dark:text-gray-200 light:hover:bg-gray-100 dark:hover:bg-gray-700">
-                  <span>
-                    <div class="badge <%= stats[:status] == 'Detected' ? 'badge-success' : 'badge-warning' %>">
-                      <%= stats[:status] %>
-                    </div>
-                  </span>
                 </div>
               </td>
               <td class="px-6 py-4">
