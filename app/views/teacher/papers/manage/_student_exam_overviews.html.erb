@@ -13,14 +13,13 @@
   </div>
   
   <%# Score Section %>
-  <% response = Response.find_by(exam: @exam, user: @student) %>
   <div class="relative flex flex-col items-center">
-    <div class="radial-progress text-primary" style="--value:<%= response&.score.to_f / @exam.items * 100 %>;">
-      <span class="text-2xl font-bold"><%= response&.score || 0 %></span>
+    <div class="w-32 h-32 rounded-full border-4 border-primary flex items-center justify-center">
+      <span class="text-4xl font-bold text-primary"><%= @stats[:total_score] %></span>
     </div>
-    <p class="text-md mt-2">Total Score: <%= @exam.items %> Points</p>
-    
-    <% if response&.score.to_i >= (@exam.items / 2) %>
+    <p class="text-md mt-2">Total Items: <%= @exam.items %> Points</p>
+        
+    <% if @stats[:total_score].to_f / @exam.items >= 0.5 %>
       <div class="badge badge-success absolute -top-2 -right-2">Passed</div>
     <% else %>
       <div class="badge badge-error absolute -top-2 -right-2">Failed</div>
@@ -38,55 +37,28 @@
   </div>
 <% end %>
 
-    <div class="overflow-x-auto">
-      <table class="table w-full">
-        <thead>
-          <tr>
-            <th>Total Score</th>
-            <th>Correct</th>
-            <th>Incorrect</th>
-            <th>Double Answer</th>
-            <th>No Answer</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% 
-            if response&.answer.present? && @exam.answer_key.present?
-              student_answers = response.answer.chars
-              correct_answers = @exam.answer_key.chars
-              correct = 0
-              incorrect = 0
-              double_answer = 0
-              no_answer = 0
-              
-              student_answers.each_with_index do |ans, idx|
-                case ans
-                when correct_answers[idx]
-                  correct += 1
-                when '_'
-                  no_answer += 1
-                when '*'
-                  double_answer += 1
-                else
-                  incorrect += 1
-                end
-              end
-          %>
-            <tr>
-              <td><%= response.score %></td>
-              <td><%= correct %></td>
-              <td><%= incorrect %></td>
-              <td><%= double_answer %></td>
-              <td><%= no_answer %></td>
-            </tr>
-          <% else %>
-            <tr>
-              <td colspan="5" class="text-center">No response data available</td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
+<div class="overflow-x-auto mt-6">
+  <table class="table w-full">
+    <thead>
+      <tr>
+        <th>Total Score</th>
+        <th>Correct</th>
+        <th>Incorrect</th>
+        <th>Double Answer</th>
+        <th>No Answer</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= @stats[:total_score] %></td>
+        <td><%= @stats[:correct] %></td>
+        <td><%= @stats[:incorrect] %></td>
+        <td><%= @stats[:double_answer] %></td>
+        <td><%= @stats[:no_answer] %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 
 <!-- Add Item Analysis table below the existing table -->
@@ -100,45 +72,41 @@
         <th>Answer Key</th>
         <th>Student's Answer</th>
         <th>Status</th>
-        <th>Average Correct (%)</th>
+        <th>Class Average (%)</th>
         <th>Difficulty Index</th>
         <th>Discrimination Index</th>
       </tr>
     </thead>
     <tbody>
-          <% if response&.answer.present? && @exam.answer_key.present?
-              student_answers = response.answer.chars
-              correct_answers = @exam.answer_key.chars
-              
-              correct_answers.each_with_index do |correct_ans, idx|
-                student_ans = student_answers[idx]
-          %>
-                <tr>
-                  <td>Item <%= idx + 1 %></td>
-                  <td><%= correct_ans %></td>
-                  <td><%= student_ans %></td>
-                  <td>
-                    <% if student_ans == correct_ans %>
-                      <div class="badge badge-success">Correct</div>
-                    <% elsif student_ans == '_' %>
-                      <div class="badge badge-warning">No Answer</div>
-                    <% elsif student_ans == '*' %>
-                      <div class="badge badge-warning">Double Answer</div>
-                    <% else %>
-                      <div class="badge badge-error">Incorrect</div>
-                    <% end %>
-                  </td>
-                  <td>-</td>
-                  <td>-</td>
-                  <td>-</td>
-                </tr>
-          <%   end
-             else %>
-            <tr>
-              <td colspan="4" class="text-center">No response data available</td>
-            </tr>
-          <% end %>
-        </tbody>
+      <% if @item_analysis&.any? %>
+        <% @item_analysis.each do |item| %>
+          <tr>
+            <td>Item <%= item[:item_number] %></td>
+            <td><%= item[:correct_answer] %></td>
+            <td><%= item[:student_answer] %></td>
+            <td>
+              <% case item[:status] %>
+              <% when 'Correct' %>
+                <div class="badge badge-success">Correct</div>
+              <% when 'No Answer' %>
+                <div class="badge badge-warning">No Answer</div>
+              <% when 'Double Answer' %>
+                <div class="badge badge-warning">Double Answer</div>
+              <% else %>
+                <div class="badge badge-error">Incorrect</div>
+              <% end %>
+            </td>
+            <td><%= item[:avg_correct] %>%</td>
+            <td><%= item[:difficulty_index] %></td>
+            <td><%= item[:discrimination_index] %></td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="7" class="text-center">No item analysis data available</td>
+        </tr>
+      <% end %>
+    </tbody>
   </table>
 </div>
 
