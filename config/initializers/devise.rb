@@ -23,7 +23,7 @@ Devise.setup do |config|
     jwt.revocation_requests = [
       ['DELETE', %r{^api/v1/teacher/sign_out$}]
     ]
-    jwt.expiration_time = 30.minutes.to_i
+    jwt.expiration_time = 30.days.to_i
   end
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
