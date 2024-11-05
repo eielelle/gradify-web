@@ -105,50 +105,100 @@ module Teacher
         }
       end
 
+      def calculate_item_analysis
+        return unless @response&.answer.present? && @exam.answer_key.present?
+
+        @item_analysis = []
+        student_answers = @response.answer.chars
+        correct_answers = @exam.answer_key.chars
+
+        # Get all responses for this exam
+        all_responses = Response.where(exam: @exam).includes(:user)
+        total_students = all_responses.count
+
+        correct_answers.each_with_index do |correct_ans, idx|
+          # Calculate how many students got this item correct
+          correct_count = all_responses.count { |r| r.answer&.chars&.at(idx) == correct_ans }
+          
+          # Calculate average correct percentage
+          avg_correct = total_students > 0 ? (correct_count.to_f / total_students * 100).round(2) : 0
+          
+          # Calculate difficulty index
+          difficulty_index = total_students > 0 ? (correct_count.to_f / total_students).round(2) : 0
+          
+          # Calculate discrimination index
+          discrimination_index = calculate_discrimination_index(all_responses, idx, correct_ans)
+
+          @item_analysis << {
+            item_number: idx + 1,
+            correct_answer: correct_ans,
+            student_answer: student_answers[idx],
+            status: get_answer_status(student_answers[idx], correct_ans),
+            avg_correct: avg_correct,
+            difficulty_index: difficulty_index,
+            discrimination_index: discrimination_index
+          }
+        end
+      end
+
+      def calculate_discrimination_index(all_responses, item_index, correct_answer)
+        return 0 if all_responses.empty?
+
+        # Sort responses by total score
+        sorted_responses = all_responses.sort_by { |r| calculate_total_score(r) }
+        
+        # Split into upper and lower groups
+        group_size = (all_responses.count / 3.0).ceil
+        upper_group = sorted_responses.last(group_size)
+        lower_group = sorted_responses.first(group_size)
+
+        # Calculate correct answers in each group
+        upper_correct = upper_group.count { |r| r.answer&.chars&.at(item_index) == correct_answer }
+        lower_correct = lower_group.count { |r| r.answer&.chars&.at(item_index) == correct_answer }
+
+        # Calculate discrimination index
+        ((upper_correct - lower_correct).to_f / group_size).round(2)
+      end
+
+      def calculate_total_score(response)
+        return 0 unless response&.answer.present? && response.exam&.answer_key.present?
+        
+        response.answer.chars.zip(response.exam.answer_key.chars).count { |student, correct| student == correct }
+      end
+
+      def get_answer_status(student_answer, correct_answer)
+        case student_answer
+        when correct_answer then 'Correct'
+        when '_' then 'No Answer'
+        when '*' then 'Double Answer'
+        else 'Incorrect'
+        end
+      end
+
       def student_exam_overviews
         @teacher = current_user
         @subject = @teacher.subjects.find(params[:id])
         @exam = @subject.exams.find(params[:exam_id])
         @student = User.find(params[:student_id])
         
-        # Fetch the answer key from the exam
-        @answer_key = @exam.answer_key
+         # Fetch the student's response for this exam
+         @response = Response.find_by(exam: @exam, user: @student)
         
-        # Commented out the fetching of student's answers for now
-        # @student_answers = @student.exam_results.where(exam: @exam).pluck(:answers).first
+         # Calculate statistics if response exists
+         if @response&.answer.present? && @exam.answer_key.present?
+           @stats = calculate_response_stats(@response, @exam)
+         else
+           @stats = default_stats
+         end
+         
+         # Fetch the answer key and student's answers for item analysis
+         @answer_key = @exam.answer_key
+         @student_answers = @response&.answer
+ 
+         # Calculate item analysis metrics
+         calculate_item_analysis if @response&.answer.present? && @exam.answer_key.present?
         
-        # Initialize arrays to store analysis data
-        # @average_correct = []
-        # @difficulty_index = []
-        # @discrimination_index = []
-        
-        # Fetch all students who took the exam for future item analysis
-        # all_students = @exam.students
-        
-        # Example of item analysis logic for future use
-        # (1..@answer_key.size).each do |item|
-        #   total_students = all_students.count
-        #   correct_answers = all_students.select { |s| s.exam_results.where(exam: @exam).pluck(:answers)[0][item - 1] == @answer_key[item - 1] }.count
-          
-        #   # Calculate average correct percentage for this item
-        #   @average_correct[item - 1] = (correct_answers.to_f / total_students) * 100
-          
-        #   # Calculate Difficulty Index
-        #   @difficulty_index[item - 1] = correct_answers.to_f / total_students
-          
-        #   # Split students into upper and lower groups based on scores
-        #   upper_group = all_students.sort_by(&:score).last(total_students / 2)
-        #   lower_group = all_students.sort_by(&:score).first(total_students / 2)
-          
-        #   upper_correct = upper_group.select { |s| s.exam_results.where(exam: @exam).pluck(:answers)[0][item - 1] == @answer_key[item - 1] }.count
-        #   lower_correct = lower_group.select { |s| s.exam_results.where(exam: @exam).pluck(:answers)[0][item - 1] == @answer_key[item - 1] }.count
-          
-        #   # Calculate Discrimination Index (upper group correct - lower group correct)
-        #   @discrimination_index[item - 1] = (upper_correct - lower_correct).to_f / (total_students / 2)
-        # end
       end
-      
-      
 
     end
   end

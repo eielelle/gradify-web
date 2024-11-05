@@ -15,7 +15,7 @@
     <div class="w-32 h-32 rounded-full border-4 border-primary flex items-center justify-center">
       <span class="text-4xl font-bold text-primary"><%= @stats[:total_score] %></span>
     </div>
-    <p class="text-md mt-2 text-gray-300">Total Score: <%= @exam.items %> Points</p>
+    <p class="text-md mt-2 text-gray-300">Total Items: <%= @exam.items %> Points</p>
         
     <% if @stats[:total_score].to_f / @exam.items >= 0.5 %>
       <div class="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">Passed</div>
@@ -92,13 +92,9 @@
                 <div class="badge badge-error">Incorrect</div>
               <% end %>
             </td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <!--UNCOMMENT THIS IF THERES IS LOGIC-->
-            <!--<td><%= item[:avg_correct] %>%</td>-->
-            <!--<td><%= item[:difficulty_index] %></td>-->
-            <!--<td><%= item[:discrimination_index] %></td>-->
+            <td><%= item[:avg_correct] %>%</td>
+            <td><%= item[:difficulty_index] %></td>
+            <td><%= item[:discrimination_index] %></td>
           </tr>
         <% end %>
       <% else %>
