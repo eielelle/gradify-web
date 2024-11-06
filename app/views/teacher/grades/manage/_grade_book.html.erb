@@ -65,9 +65,7 @@
             <th>Class</th>
             <th>Section</th>
             <th>Subject</th>
-            <% @exams.each do |exam| %>
-              <th><%= exam.name %></th>
-            <% end %>
+            <th>Exam</th>
             <th>Average</th>
           </tr>
         </thead>
@@ -87,7 +85,8 @@
                   <% stats = calculate_exam_stats(student, exam) %>
                   <td>
                     <div class="p-2">
-                      <div class="font-medium">Total: <%= stats[:total_score] %></div>
+                      <div class="font-medium"><%= exam.name %></div>
+                      <div class="font-small">Total: <%= stats[:total_score] %></div>
                       <div class="text-xs text-gray-500">
                         Correct: <%= stats[:correct] %> | Incorrect: <%= stats[:incorrect] %>
                       </div>
