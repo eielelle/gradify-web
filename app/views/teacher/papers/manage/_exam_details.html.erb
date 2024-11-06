@@ -1,4 +1,133 @@
 <div class="transition-colors duration-150 ease-in-out">
+  <h4 class="text-xl font-bold mb-4" data-theme="light:text-gray-900 dark:text-gray-100">Exam Statistics</h4>
+  
+  <%# Calculate statistics %>
+  <% 
+    total_students = @students.count
+    
+    # Filter out students with 0 total score (considered as not taken)
+    students_who_took_exam = @student_stats.reject { |data| data[:stats][:total_score].to_i == 0 }
+    actual_exam_takers = students_who_took_exam.count
+    
+    # Calculate not taken including both missing entries and zero scores
+    not_taken = total_students - actual_exam_takers
+    
+    # Only consider students who actually took the exam (non-zero scores) for pass/fail calculations
+    passed_students = students_who_took_exam.count { |data| data[:stats][:total_score].to_f / @exam.items >= 0.5 }
+    failed_students = actual_exam_takers - passed_students
+    
+    # Calculate percentages and angles for the pie chart
+    passed_percentage = total_students > 0 ? (passed_students.to_f / total_students * 100).round : 0
+    failed_percentage = total_students > 0 ? (failed_students.to_f / total_students * 100).round : 0
+    not_taken_percentage = total_students > 0 ? (not_taken.to_f / total_students * 100).round : 0
+    
+    # Convert percentages to angles (360 degrees total)
+    passed_angle = (passed_percentage / 100.0 * 360).round
+    failed_angle = (failed_percentage / 100.0 * 360).round
+    not_taken_angle = (not_taken_percentage / 100.0 * 360).round
+    
+    # Calculate SVG path coordinates
+    def calculate_coordinates(percentage, start_angle)
+      radius = 50  # SVG coordinate system (center is 100,100)
+      end_angle = start_angle + (percentage / 100.0 * 360)
+      
+      start_x = 100 + radius * Math.cos(start_angle * Math::PI / 180)
+      start_y = 100 + radius * Math.sin(start_angle * Math::PI / 180)
+      end_x = 100 + radius * Math.cos(end_angle * Math::PI / 180)
+      end_y = 100 + radius * Math.sin(end_angle * Math::PI / 180)
+      
+      large_arc = percentage > 50 ? 1 : 0
+      
+      [start_x, start_y, end_x, end_y, large_arc]
+    end
+  %>
+
+  <%# Pie Chart Container %>
+  <div class="card bg-base-100 shadow-l max-w-4xl mx-auto">
+    <div class="card-body p-4">
+      <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-10">
+        <%# SVG Pie Chart - made slightly smaller %>
+        <div class="relative w-48 h-48">
+          <%# SVG content remains the same... %>
+          <svg viewBox="0 0 200 200" class="transform -rotate-90">
+            <% current_angle = 0 %>
+            
+            <%# Passed Section %>
+            <% if passed_percentage > 0 %>
+              <% x1, y1, x2, y2, large_arc = calculate_coordinates(passed_percentage, current_angle) %>
+              <path d="M 100,100 L <%= x1 %>,<%= y1 %> A 50,50 0 <%= large_arc %>,1 <%= x2 %>,<%= y2 %> Z"
+                    class="fill-success" />
+              <% current_angle += (passed_percentage / 100.0 * 360) %>
+            <% end %>
+            
+            <%# Failed Section %>
+            <% if failed_percentage > 0 %>
+              <% x1, y1, x2, y2, large_arc = calculate_coordinates(failed_percentage, current_angle) %>
+              <path d="M 100,100 L <%= x1 %>,<%= y1 %> A 50,50 0 <%= large_arc %>,1 <%= x2 %>,<%= y2 %> Z"
+                    class="fill-error" />
+              <% current_angle += (failed_percentage / 100.0 * 360) %>
+            <% end %>
+            
+            <%# Not Taken Section %>
+            <% if not_taken_percentage > 0 %>
+              <% x1, y1, x2, y2, large_arc = calculate_coordinates(not_taken_percentage, current_angle) %>
+              <path d="M 100,100 L <%= x1 %>,<%= y1 %> A 50,50 0 <%= large_arc %>,1 <%= x2 %>,<%= y2 %> Z"
+                    class="fill-neutral" />
+            <% end %>
+          </svg>
+          
+          <%# Center Total Count %>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="text-center">
+              <div class="text-2xl text-black font-bold"><%= total_students %></div>
+              <div class="text-sm text-black opacity-75">Total</div>
+            </div>
+          </div>
+        </div>
+
+        <%# Enhanced Legend %>
+        <div class="flex flex-col sm:flex-row gap-10">
+          <%# Passed Stats %>
+          <div class="stats shadow-lg hover:shadow-xl transition-shadow duration-300 bg-success/5">
+            <div class="stat px-6">
+              <div class="stat-title flex items-center gap-2 font-medium">
+                <div class="w-3 h-3 bg-success rounded-full shadow-sm"></div>
+                Passed
+              </div>
+              <div class="stat-value text-success text-3xl"><%= passed_students %></div>
+              <div class="stat-desc text-success/70 font-medium"><%= passed_percentage %>% of total</div>
+            </div>
+          </div>
+
+          <%# Failed Stats %>
+          <div class="stats shadow-lg hover:shadow-xl transition-shadow duration-300 bg-error/5">
+            <div class="stat px-6">
+              <div class="stat-title flex items-center gap-2 font-medium">
+                <div class="w-3 h-3 bg-error rounded-full shadow-sm"></div>
+                Failed
+              </div>
+              <div class="stat-value text-error text-3xl"><%= failed_students %></div>
+              <div class="stat-desc text-error/70 font-medium"><%= failed_percentage %>% of total</div>
+            </div>
+          </div>
+
+          <%# Not Taken Stats %>
+          <div class="stats shadow-lg hover:shadow-xl transition-shadow duration-300 bg-neutral/4">
+            <div class="stat px-6">
+              <div class="stat-title flex items-center gap-2 font-medium">
+                <div class="w-3 h-3 bg-neutral rounded-full shadow-sm"></div>
+                Not Taken
+              </div>
+              <div class="stat-value text-neutral/150 text-3xl"><%= not_taken %></div>
+              <div class="stat-desc text-neutral/150 font-medium"><%= not_taken_percentage %>% of total</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%# Students Table %>
   <h4 class="text-xl font-bold mb-4" data-theme="light:text-gray-900 dark:text-gray-100">Students</h4>
 
   <% if @students.any? %>
@@ -8,6 +137,7 @@
           <tr class="transition-colors duration-150 ease-in-out border-b-2" 
               data-theme="light:bg-gray-100 dark:bg-gray-800 light:border-gray-300 dark:border-gray-600">
             <th class="px-6 py-3 text-left transition-colors" data-theme="light:text-gray-900 dark:text-gray-200">Name</th>
+            <th class="px-6 py-3 text-left transition-colors" data-theme="light:text-gray-900 dark:text-gray-200">Status</th>
             <th class="px-6 py-3 text-left transition-colors" data-theme="light:text-gray-900 dark:text-gray-200">Total Score</th>
             <th class="px-6 py-3 text-left transition-colors" data-theme="light:text-gray-900 dark:text-gray-200">Correct</th>
             <th class="px-6 py-3 text-left transition-colors" data-theme="light:text-gray-900 dark:text-gray-200">Incorrect</th>
@@ -20,10 +150,29 @@
           <% @student_stats.each do |data| %>
             <% student = data[:student] %>
             <% stats = data[:stats] %>
+            <% has_taken = stats[:total_score].to_i > 0 %>
+            <% status = if !has_taken
+                         "Not Taken"
+                       elsif stats[:total_score].to_f / @exam.items >= 0.5
+                         "Passed"
+                       else
+                         "Failed"
+                       end
+            %>
             <tr class="transition-colors duration-150 ease-in-out border-b" 
                 data-theme="light:border-gray-200 dark:border-gray-700 light:hover:bg-gray-50 dark:hover:bg-gray-800">
               <td class="px-6 py-4 transition-colors" data-theme="light:text-gray-900 dark:text-gray-200">
                 <%= student.name %>
+              </td>
+              <td class="px-6 py-4">
+                <span class="px-2 py-1 rounded text-sm font-medium
+                           <%= case status
+                               when 'Passed' then 'bg-success/20 text-success'
+                               when 'Failed' then 'bg-error/20 text-error'
+                               else 'bg-neutral/90 text-white'
+                               end %>">
+                  <%= status %>
+                </span>
               </td>
               <td class="px-6 py-4">
                 <div class="p-2 rounded transition-colors duration-150 ease-in-out" 
