@@ -84,17 +84,20 @@
                 <td><%= student.school_sections.map(&:name).join(", ") %></td>
                 <td><%= subject.name %></td>
                 <% @exams.where(subject: subject).each do |exam| %>
+                  <% stats = calculate_exam_stats(student, exam) %>
                   <td>
                     <div class="p-2">
-                      <div class="font-medium">Total: 0</div>
+                      <div class="font-medium">Total: <%= stats[:total_score] %></div>
                       <div class="text-xs text-gray-500">
-                        Correct: 0 | Incorrect: 0
+                        Correct: <%= stats[:correct] %> | Incorrect: <%= stats[:incorrect] %>
                       </div>
                     </div>
                   </td>
                 <% end %>
                 <td>
-                  <div class="p-2">0</div>
+                  <div class="p-2">
+                    <%= calculate_average(student, subject, @exams) %>%
+                  </div>
                 </td>
               </tr>
             <% end %>

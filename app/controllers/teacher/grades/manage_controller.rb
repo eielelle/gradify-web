@@ -6,6 +6,7 @@ module Teacher
       include SearchableConcern
       include ErrorConcern
       include PaperTrailConcern
+      include GradeBookHelper
 
       def index
         set_default_sort(default_sort_column: 'name asc')
