@@ -9,7 +9,7 @@ module Api
                         responses = []
                     
                         # Process each response in the array from the request
-                        params[:responses].each do |response_param|
+                        response_bulk_params[:responses].each do |response_param|
                             # Find the exam
                             exam = Exam.find(response_param[:exam_id])
                         
@@ -66,6 +66,10 @@ module Api
 
                 def response_params
                     params.permit(:exam_id, :student_number, :answer, :score, :detected, :image_path)
+                end
+
+                def response_bulk_params
+                    params.require(:responses).permit(:exam_id, :student_number, :answer, :score, :detected, :image_path)
                 end
             end
         end
