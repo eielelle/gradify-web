@@ -167,7 +167,7 @@ Rails.application.routes.draw do
       get 'teacher/class/year/sections', to: 'teacher/classes#get_sections', as: :api_v1_create_teacher_classes_sy_sections
       get 'teacher/class/subjects', to: 'teacher/classes#get_subjects', as: :api_v1_create_teacher_classes_subjects
       get 'teacher/section/students', to: 'teacher/classes#get_students', as: :api_v1_create_teacher_sections_students
-      get 'teacher/class/sync', to: 'teacher/classes#create_many', as: :api_v1_create_teacher_response_many
+      post 'teacher/class/sync', to: 'teacher/classes#create_many', as: :api_v1_create_teacher_response_many
 
     end
   end
