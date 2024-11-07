@@ -69,7 +69,9 @@ module Api
                 end
 
                 def response_bulk_params
-                    params.require(:responses).permit(:exam_id, :student_number, :answer, :score, :detected, :image_path)
+                    params.require(:responses).map do |response|
+                        response.permit(:exam_id, :student_number, :answer, :score, :detected, :image_path)
+                    end
                 end
             end
         end
