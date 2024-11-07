@@ -6,10 +6,11 @@ module Api
                 protect_from_forgery with: :null_session
 
                     def create
-                        # find subject
+                        # Find the exam
                         exam = Exam.find(response_params[:exam_id])
 
-                        user = User.where(student_number: response_params[:student_number])
+                        # Find the user based on the student number and check if the user belongs to the subject
+                        user = User.where(student_number: response_params[:student_number]).find_by(id: exam.subject.users.ids)
                         user_id = user ? user.id : nil
 
                         response = Response.find_or_initialize_by(exam_id: response_params[:exam_id], user_id: user_id)
