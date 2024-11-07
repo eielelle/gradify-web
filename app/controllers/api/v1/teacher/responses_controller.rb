@@ -9,7 +9,7 @@ module Api
                         # find subject
                         exam = Exam.find(response_params[:exam_id])
 
-                        user = User.where(student_number: response_params[:student_number], id: exam.subject.users.ids)
+                        user = User.where(student_number: response_params[:student_number])
                         user_id = user ? user.id : nil
 
                         response = Response.find_or_initialize_by(exam_id: response_params[:exam_id], user_id: user_id)
