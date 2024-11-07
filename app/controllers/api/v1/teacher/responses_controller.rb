@@ -5,9 +5,6 @@ module Api
                 respond_to :json
                 protect_from_forgery with: :null_session
                     def create_many
-                        # # Initialize an empty array to store the responses
-                        responses = []
-                    
                         # Process each response in the array from the request
                         response_bulk_params.each do |response_param|
                             # Find the exam
@@ -19,31 +16,9 @@ module Api
 
                             # Find or initialize the response object
                             response = Response.find_or_initialize_by(exam_id: response_param[:exam_id], user_id: user_id)
-                            response.id = nil
                             response.assign_attributes(response_param.merge(user_id: user_id))
 
-
-                            # Add the response to the array if it's valid
-                            if response.valid?
-                                a = Response.where(exam_id: response.exam_id, user_id: response.user_id)
-                                if a.nil?
-                                    responses << response
-                                end
-                            end
-                        end
-                    
-                        # If there are valid responses, bulk create them
-                        if responses.any?
-                            Response.import(
-                                responses,
-                                on_conflict: {
-                                  conflict_target: [:exam_id, :user_id],  # Check for conflict on exam_id and user_id
-                                  columns: :all  # Update all columns in case of a conflict
-                                }
-                              )
-                            render json: responses, status: :created
-                        else
-                            render json: { errors: 'No valid responses provided' }, status: :unprocessable_entity
+                            response.save
                         end
                     end
 
