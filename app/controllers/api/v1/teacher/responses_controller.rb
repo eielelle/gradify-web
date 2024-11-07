@@ -9,7 +9,7 @@ module Api
                         responses = []
                     
                         # Process each response in the array from the request
-                        response_params[:responses].each do |response_param|
+                        params[:responses].each do |response_param|
                             # Find the exam
                             exam = Exam.find(response_param[:exam_id])
                         
