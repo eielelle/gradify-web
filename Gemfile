@@ -18,6 +18,7 @@ gem 'kaminari'
 gem 'ransack'
 gem 'paper_trail'
 gem 'cancancan'
+gem 'activerecord-import'
 
 gem 'rack-cors'
 gem 'devise-jwt'
