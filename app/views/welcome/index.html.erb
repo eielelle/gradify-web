@@ -1,4 +1,3 @@
-
 <main class="px-6">
     <section class="container mx-auto">
         <div class="navbar">
@@ -217,17 +216,198 @@
             </p>
         </aside>
         <nav>
-            <h6 class="footer-title">Team</h6>
-            <a class="link link-hover">Contact</a>
+        <h6 class="footer-title">Team</h6>
+        <button class="link link-hover" onclick="my_modal_4.showModal()">Contact</button>
         </nav>
         <nav>
             <h6 class="footer-title">Legal</h6>
-            <a class="link link-hover">Terms of use</a>
-            <a class="link link-hover">Privacy policy</a>
-            <a class="link link-hover">Cookie policy</a>
+            <button class="link link-hover" onclick="terms_modal.showModal()">Terms of use</button>
+            <button class="link link-hover" onclick="privacy_modal.showModal()">Privacy policy</button>
+            <button class="link link-hover" onclick="cookie_modal.showModal()">Cookie policy</button>
         </nav>
         </footer>
 
     </section>
 
 </main>
+
+
+<dialog id="my_modal_4" class="modal">
+  <div class="modal-box w-11/12 max-w-3xl">
+    <h2 class="text-3xl font-extrabold border-b-2 bg-base-100 inline-block">Our Team</h2>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 max-w-2xl mx-auto mt-12">
+        <!-- Team Member 1 -->
+        <div class="flex flex-col items-center sm:flex-row bg-gray-100 p-6 rounded-lg shadow-lg">
+            <!-- Profile Image -->
+            <div class="w-45 h-45 rounded-lg overflow-hidden">
+                <%= image_tag 'romero.png' %> 
+            </div>
+            
+            <!-- Profile Info Card -->
+            <div class="bg-white p-4 rounded-lg shadow-lg -mt-10 sm:mt-0 sm:ml-4">
+                <h4 class="text-gray-800 font-bold text-sm">Eleazar Romero</h4>
+                <p class="text-gray-500 text-xs">eleazar@gmail.com</p>
+                <p class="text-gray-800 text-sm mt-2">Developer</p>
+            </div>
+        </div>
+
+        <!-- Team Member 2 -->
+        <div class="flex flex-col items-center sm:flex-row bg-gray-100 p-6 rounded-lg shadow-md">
+            <div class="w-45 h-45 rounded-lg overflow-hidden">
+                <%= image_tag 'jimson.png' %> 
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow-lg -mt-10 sm:mt-0 sm:ml-4">
+                <h4 class="text-gray-800 font-bold text-sm">Jameson Teodore</h4>
+                <p class="text-gray-500 text-xs">jameson@gmail.com</p>
+                <p class="text-gray-800 text-sm mt-2">Developer</p>
+            </div>
+        </div>
+
+        <!-- Team Member 3 -->
+        <div class="flex flex-col items-center sm:flex-row bg-gray-100 p-6 rounded-lg shadow-md">
+            <div class="w-45 h-45 rounded-lg overflow-hidden">
+                <%= image_tag 'martin.png' %> 
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow-lg -mt-10 sm:mt-0 sm:ml-4">
+                <h4 class="text-gray-800 font-bold text-sm">Jamesmar Martin</h4>
+                <p class="text-gray-500 text-xs">jamesmar@gmail.com</p>
+                <p class="text-gray-800 text-sm mt-2">Developer</p>
+            </div>
+        </div>
+
+        <!-- Team Member 4 -->
+        <div class="flex flex-col items-center sm:flex-row bg-gray-100 p-6 rounded-lg shadow-md">
+                <div class="w-45 h-45 rounded-lg overflow-hidden">
+                    <%= image_tag 'roxas.png' %> 
+                </div>
+            <div class="bg-white p-4 rounded-lg shadow-lg mt-10 sm:mt-0 sm:ml-4">
+                <h4 class="text-gray-800 font-bold text-sm">Shello Lois Roxas</h4>
+                <p class="text-gray-500 text-xs">shello@gmail.com</p>
+                <p class="text-gray-800 text-sm mt-2">Developer</p>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="modal-action">
+      <button class="btn" onclick="my_modal_4.close()">Close</button>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="terms_modal" class="modal" aria-labelledby="terms_title" aria-describedby="terms_content">
+  <div class="modal-box w-11/12 max-w-3xl">
+    <h2 id="terms_title" class="text-3xl font-extrabold border-b-2 bg-base-100 inline-block">Terms of Use</h2>
+    <p id="terms_content" class="mt-4">
+      Welcome to Gradify! Gradify is an application designed for scanning and grading exam papers efficiently. By accessing or using Gradify, you agree to these Terms of Use.
+
+      <br><br>1. <strong>Acceptance of Terms</strong><br>
+      By signing in or otherwise using Gradify, you agree to comply with and be bound by these Terms of Use. If you do not agree with these terms, please refrain from using the application.
+      
+      <br><br>2. <strong>Purpose of the Application</strong><br>
+      Gradify is intended solely for educational purposes to assist teachers and educational institutions in scanning and grading exam papers electronically. Any other use of the application is strictly prohibited.
+      
+      <br><br>3. <strong>Security and Confidentiality</strong><br>
+      You acknowledge that the information within scanned exam papers may contain sensitive and confidential information. You agree to maintain and safeguard the security and confidentiality of this data in accordance with applicable privacy laws and regulations.
+      
+      <br><br>4. <strong>Accuracy of Scans</strong><br>
+      Gradify endeavors to provide accurate scan results, though accuracy may vary depending on factors like document quality and the scanning environment. Gradify cannot guarantee 100% accuracy in all cases.
+      
+      <br><br>5. <strong>Data Privacy</strong><br>
+      Gradify respects your privacy and is committed to protecting your personal data. Information collected through the application will be handled according to our Privacy Policy.
+      
+      <br><br>6. <strong>Responsibility for Grading</strong><br>
+      Gradify functions as a tool for scanning and digitizing exam papers but does not replace a teacher's judgment and expertise in grading. You are solely responsible for reviewing and verifying the grades generated by the application.
+      
+      <br><br>7. <strong>Prohibited Activities</strong><br>
+      You agree not to use Gradify for any illegal, unethical, or unauthorized purposes, including but not limited to cheating or academic dishonesty.
+      
+      <br><br>8. <strong>Updates and Modifications</strong><br>
+      Gradify may update or modify the application to enhance functionality and performance. By continuing to use Gradify after these updates, you agree to be bound by the revised terms.
+      
+      <br><br>9. <strong>Feedback and Support</strong><br>
+      We welcome your feedback and suggestions. For any assistance, please contact our support team.
+      
+      <br><br>10. <strong>Governing Law</strong><br>
+      These Terms of Use shall be governed by and construed in accordance with the laws of [Jurisdiction], without regard to its conflict of law provisions.
+    </p>
+    <div class="modal-action">
+      <button type="button" class="btn" onclick="document.getElementById('terms_modal').close()">Close</button>
+    </div>
+  </div>
+</dialog>
+
+
+<dialog id="privacy_modal" class="modal" aria-labelledby="privacy_title" aria-describedby="privacy_content">
+  <div class="modal-box w-11/12 max-w-3xl">
+    <h2 id="privacy_title" class="text-3xl font-extrabold border-b-2 bg-base-100 inline-block">Privacy Policy</h2>
+    <p id="privacy_content" class="mt-4">
+      Gradify values your privacy. This Privacy Policy outlines how we collect, use, store, and protect your personal information.
+
+      <br><br>1. <strong>Information We Collect</strong><br>
+      <em>User Information:</em> We may collect certain personal information when you create an account, such as name, email address, and institution affiliation.
+      <br><em>Scanned Exam Data:</em> Gradify collects and processes images of exam papers for grading purposes.
+
+      <br><br>2. <strong>Use of Information</strong><br>
+      We use the information we collect to:
+      <ul class="list-disc ml-5">
+        <li>Provide and improve the Gradify application’s functionality.</li>
+        <li>Ensure the security and confidentiality of exam data.</li>
+        <li>Communicate with you about updates, support, and feedback.</li>
+      </ul>
+
+      <br>3. <strong>Data Storage and Security</strong><br>
+      Gradify is committed to securing your data. We implement reasonable measures to protect personal and exam data from unauthorized access, disclosure, or alteration. However, no method of transmission over the Internet is entirely secure.
+
+      <br><br>4. <strong>Sharing of Information</strong><br>
+      Gradify does not share your personal information or scanned exam data with third parties except as required by law or with your explicit consent.
+
+      <br><br>5. <strong>Data Retention</strong><br>
+      We retain personal information only as long as necessary for the purposes outlined in this policy or as required by law.
+
+      <br><br>6. <strong>User Rights</strong><br>
+      Depending on your jurisdiction, you may have rights to access, correct, or delete your personal information. Please contact us for any data requests or questions.
+
+      <br><br>7. <strong>Changes to This Privacy Policy</strong><br>
+      We may update this Privacy Policy from time to time. Any changes will be posted here with the updated date.
+
+      <br><br>If you have questions about this Privacy Policy, please contact our support team.
+    </p>
+    <div class="modal-action">
+      <button type="button" class="btn" onclick="document.getElementById('privacy_modal').close()">Close</button>
+    </div>
+  </div>
+</dialog>
+
+
+<dialog id="cookie_modal" class="modal" aria-labelledby="cookie_title" aria-describedby="cookie_content">
+  <div class="modal-box w-11/12 max-w-3xl">
+    <h2 id="cookie_title" class="text-3xl font-extrabold border-b-2 bg-base-100 inline-block">Cookie Policy</h2>
+    <p id="cookie_content" class="mt-4">
+      Gradify uses cookies to enhance your experience. This Cookie Policy explains what cookies are, how we use them, and your options.
+
+      <br><br>1. <strong>What Are Cookies?</strong><br>
+      Cookies are small text files stored on your device by websites you visit. They help improve website functionality, remember user preferences, and provide analytical insights.
+
+      <br><br>2. <strong>How We Use Cookies</strong><br>
+      Gradify may use cookies to:
+      <ul class="list-disc ml-5">
+        <li>Recognize you when you return to Gradify.</li>
+        <li>Improve functionality and performance.</li>
+        <li>Collect anonymized analytical data to understand usage trends.</li>
+      </ul>
+
+      <br>3. <strong>Your Choices</strong><br>
+      You can set your browser to refuse cookies or alert you when cookies are being used. Please note that disabling cookies may affect certain functionalities of Gradify.
+
+      <br><br>4. <strong>Updates to This Cookie Policy</strong><br>
+      We may update this Cookie Policy from time to time. Any changes will be posted on this page.
+
+      <br><br>For further information, please contact our support team.
+    </p>
+    <div class="modal-action">
+      <button type="button" class="btn" onclick="document.getElementById('cookie_modal').close()">Close</button>
+    </div>
+  </div>
+</dialog>

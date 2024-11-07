@@ -21,24 +21,24 @@
               Last Updated: <%= subject.updated_at.strftime("%d %b, %Y") %>
             </p>
 
+            <!-- Grade table with quarters -->
             <div class="mt-5 grid grid-cols-4 gap-6 font-bold text-black-600 border-t pb-2">
               <div>1st Quarter</div>
               <div>2nd Quarter</div>
               <div>3rd Quarter</div>
               <div>4th Quarter</div>
 
-              <div><%= @grades.dig(subject.id, :q1) || "-" %></div>
-              <div><%= @grades.dig(subject.id, :q2) || "-" %></div>
-              <div><%= @grades.dig(subject.id, :q3) || "-" %></div>
-              <div><%= @grades.dig(subject.id, :q4) || "-" %></div>
+              <!-- Display grades for each quarter using the computed grades from the controller -->
+              <div><%= @grades.dig(subject.id, :q1) || "0" %></div>
+              <div><%= @grades.dig(subject.id, :q2) || "0" %></div>
+              <div><%= @grades.dig(subject.id, :q3) || "0" %></div>
+              <div><%= @grades.dig(subject.id, :q4) || "0" %></div>
             </div>
           </div>
         </div>
       <% end %>
     </div>
   <% else %>
-    <p class="text-center py-4 text-gray-500">
-      No student found. Please log in.
-    </p>
+    <p class="text-center py-4 text-gray-500">No student found. Please log in.</p>
   <% end %>
 </div>
