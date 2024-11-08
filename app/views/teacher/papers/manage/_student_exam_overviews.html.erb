@@ -70,7 +70,8 @@
       <tr>
         <th>Item</th>
         <th>Answer Key</th>
-        <th>Student's Answer</th>
+        <th>Original Student Answer</th>
+        <th>Student Answer</th>
         <th>Status</th>
         <th>Class Average (%)</th>
         <th>Difficulty Index</th>
@@ -83,6 +84,7 @@
           <tr>
             <td>Item <%= item[:item_number] %></td>
             <td><%= item[:correct_answer] %></td>
+            <td><%= item[:student_answer] %></td>
             <td><%= item[:student_answer] %></td>
             <td>
               <% case item[:status] %>
@@ -103,7 +105,7 @@
         <% end %>
       <% else %>
         <tr>
-          <td colspan="7" class="text-center">No item analysis data available</td>
+          <td colspan="9" class="text-center">No item analysis data available</td>
         </tr>
       <% end %>
     </tbody>
