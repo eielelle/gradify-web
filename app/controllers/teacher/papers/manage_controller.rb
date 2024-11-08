@@ -53,6 +53,9 @@ module Teacher
         if @students.empty?
           flash.now[:alert] = "No students found for this exam and subject combination."
         end
+
+        # Calculate class-wide item analysis
+        @item_analysis = calculate_class_item_analysis
       end
 
       def calculate_response_stats(response, exam)
@@ -198,6 +201,82 @@ module Teacher
          # Calculate item analysis metrics
          calculate_item_analysis if @response&.answer.present? && @exam.answer_key.present?
         
+      end
+
+      def calculate_class_item_analysis
+        return [] unless @exam&.answer_key.present?
+      
+        # Get all responses for this exam
+        responses = Response.where(exam: @exam).includes(:user)
+        total_students = responses.count
+        
+        # Initialize item analysis array
+        analysis = []
+        
+        # Process each question
+        @exam.items.times do |item_index|
+          # Count responses for each option
+          option_counts = {
+            'A' => 0, 'B' => 0, 'C' => 0, 'D' => 0,
+            '_' => 0, # No answer
+            '*' => 0  # Double answer
+          }
+          
+          # Count responses for this item
+          responses.each do |response|
+            next unless response.answer.present?
+            answer = response.answer[item_index]
+            option_counts[answer] = option_counts[answer].to_i + 1
+          end
+          
+          # Get correct answer for this item
+          correct_answer = @exam.answer_key[item_index]
+          
+          # Calculate frequencies
+          correct_freq = option_counts[correct_answer].to_i
+          incorrect_freq = total_students - correct_freq - option_counts['_'].to_i - option_counts['*'].to_i
+          
+          # Calculate difficulty index (p-value)
+          difficulty_index = total_students > 0 ? (correct_freq.to_f / total_students).round(2) : 0
+          
+          # Calculate discrimination index
+          discrimination_index = calculate_class_discrimination_index(responses, item_index, correct_answer)
+          
+          analysis << {
+            item_number: item_index + 1,
+            answer_key: correct_answer,
+            options: option_counts,
+            correct_frequency: correct_freq,
+            incorrect_frequency: incorrect_freq,
+            difficulty_index: difficulty_index,
+            discrimination_index: discrimination_index
+          }
+        end
+        
+        analysis
+      end
+
+      def calculate_class_discrimination_index(responses, item_index, correct_answer)
+        return 0 if responses.empty?
+        
+        # Sort responses by total score
+        sorted_responses = responses.sort_by { |r| calculate_total_score(r) }
+        
+        # Take top and bottom 27% (standard practice in item analysis)
+        group_size = (responses.count * 0.27).ceil
+        upper_group = sorted_responses.last(group_size)
+        lower_group = sorted_responses.first(group_size)
+        
+        # Calculate correct answers in each group
+        upper_correct = upper_group.count { |r| r.answer&.chars&.at(item_index) == correct_answer }
+        lower_correct = lower_group.count { |r| r.answer&.chars&.at(item_index) == correct_answer }
+        
+        # Calculate discrimination index
+        if group_size > 0
+          ((upper_correct - lower_correct).to_f / group_size).round(2)
+        else
+          0
+        end
       end
 
     end
