@@ -78,7 +78,7 @@ module Teacher
           case student_answer
           when correct_answers[index]
             correct += 1
-          when '_'
+          when '?'
             no_answer += 1
           when '*'
             double_answer += 1
@@ -172,7 +172,7 @@ module Teacher
       def get_answer_status(student_answer, correct_answer)
         case student_answer
         when correct_answer then 'Correct'
-        when '_' then 'No Answer'
+        when '?' then 'No Answer'
         when '*' then 'Double Answer'
         else 'Incorrect'
         end
@@ -218,7 +218,7 @@ module Teacher
           # Count responses for each option
           option_counts = {
             'A' => 0, 'B' => 0, 'C' => 0, 'D' => 0,
-            '_' => 0, # No answer
+            '?' => 0, # No answer
             '*' => 0  # Double answer
           }
           
