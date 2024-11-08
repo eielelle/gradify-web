@@ -135,7 +135,7 @@ module Teacher
           @item_analysis << {
             item_number: idx + 1,
             correct_answer: correct_ans,
-            original_scan: @response.image_path.chars,
+            original_scan: @response.image_path.chars[idx],
             student_answer: student_answers[idx],
             status: get_answer_status(student_answers[idx], correct_ans),
             avg_correct: avg_correct,
