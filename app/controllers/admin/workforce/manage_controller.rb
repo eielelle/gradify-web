@@ -12,7 +12,7 @@ module Admin
 
       def index
         set_default_sort(default_sort_column: 'name asc')
-        query_items_default(User, params)
+        query_items_wf(User, params)
       end
 
       def new
