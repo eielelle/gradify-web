@@ -52,10 +52,11 @@ module Admin
 
       def destroy
         set_exam
-
+      
         if @exam.destroy
           flash[:toast] = 'Exam deleted successfully.'
         else
+          flash[:toast] = "Exam cannot be deleted because it's assigned to students or classes."
           handle_errors(@exam)
         end
         redirect_to admin_exams_manage_index_path

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_01_033209) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_08_155300) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -73,6 +73,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_01_033209) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["school_year_id"], name: "index_school_sections_on_school_year_id"
+  end
+
+  create_table "school_sections_subjects", id: false, force: :cascade do |t|
+    t.bigint "school_section_id", null: false
+    t.bigint "subject_id", null: false
+    t.index ["school_section_id"], name: "index_school_sections_subjects_on_school_section_id"
+    t.index ["subject_id"], name: "index_school_sections_subjects_on_subject_id"
   end
 
   create_table "school_sections_users", id: false, force: :cascade do |t|

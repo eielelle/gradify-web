@@ -10,6 +10,7 @@
             </svg>
           </div>
           <div class="ml-4">
+            <p class="text-md font-semibold">Class: <%= school_class.name %></p> <!-- Displaying class name -->
             <p class="text-md font-semibold">Section: 
               <% if student_sections.any? %>
                 <%= student_sections.map(&:name).join(', ') %>
@@ -17,21 +18,23 @@
                 No sections assigned
               <% end %>
             </p>
-            <p class="text-md font-semibold mt-2">Subjects: 
+            <p class="text-md font-semibold mt-2">Subjects:</p>
+            <ul class="list-disc ml-6 mt-1">
               <% if school_class.subjects.any? %>
-                <%= school_class.subjects.map(&:name).join(', ') %>
+                <% school_class.subjects.each do |subject| %>
+                  <li><%= subject.name %></li>
+                <% end %>
               <% else %>
-                No subjects assigned
+                <li>No subjects assigned</li>
               <% end %>
-            </p>
+            </ul>
           </div>
         </div>
       </div>
     <% end %>
   </div>
 <% else %>
-  <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4" role="alert">
-    <p class="font-bold">No Classes Enrolled</p>
-    <p>You are not enrolled in any classes at the moment.</p>
+  <div>
+    <p class="text-center py-4 text-gray-500">You are not enrolled in any classes at the moment.</p>
   </div>
 <% end %>

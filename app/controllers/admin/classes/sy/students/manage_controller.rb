@@ -42,24 +42,27 @@ module Admin
           def unassign_selected
             if params[:student_ids].present? && params[:school_section_id].present?
               school_section = SchoolSection.find_by(id: params[:school_section_id])
-              
+          
               if school_section
-                students = User.where(id: params[:student_ids], role: 'student')
+                # Fetch students by IDs and ensure they belong to the selected school section
+                students = User.where(id: params[:student_ids], role: 'student').joins(:school_sections).where(school_sections: { id: school_section.id })
+          
+                # Unassign each student from the specific school section
                 students.each do |student|
                   student.school_sections.delete(school_section)
-                  student.subjects.clear # Clear all subject associations for this section
                 end
-                
-                flash[:toast] = "Successfully unassigned #{students.count} students"
+          
+                flash[:toast] = "Successfully unassigned #{students.count} students from the section"
               else
                 flash[:toast] = "School section not found"
               end
             else
               flash[:toast] = "No students selected or section not specified"
             end
-            
+          
             redirect_to admin_classes_manage_path(params[:class_id])
           end
+          
 
           private
 

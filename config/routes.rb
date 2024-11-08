@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   root "welcome#index"
   get "/admin", to: "admin/overview#index", as: :admin_root
   get "/teacher", to: "teacher/classes/manage#index", as: :teacher_root
-  get "/student", to: "student/overview#index", as: :student_root
+  get "/student", to: "student/exams/manage#index", as: :student_root
 
   namespace :admin do
     # /admin/config

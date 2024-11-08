@@ -23,11 +23,11 @@ module Admin
       def rollback
         find_version_and_snapshot
 
-        PaperTrail.request.whodunnit = current_exam.name
+        PaperTrail.request.whodunnit = current_user.name
         @exam.paper_trail_event = 'rollback'
 
         if @exam.save(validate: false)
-          redirect_to admin_workforce_versions_path(id: @version.item_id)
+          redirect_to admin_exams_versions_path(id: @version.item_id)
         else
           flash[:toast] = 'Rollback Unsuccessful'
         end
