@@ -27,16 +27,6 @@
   </div>
 </div>
 
-<% if @response&.image_path.present? %>
-  <div class="w-full h-64 bg-gray-700 rounded-lg overflow-hidden">
-    <img src="<%= @response.image_path %>" alt="Answer sheet" class="w-full h-full object-cover" />
-  </div>
-<% else %>
-  <div class="w-full h-64 bg-gray-700 rounded-lg overflow-hidden flex items-center justify-center">
-    <p class="text-gray-400">No answer sheet image available</p>
-  </div>
-<% end %>
-
 <div class="overflow-x-auto mt-6">
   <table class="table w-full">
     <thead>
