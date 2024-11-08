@@ -5,22 +5,16 @@
 
   <section class="grid grid-cols-4 gap-4 pb-8">
     <div class="flex gap-4 col-span-4">
-      <%= render 'shared/stat', title: "Total Students", desc: "↗︎ 400 (22%)", value: @total_students %>
-      <%= render 'shared/stat', title: "Total Teachers", desc: "↗︎ 29 (22%)", value: @total_teachers %>
-      <%= render 'shared/stat', title: "Total Admins", desc: "↗︎ 43 (22%)", value: @total_admins %>
-      <%= render 'shared/stat', title: "Total Classes", desc: "↗︎ 10 (22%)", value: @total_classes %>
+      <%= render 'shared/stat', title: "Total Students", desc: "", value: @total_students %>
+      <%= render 'shared/stat', title: "Total Teachers", desc: "", value: @total_teachers %>
+      <%= render 'shared/stat', title: "Total Admins", desc: "", value: @total_admins %>
+      <%= render 'shared/stat', title: "Total Classes", desc: "", value: @total_classes %>
     </div>
 
-    <div class="col-span-2">
+    <div class="col-span-4">
       <div class="card bg-base-200 shadow-xl">
         <div class="card-body p-6">
           <div class="flex justify-between items-center">
-            <select class="select select-sm">
-              <option selected>This Year</option>
-              <option>This Month</option>
-              <option>This Week</option>
-            </select>
-
             <%= fa_icon "group lg" %>
           </div>
 
@@ -28,8 +22,7 @@
             <div class="stats cols-span-1">
               <div class="stat">
                 <div class="stat-title">Total Students</div>
-                <div class="stat-value">89,400</div>
-                <div class="stat-desc">↗︎ 10 (22%)</div>
+                <div class="stat-value"><%= @total_students %></div>
               </div>
             </div>
 
