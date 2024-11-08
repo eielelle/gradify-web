@@ -8,6 +8,7 @@ class Subject < ApplicationRecord
   belongs_to :school_class
   has_and_belongs_to_many :school_classes
   has_and_belongs_to_many :users
+  has_and_belongs_to_many :school_sections
   
   has_paper_trail
 

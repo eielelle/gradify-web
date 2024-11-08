@@ -63,11 +63,19 @@ module Admin
 
       def destroy
         set_class
-
-        return unless @school_class.destroy
-
-        flash[:toast] = 'Class deleted successfully.'
-        redirect_to admin_classes_manage_index_path
+      
+        if @school_class.users.exists?
+          flash[:toast] = "Cannot delete this class because there are assigned students or teachers."
+          redirect_to admin_classes_manage_index_path
+        else
+          if @school_class.destroy
+            flash[:toast] = 'Class deleted successfully.'
+            redirect_to admin_classes_manage_index_path
+          else
+            flash[:toast] = "An error occurred while deleting the class."
+            redirect_to admin_classes_manage_index_path
+          end
+        end
       end
 
       private

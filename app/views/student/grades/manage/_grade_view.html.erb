@@ -29,10 +29,10 @@
               <div>4th Quarter</div>
 
               <!-- Display grades for each quarter using the computed grades from the controller -->
-              <div><%= @grades.dig(subject.id, :q1) || "0" %></div>
-              <div><%= @grades.dig(subject.id, :q2) || "0" %></div>
-              <div><%= @grades.dig(subject.id, :q3) || "0" %></div>
-              <div><%= @grades.dig(subject.id, :q4) || "0" %></div>
+              <div><%= @grades.dig(subject.id, :q1).round(2) || "0" %> %</div>
+              <div><%= @grades.dig(subject.id, :q2).round(2) || "0" %> %</div>
+              <div><%= @grades.dig(subject.id, :q3).round(2) || "0" %> %</div>
+              <div><%= @grades.dig(subject.id, :q4).round(2) || "0" %> %</div>
             </div>
           </div>
         </div>

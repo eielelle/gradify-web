@@ -13,7 +13,7 @@ class Exam < ApplicationRecord
   belongs_to :subject
   belongs_to :quarter
 
-  has_many :responses
+  has_many :responses, dependent: :destroy
 
   # ITEM ANALYSIS
    # Correct answer frequency

@@ -28,7 +28,7 @@ module Student
       
         @subjects.each do |subject|
           # Initialize grades hash for each subject
-          grades[subject.id] = { q1: 0, q2: 0, q3: 0, q4: 0}
+          grades[subject.id] = { q1: 0, q2: 0, q3: 0, q4: 0 }
       
           subject.exams.each do |exam|
             # Find response for the exam by the student
@@ -38,17 +38,17 @@ module Student
             # Only calculate score if the response exists and has an answer
             next unless response&.answer.present?
       
-            # Calculate total score for the response
-            total_score = calculate_response_stats(response, exam)[:total_score]
-            Rails.logger.debug "Total Score for Exam #{exam.id}: #{total_score}"
+            # Calculate percentage score for the response
+            percentage_score = calculate_response_stats(response, exam)[:percentage]
+            Rails.logger.debug "Percentage Score for Exam #{exam.id}: #{percentage_score}"
       
-            # Add score to the correct quarter and total score
+            # Add score to the correct quarter
             quarter = exam.quarter.name.to_i  # Assuming quarter is stored as an integer
             case quarter
-            when 1 then grades[subject.id][:q1] += total_score
-            when 2 then grades[subject.id][:q2] += total_score
-            when 3 then grades[subject.id][:q3] += total_score
-            when 4 then grades[subject.id][:q4] += total_score
+            when 1 then grades[subject.id][:q1] += percentage_score
+            when 2 then grades[subject.id][:q2] += percentage_score
+            when 3 then grades[subject.id][:q3] += percentage_score
+            when 4 then grades[subject.id][:q4] += percentage_score
             else
               Rails.logger.warn "Unexpected quarter value #{quarter} for exam #{exam.id}"
             end
@@ -69,12 +69,14 @@ module Student
         student_answers.each_with_index do |student_answer, index|
           break if index >= items_count
       
-          if student_answer == correct_answers[index]
-            correct += 1
-          end
+          correct += 1 if student_answer == correct_answers[index]
         end
       
-        { total_score: correct }
+        # Calculate percentage based on the total items in the exam
+        total_score = correct
+        percentage = (total_score.to_f / items_count) * 100
+      
+        { total_score: total_score, percentage: percentage }
       end
       
 
