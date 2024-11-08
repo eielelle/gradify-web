@@ -1,7 +1,5 @@
 <section class="h-screen w-full p-6 overflow-y-scroll">
-  <!--<header>
-    <h1 class="font-bold text-3xl mb-6">Main Overview</h1>
-  </header>-->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <section class="grid grid-cols-4 gap-4 pb-8">
     <div class="flex gap-4 col-span-4">
@@ -27,7 +25,9 @@
             </div>
 
             <div class="graph">
-              <h2>Graph</h2>
+              <div>
+                <canvas id="graph-students"></canvas>
+              </div>
             </div>
           </div>
         </div>
@@ -161,3 +161,27 @@
   </section>
 
 </section>
+
+
+<script>
+  const ctx = document.getElementById('graph-students');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      datasets: [{
+        label: '# of Votes',
+        data: [12, 19, 3, 5, 2, 3],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
