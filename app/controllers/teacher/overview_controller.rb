@@ -27,9 +27,6 @@ module Teacher
     
     end
 
-    def download_pdf
-      pdf_path = Rails.root.join("app/assets/pdf/official.pdf")
-      send_file(pdf_path, filename: "official.pdf", type: "application/pdf", disposition: "attachment")
-    end
+    
   end
 end

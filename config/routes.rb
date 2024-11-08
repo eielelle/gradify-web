@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
   root "welcome#index"
   get "/admin", to: "admin/overview#index", as: :admin_root
-  get "/teacher", to: "teacher/overview#index", as: :teacher_root
+  get "/teacher", to: "teacher/classes/manage#index", as: :teacher_root
   get "/student", to: "student/exams/manage#index", as: :student_root
 
   namespace :admin do
@@ -115,7 +115,7 @@ Rails.application.routes.draw do
   end
 
   namespace :teacher do
-    get 'overview/download_pdf', to: 'overview#download_pdf'
+    get 'layout/download_pdf', to: 'layout#download_pdf'
     # /teacher/config
     resource :config, only: [:show, :update, :destroy], controller: 'config', as: 'config'
     patch 'change_password', to: 'config#change_password' # config related
