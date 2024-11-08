@@ -129,7 +129,7 @@
             <% has_taken = stats[:total_score].to_i > 0 %>
             <% status = if !has_taken
                          "Not Taken"
-                       elsif stats[:total_score].to_f / @exam.items >= 0.5
+                       elsif stats[:total_score].to_f / @exam.items >= 0.6
                          "Passed"
                        else
                          "Failed"
@@ -194,6 +194,65 @@
     </p>
   <% end %>
 </div>
+
+  <%# Item Analysis Table %>
+  <div class="mt-8">
+    <h4 class="text-xl font-bold mb-4" data-theme="light:text-gray-900 dark:text-gray-100">Item Analysis</h4>
+    
+    <div class="overflow-x-auto">
+      <table class="table w-full">
+        <thead>
+          <tr class="transition-colors duration-150 ease-in-out border-b-2" 
+              data-theme="light:bg-gray-100 dark:bg-gray-800 light:border-gray-300 dark:border-gray-600">
+            <th class="px-4 py-3 text-left">Answer Key</th>
+            <th class="px-4 py-3 text-left">Item No.</th>
+            <th class="px-4 py-3 text-center">A</th>
+            <th class="px-4 py-3 text-center">B</th>
+            <th class="px-4 py-3 text-center">C</th>
+            <th class="px-4 py-3 text-center">D</th>
+            <th class="px-4 py-3 text-center">Frequency of Correct</th>
+            <th class="px-4 py-3 text-center">Frequency of Incorrect</th>
+            <th class="px-4 py-3 text-center">Difficulty Index</th>
+            <th class="px-4 py-3 text-center">Discrimination Index</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @item_analysis&.each do |item| %>
+            <tr class="transition-colors duration-150 ease-in-out border-b hover:bg-base-200">
+              <td class="px-4 py-3 font-medium"><%= item[:answer_key] %></td>
+              <td class="px-4 py-3"><%= item[:item_number] %></td>
+              <td class="px-4 py-3 text-center">
+                <span class="<%= 'font-bold text-success' if item[:answer_key] == 'A' %>">
+                  <%= item[:options]['A'] %>
+                </span>
+              </td>
+              <td class="px-4 py-3 text-center">
+                <span class="<%= 'font-bold text-success' if item[:answer_key] == 'B' %>">
+                  <%= item[:options]['B'] %>
+                </span>
+              </td>
+              <td class="px-4 py-3 text-center">
+                <span class="<%= 'font-bold text-success' if item[:answer_key] == 'C' %>">
+                  <%= item[:options]['C'] %>
+                </span>
+              </td>
+              <td class="px-4 py-3 text-center">
+                <span class="<%= 'font-bold text-success' if item[:answer_key] == 'D' %>">
+                  <%= item[:options]['D'] %>
+                </span>
+              </td>
+              <td class="px-4 py-3 text-center"><%= item[:correct_frequency] %></td>
+              <td class="px-4 py-3 text-center"><%= item[:incorrect_frequency] %></td>
+              <td class="px-4 py-3 text-center">
+                <%= number_to_percentage(item[:difficulty_index] * 100, precision: 1) %>
+              </td>
+              <td class="px-4 py-3 text-center"><%= item[:discrimination_index] %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
  <%# Initialize Chart.js %>
   <script>

@@ -15,6 +15,32 @@ class Exam < ApplicationRecord
 
   has_many :responses
 
+  # ITEM ANALYSIS
+   # Correct answer frequency
+  def correct_frequency
+    responses.where(answer: answer_key).count
+  end
+
+  # Incorrect answer frequency
+  def incorrect_frequency
+    responses.where.not(answer: answer_key).count
+  end
+
+  # Difficulty index calculation
+  def difficulty_index
+    total_responses = responses.count
+    total_responses.zero? ? 0 : (correct_frequency.to_f / total_responses).round(2)
+  end
+
+  # Discrimination index calculation (example, you might use a custom formula)
+  def discrimination_index
+    # Example calculation; adjust this to match the desired formula
+    high_group = responses.where('score >= ?', passing_score).count
+    low_group = responses.where('score < ?', passing_score).count
+    (high_group - low_group).to_f / responses.count
+  end
+
+  # RANSACK
   def self.ransackable_attributes(_auth_object = nil)
     %w[name updated_at]
   end
