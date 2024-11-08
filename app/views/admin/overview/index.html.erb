@@ -24,9 +24,9 @@
               </div>
             </div>
 
-            <div class="graph">
+            <div class="graph  col-start-1 col-end-3">
               <div>
-                <canvas id="graph-students"></canvas>
+                <canvas id="graph-students" class="w-full"></canvas>
               </div>
             </div>
           </div>
@@ -166,14 +166,17 @@
 <script>
   const ctx = document.getElementById('graph-students');
 
+  const studs = <%= raw @studs.to_json %>;
+
   new Chart(ctx, {
-    type: 'bar',
+    type: 'line',
     data: {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
       datasets: [{
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
-        borderWidth: 1
+        label: 'No. of Students',
+        data: studs,
+        borderWidth: 1,
+        fill: true
       }]
     },
     options: {
