@@ -20,7 +20,7 @@ module Admin
         @roles = User.roles.reject { |key, _| ['student'].include?(key) }
 
         if current_user.role == 'admin'
-          @roles = @roles.reject { |key, _| ['superadmin'].include?(key) }
+          @roles = @roles.reject { |key, _| ['superadmin', 'admin'].include?(key) }
         end
       end
 

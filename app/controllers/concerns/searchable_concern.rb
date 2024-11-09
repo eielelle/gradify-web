@@ -39,8 +39,13 @@ module SearchableConcern
 
     def query_items_wf(model_class, params)
       @q = model_class.ransack(params[:q])
-      @items = @q.result(distinct: true).where.not(role: 'student').page(params[:page]).per(10)
-      paginate_and_sort(model_class, model_class)
+    
+      if current_user.role == "superadmin"
+        @items = @q.result(distinct: true).where.not(role: 'student').page(params[:page]).per(10)
+      elsif current_user.role == "admin"
+        @items = @q.result(distinct: true).where(role: 'teacher').page(params[:page]).per(10)
+      end
+      paginate_and_sort(@items, model_class)
     end
   end
 
