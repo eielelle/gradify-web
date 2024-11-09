@@ -28,7 +28,7 @@ module Admin
       if current_user.valid_password? params[:password]
         current_user.destroy
         flash[:alert] = 'Account deleted successfully'
-        redirect_to new_admin_account_session_path
+        redirect_to new_user_session_path
       else
         flash[:password_error] = 'Invalid password'
         redirect_to admin_confirm_destroy_path
