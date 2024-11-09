@@ -53,7 +53,7 @@ module Admin
 
     def after_update_path
       flash[:alert] = 'Password has been updated. Please sign in to continue.'
-      new_admin_account_session_path
+      new_user_session_path
     end
   end
 end
