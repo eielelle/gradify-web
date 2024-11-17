@@ -26,9 +26,17 @@ module Admin
 
       def create
         return if User.roles.keys.exclude?(user_params[:role])
-
-        user = User.new(user_params)
-
+      
+        # COMBINE THE NAME FIELDS BEFORE CREATING THE STUDENT
+        combined_params = user_params
+        combined_params[:name] = combine_name(
+          combined_params.delete(:first_name),
+          combined_params.delete(:last_name),
+          combined_params.delete(:middle_name)
+        )
+      
+        user = User.new(combined_params)
+      
         if user.save
           redirect_to admin_workforce_manage_index_path, notice: 'User was successfully created.'
         else
@@ -82,7 +90,12 @@ module Admin
       end
 
       def user_params
-        params.require(:user).permit(:name, :email, :role, :password)
+        params.require(:user).permit(:first_name, :last_name, :middle_name, :email, :role, :password)
+      end
+      
+      # COMBINE FIRST, MIDDLE, AND LAST NAME
+      def combine_name(first_name, last_name, middle_name)
+        [first_name, middle_name, last_name].select(&:present?).join(' ')
       end
 
       def update_user_params

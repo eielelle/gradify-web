@@ -27,7 +27,16 @@ module Admin
       def edit; end
 
       def create
-        @student_account = User.new(student_params.merge(role: 'student'))
+        # COMBINE THE NAME FIELDS BEFORE CREATING THE STUDENT
+        combined_params = student_params
+        combined_params[:name] = combine_name(
+          combined_params.delete(:first_name),
+          combined_params.delete(:last_name),
+          combined_params.delete(:middle_name)
+        )
+      
+        @student_account = User.new(combined_params.merge(role: 'student'))
+        
         if @student_account.save
           redirect_to admin_students_manage_index_path, notice: 'Student account created successfully.'
         else
@@ -69,7 +78,12 @@ module Admin
       end
 
       def student_params
-        params.require(:student_account).permit(:name, :email, :password, :password_confirmation, :student_number)
+        params.require(:student_account).permit(:first_name, :last_name, :middle_name, :email, :password, :password_confirmation, :student_number)
+      end
+
+      # COMBINE FIRST, MIDDLE, AND LAST NAME
+      def combine_name(first_name, last_name, middle_name)
+        [first_name, middle_name, last_name].select(&:present?).join(' ')
       end
 
       def update_student_params
