@@ -74,8 +74,13 @@ module Admin
 
           def assign_teachers
             set_school_class_data
-            already_assigned_teachers = update_teachers
-            set_flash_message(already_assigned_teachers)
+            conflicts = check_teacher_subject_conflicts
+            if conflicts.present?
+              flash[:toast] = "Conflict: #{conflicts.join(', ')}. Each subject can only have one teacher."
+            else
+              already_assigned_teachers = update_teachers
+              set_flash_message(already_assigned_teachers)
+            end
           end
 
           def set_school_class_data
@@ -86,16 +91,13 @@ module Admin
           end
 
           def update_teachers
-            already_assigned_teachers = [] # Initialize as an array
+            already_assigned_teachers = []
           
             selected_teachers.each do |teacher|
-              school_class = SchoolClass.find(@school_class.id)
-              sy = school_class.school_years.find(@school_year.id)
-              section = sy.school_sections.find(@school_section.id)
-          
+              section = @school_section
               @selected_subjects.each do |subject|
-                if section.users.exists?(teacher.id) && teacher.subjects.include?(subject)
-                  already_assigned_teachers << teacher.name # Add to already assigned list
+                if subject.users.where(role: 'teacher').exists?
+                  already_assigned_teachers << teacher.name if teacher.subjects.include?(subject)
                 else
                   section.users << teacher unless section.users.include?(teacher)
                   teacher.subjects << subject unless teacher.subjects.include?(subject)
@@ -103,7 +105,18 @@ module Admin
               end
             end
           
-            already_assigned_teachers # Return array of already assigned teachers
+            already_assigned_teachers
+          end
+
+          def check_teacher_subject_conflicts
+            conflicts = []
+            @selected_subjects.each do |subject|
+              assigned_teacher = subject.users.where(role: 'teacher').first
+              if assigned_teacher.present? && !selected_teacher_ids.include?(assigned_teacher.id.to_s)
+                conflicts << "#{subject.name} (already assigned to #{assigned_teacher.name})"
+              end
+            end
+            conflicts
           end
           
 

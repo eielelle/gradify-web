@@ -44,9 +44,9 @@
                   <span><%= format_date school_class.updated_at %></span>
                 </td>
                 <td class="flex">
-                  <%= link_to admin_classes_manage_path(school_class), class: "btn btn-ghost btn-sm" do %>
-                    <%= fa_icon "eye lg" %>
-                  <% end %>
+                <%= link_to admin_classes_manage_path(school_class), class: "btn btn-ghost btn-sm" do %>
+                  <%= fa_icon "cogs lg" %>
+                <% end %>
                   <%= link_to edit_admin_classes_manage_path(school_class), class: "btn btn-ghost btn-sm" do %>
                     <%= fa_icon "pencil lg" %>
                   <% end %>
