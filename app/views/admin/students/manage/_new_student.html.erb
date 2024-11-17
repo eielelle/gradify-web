@@ -1,13 +1,30 @@
 <%= form_with(local: true, url: admin_students_manage_index_path, data: { btn_class: "btn-primary" }) do |form| %>
-  <label class="form-control w-full max-w-xs">
-    <div class="label">
-      <%= form.label :name, class: "label-text" %>
-    </div>
-    <%= form.text_field :name, class: "input input-bordered w-full max-w-xs", name: "student_account[name]" %>
-    <div class="label">
-      <span class="label-text-alt text-error"><%= flash[:name_error] %></span>
-    </div>
-  </label>
+    <label class="form-control w-full max-w-xs">
+      <div class="label">
+        <%= form.label :first_name, "First Name", class: "label-text" %>
+      </div>
+      <%= form.text_field :first_name, class: "input input-bordered w-full max-w-xs", name: "student_account[first_name]" %>
+      <div class="label">
+        <span class="label-text-alt text-error"><%= flash[:first_name_error] %></span>
+      </div>
+    </label>
+
+    <label class="form-control w-full max-w-xs">
+      <div class="label">
+        <%= form.label :middle_name, "Middle Name", class: "label-text" %>
+      </div>
+      <%= form.text_field :middle_name, class: "input input-bordered w-full max-w-xs", name: "student_account[middle_name]" %>
+    </label>
+
+    <label class="form-control w-full max-w-xs">
+      <div class="label">
+        <%= form.label :last_name, "Last Name", class: "label-text" %>
+      </div>
+      <%= form.text_field :last_name, class: "input input-bordered w-full max-w-xs", name: "student_account[last_name]" %>
+      <div class="label">
+        <span class="label-text-alt text-error"><%= flash[:last_name_error] %></span>
+      </div>
+    </label>
   
   <label class="form-control w-full max-w-xs">
     <div class="label">
