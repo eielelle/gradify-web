@@ -18,8 +18,8 @@ Whirly.status = "Warming up...."
 
 Whirly.status = LoadingMessages.get
 PaperTrail.request(whodunnit: '[System Generated]') do
-    User.create(email: "admin@example.com", password: "password", role: "superadmin", name: "Jameson Teodore")
-    User.create(email: "romero@example.com", password: "password", role: "superadmin", name: "Eleazar Romero")
+    User.create(email: "admin@example.com", password: "password", role: "superadmin", name: "Jameson Teodore", first_name: "Jameson", last_name: "Teodore")
+    User.create(email: "romero@example.com", password: "password", role: "superadmin", name: "Eleazar Romero", first_name: "Eleazar", last_name: "Romero")
     
    # Whirly.status = LoadingMessages.get
     # Initialize a counter for student numbers
@@ -36,27 +36,27 @@ PaperTrail.request(whodunnit: '[System Generated]') do
     Whirly.status = LoadingMessages.get
     # Initialize a counter for student numbers
     student_counter = 1
-    User.create(email: "opon@gmail.com", password: "password", role: "student", name: "Job Cedric Opon", student_number: format('%05d', student_counter))
-    User.create(email: "cama@gmail.com", password: "password", role: "student", name: "Johnmar Cama", student_number: format('%05d', student_counter))
-    User.create(email: "remorin@gmail.com", password: "password", role: "student", name: "Kister Remorin", student_number: format('%05d', student_counter))
-    User.create(email: "oleno@gmail.com", password: "password", role: "student", name: "Axel Warren Oleno", student_number: format('%05d', student_counter))
-    User.create(email: "miranda@gmail.com", password: "password", role: "student", name: "Edgar Miranda", student_number: format('%05d', student_counter))
+    User.create(email: "opon@gmail.com", password: "password", role: "student", name: "Job Cedric Opon", first_name: "Job Cedric", last_name: "Opon", student_number: format('%05d', student_counter))
+    User.create(email: "cama@gmail.com", password: "password", role: "student", name: "Johnmar Cama", first_name: "Johnmar", last_name: "Cama", student_number: format('%05d', student_counter))
+    User.create(email: "remorin@gmail.com", password: "password", role: "student", name: "Kister Remorin", first_name: "Kister", last_name: "Remorin", student_number: format('%05d', student_counter))
+    User.create(email: "oleno@gmail.com", password: "password", role: "student", name: "Axel Warren Oleno", first_name: "Axel Warren", last_name: "Oleno", student_number: format('%05d', student_counter))
+    User.create(email: "miranda@gmail.com", password: "password", role: "student", name: "Edgar Miranda", first_name: "Edgar", last_name: "Miranda", student_number: format('%05d', student_counter))
     student_counter += 1  # Increment counter for next student
     User.create(email: Faker::Internet.email, password: "password", role: "superadmin", name: Faker::Name.name)
     User.create(email: Faker::Internet.email, password: "password", role: "teacher", name: Faker::Name.name)
 
     # Teacher
     Whirly.status = LoadingMessages.get
-    User.create(email: "santos@gmail.com", password: "password", role: "teacher", name: "Sir. Jayson Santos")
-    User.create(email: "delfino@gmail.com", password: "password", role: "teacher", name: "Sir. Nico Ranelle Delfino")
-    User.create(email: "pacionista@gmail.com", password: "password", role: "teacher", name: "Sir. Raymond Pacionista")
-    User.create(email: "bation@gmail.com", password: "password", role: "teacher", name: "Sir. Albert Bation")
-    User.create(email: "arevalo@gmail.com", password: "password", role: "teacher", name: "Sir. Michael Paul Arevalo")
+    User.create(email: "santos@gmail.com", password: "password", role: "teacher", name: "Sir. Jayson Santos", first_name: "Jayson", last_name: "Santos")
+    User.create(email: "delfino@gmail.com", password: "password", role: "teacher", name: "Sir. Nico Ranelle Delfino", first_name: "Nico Ranelle", last_name: "Delfino")
+    User.create(email: "pacionista@gmail.com", password: "password", role: "teacher", name: "Sir. Raymond Pacionista", first_name: "Raymond", last_name: "Pacionista")
+    User.create(email: "bation@gmail.com", password: "password", role: "teacher", name: "Sir. Albert Bation", first_name: "Albert", last_name: "Bation")
+    User.create(email: "arevalo@gmail.com", password: "password", role: "teacher", name: "Sir. Michael Paul Arevalo", first_name: "Michael Paul", last_name: "Arevalo")
 
     # Admin
     Whirly.status = LoadingMessages.get
-    User.create(email: "martin@gmail.com", password: "password", role: "admin", name: "Jamesmar Martin")
-    User.create(email: "roxas@gmail.com", password: "password", role: "admin", name: "Shello Roxas")
+    User.create(email: "martin@gmail.com", password: "password", role: "admin", name: "Jamesmar Martin", first_name: "Jamesmar", last_name: "Martin")
+    User.create(email: "roxas@gmail.com", password: "password", role: "admin", name: "Shello Roxas", first_name: "Shello", last_name: "Roxas")
     
     # Classes
     Whirly.status = LoadingMessages.get

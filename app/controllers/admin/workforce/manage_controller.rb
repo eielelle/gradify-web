@@ -99,7 +99,7 @@ module Admin
       end
 
       def update_user_params
-        params.require(:user).permit(:name, :email)
+        params.require(:user).permit(:first_name, :last_name, :middle_name, :email)
       end
 
       def account_not_found

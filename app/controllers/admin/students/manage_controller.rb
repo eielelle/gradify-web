@@ -87,7 +87,7 @@ module Admin
       end
 
       def update_student_params
-        params.permit(:id, user: %i[name email student_number])
+        params.permit(:id, user: %i[first_name last_name middle_name email student_number])
       end
 
       def set_search

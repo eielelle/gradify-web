@@ -18,6 +18,8 @@ class User < ApplicationRecord
 
   validates :name, presence: true
   validates :role, presence: true
+  validates :first_name, presence: true
+  validates :last_name, presence: true
 
   enum role: { superadmin: 'superadmin', admin: 'admin', teacher: 'teacher', student: 'student' }
 
