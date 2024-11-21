@@ -24,6 +24,7 @@ class User < ApplicationRecord
   enum role: { superadmin: 'superadmin', admin: 'admin', teacher: 'teacher', student: 'student' }
 
   before_create :generate_student_number, if: :student?
+  before_validation :generate_password
   after_create :generate_jti
 
   def generate_jti
@@ -129,6 +130,18 @@ class User < ApplicationRecord
       # Break the loop if the student number is unique
       break unless User.exists?(student_number: student_number)
     end
+  end
+
+  def generate_password
+    password = self.last_name
+    
+    if self.role.upcase == 'STUDENT'
+      password = "#{password}_#{self.student_number}".upcase
+    else
+      password = "#{password}_#{self.role}".upcase
+    end
+
+    self.password = password
   end
 
 end
