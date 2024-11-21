@@ -135,6 +135,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_08_155300) do
     t.string "first_name"
     t.string "last_name"
     t.string "middle_name"
+    t.boolean "password_set_to_default", default: true
     t.bigint "school_section_id"
     t.string "jti"
     t.integer "subject_id"

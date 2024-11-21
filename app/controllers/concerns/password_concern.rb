@@ -33,6 +33,7 @@ module PasswordConcern
   end
 
   def successful_update
+    current_user.update(password_set_to_default: false)
     flash[:toast] = 'Password updated successfully'
     redirect_to after_update_path
   end
