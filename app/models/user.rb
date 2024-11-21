@@ -95,6 +95,21 @@ class User < ApplicationRecord
     end
   end
 
+  attr_writer :login
+
+  def login
+    @login || self.student_number || self.email
+  end
+
+  def self.find_for_database_authentication(warden_conditions)
+    conditions = warden_conditions.dup
+    if (login = conditions.delete(:login))
+      where(conditions.to_h).where(["lower(student_number) = :value OR lower(email) = :value", { :value => login.downcase }]).first
+    elsif conditions.has_key?(:student_number) || conditions.has_key?(:email)
+      where(conditions.to_h).first
+    end
+  end
+
   private
 
   def generate_student_number

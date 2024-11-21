@@ -30,9 +30,9 @@ module Admin
         # COMBINE THE NAME FIELDS BEFORE CREATING THE STUDENT
         combined_params = user_params
         combined_params[:name] = combine_name(
-          combined_params.delete(:first_name),
-          combined_params.delete(:last_name),
-          combined_params.delete(:middle_name)
+          combined_params[:first_name],
+          combined_params[:last_name],
+          combined_params[:middle_name]
         )
       
         user = User.new(combined_params)
@@ -74,7 +74,14 @@ module Admin
         return account_not_found if @user.nil?
         return if superadmin_redirect(@user, edit_admin_workforce_manage_path, 'Cannot edit Superadmin')
 
-        if @user.update(update_user_params)
+        combined_params = update_user_params
+        combined_params[:name] = combine_name(
+          combined_params[:first_name],
+          combined_params[:last_name],
+          combined_params[:middle_name]
+        )
+
+        if @user.update(combined_params)
           update_success
         else
           handle_errors(@user)
