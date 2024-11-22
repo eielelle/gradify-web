@@ -48,6 +48,7 @@ Rails.application.routes.draw do
     namespace :students do
       resources :manage, as: 'manage'
       resources :password, only: [:update]
+      get 'sections', to: 'manage#get_sections', as: 'get_section'
       get 'export', to: 'export#index', as: 'export'
       get 'download', to: 'export#download', as: 'download'
       get 'history', to: 'history#index', as: 'history'

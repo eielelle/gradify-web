@@ -70,12 +70,68 @@
           <span class="label-text-alt text-error"><%= flash[:password_error] %></span>
         </div>
       </label> -->
+      <label class="form-control w-full max-w-xs">
+        <div class="label">
+          <%= form.label :strand, class: "label-text" %>
+        </div>
+        <%= form.select :strand, options_from_collection_for_select(@classes, :id, :name), {}, { id: 'category_select', class: "select select-bordered w-full max-w-xs" } %>
+        <div class="label">
+          <span class="label-text-alt text-error"><%= flash[:school_class_error] %></span>
+        </div>
+      </label>
+
+      <label class="form-control w-full max-w-xs">
+        <div class="label">
+          <%= form.label :section, class: "label-text" %>
+        </div>
+        <%= form.select :section, @sections, {}, { id: 'subcategory_select', class: "select select-bordered w-full max-w-xs", onchange: '' } %>
+        <div class="label">
+          <span class="label-text-alt text-error"><%= flash[:school_section_error] %></span>
+        </div>
+      </label>
     </div>
   </div>
-
-  
 
   <div>
     <%= form.submit "Add Student", class: "btn btn-primary mt-4", data: { 'turbo-confirm': 'Are you sure you want to add this new account?', btn_class: "btn-primary" } %>
   </div>
 <% end %>
+
+
+<script>
+document.addEventListener("turbo:load", function() {
+  const categorySelect = document.getElementById('category_select');
+  const subcategorySelect = document.getElementById('subcategory_select');
+
+  const selectedCategory = categorySelect.value;
+
+  fetch(`/admin/students/sections?id=${selectedCategory}`)
+    .then(response => response.json())
+    .then(subcategories => {
+      subcategorySelect.innerHTML = '';
+      subcategorySelect.appendChild(new Option("Select a subcategory", ""));
+      
+      subcategories.forEach(function(subcategory) {
+        console.log(subcategory)
+        subcategorySelect.appendChild(new Option(subcategory.name, subcategory.id));
+      });
+    });
+
+  categorySelect.addEventListener('change', function() {
+    const selectedCategory = categorySelect.value;
+
+    fetch(`/admin/students/sections?id=${selectedCategory}`)
+      .then(response => response.json())
+      .then(subcategories => {
+        subcategorySelect.innerHTML = '';
+        subcategorySelect.appendChild(new Option("Select a subcategory", ""));
+        
+        subcategories.forEach(function(subcategory) {
+          console.log(subcategory)
+          subcategorySelect.appendChild(new Option(subcategory.name, subcategory.id));
+        });
+      });
+  });
+})
+
+</script>
