@@ -1,3 +1,22 @@
+<%= form_with url: admin_students_import_path, local: true, multipart: true, method: :post do |f| %>
+  <div class="collapse collapse-arrow bg-base-200 mb-6" data-controller="export"  >
+    <input type="radio" name="my-accordion-2" checked="checked" />
+    <div class="collapse-title text-xl font-semibold">
+      <h1>Import Data</h1>
+    </div>
+
+    <div class="collapse-content">
+      <div>
+        <%= f.file_field :csv_file %>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn btn-primary" type="submit" name="csv" value="true">Import</button>
+<% end %>
+
+<div class="my-12"></div>
+
 <%= form_with(url: admin_students_download_path, method: :get, local: true, data: {turbo: false}) do |f| %>
   <div class="collapse collapse-arrow bg-base-200 mb-6" data-controller="export"  >
     <input type="radio" name="my-accordion-2" checked="checked" />
@@ -35,3 +54,6 @@
 
   <button class="btn btn-primary" type="submit" name="csv" value="true">Export to CSV</button>
 <% end %>
+
+
+<%= render "shared/toast", toast: flash[:toast] %>
