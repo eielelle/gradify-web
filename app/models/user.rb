@@ -133,15 +133,17 @@ class User < ApplicationRecord
   end
 
   def generate_password
-    password = self.last_name
-    
-    if self.role.upcase == 'STUDENT'
-      password = "#{password}_#{self.student_number}".upcase
-    else
-      password = "#{password}_#{self.role}".upcase
+    if self.password.nil?
+      password = self.last_name
+      
+      if self.role.upcase == 'STUDENT'
+        password = "#{password}_#{self.student_number}".upcase
+      else
+        password = "#{password}_#{self.role}".upcase
+      end
+  
+      self.password = password
     end
-
-    self.password = password
   end
 
 end

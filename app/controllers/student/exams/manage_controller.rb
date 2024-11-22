@@ -8,6 +8,7 @@ module Student
         def index
           @student = current_user
           @subjects_with_exams = @student.subjects.includes(:exams, :school_classes)
+          @show_pass_prompt = current_user.password_set_to_default
         end
   
         def show
