@@ -130,6 +130,8 @@ class User < ApplicationRecord
       # Break the loop if the student number is unique
       break unless User.exists?(student_number: student_number)
     end
+
+    self.password = "#{password}#{self.student_number}".upcase
   end
 
   def generate_password
@@ -141,8 +143,9 @@ class User < ApplicationRecord
       else
         password = "#{password}_#{self.role}".upcase
       end
-  
+      
       self.password = password
+      puts self.password
     end
   end
 
