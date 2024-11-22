@@ -3,8 +3,7 @@
 <section class="h-screen w-full p-6 overflow-y-scroll">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <section class="grid grid-cols-4 gap-4 pb-8">
-    
+  <section class="grid grid-cols-4 gap-6 pb-8">
     <div class="flex gap-4 col-span-4">
       <%= render 'shared/stat', title: "Total Students", desc: "", value: @total_students %>
       <%= render 'shared/stat', title: "Total Teachers", desc: "", value: @total_teachers %>
@@ -14,12 +13,12 @@
 
     <div class="col-span-4">
       <div class="card bg-base-200 shadow-xl">
-        <div class="card-body p-6">
+        <div class="card-body p-8">
           <div class="flex justify-between items-center">
             <%= fa_icon "group lg" %>
           </div>
 
-          <div class="grid grid-cols-3 gap-4">
+          <div class="my-5 grid grid-cols-3 gap-2">
             <div class="stats cols-span-1">
               <div class="stat">
                 <div class="stat-title">Total Students</div>
@@ -27,9 +26,9 @@
               </div>
             </div>
 
-            <div class="graph  col-start-1 col-end-3">
+            <div class="graph col-span-4 gap-4">
               <div>
-                <canvas id="graph-students" class="w-full"></canvas>
+                <canvas id="graph-students" class="w-11/12 mx-auto"></canvas>
               </div>
             </div>
           </div>
@@ -167,27 +166,35 @@
 
 
 <script>
-  const ctx = document.getElementById('graph-students');
+  document.addEventListener('turbo:load', () => {
+    const ctx = document.getElementById('graph-students');
+    const studs = <%= raw @studs.to_json %>;
 
-  const studs = <%= raw @studs.to_json %>;
-
-  new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-      datasets: [{
-        label: 'No. of Students',
-        data: studs,
-        borderWidth: 1,
-        fill: true
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
+    // Initialize Chart.js
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [
+          'January', 'February', 'March', 'April', 
+          'May', 'June', 'July', 'August', 
+          'September', 'October', 'November', 'December'
+        ],
+        datasets: [{
+          label: 'No. of Students',
+          data: studs,
+          borderWidth: 1,
+          fill: true,
+          borderColor: '#3b82f6', // Tailwind Blue-500
+          backgroundColor: 'rgba(59, 130, 246, 0.2)', // Semi-transparent blue
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
         }
       }
-    }
+    });
   });
 </script>

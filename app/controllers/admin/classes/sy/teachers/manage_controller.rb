@@ -74,6 +74,12 @@ module Admin
 
           def assign_teachers
             set_school_class_data
+            
+            if selected_teacher_ids.size > 1
+              flash[:toast] = "Error: 1 teacher only per subject."
+              return
+            end
+          
             conflicts = check_teacher_subject_conflicts
             if conflicts.present?
               flash[:toast] = "Conflict: #{conflicts.join(', ')}. Each subject can only have one teacher."
