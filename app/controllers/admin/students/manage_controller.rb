@@ -10,6 +10,12 @@ module Admin
       before_action :set_student, only: %i[show edit update destroy destroy_selected]
       before_action :set_search, only: %i[index new create edit update]
 
+      def get_sections
+        strand_id = params[:id]
+        strand = SchoolClass.find_by(id: strand_id)
+        render json: strand.school_sections
+      end
+
       def index
         set_default_sort(default_sort_column: 'name asc')
         @q = User.ransack(params[:q])
@@ -22,6 +28,8 @@ module Admin
 
       def new
         @student_account = User.new
+        @classes = SchoolClass.all
+        @sections = []
       end
 
       def edit; end
@@ -36,8 +44,18 @@ module Admin
         )
       
         @student_account = User.new(combined_params.merge(role: 'student'))
+        strand = SchoolClass.find(params[:strand])
+        section = strand.school_sections.find(params[:section])
+        subjects = Subject.where(school_class_id: strand.id)
         
         if @student_account.save
+          acc = User.find(@student_account.id)
+
+          section.users << acc unless sections.users.include?(acc)
+          subjects.each do |subject|
+            subject.users << acc unless subject.users.include?(acc)
+          end
+
           redirect_to admin_students_manage_index_path, notice: 'Student account created successfully.'
         else
           handle_errors(@student_account)
@@ -95,6 +113,11 @@ module Admin
 
       def update_student_params
         params.permit(:id, user: %i[first_name last_name middle_name email student_number])
+      end
+
+      def select_class_params
+        # Permit any additional parameters outside of the student_account model
+        extra_param = params.permit(:select_class)
       end
 
       def set_search
