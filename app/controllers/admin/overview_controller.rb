@@ -7,6 +7,7 @@ module Admin
       @total_teachers = User.where(role: 'teacher').count
       @total_admins = User.where(role: ['admin', 'superadmin']).count
       @total_classes = SchoolClass.where(params[:id]).count
+      @show_pass_prompt = current_user.password_set_to_default
 
       # Define an array to hold the count of students per month
       @studs = (1..12).map do |month|

@@ -1,60 +1,84 @@
 <%= form_with(model: @user, local: true, url: admin_workforce_manage_index_path, data: { btn_class: "btn-primary" }) do |form| %>
-    <label class="form-control w-full max-w-xs">
-      <div class="label">
-        <%= form.label :first_name, "First Name", class: "label-text" %>
-      </div>
-      <%= form.text_field :first_name, class: "input input-bordered w-full max-w-xs" %>
-      <div class="label">
-        <span class="label-text-alt text-error"><%= flash[:first_name_error] %></span>
-      </div>
-    </label>
+  <div class="flex flex-wrap w-full">
+    <div role="alert" class="alert mb-4">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        class="stroke-info h-6 w-6 shrink-0">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      <span>Password is automatically generated using this format: LASTNAME_ROLE</span>
+    </div>
 
-    <label class="form-control w-full max-w-xs">
-      <div class="label">
-        <%= form.label :middle_name, "Middle Name", class: "label-text" %>
-      </div>
-      <%= form.text_field :middle_name, class: "input input-bordered w-full max-w-xs" %>
-    </label>
+    <div class="flex-1">
+      <label class="form-control w-full max-w-xs">
+        <div class="label">
+          <%= form.label :first_name, "First Name", class: "label-text" %>
+        </div>
+        <%= form.text_field :first_name, class: "input input-bordered w-full max-w-xs" %>
+        <div class="label">
+          <span class="label-text-alt text-error"><%= flash[:first_name_error] %></span>
+        </div>
+      </label>
 
-    <label class="form-control w-full max-w-xs">
-      <div class="label">
-        <%= form.label :last_name, "Last Name", class: "label-text" %>
-      </div>
-      <%= form.text_field :last_name, class: "input input-bordered w-full max-w-xs" %>
-      <div class="label">
-        <span class="label-text-alt text-error"><%= flash[:last_name_error] %></span>
-      </div>
-    </label>
-  
-  <label class="form-control w-full max-w-xs">
-    <div class="label">
-        <%= form.label :role, class: "label-text" %>
-    </div>
-        <%= form.select :role, options_for_select(@roles.keys.map { |role| [role.humanize, role] }, "admin"), {}, { class: "select select-bordered" } %>
-    <div class="label">
-      <span class="label-text-alt text-error"><%= flash[:role_error] %></span>
-    </div>
-  </label>
+      <label class="form-control w-full max-w-xs">
+        <div class="label">
+          <%= form.label :middle_name, "Middle Name", class: "label-text" %>
+        </div>
+        <%= form.text_field :middle_name, class: "input input-bordered w-full max-w-xs" %>
+        <div class="label">
+          <span class="label-text-alt text-error"><%= flash[:middle_name_error] %></span>
+        </div>
+      </label>
 
-  <label class="form-control w-full max-w-xs">
-    <div class="label">
-      <%= form.label :email, class: "label-text" %>
+      <label class="form-control w-full max-w-xs">
+        <div class="label">
+          <%= form.label :last_name, "Last Name", class: "label-text" %>
+        </div>
+        <%= form.text_field :last_name, class: "input input-bordered w-full max-w-xs" %>
+        <div class="label">
+          <span class="label-text-alt text-error"><%= flash[:last_name_error] %></span>
+        </div>
+      </label>
     </div>
-    <%= form.email_field :email, class: "input input-bordered w-full max-w-xs" %>
-    <div class="label">
-      <span class="label-text-alt text-error"><%= flash[:email_error] %></span>
-    </div>
-  </label>
 
-  <label class="form-control w-full max-w-xs">
-    <div class="label">
-      <%= form.label :password, class: "label-text" %>
+    <div class="flex-1">
+      <label class="form-control w-full max-w-xs">
+        <div class="label">
+            <%= form.label :role, class: "label-text" %>
+        </div>
+            <%= form.select :role, options_for_select(@roles.keys.map { |role| [role.humanize, role] }, "admin"), {}, { class: "select select-bordered" } %>
+        <div class="label">
+          <span class="label-text-alt text-error"><%= flash[:role_error] %></span>
+        </div>
+      </label>
+
+      <label class="form-control w-full max-w-xs">
+        <div class="label">
+          <%= form.label :email, class: "label-text" %>
+        </div>
+        <%= form.email_field :email, class: "input input-bordered w-full max-w-xs" %>
+        <div class="label">
+          <span class="label-text-alt text-error"><%= flash[:email_error] %></span>
+        </div>
+      </label>
+
+      <!-- <label class="form-control w-full max-w-xs">
+        <div class="label">
+          <%= form.label :password, class: "label-text" %>
+        </div>
+        <%= form.password_field :password, class: "input input-bordered w-full max-w-xs" %>
+        <div class="label">
+          <span class="label-text-alt text-error"><%= flash[:password_error] %></span>
+        </div>
+      </label> -->
     </div>
-    <%= form.password_field :password, class: "input input-bordered w-full max-w-xs" %>
-    <div class="label">
-      <span class="label-text-alt text-error"><%= flash[:password_error] %></span>
-    </div>
-  </label>
+  </div>
 
   <div>
     <%= form.submit "Add User", class: "btn btn-primary mt-4", data: { 'turbo-confirm': 'Are you sure you want to add this new account?', btn_class: "btn-primary" } %>

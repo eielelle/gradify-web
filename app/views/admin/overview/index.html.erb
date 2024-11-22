@@ -1,7 +1,10 @@
+<%= render "shared/default_password_prompt", target: admin_config_path %>
+
 <section class="h-screen w-full p-6 overflow-y-scroll">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <section class="grid grid-cols-4 gap-4 pb-8">
+    
     <div class="flex gap-4 col-span-4">
       <%= render 'shared/stat', title: "Total Students", desc: "", value: @total_students %>
       <%= render 'shared/stat', title: "Total Teachers", desc: "", value: @total_teachers %>
