@@ -19,9 +19,9 @@
       <label class="form-control w-full max-w-xs">
         <div class="label">
           <%= form.label :first_name, "First Name", class: "label-text" %>
+          <span class="text-error text-sm">* Required</span>
         </div>
         <%= form.text_field :first_name, class: "input input-bordered w-full max-w-xs" %>
-        <span class="text-error text-sm">This field is required.</span>
         <div class="label">
           <span class="label-text-alt text-error"><%= flash[:first_name_error] %></span>
         </div>
@@ -40,9 +40,9 @@
       <label class="form-control w-full max-w-xs">
         <div class="label">
           <%= form.label :last_name, "Last Name", class: "label-text" %>
+          <span class="text-error text-sm">* Required</span>
         </div>
         <%= form.text_field :last_name, class: "input input-bordered w-full max-w-xs" %>
-        <span class="text-error text-sm">This field is required.</span>
         <div class="label">
           <span class="label-text-alt text-error"><%= flash[:last_name_error] %></span>
         </div>
@@ -53,9 +53,9 @@
       <label class="form-control w-full max-w-xs">
         <div class="label">
             <%= form.label :role, class: "label-text" %>
+            <span class="text-error text-sm">* Required</span>
         </div>
             <%= form.select :role, options_for_select(@roles.keys.map { |role| [role.humanize, role] }, "admin"), {}, { class: "select select-bordered" } %>
-            <span class="text-error text-sm">This field is required.</span>
         <div class="label">
           <span class="label-text-alt text-error"><%= flash[:role_error] %></span>
         </div>
@@ -64,9 +64,9 @@
       <label class="form-control w-full max-w-xs">
         <div class="label">
           <%= form.label :email, class: "label-text" %>
+          <span class="text-error text-sm">* Required</span>
         </div>
         <%= form.email_field :email, class: "input input-bordered w-full max-w-xs" %>
-        <span class="text-error text-sm">This field is required.</span>
         <div class="label">
           <span class="label-text-alt text-error"><%= flash[:email_error] %></span>
         </div>
