@@ -2,6 +2,8 @@
 
 module Student
     class OverviewController < Student::LayoutController
-      def index; end
+      def index
+        
+      end
     end
   end

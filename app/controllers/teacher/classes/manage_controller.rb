@@ -13,6 +13,7 @@ module Teacher
                             .where(users: { id: current_user.id, role: 'teacher' })
                             .distinct
 
+        @show_pass_prompt = current_user.password_set_to_default
         set_default_sort(default_sort_column: 'name asc')
         @school_classes = query_items_default(@school_classes, params) if @school_classes.respond_to?(:to_sql)
         flash[:notice] = "No classes assigned to you yet." if @school_classes.empty?
