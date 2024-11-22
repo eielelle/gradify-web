@@ -18,10 +18,13 @@ class User < ApplicationRecord
 
   validates :name, presence: true
   validates :role, presence: true
+  validates :first_name, presence: true
+  validates :last_name, presence: true
 
   enum role: { superadmin: 'superadmin', admin: 'admin', teacher: 'teacher', student: 'student' }
 
   before_create :generate_student_number, if: :student?
+  before_validation :generate_password
   after_create :generate_jti
 
   def generate_jti
@@ -93,6 +96,21 @@ class User < ApplicationRecord
     end
   end
 
+  attr_writer :login
+
+  def login
+    @login || self.student_number || self.email
+  end
+
+  def self.find_for_database_authentication(warden_conditions)
+    conditions = warden_conditions.dup
+    if (login = conditions.delete(:login))
+      where(conditions.to_h).where(["lower(student_number) = :value OR lower(email) = :value", { :value => login.downcase }]).first
+    elsif conditions.has_key?(:student_number) || conditions.has_key?(:email)
+      where(conditions.to_h).first
+    end
+  end
+
   private
 
   def generate_student_number
@@ -112,6 +130,18 @@ class User < ApplicationRecord
       # Break the loop if the student number is unique
       break unless User.exists?(student_number: student_number)
     end
+  end
+
+  def generate_password
+    password = self.last_name
+    
+    if self.role.upcase == 'STUDENT'
+      password = "#{password}_#{self.student_number}".upcase
+    else
+      password = "#{password}_#{self.role}".upcase
+    end
+
+    self.password = password
   end
 
 end

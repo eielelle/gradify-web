@@ -4,6 +4,7 @@
       <label class="form-control w-full">
         <%= form.label :name, class: "label-text" %>
         <%= form.text_field :name, class: "input input-bordered w-full" %>
+        <span class="text-error text-sm">This field is required.</span>
         <% if flash[:name_error] %>
           <span class="label-text-alt text-error"><%= flash[:name_error] %></span>
         <% end %>
@@ -12,6 +13,7 @@
       <label class="form-control w-full">
         <%= form.label :quarter_id, "Quarter", class: "label-text" %>
         <%= form.collection_select :quarter_id, @quarters, :id, :name, { prompt: "Select a quarter" }, { class: "select select-bordered w-full" } %>
+        <span class="text-error text-sm">This field is required.</span>
         <% if flash[:quarter_error] %>
           <span class="label-text-alt text-error"><%= flash[:quarter_error] %></span>
         <% end %>
@@ -23,6 +25,7 @@
           ->(subject) { "#{subject.name} - #{subject.school_class&.name}" },
           { prompt: "Select a subject" },
           { class: "select select-bordered w-full" } %>
+          <span class="text-error text-sm">This field is required.</span>
         <% if flash[:subject_error] %>
           <span class="label-text-alt text-error"><%= flash[:subject_error] %></span>
         <% end %>
@@ -78,4 +81,107 @@
     </div>
   <% end %>
 </section>
+
+
+<script>
+  // Get the dropdown and the container where the bubble sheet will be generated
+  const questionCountDropdown = document.getElementById('questions_count');
+  const bubbleSheetContainer = document.getElementById('bubble_sheet');
+
+  createBubbleSheet(questionCountDropdown.value)
+
+  // Function to create the bubble sheet
+  function createBubbleSheet(count) {
+    // Clear any existing content in the bubble sheet container
+    bubbleSheetContainer.innerHTML = '';
+
+    if (count > 0) {
+      // Create a table to represent the bubble sheet
+      const table = document.createElement('table');
+      table.classList.add("table")
+      table.classList.add("w-44")
+      table.border = "1"; // Add borders for visibility (optional)
+
+      // Table header
+      const header = table.createTHead();
+      const headerRow = header.insertRow(0);
+      headerRow.classList.add("bg-base-300")
+      headerRow.insertCell(0).innerText = "Question";
+      ['A', 'B', 'C', 'D'].forEach((option, index) => {
+        headerRow.insertCell(index + 1).innerText = option;
+      });
+
+      // Create rows for each question
+      for (let i = 1; i <= count; i++) {
+        const row = table.insertRow();
+        const questionCell = row.insertCell(0);
+        questionCell.innerText = i; // Question number
+
+        // Create 4 options (A, B, C, D) for each question
+        ['A', 'B', 'C', 'D'].forEach(option => {
+          const optionCell = row.insertCell();
+          const label = document.createElement('label');
+          const radioButton = document.createElement('input');
+          radioButton.type = 'radio';
+          radioButton.name = `question_${i}`;
+          radioButton.value = option;
+          label.appendChild(radioButton);
+          label.appendChild(document.createTextNode(option));
+          optionCell.appendChild(label);
+        });
+      }
+
+      // Append the table to the container
+      bubbleSheetContainer.appendChild(table);
+    }
+  }
+
+  // Add an event listener to detect when the dropdown value changes
+  questionCountDropdown.addEventListener('change', (event) => {
+    const selectedValue = parseInt(event.target.value, 10);
+    if (selectedValue) {
+      createBubbleSheet(selectedValue);
+    } else {
+      bubbleSheetContainer.innerHTML = ''; // Clear the sheet if no value is selected
+    }
+  });
+
+function openReviewModal() {
+  const answerKeyContainer = document.getElementById('answer_key_review');
+  answerKeyContainer.innerHTML = ''; // Clear previous content
+
+  // Create a wrapper div for the five-column layout
+  const columnWrapper = document.createElement('div');
+  columnWrapper.classList.add('grid', 'grid-cols-5', 'gap-4'); // Tailwind grid with 5 columns
+
+  // Loop through the form to collect answers, organizing in 5 columns
+  for (let row = 1; row <= 10; row++) {
+    for (let col = 0; col < 5; col++) {
+      const itemNumber = row + col * 10; // Calculate item number for each column
+
+      const selectedAnswer = document.querySelector(`input[name="answer_${itemNumber}"]:checked`);
+      const answerValue = selectedAnswer ? selectedAnswer.value : '-'; // If no answer selected, show '-'
+      
+      // Create a div for each item and its answer
+      const answerRow = document.createElement('div');
+      answerRow.classList.add('py-2');
+      answerRow.innerHTML = `Item ${itemNumber}: <strong>${answerValue}</strong>`;
+      
+      columnWrapper.appendChild(answerRow);
+    }
+  }
+
+  // Append the five-column layout to the container
+  answerKeyContainer.appendChild(columnWrapper);
+
+  // Show the review modal
+  document.getElementById('review_answer_key_modal').showModal();
+}
+
+function closeReviewModal() {
+  document.getElementById('review_answer_key_modal').close();
+}
+
+</script>
+
 <%= render "shared/toast", toast: flash[:toast] %>

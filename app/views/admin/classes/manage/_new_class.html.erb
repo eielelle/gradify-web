@@ -4,6 +4,7 @@
       <%= form.label :name, class: "label-text" %>
     </div>
     <%= form.text_field :name, class: "input input-bordered w-full max-w-xs" %>
+    <span class="text-error text-sm">This field is required.</span>
     <div class="label">
       <span class="label-text-alt text-error"><%= flash[:name_error] %></span>
     </div>
@@ -13,7 +14,7 @@
     <div class="label">
       <%= form.label :description, class: "label-text" %>
     </div>
-    <%= form.text_area :description, class: "textarea textarea-bordered textarea-lg w-full max-w-xs" %>
+    <%= form.text_area :description, maxlength: 200, class: "textarea textarea-bordered textarea-lg w-full max-w-xs" %>
     <div class="label">
       <span class="label-text-alt text-error"><%= flash[:description_error] %></span>
     </div>

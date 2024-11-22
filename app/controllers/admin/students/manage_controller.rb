@@ -30,9 +30,9 @@ module Admin
         # COMBINE THE NAME FIELDS BEFORE CREATING THE STUDENT
         combined_params = student_params
         combined_params[:name] = combine_name(
-          combined_params.delete(:first_name),
-          combined_params.delete(:last_name),
-          combined_params.delete(:middle_name)
+          combined_params[:first_name],
+          combined_params[:last_name],
+          combined_params[:middle_name]
         )
       
         @student_account = User.new(combined_params.merge(role: 'student'))
@@ -46,7 +46,14 @@ module Admin
       end
 
       def update
-        if @student.update(update_student_params[:user])
+        combined_params = update_student_params
+        combined_params[:user][:name] = combine_name(
+          combined_params[:user][:first_name],
+          combined_params[:user][:last_name],
+          combined_params[:user][:middle_name]
+        )
+
+        if @student.update(combined_params[:user])
           flash[:toast] = 'Updated Successfully.'
           redirect_to admin_students_manage_index_path
         else
@@ -87,7 +94,7 @@ module Admin
       end
 
       def update_student_params
-        params.permit(:id, user: %i[name email student_number])
+        params.permit(:id, user: %i[first_name last_name middle_name email student_number])
       end
 
       def set_search
