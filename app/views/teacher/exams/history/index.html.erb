@@ -1,0 +1,8 @@
+<%= render "shared/common_panel", title: "Exam History", subtitle: "", content: "history_exam" do %>
+  <%= render "shared/common_tabs", tabs: {
+    "List": teacher_exams_manage_index_path,
+    "Add": new_teacher_exams_manage_path,
+    "Export": teacher_exams_export_path,
+    "History": teacher_exams_history_path
+  }, active_path: teacher_exams_history_path %>
+<% end %>
