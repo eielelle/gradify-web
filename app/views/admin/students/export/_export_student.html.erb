@@ -10,7 +10,7 @@
         <%= check_box_tag 'select_all', "select_all_fields", checked: true, class: "checkbox checkbox-primary checkbox-sm", data: { action: "click->export#checked", "export-target": "checkbox" } %>
         <%= label_tag 'select_all_fields', "Select all", class: "label-text" %>
       </div>
-      <h1 class="text-lg mb-4">Student Fields</h1>
+      <h1 class="text-lg mb-4 font-semibold">Student Fields</h1>
       <div class="flex flex-wrap mb-4">
         <% @student_fields.each do |option| %>
           <div class="me-6">
