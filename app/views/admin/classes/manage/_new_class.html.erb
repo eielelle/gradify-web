@@ -3,8 +3,7 @@
     <div class="label">
       <%= form.label :name, class: "label-text" %>
     </div>
-    <%= form.text_field :name, class: "input input-bordered w-full max-w-xs" %>
-    <span class="text-error text-sm">This field is required.</span>
+    <%= form.text_field :name, placeholder: "This field is required.", class: "input input-bordered w-full max-w-xs" %>
     <div class="label">
       <span class="label-text-alt text-error"><%= flash[:name_error] %></span>
     </div>

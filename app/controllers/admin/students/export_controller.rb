@@ -10,7 +10,7 @@ module Admin
       def index
         @student_fields = User.get_export_fields(%i[school_section_id encrypted_password reset_password_sent_at
                                                     reset_password_token remember_created_at id sign_in_count current_sign_in_at 
-                                                    last_sign_in_at current_sign_in_ip last_sign_in_ip jti subject_id role])
+                                                    last_sign_in_at current_sign_in_ip last_sign_in_ip jti subject_id role password_set_to_default])
       end
 
       def download
