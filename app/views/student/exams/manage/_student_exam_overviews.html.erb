@@ -17,7 +17,7 @@
     </div>
     <p class="text-md mt-2 text-gray-300">Total Items: <%= @exam.items %> Points</p>
         
-    <% if @stats[:total_score].to_f / @exam.items >= 0.5 %>
+    <% if @stats[:total_score].to_f / @exam.items >= 0.6 %>
       <div class="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">Passed</div>
     <% else %>
       <div class="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">Failed</div>
