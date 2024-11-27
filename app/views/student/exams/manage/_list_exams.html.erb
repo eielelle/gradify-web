@@ -8,6 +8,22 @@
               <h2 class="card-title"><%= exam.name %></h2>
               <p><strong>Subject:</strong> <%= subject.name %></p>
               <p><strong>Number of Items:</strong> <%= exam.items %></p>
+              <% response = Response.find_by(exam: exam, user: current_user) %>
+              <% if response&.answer.present? && exam.answer_key.present? %>
+                <% correct_count = response.answer.chars.zip(exam.answer_key.chars).count { |student, correct| student == correct } %>
+                <p><strong>Your Score:</strong> <%= correct_count %></p>
+                
+                <% passing_score = exam.items.to_f * 0.6 %>
+                <div class="mt-1">
+                  <% if correct_count >= passing_score %>
+                    <span class="badge badge-success">Passed</span>
+                  <% else %>
+                    <span class="badge badge-error">Failed</span>
+                  <% end %>
+                </div>
+              <% else %>
+                <p><strong>Your Score:</strong> Not yet taken</p>
+              <% end %>
               <% subject.school_classes.each do |school_class| %>
                 <div class="mt-2">
                   <p><strong>Class:</strong> <%= school_class.name %></p>
