@@ -4,10 +4,13 @@ module Teacher
   module Classes
     class ManageController < Teacher::LayoutController
       before_action :authenticate_user!
+      before_action :redirect_if_default_password
       include SearchableConcern
       include ErrorConcern
 
       def index
+        return if performed?
+
         @school_classes = SchoolClass
                             .joins(school_sections: :users)
                             .where(users: { id: current_user.id, role: 'teacher' })
@@ -113,6 +116,13 @@ module Teacher
 
       def set_class
         @school_class = SchoolClass.find(params[:id])
+      end
+
+      def redirect_if_default_password
+        if current_user.password_set_to_default
+          flash[:alert] = "Please change your default password for security purposes."
+          redirect_to teacher_config_path and return
+        end
       end
     end
   end
