@@ -8,7 +8,7 @@
 # get 'up' => 'rails/health#show', as: :rails_health_check
 
 Rails.application.routes.draw do
-  devise_for :users, only: [:sessions]
+  devise_for :users
 
   # new routing
 
