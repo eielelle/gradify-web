@@ -2,6 +2,7 @@
   <label class="form-control w-full max-w-xs">
     <div class="label">
       <%= form.label :school_class_id, 'Strand', class: "label-text" %>
+      <span class="text-error text-sm">* Required</span>
     </div>
     <%= form.select :school_class_id, options_from_collection_for_select(@school_classes, :id, :name), { prompt: "Select a Strand" }, { class: "select select-bordered w-full max-w-xs" } %>
     <div class="label">
@@ -12,8 +13,9 @@
   <label class="form-control w-full max-w-xs">
     <div class="label">
       <%= form.label :name, class: "label-text" %>
+      <span class="text-error text-sm">* Required</span>
     </div>
-    <%= form.text_field :name, placeholder: "This field is required.", class: "input input-bordered w-full max-w-xs" %>
+    <%= form.text_field :name, class: "input input-bordered w-full max-w-xs" %>
     <div class="label">
       <span class="label-text-alt text-error"><%= flash[:name_error] %></span>
     </div>

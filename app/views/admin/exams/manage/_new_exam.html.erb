@@ -3,7 +3,8 @@
     <div class="flex flex-wrap w-full md:w-1/2 gap-6">
       <label class="form-control w-full">
         <%= form.label :name, class: "label-text" %>
-        <%= form.text_field :name, placeholder: "This field is required.", class: "input input-bordered w-full" %>
+        <span class="text-error text-sm">* Required</span>
+        <%= form.text_field :name, class: "input input-bordered w-full" %>
         <% if flash[:name_error] %>
           <span class="label-text-alt text-error"><%= flash[:name_error] %></span>
         <% end %>
@@ -11,6 +12,7 @@
 
       <label class="form-control w-full">
         <%= form.label :quarter_id, "Quarter", class: "label-text" %>
+        <span class="text-error text-sm">* Required</span>
         <%= form.collection_select :quarter_id, @quarters, :id, :name, { prompt: "Select a quarter" }, { class: "select select-bordered w-full" } %>
         <% if flash[:quarter_error] %>
           <span class="label-text-alt text-error"><%= flash[:quarter_error] %></span>
@@ -19,6 +21,7 @@
 
       <label class="form-control w-full">
         <%= form.label :subject_id, "Subject", class: "label-text" %>
+        <span class="text-error text-sm">* Required</span>
         <%= form.collection_select :subject_id, @subjects, :id,
           ->(subject) { "#{subject.name} - #{subject.school_class&.name}" },
           { prompt: "Select a subject" },

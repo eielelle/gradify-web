@@ -4,8 +4,11 @@ module Student
     module Exams
       class ManageController < Student::LayoutController
         before_action :authenticate_user!
+        before_action :redirect_if_default_password
   
         def index
+          return if performed?
+
           @student = current_user
           @subjects_with_exams = @student.subjects.includes(:exams, :school_classes)
           @show_pass_prompt = current_user.password_set_to_default
@@ -161,6 +164,13 @@ module Student
           unless current_user.role == 'student'
             flash[:alert] = "You are not authorized to access this page."
             redirect_to root_path
+          end
+        end
+
+        def redirect_if_default_password
+          if current_user.password_set_to_default == true
+            flash[:alert] = "Please change your default password for security purposes."
+            redirect_to student_config_path and return
           end
         end
       end

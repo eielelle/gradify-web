@@ -8,7 +8,7 @@
 # get 'up' => 'rails/health#show', as: :rails_health_check
 
 Rails.application.routes.draw do
-  devise_for :users, only: [:sessions]
+  devise_for :users
 
   # new routing
 
@@ -48,6 +48,7 @@ Rails.application.routes.draw do
     namespace :students do
       resources :manage, as: 'manage'
       resources :password, only: [:update]
+      post 'import', to: 'export#import'
       get 'sections', to: 'manage#get_sections', as: 'get_section'
       get 'export', to: 'export#index', as: 'export'
       get 'download', to: 'export#download', as: 'download'
@@ -170,6 +171,7 @@ Rails.application.routes.draw do
         delete 'teacher/sign_out', to: 'teacher/sessions#destroy', as: :api_v1_teacher_sign_out
       end
 
+      get 'teacher/exams/student', to: 'teacher/exams#get_stud', as: :api_v1_get_teacher_exams_student
       get 'teacher/exams', to: 'teacher/exams#index', as: :api_v1_get_teacher_exams
       get 'teacher/responses', to: 'teacher/responses#index', as: :api_v1_get_teacher_responses
       post 'teacher/responses', to: 'teacher/responses#create', as: :api_v1_create_teacher_response

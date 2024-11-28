@@ -19,8 +19,9 @@
       <label class="form-control w-full max-w-xs">
         <div class="label">
           <%= form.label :first_name, "First Name", class: "label-text" %>
+          <span class="text-error text-sm">* Required</span>
         </div>
-        <%= form.text_field :first_name, placeholder: "This field is required.", class: "input input-bordered w-full max-w-xs", name: "student_account[first_name]" %>
+        <%= form.text_field :first_name, class: "input input-bordered w-full max-w-xs", name: "student_account[first_name]" %>
         <div class="label">
           <span class="label-text-alt text-error"><%= flash[:first_name_error] %></span>
         </div>
@@ -39,8 +40,9 @@
       <label class="form-control w-full max-w-xs">
         <div class="label">
           <%= form.label :last_name, "Last Name", class: "label-text" %>
+          <span class="text-error text-sm">* Required</span>
         </div>
-        <%= form.text_field :last_name, placeholder: "This field is required.", class: "input input-bordered w-full max-w-xs", name: "student_account[last_name]" %>
+        <%= form.text_field :last_name, class: "input input-bordered w-full max-w-xs", name: "student_account[last_name]" %>
         <div class="label">
           <span class="label-text-alt text-error"><%= flash[:last_name_error] %></span>
         </div>
@@ -51,8 +53,9 @@
       <label class="form-control w-full max-w-xs">
         <div class="label">
           <%= form.label :email, class: "label-text" %>
+          <span class="text-error text-sm">* Required</span>
         </div>
-        <%= form.email_field :email, placeholder: "This field is required.", class: "input input-bordered w-full max-w-xs", name: "student_account[email]" %>
+        <%= form.email_field :email, class: "input input-bordered w-full max-w-xs", name: "student_account[email]" %>
         <div class="label">
           <span class="label-text-alt text-error"><%= flash[:email_error] %></span>
         </div>
@@ -70,6 +73,7 @@
       <label class="form-control w-full max-w-xs">
         <div class="label">
           <%= form.label :strand, class: "label-text" %>
+          <span class="text-error text-sm">* Required</span>
         </div>
         <%= form.select :strand, options_from_collection_for_select(@classes, :id, :name), {}, { id: 'category_select', class: "select select-bordered w-full max-w-xs" } %>
         <div class="label">
@@ -80,6 +84,7 @@
       <label class="form-control w-full max-w-xs">
         <div class="label">
           <%= form.label :section, class: "label-text" %>
+          <span class="text-error text-sm">* Required</span>
         </div>
         <%= form.select :section, @sections, {}, { id: 'subcategory_select', class: "select select-bordered w-full max-w-xs", onchange: '' } %>
         <div class="label">
@@ -106,7 +111,7 @@ document.addEventListener("turbo:load", function() {
     .then(response => response.json())
     .then(subcategories => {
       subcategorySelect.innerHTML = '';
-      subcategorySelect.appendChild(new Option("Select a subcategory", ""));
+      subcategorySelect.appendChild(new Option("Select a section", ""));
       
       subcategories.forEach(function(subcategory) {
         console.log(subcategory)
@@ -121,7 +126,7 @@ document.addEventListener("turbo:load", function() {
       .then(response => response.json())
       .then(subcategories => {
         subcategorySelect.innerHTML = '';
-        subcategorySelect.appendChild(new Option("Select a subcategory", ""));
+        subcategorySelect.appendChild(new Option("Select a section", ""));
         
         subcategories.forEach(function(subcategory) {
           console.log(subcategory)

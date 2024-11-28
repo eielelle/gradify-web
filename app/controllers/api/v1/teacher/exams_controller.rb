@@ -4,6 +4,21 @@ module Api
             class ExamsController < AuthController
                 respond_to :json
 
+                def get_stud
+                    student = User.find_by(student_number: params[:student_number])
+
+                    if student.nil?
+                        render json: {
+                            student: "No student found"
+                        }
+                    else
+                        render json: {
+                            student: student.name
+                        }
+                    end
+
+                end
+
                 def index
                     teacher = current_user
                     
