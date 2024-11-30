@@ -51,7 +51,7 @@ module Admin
         if @student_account.save
           acc = User.find(@student_account.id)
 
-          section.users << acc unless sections.users.include?(acc)
+          section.users << acc unless section.users.include?(acc)
           subjects.each do |subject|
             subject.users << acc unless subject.users.include?(acc)
           end
