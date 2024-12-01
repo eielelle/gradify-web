@@ -14,6 +14,18 @@ Rails.application.configure do
   # Rake tasks automatically ignore this option for performance.
   config.eager_load = true
 
+  # Email configuration
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: "smtp.gmail.com",
+    port: 587,
+    user_name: Rails.application.credentials.gmail[:username],  # Set your Gmail username (email)
+    password: Rails.application.credentials.gmail[:password],  # Set your Gmail password or app-specific password
+    authentication: 'plain',
+    enable_starttls_auto: true
+  }
+
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local = false
   config.action_controller.perform_caching = true
@@ -74,8 +86,6 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "gradify_web_production"
 
   config.action_mailer.perform_caching = false
-    # Dafault email mailer
-    # config.action_mailer.default_url_options = { host: 'gradify.onrender.com' }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
